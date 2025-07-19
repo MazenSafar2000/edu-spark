@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('answers');
             $table->string('right_answer', 500);
             $table->integer('score');
-            $table->foreignId('quizze_id')->references('id')->on('exams')->onDelete('cascade');
+            $table->foreignId('exam_id')->references('id')->on('exams')->onDelete('cascade');
             $table->timestamps();
         });
     }

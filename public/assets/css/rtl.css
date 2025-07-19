@@ -58,6 +58,7 @@
       height: auto;
       margin: 0;
       padding-top: 6.5rem;
+      padding-bottom: 7rem;
       overflow-x: hidden;
       overflow: auto; /* لتمكين التمرير عند الحاجة */
 
@@ -872,10 +873,6 @@ header.header-page img {
     direction: rtl;
   }
 
-  .chatContent{
-    animation: fadeIn 1s ease-in-out;
-    direction: rtl;
-  }
 
 @keyframes fadeIn {
   0% {
@@ -934,7 +931,6 @@ header.header-page img {
     margin-left: auto;
     box-shadow: 1px 2px 5px rgba(0, 0, 0 ,0.15);
     padding: 2rem;
-    margin-bottom: 7rem;
 }
 
 .table-users ul.nav li button{
@@ -1188,7 +1184,6 @@ header.header-page img {
     margin-left: auto;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.15);
     padding: 2rem;
-    margin-bottom: 7rem;
     border: none;
 }
 
@@ -1488,6 +1483,12 @@ background-color: rgba(88, 159, 67, 0.2);
   padding: .8rem;
 }
 
+.btn-custom-manager:hover{
+  background-color:  rgba(88, 159, 67, 0.7);
+  color: var(--white);
+  transition: .3s linear;
+}
+
 .btn-custom-manager i{
   padding-left: .8rem;
 }
@@ -1519,6 +1520,7 @@ background-color: rgba(88, 159, 67, 0.2);
   border-radius: 0;
   border: none;
   border-bottom: 1px solid rgba(88, 159, 67, 0.3);
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.08);
 }
 
 .state-cards i{
@@ -2030,10 +2032,11 @@ font-weight: bold;
     }
 
    .messages-container {
-  margin-right: 60px; /* بدل margin-left */
+  margin-right: 60px;
   display: flex;
   height: 90vh;
 }
+
 
 
     .chat-list {
@@ -2099,8 +2102,7 @@ font-weight: bold;
 
       text-align: center;
 
-      /* اجبري المحتوى يبعد عن بداية .messages-container */
-      margin-inline-start: 300px; /* نفس عرض .chat-list */
+      margin-inline-start: 300px;
         transition: all 0.3s ease;
 
     }
@@ -2385,7 +2387,6 @@ font-weight: bold;
   margin-left: auto;
   padding-right: 2rem;
   padding-left: 2rem;
-  margin-bottom: 7rem;
 
 }
 
@@ -2553,7 +2554,6 @@ font-weight: bold;
     margin-left: auto;
     /* box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.15); */
     padding: 3rem;
-    margin-bottom: 7rem;
     border: 1px solid rgba(88, 159, 67, 0.2);
 }
 
@@ -2625,9 +2625,6 @@ font-weight: bold;
 
 /* ------------------ */
 
-.card-content-subject{
-  margin-bottom: 7rem;
-}
 
 .subject-content-container{
   width:98%;
@@ -2654,9 +2651,9 @@ font-weight: bold;
 }
 
 .content-title{
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   text-shadow:  1px 1px 2px rgba(0, 0, 0, .2);
-  color: var(--secondary-color);
+  color: var(--main-color);
 
 }
 
@@ -2868,7 +2865,6 @@ transition: 0.2s;
   margin-right: auto;
   margin-left: auto;
   margin-top: 3rem;
-  margin-bottom: 7rem;
 }
 
  .dashboard-student .box{
@@ -2954,9 +2950,6 @@ transition: 0.2s;
 
 
 /* ----------------------- */
-.card-subject-data{
-  margin-bottom: 7rem;
-}
 
 .page-title{
   display: flex;
@@ -3047,7 +3040,6 @@ transition: 0.2s;
   padding: 3rem;
   margin-top: 5rem;
   border-radius: 10px;
-  margin-bottom: 7rem;
 }
 .exam-preview-container .preview-title-text {
   font-size: 20px;
@@ -3482,8 +3474,7 @@ transition: 0.2s;
 
       text-align: center;
 
-      /* اجبري المحتوى يبعد عن بداية .messages-container */
-      margin-inline-start: 300px; /* نفس عرض .chat-list */
+      margin-inline-start: 300px;
         transition: all 0.3s ease;
 
     }
@@ -3555,8 +3546,12 @@ transition: 0.2s;
 /* --------- parent dashboard start------------ */
 
 .parentContent{
-  margin-top: 4rem;
   direction: rtl;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.parentContent-welcome{
+  margin-top: 4rem;
 }
 
 .parentContent .welcome-card-parent {
@@ -3687,9 +3682,7 @@ transition: 0.2s;
 
 
 /* ----------------- */
-.children-card-parent{
-  margin-bottom: 5rem;
-}
+
 
 .children-card-parent .student-card {
       border-top-left-radius: 2rem;
@@ -3703,9 +3696,7 @@ transition: 0.2s;
       transition: transform 0.3s ease;
     }
 
-   .children-card-parent .student-card:hover {
-      transform: translateY(-2px);
-    }
+
 
    .children-card-parent .student-card img {
       width: 80px;
@@ -3745,6 +3736,513 @@ transition: 0.2s;
       font-size: 1.5rem;
     }
 
+    .children-card-parent .btn-view:hover{
+      background-color: rgba(88, 159, 67, 0.7);
+      color: var(--white);
+      border: none;
+    }
+
+
+    /* --------------------------- */
+
+    .parent-info-container {
+      width: 95%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .parent-info-container .parent-info-row{
+      padding: 4rem;
+      box-shadow: 0 0.25rem 0.7rem rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    .parent-profile-section .parent-profile-img{
+      margin-top: 1rem;
+    }
+
+    .parent-profile-section .parent-id{
+      color: var(--main-color);
+      font-size: 1.4rem;
+    }
+
+    .parent-profile-section .parent-role{
+      font-size: 1.2rem;
+    }
+
+    .parent-profile-section .parent-logout-btn{
+      background-color: var(--main-color);
+      color: var(--white);
+      padding: .5rem;
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+
+    .parent-info-section{
+      margin-top: 1rem;
+      border-right: 1px solid #ddd;
+    }
+
+    .parent-info-section .parent-info-title{
+      font-size: 1.6rem;
+      background-color:rgba(88, 159, 67, 0.1) ;
+      color: var(--main-color);
+      padding: 1rem;
+    }
+
+    .parent-info-section .parent-info-fields .parent-info-field .parent-label{
+      font-size: 1.2rem;
+      color: var(--main-color);
+      font-weight: bold;
+    }
+
+    .parent-info-section .parent-info-fields .parent-info-field .parent-input{
+      background-color: rgba(88, 159, 67, 0.05) ;
+      padding: .7rem;
+      font-size: 1.1rem;
+      border: none;
+    }
+
+    /* ------------------- */
+
+
+     .parentContent .custom-card-parent {
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+      border: 1px solid #ddd;
+
+    }
+    .parentContent .custom-card-header {
+      background-color: var(--main-color);
+      color: var(--white);
+      padding: 12px 15px;
+      font-weight: bold;
+      font-size: 18px;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+      text-shadow:  1px 1px 2px rgba(0, 0, 0, .2);
+    }
+
+
+   .parentContent .custom-card-parent .custom-field {
+      background-color:#f3f3f3;
+      border-radius: 8px;
+      font-weight: bold;
+      color: var(--light-color);
+      padding: .7rem 1rem;
+      font-size: 1.3rem;
+    }
+    .parentContent .custom-card-parent .custom-label {
+      color: var(--main-color);
+      font-weight: bold;
+      font-size: 1.4rem;
+      padding: .5rem;
+      text-shadow:  1px 1px 2px rgba(0, 0, 0, .1);
+    }
+   .parentContent .custom-card-parent .custom-btn {
+      background-color: var(--main-color);
+      color: white;
+      border: none;
+      padding: .7rem;
+      font-size: 1.3rem;
+      font-weight: bold;
+      float: left;
+
+       }
+
+    .parentContent .custom-card-parent .custom-btn:hover {
+      background-color: rgba(88, 159, 67, 0.7) ;
+
+      transition: .3s linear;
+    }
+       /* --------------------------- */
+      #status-available {
+      color: var(--main-color);
+      font-weight: bold;
+    }
+    #status-closed{
+      color: var(--red);
+      font-weight: bold;
+    }
+    .custom-table th {
+      background-color: rgba(88, 159, 67, 0.2);
+      padding: .7rem;
+      color: var(--secondary-color);
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .custom-table td{
+      font-size: 1.3rem;
+      color: var(--secondary-color);
+    }
+    .custom-table .btn-view {
+      color: var(--main-color);
+      padding: 4px 10px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      text-shadow:  1px 1px 2px rgba(0, 0, 0, .2);
+      transition: .3s linear;
+    }
+    .custom-table .btn-view:hover {
+      transform: scale(1.2);
+      color: var(--main-color);
+    }
+
+
+    /* ----------------------- */
+
+    .preview-box {
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+      border: 1px solid #ddd;
+      width: 70%;
+      margin-right: auto;
+      margin-left: auto;
+      margin-top: 5rem;
+    }
+
+    .preview-box .preview-header {
+     background-color: var(--main-color);
+      color: var(--white);
+      padding: 12px 15px;
+      font-weight: bold;
+      font-size: 18px;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+      text-shadow:  1px 1px 2px rgba(0, 0, 0, .2);
+    }
+
+    .preview-box .preview-content {
+      padding: 20px 20px 10px;
+    }
+
+    .preview-box .preview-content .preview-row {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 1rem;
+    }
+
+    .preview-box .preview-content .preview-row .preview-label,
+    .preview-box .preview-content .preview-row-feedback .preview-label {
+      font-weight: bold;
+      color: var(--secondary-color);
+      font-size: 1.4rem;
+      text-shadow:  1px 1px 2px rgba(0, 0, 0, .2);
+    }
+
+    .preview-box .preview-content .preview-row .preview-value {
+      color: #444;
+      margin-right: 1rem;
+      font-size: 1.4rem;
+    }
+
+    .preview-box .preview-content .preview-row .preview-status {
+      color: var(--main-color);
+      font-weight: bold;
+      margin-right: 1rem;
+      font-size: 1.4rem;
+    }
+
+    .preview-box .preview-content .preview-row .preview-grade {
+      background-color: var(--main-color);
+      color: white;
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-weight: bold;
+      display: inline-block;
+      margin-right: 1rem;
+      font-size: 1.4rem;
+    }
+
+    .preview-box .preview-content .preview-row-feedback .note-box {
+    background-color: rgba(88, 159, 67, 0.1);
+    padding: 10px;
+    border-radius: 6px;
+    color: var(--main-color);
+    text-align: right;
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    }
+
+
+    /* --------------- */
+
+    .preview-buttons{
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .preview-buttons .preview-start-btn{
+      background-color: var(--main-color);
+      color: var(--white);
+      font-size: 1.3rem;
+    }
+
+    .preview-buttons .book-preview-btn{
+      background-color: var(--main-color);
+      color: var(--white);
+      font-size: 1.3rem;
+    }
+
+
+    .preview-buttons .book-preview-btn:hover,
+    .preview-buttons .preview-start-btn:hover{
+       background-color: rgba(88, 159, 67, 0.7) ;
+    }
+
+
+
+    /* ------------ */
+
+
+     /* ------------------- */
+
+.chat-popup-wrapper {
+  width: 390px;
+  max-width: 90%;
+  z-index: 1050;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 40rem;
+  margin-left: 5rem;
+
+}
+
+/* رأس المحادثة */
+.chat-popup-header {
+  background-color: var(--main-color);
+  color: white;
+  padding: 10px;
+}
+
+/* اسم المستخدم */
+.chat-username {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* الرسائل */
+.chat-popup-body {
+  height: 290px;
+  padding: 10px;
+  background-color: #f8f9fa;
+}
+
+.chat-msg-bot {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: right;
+}
+
+.chat-msg-user {
+  text-align: right;
+  background-color: rgba(88, 159, 67, 0.1);
+  color: var(--main-color);
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  max-width: 80%;
+  margin-left: auto;
+  font-size: 1.3rem;
+  border-top-right-radius: 0;
+  font-weight: bold;
+}
+
+.chat-msg-reply {
+  text-align: left;
+  background-color: rgba(88, 159, 67, 0.8);
+  color: var(--white);
+  padding: 8px 12px;
+  font-weight: bold;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  margin-bottom: 8px;
+  max-width: 80%;
+  margin-right: auto;
+  font-size: 1.3rem;
+}
+
+/* الإدخال */
+.chat-popup-footer {
+  border-top: 1px solid #ddd;
+  padding: 10px 10px 20px 10px;
+  background-color: #fff;
+}
+
+.chat-input {
+  font-size: 15px;
+  padding: 1rem;
+  text-align: right;
+}
+
+
+
+/* --------- exam review------------ */
+
+
+/* الصندوق الكامل للسؤال */
+.question-card {
+  border: none;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* عنوان السؤال */
+.question-card .question-title {
+  background-color: rgba(88, 159, 67, 0.2);
+  font-size: 1.4rem;
+  color: var(--secondary-color);
+  padding: 1rem;
+}
+
+/* جسم الخيارات */
+.question-card .question-body {
+  padding: 1.5rem;
+}
+
+/* كل خيار */
+.question-card .question-body .answer-option {
+  font-size: 1.3rem;
+}
+
+/* الخيار المختار وكان خاطئ */
+.question-card .question-body .answer-option .answer-wrong.selected-by-student {
+  border-radius: 8px;
+  color: var(--red);
+}
+
+/* الخيار المختار وكان خاطئ */
+.question-card .question-body .answer-option .answer-correct.selected-by-student {
+  border-radius: 8px;
+  color: var(--main-color);
+}
+
+.question-card .question-body .answer-option .wrong-icon {
+  color: #dc3545;
+  margin-right: 6px;
+}
+
+/* الخيار الصحيح */
+.question-card .question-body .answer-option .answer-correct {
+  border-radius: 8px;
+}
+
+.question-card .question-body .answer-option .correct-icon {
+  color: var(--main-color);
+  margin-right: 6px;
+}
+
+/* خانة النتيجة أسفل السؤال */
+.question-card .question-footer {
+  background-color:rgba(88, 159, 67, 0.05) ;
+  font-size: 1.3rem;
+  padding-right: 1rem;
+}
+
+.question-card .question-footer .exam-grade{
+  color: var(--secondary-color);
+  font-weight: bold;
+
+}
+
+.question-card .question-footer .exam-grade span{
+  background-color: var(--main-color);
+  color: var(--white);
+  padding: 0 1rem;
+  border-radius: 4px;
+}
+
+
+.question-card .question-footer .exam-correct-answer{
+  color: var(--secondary-color);
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.question-card .question-footer .exam-correct-answer span{
+  color: var(--main-color);
+}
+
+
+/* -------------------- */
+  .unit-content{
+    padding: 1.5rem;
+    border: 1px solid var(--light-bg);
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.1);
+  }
+
+  .unit-content .unit-link{
+    font-size: 1.7rem;
+    color: var(--main-color);
+    font-weight: bold;
+  }
+
+  .unit-content-subject .add-date{
+    color: var(--light-color);
+    padding-right: 1rem;
+    padding-top: 1rem;
+    font-size: 1.3rem;
+  }
+
+    .unit-action .action-eye-btn{
+    background-color: var(--main-color);
+    color: var(--white);
+    /* border: 1px solid var(--main-color); */
+    padding: .5rem 1rem;
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-right: .3rem;
+  }
+
+  .unit-action .action-eye-btn:hover{
+    background-color: rgba(88, 159, 67, 0.7);
+    color: var(--white);
+    border: none;
+  }
+
+.page-title-parent{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.page-title-parent h2 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--main-color);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  text-align: right;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+ font-weight: bold;
+}
+
+.page-title-parent span {
+  font-size: 16px;
+ font-weight: normal;
+}
+
+.page-title-parent a {
+  margin: 0;
+  font-size: 14px;
+  color: var(--main-color);
+  border: 1px solid var(--main-color);
+  /* background-color: var(--main-color); */
+  padding:.5rem  1rem ;
+  border-radius: 5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  text-decoration: none;
+}
+
+
     /* --------- parent dashborad end---------- */
 
 
@@ -3776,7 +4274,6 @@ transition: 0.2s;
 
   .messages-container-std {
     flex-direction: column; /* تصف المحتوى عموديًا بدل أفقي */
-    margin-bottom: 7rem;
   }
 
   .chat-list-std {
@@ -4030,6 +4527,10 @@ transition: 0.2s;
       width: 85%;
     }
 
+    .preview-box{
+      width: 90%;
+    }
+
 
 
   }
@@ -4097,6 +4598,11 @@ transition: 0.2s;
       margin-left: .5rem;
     }
 
+    .chat-popup-wrapper{
+      width: 95%;
+      margin-right: auto;
+      margin-left: auto;
+    }
 
 
   }

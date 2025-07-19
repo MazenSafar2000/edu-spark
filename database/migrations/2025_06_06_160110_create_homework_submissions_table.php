@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('homework_id')->constrained('homeworks')->onDelete('cascade');
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->string('file_path')->nullable();
+            $table->string('notes')->nullable();
             $table->dateTime('submitted_at');
             $table->enum('status', ['pending', 'graded', 'late'])->default('pending');
             $table->integer('degree')->nullable();

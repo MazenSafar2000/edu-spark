@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'student' => 'Student',
     'personal_information' => 'personal information',
     'name' => 'Name',
     'name_ar' => 'name_ar',
@@ -120,6 +120,12 @@ return [
     'starts_in' => 'Starts In',
     'live_now' => 'Live Now',
     'finished' => 'Finished',
+    'My_courses' => 'My courses',
+    'View_courses' => 'View Courses',
+    'Allowed_files_type' => 'Allowed files type',
+    'Download_file' => 'Download File',
+    'answered' => 'Answered',
+    'not_answered' => 'Not Answered',
 
     'Feedback' => 'Feedback',
 

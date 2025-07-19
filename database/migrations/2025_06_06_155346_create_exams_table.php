@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('teacher_id')->references('id')->on('Classrooms')->onDelete('cascade');
             $table->dateTime('start_at');
             $table->dateTime('end_at');
+            $table->boolean('show_answers_to_student')->default(false);
             $table->foreignId('created_by_teacher_id')->constrained('teachers');
             $table->timestamps();
         });

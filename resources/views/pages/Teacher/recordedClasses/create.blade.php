@@ -35,8 +35,8 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group-float position-relative ">
-                                    <input type="text" name="description"
-                                        class="form-control custom-input float-input" />
+                                    <textarea type="text" name="description"
+                                        class="form-control custom-input float-input" ></textarea>
                                     <label for=""
                                         class="float-label">{{ trans('Teacher_trans.class_description_optional') }}</label>
                                 </div>

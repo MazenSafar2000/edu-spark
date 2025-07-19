@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\Homework;
+use App\Models\Homework_submission;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher_section;
@@ -232,5 +233,43 @@ class HomeworkController extends Controller
 
         toastr()->error(trans('messages.Delete'));
         return redirect()->back();
+    }
+
+
+    public function showSubmissions(Homework $homework)
+    {
+        // Get students in the same grade/class/section of the homework
+        $students = Student::with(['submissions' => function ($q) use ($homework) {
+            $q->where('homework_id', $homework->id);
+        }])
+            ->where('grade_id', $homework->grade_id)
+            ->where('classroom_id', $homework->classroom_id)
+            ->where('section_id', $homework->section_id)
+            ->get();
+
+
+
+        return view('pages.Teacher.homework.submissions', compact('homework', 'students'));
+    }
+
+    public function gradeStudent(Request $request, Homework $homework, Student $student)
+    {
+        $submission = Homework_submission::firstOrCreate([
+            'homework_id' => $homework->id,
+            'student_id' => $student->id,
+        ], [
+            'submitted_at' => now(), // default value in case it's a 0 grade
+            'file_path' => null,
+            'status' => 'graded'
+        ]);
+
+        $submission->update([
+            'degree' => $request->degree,
+            'feedback' => $request->feedback,
+            'status' => 'graded',
+        ]);
+
+        toastr()->success(trans('messages.Update'));
+        return back();
     }
 }

@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Homework_submission extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'homework_id',
         'student_id',
         'file_path',
+        'notes',
         'submitted_at',
         'status',
         'degree',

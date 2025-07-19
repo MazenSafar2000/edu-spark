@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'student' => 'طالب',
     'personal_information' => 'المعلومات الشخصية',
     'name' => 'اسم الطالب',
     'name_ar' => 'الاسم باللغة العربية',
@@ -118,6 +118,13 @@ return [
     'starts_in' => 'يبدأ في',
     'live_now' => 'الآن مباشر',
     'finished' => 'انتهت',
+    'My_courses' => 'مقرراتي الدراسية',
+    'View_courses' => 'عرض الدروس',
+    'Allowed_files_type' => 'نوع الملفات المسموح بها',
+    'Download_file' => 'تنزيل الملف',
+    'answered' => 'مُجاب',
+    'not_answered' => 'غير مُجاب',
+
 
     'Feedback' => 'التعليقات',
 

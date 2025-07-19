@@ -41,6 +41,8 @@ Route::group(
 
                 Route::resource('homeworks', 'HomeworkController');
                 Route::get('/{section_id}/homework/create', 'HomeworkController@createNew')->name('createNewHomework');
+                Route::get('homeworks/{homework}/submissions', 'HomeworkController@showSubmissions')->name('submissions');
+                Route::post('homeworks/{homework}/grade/{student}', 'HomeworkController@gradeStudent')->name('homework.grade');
 
                 Route::resource('classes/recorded', 'RecordedClassController')->names([
                     'index' => 'recordedClasses.index',

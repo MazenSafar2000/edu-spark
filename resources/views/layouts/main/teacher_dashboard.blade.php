@@ -129,12 +129,6 @@
                     <i class="fa fa-home"></i>
                 </a>
             </li>
-            {{-- <li>
-                <a href="">
-                    <span>{{ trans('main_trans.Students') }}</span>
-                    <i class="fas fa-user-graduate"></i>
-                </a>
-            </li> --}}
 
             <li>
                 <a href="{{ route('students.index') }}">

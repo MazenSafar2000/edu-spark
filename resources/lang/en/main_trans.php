@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'menu' => 'Menu',
+    'account' => 'Account',
     'Login' => 'Login',
     'Parent_Login' => 'Parents Login',
     'Student_Login' => 'Students Login',
@@ -138,6 +140,10 @@ return [
     'classes_teach' => 'Classes Taught by Teacher',
     'no_materials' => 'There are no added academic content yet!' ,
     'add' => 'Add',
+    'subject_image' => 'Subject Image',
+    'Date_added' => 'Date added',
+    'write_notes' => 'Write your notes here ... ',
+    'any_notes' => 'Any Notes !',
 
     'no_notifications' => 'No Notifications',
 

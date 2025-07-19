@@ -56,10 +56,10 @@
 
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
-                                                            href="teacher-hw-submissions.html">
+                                                            href="{{ route('submissions', $homework->id) }}">
                                                             <i
                                                                 class="fas fa-users students-icon action-icon std-icon-action"></i>
-                                                            الطلاب
+                                                            {{ trans('Teacher_trans.Display_Delivered_Students') }}
                                                         </a>
                                                     </li>
                                                     <li>

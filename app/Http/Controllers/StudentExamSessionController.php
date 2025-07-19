@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Homework_submission;
+use App\Models\studentExamSession;
 use Illuminate\Http\Request;
 
-class HomeworkSubmissionController extends Controller
+class StudentExamSessionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class HomeworkSubmissionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Homework_submission  $homework_submission
+     * @param  \App\Models\studentExamSession  $studentExamSession
      * @return \Illuminate\Http\Response
      */
-    public function show(Homework_submission $homework_submission)
+    public function show(studentExamSession $studentExamSession)
     {
         //
     }
@@ -52,10 +52,10 @@ class HomeworkSubmissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Homework_submission  $homework_submission
+     * @param  \App\Models\studentExamSession  $studentExamSession
      * @return \Illuminate\Http\Response
      */
-    public function edit(Homework_submission $homework_submission)
+    public function edit(studentExamSession $studentExamSession)
     {
         //
     }
@@ -64,10 +64,10 @@ class HomeworkSubmissionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Homework_submission  $homework_submission
+     * @param  \App\Models\studentExamSession  $studentExamSession
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Homework_submission $homework_submission)
+    public function update(Request $request, studentExamSession $studentExamSession)
     {
         //
     }
@@ -75,10 +75,10 @@ class HomeworkSubmissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Homework_submission  $homework_submission
+     * @param  \App\Models\studentExamSession  $studentExamSession
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Homework_submission $homework_submission)
+    public function destroy(studentExamSession $studentExamSession)
     {
         //
     }

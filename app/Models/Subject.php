@@ -12,7 +12,10 @@ class Subject extends Model
     use HasTranslations;
 
     public $translatable = ['name'];
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'image'
+    ];
     protected $table = 'subjects';
     protected $casts = [
         'name' => 'array',

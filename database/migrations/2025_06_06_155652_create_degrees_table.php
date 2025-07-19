@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('degrees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('quizze_id')->references('id')->on('exams')->onDelete('cascade');
+            $table->foreignId('exam_id')->references('id')->on('exams')->onDelete('cascade');
             $table->foreignId('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->text('feedback')->nullable();
             $table->float('score');

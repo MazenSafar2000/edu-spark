@@ -53,6 +53,6 @@ class Exam extends Model
 
     public function degree()
     {
-        return $this->hasMany('App\Models\Degree');
+        return $this->hasMany(Degree::class);
     }
 }

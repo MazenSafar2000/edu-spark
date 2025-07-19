@@ -61,6 +61,7 @@ class ExamController extends Controller
             'duration' => 'required|integer|min:1',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
+            'show_answers_to_student' => 'nullable|boolean'
         ]);
 
         try {
@@ -74,6 +75,7 @@ class ExamController extends Controller
             $exam->duration = $request->duration;
             $exam->start_at = $request->start_at;
             $exam->end_at = $request->end_at;
+            $exam->show_answers_to_student = $request->boolean('show_answers_to_student');
             $exam->created_by_teacher_id = Auth::user()->teacher->id;
             $exam->save();
 
@@ -105,7 +107,7 @@ class ExamController extends Controller
      */
     public function show(Exam $exam)
     {
-        $questions = Question::where('quizze_id', $exam->id)->get();
+        $questions = Question::where('exam_id', $exam->id)->get();
         $exam = Exam::findOrFail($exam->id);
 
         return view('pages.Teacher.exams.questions.index', compact('questions', 'exam'));

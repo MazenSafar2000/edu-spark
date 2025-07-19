@@ -54,7 +54,7 @@ class QuestionController extends Controller
             $question->answers = json_encode($request->answers);  // stored as JSON
             $question->right_answer = $request->answers[$request->right_answer - 1];  // get the correct answer value
             $question->score = $request->score;
-            $question->quizze_id = $request->exam_id;  // don’t forget this!
+            $question->exam_id = $request->exam_id;
             $question->save();
 
             toastr()->success(trans('messages.success'));
@@ -114,7 +114,7 @@ class QuestionController extends Controller
             $question->answers = json_encode($request->answers);
             $question->right_answer = $request->answers[$request->right_answer - 1];
             $question->score = $request->score;
-            $question->quizze_id = $request->exam_id; // just in case you want to allow changing quiz
+            $question->exam_id = $request->exam_id; // just in case you want to allow changing quiz
             $question->save();
 
             toastr()->success(trans('messages.Update'));

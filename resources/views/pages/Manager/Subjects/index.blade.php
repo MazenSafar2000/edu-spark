@@ -74,7 +74,7 @@
                         </table>
 
 
-                        <!-- add new grade modal -->
+                        <!-- add new subject modal -->
                         <div class="modal fade custom-modal" id="addSubjectModal" tabindex="-1"
                             aria-labelledby="addStageModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
@@ -83,14 +83,15 @@
                                     <!-- رأس المودال -->
                                     <div class="modal-header custom-modal-header">
                                         <h5 class="modal-title custom-modal-title" id="addStageModalLabel">
-                                            {{ trans('Grades_trans.add_Grade') }}
+                                            {{ trans('main_trans.add_subject') }}
                                         </h5>
                                     </div>
 
                                     <!-- جسم المودال -->
                                     <div class="modal-body custom-modal-body">
                                         <form id="AddSubjectsForm" class="custom-form"
-                                            action="{{ route('Subjects.store') }}" method="POST">
+                                            action="{{ route('Subjects.store') }}" method="POST"
+                                            enctype="multipart/form-data">
                                             @csrf
 
                                             @include('forms._form-subjects', [
@@ -114,7 +115,7 @@
 
 
                         @foreach ($Subjects as $Subject)
-                            <!--  edit grade modal  -->
+                            <!--  edit subject modal  -->
                             <div class="modal fade custom-modal" id="editSubjectModal{{ $Subject->id }}" tabindex="-1"
                                 aria-labelledby="editStageModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
@@ -129,7 +130,7 @@
                                         <!-- جسم المودال -->
                                         <div class="modal-body custom-modal-body">
                                             <form id="editSubjectForm{{ $Subject->id }}" class="custom-form"
-                                                action="{{ route('Subjects.update', $Subject->id) }}" method="post">
+                                                action="{{ route('Subjects.update', $Subject->id) }}" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
 
@@ -150,7 +151,7 @@
                                 </div>
                             </div>
 
-                            <!-- Modal حذف المرحلة -->
+                            <!-- delete subject modal -->
                             <div class="modal fade" id="deleteSubjectModal{{ $Subject->id }}" tabindex="-1"
                                 aria-labelledby="deleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
@@ -185,5 +186,52 @@
             </div>
         </div>
 
+        {{-- <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>3</th>
+                        <th>name</th>
+                        <th>operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($Subjects as $Subject)
+                        <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $Subject->name }}</td>
+                            <td class="position-relative">
+                                <div class="dropdown">
+                                    <button class="btn operations-btn dropdown-toggle" type="button" id="operationsDropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ trans('main_trans.operations') }}
+                                    </button>
+                                    <ul class="dropdown-menu operations-dropdown text-end"
+                                        aria-labelledby="operationsDropdown">
+
+                                        <li>
+                                            <a class="btn dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#editSubjectModal{{ $Subject->id }}">
+                                                <i class="fas fa-edit text-primary"></i>
+                                                {{ trans('main_trans.edit') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="btn dropdown-item d-flex align-items-center gap-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteSubjectModal{{ $Subject->id }}">
+                                                <i class="fas fa-trash-alt text-danger"></i>
+                                                {{ trans('main_trans.delete') }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div> --}}
     </div>
 @endsection
