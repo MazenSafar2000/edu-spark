@@ -72,6 +72,29 @@ class Student extends Model
         return $this->hasMany(Homework_submission::class);
     }
 
+    // exam process relasinshib
+    public function studentExamSessions()
+    {
+        return $this->hasMany(StudentExamSession::class);
+    }
+
+    public function degrees()
+    {
+        return $this->hasMany(Degree::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasManyThrough(StudentAnswer::class, StudentExamSession::class);
+    }
+
+    public function exams()
+    {
+        return $this->belongsToMany(Exam::class, 'student_exam_sessions')
+            ->withPivot('started_at', 'finished_at');
+    }
+    // end exam process relasinshib
+
 
 
     protected static function booted()

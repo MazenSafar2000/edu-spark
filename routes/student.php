@@ -24,25 +24,25 @@ Route::group(
                 Route::prefix('student/exams')->name('student.exam.')->group(function () {
 
                     // دخول الطالب للامتحان (تأكيد الصلاحية وبدء الجلسة)
-                    Route::get('/start/{exam}', [ExamController::class, 'startExam'])->name('start');
+                    Route::get('/exam/{exam_id}', [ExamController::class, 'showExam'])->name('show');
 
                     // عرض الأسئلة (5 كل مرة)
-                    Route::get('/show/{exam}', [ExamController::class, 'showExam'])->name('show');
+                    // Route::get('/show/{exam}', [ExamController::class, 'showExam'])->name('show');
 
                     // حفظ إجابات 5 أسئلة والانتقال للصفحة التالية
-                    Route::post('/save/{exam}', [ExamController::class, 'saveAnswers'])->name('save');
+                    Route::post('/exam/{exam_id}/auto-save', [ExamController::class, 'autoSaveAnswers'])->name('autoSaveAnswers');
 
                     // صفحة المراجعة قبل التسليم
-                    Route::get('/review/{exam}', [ExamController::class, 'reviewExam'])->name('review');
+                    Route::get('/exam/{exam_id}/review', [ExamController::class, 'reviewExam'])->name('review');
 
                     // تسليم الامتحان وحساب العلامة
-                    Route::post('/submit/{exam}', [ExamController::class, 'submitExam'])->name('submit');
+                    Route::post('/exam/{exam_id}/submit', [ExamController::class, 'submitExam'])->name('submitExam');
 
                     // في حال انتهاء الوقت – تسليم إجباري
-                    Route::get('/force-submit/{exam}', [ExamController::class, 'forceSubmit'])->name('force');
+                    Route::get('/exam/{exam_id}/timeout', [ExamController::class, 'timeOut'])->name('timeout');
 
                     // عرض النتيجة بعد التسليم
-                    Route::get('/result/{exam}', [ExamController::class, 'result'])->name('result');
+                    // Route::get('/result/{exam}', [ExamController::class, 'result'])->name('result');
                 });
 
                 // Route::resource('homework/submissions', 'HomeworkSubmissionController')->names([

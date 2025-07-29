@@ -1,29 +1,5 @@
 @extends('layouts.main.student_dashboard')
 @section('student-content')
-    {{-- <div class="container">
-        <h3>مراجعة إجاباتك</h3>
-
-        @foreach ($questions as $question)
-            <div class="mb-4">
-                <h5>{{ $loop->iteration }}. {{ $question->title }}</h5>
-                @php $studentAnswer = $answers[$question->id] ?? null; @endphp
-                @if ($studentAnswer)
-                    <p><strong>إجابتك:</strong> {{ $studentAnswer }} -
-                        {{ $question->answers[$studentAnswer] ?? 'غير معروف' }}</p>
-                @else
-                    <p class="text-danger"><strong>لم يتم الإجابة على هذا السؤال</strong></p>
-                @endif
-            </div>
-        @endforeach
-
-        <form method="POST" action="{{ route('student.exam.submit', $exam->id) }}">
-            @csrf
-            <button type="submit" class="btn btn-success">تسليم الامتحان</button>
-        </form>
-    </div> --}}
-
-
-
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <div class="container my-5 exam-container">
             <div class="row g-0">
@@ -37,7 +13,7 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered text-center custom-answer">
+                        {{-- <table class="table table-bordered text-center custom-answer">
                             <thead>
                                 <tr>
                                     <th>question number</th>
@@ -48,8 +24,11 @@
                                 @foreach ($questions as $question)
                                     <tr class="custom-row-answer">
                                         <td>{{ $loop->iteration }}</td>
-                                        @php $studentAnswer = $answers[$question->id] ?? false; @endphp
-                                        @if ($studentAnswer)
+                                        @php
+                                            $studentAnswer = $answers[$question->id] ?? null;
+                                        @endphp
+
+                                        @if (array_key_exists($question->id, $answers))
                                             <td><span class="answer-present">{{ trans('students_trans.answered') }}</span>
                                             </td>
                                         @else
@@ -57,20 +36,34 @@
                                                     class="answer-missing">{{ trans('students_trans.not_answered') }}</span>
                                             </td>
                                         @endif
+
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>
+                        </table> --}}
+                        <form method="POST" action="{{ route('student.exam.submit', $exam->id) }}">
+                            @csrf
+                            @foreach ($exam->questions as $question)
+                                <div class="question-box">
+                                    <h5>{{ $question->title }}</h5>
+                                    <p>إجابتك: {{ $answers[$question->id] ?? 'لم تتم الإجابة' }}</p>
+                                </div>
+                            @endforeach
+                            <button type="submit" class="btn btn-primary">التسليم</button>
+                        </form>
                     </div>
 
 
                     <div class="end-of-exam d-flex">
                         <a href="student-exam.html" class="back-to-exam-btn">العودة للاختبار</a>
-                        <form method="POST" action="{{ route('student.exam.submit', $exam->id) }}">
+                        {{-- <form method="POST" action="{{ route('student.exam.submit', $exam->id) }}">
                             @csrf
                             <button type="submit"
                                 class="end-of-exam-btn">{{ trans('Students_trans.Finish_Attempt') }}</button>
-                        </form>
+                        </form> --}}
+                        <!-- review.blade.php -->
+
+
                     </div>
 
                 </div>
@@ -82,33 +75,33 @@
                     </div>
                     <div id="timer" class="text-danger fw-bold mt-3 timer-exam" data-time="10"><span
                             id="time"></span></div>
-
                 </div>
 
             </div>
         </div>
 
-
-        <!-- محتوى الصفحة هنا -->
     </div>
 
     <script>
-        let totalTime = {{ $time_limit }} - {{ $elapsed }};
-        let timerEl = document.getElementById('time');
+        // حفظ الإجابة تلقائيًا باستخدام JavaScript
+        document.querySelectorAll('input[type=radio]').forEach((input) => {
+            input.addEventListener('change', function() {
+                const answer = {
+                    question_id: this.name.replace('answers[', '').replace(']', ''),
+                    answer: this.value,
+                    exam_id: {{ $exam->id }} // إرسال exam_id مع كل إجابة
+                };
 
-        function updateTimer() {
-            let minutes = Math.floor(totalTime / 60);
-            let seconds = totalTime % 60;
-            timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            totalTime--;
-
-            if (totalTime < 0) {
-                window.location.href = "{{ route('student.exam.force', $exam->id) }}";
-            } else {
-                setTimeout(updateTimer, 1000);
-            }
-        }
-
-        updateTimer();
+                // إرسال البيانات باستخدام AJAX
+                fetch('{{ route('student.exam.timeout', $exam->id) }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(answer)
+                });
+            });
+        });
     </script>
 @endsection

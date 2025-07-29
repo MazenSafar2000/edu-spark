@@ -1,30 +1,5 @@
 @extends('layouts.main.student_dashboard')
 @section('student-content')
-    {{-- <div class="container">
-        <h3>{{ $exam->name }}</h3>
-        <div id="timer" class="alert alert-info">الوقت المتبقي: <span id="time"></span></div>
-
-        <form method="POST" action="{{ route('student.exam.save', $exam->id) }}">
-            @csrf
-            @foreach ($questions as $question)
-                <div class="mb-4">
-                    <h5>{{ $loop->iteration }}. {{ $question->title }}</h5>
-                    @foreach (json_decode($question->answers, true) as $key => $value)
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="answers[{{ $question->id }}]"
-                                value="{{ $key }}"
-                                {{ isset(json_decode($session->answers, true)[$question->id]) && json_decode($session->answers, true)[$question->id] === $key ? 'checked' : '' }}>
-                            <label class="form-check-label">{{ $key }}. {{ $value }}</label>
-                        </div>
-                    @endforeach
-                </div>
-            @endforeach
-
-            <button type="submit" class="btn btn-primary">التالي</button>
-        </form>
-    </div> --}}
-
-
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
 
         <div class="container my-5 exam-container">
@@ -34,38 +9,55 @@
                 <!-- الأسئلة -->
                 <div class="col-md-9 p-4" id="question-section">
                     <div class="exam-header">
-                        <p>اختبار لغة عربية - <span>ميادة مغاري</span></p>
+                        <p> {{ $exam->name }} - <span>{{ $exam->teacher->user->name }} </span></p>
                     </div>
 
-                    <form id="questionForm" method="POST" action="{{ route('student.exam.save', $exam->id) }}">
+                    <!-- exam.blade.php -->
+                    <!-- exam.blade.php -->
+                    <form method="POST" action="{{ route('student.exam.submitExam', $exam->id) }}">
                         @csrf
                         @foreach ($questions as $question)
-                            <div id="question-1" class="question-box">
-                                <h5 class="fw-bold ">{{ $loop->iteration }}. {{ $question->title }}</h5>
+                            <div class="question-box">
+                                <h5>{{ $loop->iteration }}. {{ $question->title }}</h5>
                                 @foreach (json_decode($question->answers, true) as $key => $value)
-                                    <div class="form-check custom-answer">
-                                        <input class="" type="radio" name="answers[{{ $question->id }}]"
-                                            value="{{ $key }}"
-                                            {{ isset(json_decode($session->answers, true)[$question->id]) && json_decode($session->answers, true)[$question->id] === $key ? 'checked' : '' }}>
-                                        <label class="form-check-label">{{ $key }}.
-                                            {{ $value }}</label>
+                                    <div class="form-check">
+                                        <input type="radio" name="answers[{{ $question->id }}]"
+                                            value="{{ $key }}">
+                                        <label>{{ $key }}. {{ $value }}</label>
                                     </div>
                                 @endforeach
                             </div>
                         @endforeach
 
-                        {{-- <button type="submit" class="btn prevBtn" id="prevBtn">next</button> --}}
-
+                        <!-- زر التالي أو زر إنهاء المحاولة حسب الصفحة الحالية -->
+                        <div class="form-group">
+                            @if ($questions->hasMorePages())
+                                <button type="submit" class="btn btn-primary">التالي</button>
+                            @else
+                                <button type="submit" class="btn btn-success">إنهاء المحاولة</button>
+                            @endif
+                        </div>
                     </form>
 
 
 
+                    {{-- hidden form for auto submit answeres --}}
+                    <form id="finishForm" method="POST" action="{{ route('student.exam.autoSaveAnswers', $exam->id) }}">
+                        @csrf
+                        {{-- The answers are already inside the main form (id="questionForm") --}}
+                        {{-- We'll copy them using JS before submitting --}}
+                    </form>
 
-
-                    <!-- أزرار السابق / التالي -->
                     <div class="d-flex justify-content-between mt-4">
                         <button class="btn prevBtn" id="prevBtn">{{ trans('Students_trans.Back') }}</button>
-                        <button form="questionForm" class="btn nextBtn" id="nextBtn">{{ trans('Students_trans.Next') }}</button>
+                        @if ($questions->hasMorePages())
+                            <button form="questionForm" class="btn nextBtn"
+                                id="nextBtn">{{ trans('Students_trans.Next') }}</button>
+                        @else
+                            <button type="button" class="btn nextBtn" onclick="submitAndGoToReview()">
+                                {{ trans('Students_trans.Finish_Attempt') }}
+                            </button>
+                        @endif
                     </div>
                 </div>
 
@@ -74,10 +66,11 @@
 
                     </div>
 
-                    <a href="{{ route('student.exam.review', $exam->id) }}" class="btn btn-exam-finish">{{ trans('Students_trans.Finish_Attempt') }}</a>
+                    <button type="button" class="btn btn-exam-finish" onclick="submitAndGoToReview()">
+                        {{ trans('Students_trans.Finish_Attempt') }}
+                    </button>
                     <div id="timer" class="text-danger fw-bold mt-3 timer-exam" data-time="10"><span
                             id="time"></span></div>
-
                 </div>
 
             </div>
@@ -87,24 +80,53 @@
         <!-- محتوى الصفحة هنا -->
     </div>
 
-
-    <script>
-        let totalTime = {{ $time_limit }} - {{ $elapsed }};
+    {{-- <script>
+        let totalTime = {{ $remainingTime }};
         let timerEl = document.getElementById('time');
 
+        // حفظ الوقت المتبقي في SessionStorage
         function updateTimer() {
+            if (totalTime < 0) {
+                window.location.href = "{{ route('student.timeout', $exam->id) }}";
+                return;
+            }
+
             let minutes = Math.floor(totalTime / 60);
             let seconds = totalTime % 60;
             timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            sessionStorage.setItem('remainingTime', totalTime);
             totalTime--;
 
-            if (totalTime < 0) {
-                window.location.href = "{{ route('student.exam.force', $exam->id) }}";
-            } else {
-                setTimeout(updateTimer, 1000);
-            }
+            setTimeout(updateTimer, 1000);
         }
 
+        // استرجاع الوقت المتبقي إذا كان موجودًا في sessionStorage
+        if (sessionStorage.getItem('remainingTime')) {
+            totalTime = parseInt(sessionStorage.getItem('remainingTime'));
+        }
         updateTimer();
+
+    </script> --}}
+
+    <script>
+        // حفظ الإجابة تلقائيًا باستخدام JavaScript
+        document.querySelectorAll('input[type=radio]').forEach((input) => {
+            input.addEventListener('change', function() {
+                const answer = {
+                    question_id: this.name.replace('answers[', '').replace(']', ''),
+                    answer: this.value
+                };
+
+                // إرسال البيانات إلى الخادم باستخدام AJAX
+                fetch('{{ route('student.exam.autoSaveAnswers', $exam->id) }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(answer)
+                });
+            });
+        });
     </script>
 @endsection

@@ -11,14 +11,22 @@ class Degree extends Model
 
     protected $guarded = [];
     public $timestamps = true;
+    protected $fillable = [
+        'exam_id',
+        'student_id',
+        'feedback',
+        'score',
+        'abuse',
+        'date',
+    ];
 
     public function student()
     {
-        return $this->belongsTo('App\Models\Student', 'student_id');
+        return $this->belongsTo(Student::class);
     }
 
     public function exam()
     {
-        return $this->belongsTo('App\Models\Exam', 'exam_id');
+        return $this->belongsTo(Exam::class);
     }
 }

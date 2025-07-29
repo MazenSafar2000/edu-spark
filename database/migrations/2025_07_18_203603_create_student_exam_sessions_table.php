@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained();
             $table->foreignId('exam_id')->constrained();
-            $table->timestamp('started_at');
-            $table->integer('current_question_index')->default(0);
             $table->json('answers')->nullable(); // {'1': 'A', '2': 'C'}
-            $table->boolean('is_submitted')->default(false);
+            $table->timestamp('started_at');
             $table->timestamp('finished_at')->nullable();
+            // $table->integer('current_question_index')->default(0);
+            $table->boolean('is_submitted')->default(false);
             $table->timestamps();
         });
     }

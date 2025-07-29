@@ -11,6 +11,11 @@ class Question extends Model
 
     public function quizze()
     {
-        return $this->belongsTo('App\Models\Exam');
+        return $this->belongsTo(Exam::class);
+    }
+
+    public function studentAnswers()
+    {
+        return $this->hasMany(StudentAnswer::class);
     }
 }

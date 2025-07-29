@@ -13,9 +13,24 @@ class studentExamSession extends Model
         'student_id',
         'exam_id',
         'started_at',
-        'current_question_index',
-        'answers',
-        'is_submitted',
         'finished_at',
+        'answers',
+        'current_question_index',
+        'is_submitted',
     ];
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class);
+    }
+
+    public function studentAnswers()
+    {
+        return $this->hasMany(StudentAnswer::class);
+    }
 }

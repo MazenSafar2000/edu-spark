@@ -21,6 +21,11 @@ class Subject extends Model
         'name' => 'array',
     ];
 
+    public function exams()
+    {
+        return $this->hasMany(Exam::class);
+    }
+
     // public function grade()
     // {
     //     return $this->belongsTo('App\Models\Grade', 'grade_id');

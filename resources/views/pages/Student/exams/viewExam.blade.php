@@ -76,7 +76,7 @@
                                         onclick="alertAbuse()">
                                         <i class="fas fa-person-booth"></i>
                                     </a> --}}
-                                    <a href="{{ route('student.exam.start', $exam->id) }}" class="btn exam-start-btn">
+                                    <a href="{{ route('student.exam.show', $exam->id) }}" class="btn exam-start-btn">
                                         <i class="fas fa-eye ms-1"></i> محاولة أداء الاختبار
                                     </a>
                                 @else

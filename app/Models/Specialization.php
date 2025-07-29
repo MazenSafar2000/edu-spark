@@ -11,8 +11,13 @@ class Specialization extends Model
     use HasFactory;
     use HasTranslations;
     public $translatable = ['Name'];
-    protected $fillable =['Name'];
+    protected $fillable = ['Name'];
     protected $casts = [
         'Name' => 'array',
     ];
+
+    public function teachers()
+    {
+        return $this->hasMany(Teacher::class);
+    }
 }

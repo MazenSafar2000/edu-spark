@@ -33,7 +33,7 @@ class Exam extends Model
 
     public function subject()
     {
-        return $this->belongsTo('App\Models\Subject', 'subject_id');
+        return $this->belongsTo(Subject::class);
     }
 
     public function grade()
@@ -54,5 +54,21 @@ class Exam extends Model
     public function degree()
     {
         return $this->hasMany(Degree::class);
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function studentExamSessions()
+    {
+        return $this->hasMany(StudentExamSession::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'student_exam_sessions')
+            ->withPivot('started_at', 'finished_at');
     }
 }
