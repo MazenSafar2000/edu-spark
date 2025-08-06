@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gender;
+use App\Models\QuestionsBank;
 use App\Models\Specialization;
 use App\Models\Teacher;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -73,13 +75,18 @@ class TeacherController extends Controller
             ]);
 
             // 2. Create teacher profile
-            Teacher::create([
+            $teacher = Teacher::create([
                 'user_id' => $user->id,
                 'National_ID' => $request->National_ID,
                 'Gender_id' => $request->Gender_id,
                 'Specialization_id' => $request->Specialization_id,
                 'Joining_Date' => $request->Joining_Date,
                 'Address' => $request->Address,
+            ]);
+
+            // 3.create QBank for this teacher
+            QuestionsBank::create([
+                'teacher_id' => $teacher->id,
             ]);
 
             DB::commit();

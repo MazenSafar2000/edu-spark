@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('questions_banks', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 500);
-            $table->text('answers');
-            $table->string('right_answer', 500);
-            $table->integer('score');
-            $table->foreignId('exam_id')->references('id')->on('exams')->onDelete('cascade');
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('questions_banks');
     }
 };

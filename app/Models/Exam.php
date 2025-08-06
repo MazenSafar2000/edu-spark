@@ -13,42 +13,28 @@ class Exam extends Model
 
     protected $fillable = [
         'name',
-        'duration',
-        'subject_id',
-        'grade_id',
-        'classroom_id',
-        'section_id',
-        'teacher_id',
+        'description',
         'start_at',
         'end_at',
-        'created_by_teacher_id',
+        'duration',
+        'attemptes',
+        'question_per_page',
+        'total_degree',
+        'subject_id',
+        'teacher_id',
+        'show_answers',
     ];
 
     public $translatable = ['name'];
 
     public function teacher()
     {
-        return $this->belongsTo('App\Models\Teacher', 'teacher_id');
+        return $this->belongsTo(Teacher::class);
     }
 
     public function subject()
     {
         return $this->belongsTo(Subject::class);
-    }
-
-    public function grade()
-    {
-        return $this->belongsTo('App\Models\Grade', 'grade_id');
-    }
-
-    public function classroom()
-    {
-        return $this->belongsTo('App\Models\Classroom', 'classroom_id');
-    }
-
-    public function section()
-    {
-        return $this->belongsTo('App\Models\Section', 'section_id');
     }
 
     public function degree()

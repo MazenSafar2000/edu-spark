@@ -23,7 +23,7 @@
                             <div class="col-md-6">
                                 <div class="form-group-float position-relative ">
                                     <input type="text" name="Name_ar" class="form-control custom-input float-input"
-                                        id="" placeholder=" " />
+                                        id="" value="{{ old('Name_ar', ) }}" />
                                     @error('Name_ar')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -36,7 +36,7 @@
                             <div class="col-md-6">
                                 <div class="form-group-float position-relative ">
                                     <input type="text" name="Name_en" class="form-control custom-input float-input"
-                                        id="" placeholder=" " />
+                                        id="" value="{{ old('Name_en') }}" />
                                     @error('Name_en')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -48,96 +48,20 @@
                             </div>
                         </div>
 
-                        {{-- <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label for="" class="text-danger">{{ trans('Teacher_trans.grade') }}*</label>
-                                <select class="form-select custom-select" name="Grade_id" id="grade-select">
-                                    <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
-                                    @foreach ($grades as $grade)
-                                        <option value="{{ $grade->id }}"
-                                            {{ old('Grade_id') == $grade->id ? 'selected' : '' }}>
-                                            {{ $grade->Name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('Grade_id')
-                                    <span class="invalid-feedback d-block" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="col-md-6">
-                                <label for="" class="text-danger">{{ trans('Students_trans.classrooms') }}*</label>
-                                <select class="form-select custom-select" name="Classroom_id" id="classroom-select">
-                                    <option selected disabled>{{ trans('Teacher_trans.select_class') }}</option>
-                                </select>
-                                @error('Classroom_id')
-                                    <span class="invalid-feedback d-block" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                        </div> --}}
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label for="" class="text-danger">{{ trans('main_trans.Grade') }}*</label>
-                                <select class="form-select custom-select" name="grade_id" id="grade-select">
-                                    <option selected disabled>{{ trans('Sections_trans.Select_Grade') }}</option>
-                                    @foreach ($grades as $grade)
-                                        <option value="{{ $grade->id }}">{{ $grade->Name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('grade_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-4">
-                                <label for="" class="text-danger">{{ trans('main_trans.classroom') }}*</label>
-                                <select class="form-select custom-select" name="classroom_id" id="classroom-select">
-                                    <option disabled>{{ trans('Teacher_trans.select_class') }}</option>
-                                </select>
-                                @error('classroom_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-4">
-                                <label for="" class="text-danger">{{ trans('main_trans.section') }}*</label>
-                                <select class="form-select custom-select" name="section_id" id="section-select">
-                                    <option disabled selected>{{ trans('Teacher_trans.select_section') }}</option>
-                                </select>
-                                @error('section_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
                         <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label for="" class="text-danger">{{ trans('Teacher_trans.subject') }}*</label>
-                                <select name="subject_id" id="subject-select" class="form-select custom-select">
-                                    <option selected disabled>{{ trans('Teacher_trans.select_subject') }}</option>
-                                </select>
-                                @error('subject_id')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
+                            <div class="form-group-float position-relative ">
+                                <textarea type="number" name="description" class="form-control custom-input float-input">{{ old('description') }}</textarea>
+                                <label for="description"
+                                    class="float-label">{{ trans('Teacher_trans.class_description_optional') }}</label>
                             </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group-float position-relative ">
-                                    <input type="number" name="duration" class="form-control custom-input float-input" />
-                                    <label for="duration"
-                                        class="float-label">{{ trans('Teacher_trans.duration_minute') }}</label>
-                                </div>
-                            </div>
-
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="start_at" class="text-danger">{{ trans('main_trans.start_at') }}*</label>
                                 <input type="datetime-local" name="start_at" class="form-control custom-input"
-                                    id="start_at" placeholder="{{ trans('main_trans.start_at') }}">
+                                    id="start_at" placeholder="{{ trans('main_trans.start_at') }}"
+                                    value="{{ old('start_at') }}">
                                 @error('start_at')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -147,13 +71,98 @@
                             <div class="col-md-6">
                                 <label for="" class="text-danger">{{ trans('main_trans.end_at') }}*</label>
                                 <input type="datetime-local" name="end_at" class="form-control custom-input" id="end_at"
-                                    placeholder="{{ trans('main_trans.end_at') }}">
+                                    placeholder="{{ trans('main_trans.end_at') }}" value="{{ old('end_at') }}">
                                 @error('end_at')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group-float position-relative ">
+                                    <input type="number" name="duration" class="form-control custom-input float-input"
+                                        value="{{ old('duration') }}" />
+                                    <label for="duration"
+                                        class="float-label">{{ trans('Teacher_trans.duration_minute') }}</label>
+                                    @error('duration')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group-float position-relative ">
+                                    <input type="number" name="attemptes" class="form-control custom-input float-input"
+                                        value="{{ old('attemptes') }}" />
+                                    <label for="attemptes"
+                                        class="float-label">{{ trans('Teacher_trans.attemptes') }}</label>
+                                    @error('attemptes')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group-float position-relative ">
+                                    <input type="number" name="question_per_page"
+                                        class="form-control custom-input float-input"
+                                        value="{{ old('question_per_page') }}" />
+                                    <label for="question_per_page"
+                                        class="float-label">{{ trans('Teacher_trans.question_per_page') }}</label>
+                                    @error('question_per_page')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group-float position-relative ">
+                                    <input type="number" name="total_degree" class="form-control custom-input float-input"
+                                        value="{{ old('total_degree') }}" />
+                                    <label for="total_degree"
+                                        class="float-label">{{ trans('Teacher_trans.total_degree') }}</label>
+                                    @error('total_degree')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <label for="" class="text-danger">{{ trans('Teacher_trans.subject') }}*</label>
+                            <select name="subject_id" id="subject-select" class="form-select custom-select">
+                                <option selected disabled>{{ trans('Teacher_trans.select_subject') }}</option>
+                                @foreach ($subjects as $subject)
+                                    <option value="{{ $subject->id }}"
+                                        {{ old('subject_id', $section?->subject_id ?? '') == $subject->id ? 'selected' : '' }}>
+                                        {{ $subject->subject->name }}</option>
+
+
+                                    {{-- <option value="{{ $subject->id }}">{{ $subject->subject->name }}</option> --}}
+                                @endforeach
+                            </select>
+                            @error('subject_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="row mb-4">
+                            <label for="show_answers" class="">{{ trans('Teacher_trans.show answers') }}</label>
+                            <input type="checkbox" class="text-end" name="show_answers"
+                                value="{{ old('show_answers') }}">
                         </div>
 
                         <div class="text-end">
@@ -167,7 +176,7 @@
     </div>
 @endsection
 @section('js')
-    <script>
+    {{-- <script>
         $('#grade-select').on('change', function() {
             let gradeId = $(this).val();
             $('#classroom-select').empty().append('<option selected disabled>Loading...</option>');
@@ -210,5 +219,5 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 @endsection

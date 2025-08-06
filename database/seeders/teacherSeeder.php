@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\QuestionsBank;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -54,13 +55,17 @@ class teacherSeeder extends Seeder
             ]);
 
             // Create teacher profile
-            Teacher::create([
+            $teacher = Teacher::create([
                 'user_id' => $user->id,
                 'National_ID' => $teacher['National_ID'],
                 'Specialization_id' => $teacher['Specialization_id'],
                 'Gender_id' => $teacher['Gender_id'],
                 'Joining_Date' => $teacher['Joining_Date'],
                 'Address' => $teacher['Address'],
+            ]);
+
+            QuestionsBank::create([
+                'teacher_id' => $teacher->id,
             ]);
         }
     }

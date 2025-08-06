@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('duration')->default(10);   // duration in minutes
-            $table->foreignId('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->foreignId('grade_id')->references('id')->on('Grades')->onDelete('cascade');
-            $table->foreignId('classroom_id')->references('id')->on('Classrooms')->onDelete('cascade');
-            $table->foreignId('section_id')->references('id')->on('sections')->onDelete('cascade');
-            $table->foreignId('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+            $table->text('description');
             $table->dateTime('start_at');
             $table->dateTime('end_at');
-            $table->boolean('show_answers_to_student')->default(false);
-            $table->foreignId('created_by_teacher_id')->constrained('teachers');
+            $table->integer('duration')->default(10);   // duration in minutes
+            $table->integer('attemptes')->default(10);
+            $table->integer('question_per_page')->default(1);
+            $table->double('total_degree');
+            $table->foreignId('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->foreignId('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+            $table->boolean('show_answers')->default(false)->nullable();
             $table->timestamps();
         });
     }

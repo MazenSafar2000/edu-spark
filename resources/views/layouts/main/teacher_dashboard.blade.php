@@ -158,6 +158,23 @@
                 </a>
             </li>
 
+            <li class="dropdown-sidebar">
+                <a href="#" class="dropdown-toggle-custom d-flex justify-content-between align-items-center"
+                    data-bs-toggle="collapse" data-bs-target="#questionsMenu" aria-expanded="false">
+
+                    <i class="toggle-icon fas fa-plus"></i>
+                    <div class="d-flex align-items-center gap-2">
+                        <span>Questions</span>
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                </a>
+
+                <ul id="questionsMenu" class="collapse list-unstyled ps-4 mt-2">
+                    <li><a href="{{ route('questionsBank.index')}}">questions bank</a></li>
+                    <li><a href="{{ route('questionsCategotry.index')}}">questions categories</a></li>
+                </ul>
+            </li>
+
             <li>
                 <a href="{{ route('homeworks.index') }}">
                     <span> {{ trans('Teacher_trans.Homeworks') }}</span>

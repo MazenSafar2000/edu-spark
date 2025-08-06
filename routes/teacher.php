@@ -66,6 +66,9 @@ Route::group(
                 Route::get('/teacher/book/get-classrooms', 'TeacherController@getClassrooms')->name('teacher.getClassrooms');
                 Route::get('/teacher/book/get-sections', 'TeacherController@getSections')->name('teacher.getSections');
                 Route::get('/teacher/book/get-subjects',  'TeacherController@getSubjects')->name('teacher.getSubjects');
+
+                Route::resource('questionsBank', 'QuestionsBankController');
+                Route::resource('questionsCategotry', 'QuestionsCategotryController');
             });
         });
     }

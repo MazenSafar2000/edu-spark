@@ -28,7 +28,7 @@ class QuestionController extends Controller
     public function create()
     {
         $data['grades'] = Grade::all();
-        return view('pages.Teacher.exams.questions.create', $data);
+        return view('pages.Teacher.QuestionsBank.QuestionCategory.questions.create', $data);
     }
 
     /**

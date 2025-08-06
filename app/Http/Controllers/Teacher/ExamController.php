@@ -32,6 +32,7 @@ class ExamController extends Controller
     public function create()
     {
         $data['grades'] = Grade::all();
+        $data['subjects'] = Teacher_section::where('teacher_id', Auth::user()->teacher->id)->get();
         return view("pages.Teacher.exams.create", $data);
     }
 
@@ -51,32 +52,36 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->boolean('show_answers'));
+
         $request->validate([
             'Name_en' => 'required|string|max:255',
             'Name_ar' => 'required|string|max:255',
-            'subject_id' => 'required|exists:subjects,id',
-            'grade_id' => 'required|exists:grades,id',
-            'classroom_id' => 'required|exists:classrooms,id',
-            'section_id' => 'required|exists:sections,id',
-            'duration' => 'required|integer|min:1',
+            'description' => 'required|string',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
-            'show_answers_to_student' => 'nullable|boolean'
+            'duration' => 'required|integer|min:1',
+            'attemptes' => 'required',
+            'question_per_page' => 'required',
+            'total_degree' => 'required',
+            'subject_id' => 'required|exists:subjects,id',
+            'show_answers' => 'nullable'
         ]);
+
 
         try {
             $exam = new Exam();
             $exam->name = ['en' => $request->Name_en, 'ar' => $request->Name_ar];
-            $exam->subject_id = $request->subject_id;
-            $exam->grade_id = $request->grade_id;
-            $exam->classroom_id = $request->classroom_id;
-            $exam->section_id = $request->section_id;
-            $exam->teacher_id = Auth::user()->teacher->id;
-            $exam->duration = $request->duration;
+            $exam->description = $request->description;
             $exam->start_at = $request->start_at;
             $exam->end_at = $request->end_at;
-            $exam->show_answers_to_student = $request->boolean('show_answers_to_student');
-            $exam->created_by_teacher_id = Auth::user()->teacher->id;
+            $exam->duration = $request->duration;
+            $exam->attemptes = $request->attemptes;
+            $exam->question_per_page = $request->question_per_page;
+            $exam->total_degree = $request->total_degree;
+            $exam->subject_id = $request->subject_id;
+            $exam->show_answers = $request->boolean('show_answers');
+            $exam->teacher_id = Auth::user()->teacher->id;
             $exam->save();
 
             // $students = Student::where('grade_id', $request->Grade_id)
@@ -110,7 +115,7 @@ class ExamController extends Controller
         $questions = Question::where('exam_id', $exam->id)->get();
         $exam = Exam::findOrFail($exam->id);
 
-        return view('pages.Teacher.exams.questions.index', compact('questions', 'exam'));
+        return view('pages.Teacher.QuestionsBank.QuestionCategory.questions.index', compact('questions', 'exam'));
     }
 
     /**
@@ -123,6 +128,7 @@ class ExamController extends Controller
     {
         $data['exam'] = $exam;
         $data['grades'] = Grade::all();
+        $data['subjects'] = Teacher_section::where('teacher_id', Auth::user()->teacher->id)->get();
 
         return view("pages.Teacher.exams.edit", $data);
     }
@@ -140,26 +146,30 @@ class ExamController extends Controller
         $request->validate([
             'Name_en' => 'required|string|max:255',
             'Name_ar' => 'required|string|max:255',
-            'subject_id' => 'required|exists:subjects,id',
-            'grade_id' => 'required|exists:grades,id',
-            'classroom_id' => 'required|exists:classrooms,id',
-            'section_id' => 'required|exists:sections,id',
-            'duration' => 'required|integer|min:1',
+            'description' => 'required|string',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
+            'duration' => 'required|integer|min:1',
+            'attemptes' => 'required',
+            'question_per_page' => 'required',
+            'total_degree' => 'required',
+            'subject_id' => 'required|exists:subjects,id',
+            'show_answers' => 'nullable'
         ]);
 
         try {
             $quizz = $exam::findOrFail($exam->id);
             $quizz->name = ['en' => $request->Name_en, 'ar' => $request->Name_ar];
-            $quizz->subject_id = $request->subject_id;
-            $quizz->grade_id = $request->grade_id;
-            $quizz->classroom_id = $request->classroom_id;
-            $quizz->section_id = $request->section_id;
-            $quizz->duration = $request->duration;
+            $quizz->description = $request->post('description');
+            $quizz->start_at = $request->post('start_at');
+            $quizz->end_at = $request->post('end_at');
+            $quizz->duration = $request->post('duration');
+            $quizz->attemptes = $request->post('attemptes');
+            $quizz->question_per_page = $request->post('question_per_page');
+            $quizz->total_degree = $request->post('total_degree');
+            $quizz->subject_id = $request->post('subject_id');
+            $quizz->show_answers = $request->boolean('show_answers');
             $quizz->teacher_id = Auth::user()->teacher->id;
-            $quizz->start_at = $request->start_at;
-            $quizz->end_at = $request->end_at;
             $quizz->save();
 
             toastr()->success(trans('messages.Update'));
