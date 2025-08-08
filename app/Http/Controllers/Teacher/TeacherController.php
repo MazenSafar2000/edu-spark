@@ -10,6 +10,7 @@ use App\Models\Library;
 use App\Models\Online_class;
 use App\Models\Recorded_class;
 use App\Models\Section;
+use App\Models\SectionExam;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -43,76 +44,84 @@ class TeacherController extends Controller
         $teacher_id = Auth::user()->teacher->id;
 
         $teacher_section = Teacher_section::findOrFail($sec_id);
-        $section = Section::findOrFail($teacher_section->id);
-        $section_id = $section->id;
-        $subject_id = $teacher_section->subject_id;
+        // $section_exam = SectionExam::where('section_id', $sec_id);
+        // $section = Section::findOrFail($teacher_section->id);
+        // $section_id = $section->id;
+        // $subject_id = $teacher_section->subject_id;
+        // $exam_id = $section_exam->exam_id;
 
 
-        $books = Library::where([
-            ['teacher_id', $teacher_id],
-            ['section_id', $section_id],
-            ['subject_id', $subject_id],
-        ])->orderBy('created_at', 'asc')->get();
+        // $books = Library::where([
+        //     ['teacher_id', $teacher_id],
+        //     ['section_id', $section_id],
+        //     ['subject_id', $subject_id],
+        // ])->orderBy('created_at', 'asc')->get();
 
-        $homeworks = Homework::where([
-            ['teacher_id', $teacher_id],
-            ['section_id', $section_id],
-            ['subject_id', $subject_id],
-        ])->orderBy('created_at', 'asc')->get();
+        // $homeworks = Homework::where([
+        //     ['teacher_id', $teacher_id],
+        //     ['section_id', $section_id],
+        //     ['subject_id', $subject_id],
+        // ])->orderBy('created_at', 'asc')->get();
 
-        $exams = Exam::where([
-            ['teacher_id', $teacher_id],
-            ['section_id', $section_id],
-            ['subject_id', $subject_id],
-        ])->orderBy('created_at', 'asc')->get();
+        // $exams = SectionExam::where([
+        //     ['section_id', $section_id],
+        //     ['exam_id', $exam_id],
+        // ])->orderBy('created_at', 'asc')->get();
 
-        $recorded = Recorded_class::where([
-            ['teacher_id', $teacher_id],
-            ['section_id', $section_id],
-            ['subject_id', $subject_id],
-        ])->orderBy('created_at', 'asc')->get();
+        // $recorded = Recorded_class::where([
+        //     ['teacher_id', $teacher_id],
+        //     ['section_id', $section_id],
+        //     ['subject_id', $subject_id],
+        // ])->orderBy('created_at', 'asc')->get();
 
-        $online = Online_class::where([
-            ['teacher_id', $teacher_id],
-            ['section_id', $section_id],
-            ['subject_id', $subject_id],
-        ])->orderBy('created_at', 'asc')->get();
+        // $online = Online_class::where([
+        //     ['teacher_id', $teacher_id],
+        //     ['section_id', $section_id],
+        //     ['subject_id', $subject_id],
+        // ])->orderBy('created_at', 'asc')->get();
 
 
-        $materials = collect()
-            ->merge($books->map(fn($item) => [
-                'type' => 'book',
-                'title' => $item->title,
-                'created_at' => $item->created_at,
-                'data' => $item,
-            ]))
-            ->merge($homeworks->map(fn($item) => [
-                'type' => 'homework',
-                'title' => $item->title,
-                'created_at' => $item->created_at,
-                'data' => $item,
-            ]))
-            ->merge($exams->map(fn($item) => [
-                'type' => 'exam',
-                'title' => $item->name,
-                'created_at' => $item->created_at,
-                'data' => $item,
-            ]))
-            ->merge($recorded->map(fn($item) => [
-                'type' => 'recorded',
-                'title' => $item->title,
-                'created_at' => $item->created_at,
-                'data' => $item,
-            ]))
-            ->merge($online->map(fn($item) => [
-                'type' => 'online',
-                'title' => $item->topic,
-                'created_at' => $item->created_at,
-                'data' => $item,
-            ]))
-            ->sortBy('created_at')
-            ->values();
+        // $materials = collect()
+        //     ->merge($books->map(fn($item) => [
+        //         'type' => 'book',
+        //         'title' => $item->title,
+        //         'created_at' => $item->created_at,
+        //         'data' => $item,
+        //     ]))
+        //     ->merge($homeworks->map(fn($item) => [
+        //         'type' => 'homework',
+        //         'title' => $item->title,
+        //         'created_at' => $item->created_at,
+        //         'data' => $item,
+        //     ]))
+        //     ->merge($exams->map(fn($item) => [
+        //         'type' => 'exam',
+        //         'title' => $item->name,
+        //         'created_at' => $item->created_at,
+        //         'data' => $item,
+        //     ]))
+        //     ->merge($recorded->map(fn($item) => [
+        //         'type' => 'recorded',
+        //         'title' => $item->title,
+        //         'created_at' => $item->created_at,
+        //         'data' => $item,
+        //     ]))
+        //     ->merge($online->map(fn($item) => [
+        //         'type' => 'online',
+        //         'title' => $item->topic,
+        //         'created_at' => $item->created_at,
+        //         'data' => $item,
+        //     ]))
+        //     ->sortBy('created_at')
+        //     ->values();
 
-        return view('Pages.Teacher.sections.section-materials', compact('section', 'teacher_section', 'materials'));
+        return view(
+            'pages.Teacher.sections.section-materials',
+            compact(
+            //     'section',
+                'teacher_section',
+            //     'materials'
+            )
+        );
     }
 }

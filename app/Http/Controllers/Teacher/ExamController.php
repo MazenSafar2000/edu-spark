@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
+use App\Models\ExamQuestions;
 use App\Models\Grade;
 use App\Models\Question;
+use App\Models\QuestionsCategotry;
 use App\Models\Student;
 use App\Models\Teacher_section;
 use Illuminate\Http\Request;
@@ -63,7 +65,6 @@ class ExamController extends Controller
             'duration' => 'required|integer|min:1',
             'attemptes' => 'required',
             'question_per_page' => 'required',
-            'total_degree' => 'required',
             'subject_id' => 'required|exists:subjects,id',
             'show_answers' => 'nullable'
         ]);
@@ -78,7 +79,9 @@ class ExamController extends Controller
             $exam->duration = $request->duration;
             $exam->attemptes = $request->attemptes;
             $exam->question_per_page = $request->question_per_page;
-            $exam->total_degree = $request->total_degree;
+            if ($request->maximum_grade) {
+                $exam->maximum_grade = $request->maximum_grade;
+            }
             $exam->subject_id = $request->subject_id;
             $exam->show_answers = $request->boolean('show_answers');
             $exam->teacher_id = Auth::user()->teacher->id;
@@ -110,12 +113,21 @@ class ExamController extends Controller
      * @param  \App\Models\Exam  $exam
      * @return \Illuminate\Http\Response
      */
+    // public function show(Exam $exam)
+    // {
+    //     $questions = Question::where('exam_id', $exam->id)->get();
+    //     $exam = Exam::findOrFail($exam->id);
+
+    //     return view('pages.Teacher.QuestionsBank.QuestionCategory.questions.index', compact('questions', 'exam'));
+    // }
+
     public function show(Exam $exam)
     {
-        $questions = Question::where('exam_id', $exam->id)->get();
         $exam = Exam::findOrFail($exam->id);
 
-        return view('pages.Teacher.QuestionsBank.QuestionCategory.questions.index', compact('questions', 'exam'));
+        // $questions = Question::where('exam_id', $exam->id)->get();
+
+        return view('pages.Teacher.exams.view', compact('exam'));
     }
 
     /**
@@ -152,7 +164,6 @@ class ExamController extends Controller
             'duration' => 'required|integer|min:1',
             'attemptes' => 'required',
             'question_per_page' => 'required',
-            'total_degree' => 'required',
             'subject_id' => 'required|exists:subjects,id',
             'show_answers' => 'nullable'
         ]);
@@ -166,7 +177,9 @@ class ExamController extends Controller
             $quizz->duration = $request->post('duration');
             $quizz->attemptes = $request->post('attemptes');
             $quizz->question_per_page = $request->post('question_per_page');
-            $quizz->total_degree = $request->post('total_degree');
+            if ($request->maximum_grade) {
+                $quizz->maximum_grade = $request->post('maximum_grade');
+            }
             $quizz->subject_id = $request->post('subject_id');
             $quizz->show_answers = $request->boolean('show_answers');
             $quizz->teacher_id = Auth::user()->teacher->id;
@@ -195,5 +208,19 @@ class ExamController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
+    }
+
+    public function addQuestions($exam_id)
+    {
+        $exam = Exam::findOrFail($exam_id);
+
+        $questions = ExamQuestions::where('exam_id', $exam_id)->paginate(20);
+        $teacherId = Auth::user()->teacher->id;
+        $categories = QuestionsCategotry::with('questionsBank')
+            ->whereHas('questionsBank', function ($q) use ($teacherId) {
+                $q->where('teacher_id', $teacherId);
+            })->get();
+
+        return view('pages.Teacher.exams.questions.index', compact('questions', 'exam', 'categories'));
     }
 }

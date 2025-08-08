@@ -48,6 +48,14 @@
 
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
+                                                            href="{{ route('exams.show', $exam->id) }}">
+                                                            <i class="fas fa-edit action-icon edit-icon-action"></i>
+                                                            show
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
                                                             href="{{ route('exams.edit', $exam->id) }}">
                                                             <i class="fas fa-edit action-icon edit-icon-action"></i>
                                                             {{ trans('main_trans.edit') }}
@@ -69,6 +77,15 @@
                                                             <i
                                                                 class="fas fa-question-circle action-icon question-icon-action"></i>
                                                             {{ trans('Teacher_trans.Show_questions') }}
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
+                                                            href="{{ route('addQuestions', $exam->id) }}">
+                                                            <i
+                                                                class="fas fa-question-circle action-icon question-icon-action"></i>
+                                                            add questions
                                                         </a>
                                                     </li>
 

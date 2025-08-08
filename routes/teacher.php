@@ -58,10 +58,33 @@ Route::group(
 
                 Route::resource('exams', 'ExamController');
                 Route::get('/{section_id}/exam/create', 'ExamController@createNew')->name('createNewExam');
+                Route::get('{exam_id}/exam/questions/index', 'ExamController@addQuestions')->name('addQuestions');
 
                 Route::resource('questions', 'QuestionController');
-                Route::resource('students', 'StudentController');
+                Route::resource('examQuestions', 'ExamQuestionsController');
+                Route::get('/exams/{exam}/questions', 'ExamQuestionsController@index')->name('examQuestions.index');
+                // Get questions by category (used in modal - AJAX)
+                Route::get('/exam/questions-by-category/{category_id}', 'ExamQuestionsController@getQuestionsByCategory')->name('exam.questions.byCategory');
 
+                // Store selected questions from bank
+                Route::post('/exam/add-from-bank/{exam}', 'ExamQuestionsController@storeFromBank')->name('exam.questions.storeFromBank');
+
+                // Store random questions
+                Route::post('/exam/add-random/{exam}', 'ExamQuestionsController@storeRandomQuestions')->name('exam.questions.storeRandom');
+
+                // delete questions
+                Route::delete('/exam/{exam}/question/{question}', 'ExamQuestionsController@removeQuestionFromExam')->name('exam.remove-question');
+
+                //update maximum grade & shuffle questions
+                Route::put('/exams/{exam}/questions/settings', 'ExamQuestionsController@updateSettings')
+                    ->name('exam.questions.updateSettings');
+
+
+
+
+
+
+                Route::resource('students', 'StudentController');
 
                 Route::get('/teacher/book/get-classrooms', 'TeacherController@getClassrooms')->name('teacher.getClassrooms');
                 Route::get('/teacher/book/get-sections', 'TeacherController@getSections')->name('teacher.getSections');

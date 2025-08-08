@@ -10,12 +10,12 @@
 
                     </div>
                     <div class="header-table-teacher">
-                        <select name="" id="" class="form-select custom-select">
+                        <select name="QCategory_id" id="category-select" class="form-select custom-select">
                             <option value="">selecte</option>
                             @foreach ($categories as $QC)
                                 <option value="{{ $QC->id }}">{{ $QC->title }}</option>
                             @endforeach
-                            <option value=""><a href="" data-bs-toggle="modal" data-bs-target="#createQCModal">new category</a></option>
+                            <option value="__new__"><a href="">new category</a></option>
                         </select>
                         <input type="search" class="form-control search-input"
                             placeholder="{{ trans('main_trans.search') }}">
@@ -37,9 +37,10 @@
                                 @foreach ($questions as $question)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $question->question }}</td>
+                                        <td>{{ $question->QCategory->title }}</td>
+                                        <td>{{ $question->type }}</td>
+                                        <td>{{ $question->score }}</td>
                                         <td class="position-relative">
                                             <div class="dropdown">
                                                 <button class="btn operations-btn dropdown-toggle" type="button"
@@ -48,19 +49,9 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end operations-dropdown text-end"
                                                     aria-labelledby="operationsDropdown">
-
-
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
-                                                            href="">
-                                                            <i
-                                                                class="fas fa-users students-icon action-icon std-icon-action"></i>
-                                                            {{ trans('Teacher_trans.Display_Delivered_Students') }}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
-                                                            href="">
+                                                            href="{{ route('questions.edit', $question->id)}}">
                                                             <i class="fas fa-edit action-icon edit-icon-action"></i>
                                                             {{ trans('main_trans.edit') }}
                                                         </a>
@@ -109,6 +100,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $questions->links() }}
                         {{-- create QCategory modal --}}
                         <div class="modal fade custom-modal" id="createQCModal" tabindex="-1"
                             aria-labelledby="createQCModalLabel" aria-hidden="true">
@@ -152,4 +144,19 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const select = document.getElementById('category-select');
+
+            select.addEventListener('change', function() {
+                if (this.value === '__new__') {
+                    this.value = ''; // Optional: Reset selection
+                    const modal = new bootstrap.Modal(document.getElementById('createQCModal'));
+                    modal.show();
+                }
+            });
+        });
+    </script>
 @endsection

@@ -24,4 +24,9 @@ class Teacher_section extends Model
     {
         return $this->belongsTo(Teacher::class);
     }
+
+    public function questionsBanks()
+    {
+        return $this->hasMany(QuestionsBank::class);
+    }
 }

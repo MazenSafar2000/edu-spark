@@ -5,11 +5,11 @@
 
             <!-- عنوان المادة والمعلم -->
             <div class="d-flex justify-content-between align-items-center mb-4 classroom-header">
-                <div class="classroom-title me-3">
+                {{-- <div class="classroom-title me-3">
                     <h5 class="fw-bold classroom-name">{{ $section->My_classs->Name_Class }}<span class="section-name">
                             -{{ $section->Name_Section }}- </span></h5>
                     <h3 class="subject-name ">{{ $teacher_section->subject->name }}</h3>
-                </div>
+                </div> --}}
 
                 <div class="dropdown">
                     <button class="btn operations-btn-subject dropdown-toggle" type="button" id="operationsDropdown"
@@ -54,7 +54,7 @@
             </div>
 
             <div class="card-content-subject">
-                @foreach ($materials as $material)
+                {{-- @foreach ($materials as $material)
                     @if ($material['type'] == 'book')
                         <div class="card shadow-sm mb-3 content">
                             <div
@@ -381,12 +381,12 @@
                             </div>
                         </div>
                     @endif
-                @endforeach
-                @if ($materials->isEmpty())
+                @endforeach --}}
+                {{-- @if ($materials->isEmpty())
                     <div class="alert alert-info text-center mt-4">
                         {{ trans('main_trans.no_materials') }}
                     </div>
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>

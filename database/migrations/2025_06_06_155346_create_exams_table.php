@@ -22,7 +22,10 @@ return new class extends Migration
             $table->integer('duration')->default(10);   // duration in minutes
             $table->integer('attemptes')->default(10);
             $table->integer('question_per_page')->default(1);
-            $table->double('total_degree');
+            $table->float('total_marks')->default(0); // مجموع درجات الأسئلة فعليًا
+            $table->float('maximum_grade')->default(100); // الدرجة النهائية المعتمدة لحساب النتيجة
+            $table->boolean('shuffle_questions')->default(false);
+
             $table->foreignId('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->foreignId('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
             $table->boolean('show_answers')->default(false)->nullable();

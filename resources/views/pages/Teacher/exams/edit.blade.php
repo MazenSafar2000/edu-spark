@@ -130,11 +130,11 @@
 
                             <div class="col-md-6">
                                 <div class="form-group-float position-relative ">
-                                    <input type="number" name="total_degree" class="form-control custom-input float-input"
-                                        value="{{ old('total_degree', $exam->total_degree) }}" />
-                                    <label for="total_degree"
-                                        class="float-label">{{ trans('Teacher_trans.total_degree') }}</label>
-                                    @error('total_degree')
+                                    <input type="number" name="maximum_grade" class="form-control custom-input float-input"
+                                        value="{{ old('maximum_grade', $exam->maximum_grade) }}" />
+                                    <label for="maximum_grade"
+                                        class="float-label">{{ trans('Teacher_trans.maximum_grade') }}</label>
+                                    @error('maximum_grade')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -160,7 +160,7 @@
 
                         <div class="row mb-4">
                             <label for="show_answers" class="">{{ trans('Teacher_trans.show answers') }}</label>
-                            <input type="checkbox" class="text-end" name="show_answers"
+                            <input type="radio" class="text-end" name="show_answers"
                                 value="{{ old('show_answers', $exam->show_answers) }}">
                         </div>
 

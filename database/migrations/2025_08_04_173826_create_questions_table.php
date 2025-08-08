@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('correct_answer', 500);
             $table->integer('score')->default(1);
             $table->foreignId('QCategory_id')->references('id')->on('questions_categories')->onDelete('cascade');
+            $table->foreignId('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
             $table->timestamps();
         });
     }

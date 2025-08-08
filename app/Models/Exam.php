@@ -19,7 +19,9 @@ class Exam extends Model
         'duration',
         'attemptes',
         'question_per_page',
-        'total_degree',
+        'total_marks',
+        'maximum_grade',
+        'shuffle_questions',
         'subject_id',
         'teacher_id',
         'show_answers',
@@ -37,24 +39,38 @@ class Exam extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function degree()
+    public function sections()
     {
-        return $this->hasMany(Degree::class);
+        return $this->belongsToMany(Section::class, 'section_exams')->withTimestamps();
     }
 
     public function questions()
     {
-        return $this->hasMany(Question::class);
+        return $this->belongsToMany(Question::class, 'exam_questions')
+            ->withPivot('score')
+            ->withTimestamps();
     }
 
-    public function studentExamSessions()
-    {
-        return $this->hasMany(StudentExamSession::class);
-    }
+    // public function degree()
+    // {
+    //     return $this->hasMany(Degree::class);
+    // }
 
-    public function students()
-    {
-        return $this->belongsToMany(Student::class, 'student_exam_sessions')
-            ->withPivot('started_at', 'finished_at');
-    }
+    // public function questions()
+    // {
+    //     return $this->hasMany(Question::class);
+    // }
+
+    // public function studentExamSessions()
+    // {
+    //     return $this->hasMany(StudentExamSession::class);
+    // }
+
+    // public function students()
+    // {
+    //     return $this->belongsToMany(Student::class, 'student_exam_sessions')
+    //         ->withPivot('started_at', 'finished_at');
+    // }
+
+
 }

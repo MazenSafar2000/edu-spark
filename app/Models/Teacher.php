@@ -58,15 +58,27 @@ class Teacher extends Model
         return $this->hasMany(Teacher_section::class);
     }
 
-    public function exams()
-    {
-        return $this->hasMany(Exam::class);
-    }
 
     public function studentAnswers()
     {
         return $this->hasManyThrough(StudentAnswer::class, Exam::class);
     }
+
+    public function exams()
+    {
+        return $this->hasMany(Exam::class);
+    }
+
+    public function questionBank()
+    {
+        return $this->hasOne(QuestionsBank::class);
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
 
 
 

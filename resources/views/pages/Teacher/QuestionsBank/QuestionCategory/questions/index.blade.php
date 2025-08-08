@@ -1,14 +1,14 @@
 @extends('layouts.main.teacher_dashboard')
 @section('teacher_content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
-        <h3 class="teacher-title">{{ trans('Teacher_trans.question_list') }}: {{ $exam->name }}</h3>
+        {{-- <h3 class="teacher-title">{{ trans('Teacher_trans.question_list') }}: {{ $exam->name }}</h3> --}}
 
         <div class="table-users-teacher mt-5">
             <!-- المحتوى -->
             <div class="table-content-teacher tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" role="tabpanel">
                     <div class="header-table-teacher">
-                        <a href="{{ route('questions.show', $exam->id) }}">{{ trans('Teacher_trans.add_new_question') }}</a>
+                        {{-- <a href="{{ route('questions.show', $exam->id) }}">{{ trans('Teacher_trans.add_new_question') }}</a> --}}
                         <input type="search" class="form-control search-input"
                             placeholder="{{ trans('Teacher_trans.search') }}">
                     </div>
@@ -30,11 +30,10 @@
                                 @foreach ($questions as $question)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $question->title }}</td>
-                                        <td>{{ $question->answers }}</td>
-                                        <td>{{ $question->right_answer }}</td>
+                                        <td>{{ $question->question }}</td>
+                                        <td>{{ $question->QCategory->title }}</td>
+                                        <td>{{ $question->correct_answer }}</td>
                                         <td>{{ $question->score }}</td>
-                                        {{-- <td>{{ $question->quizze->name }}</td> --}}
                                         <td class="position-relative">
                                             <div class="dropdown">
                                                 <button class="btn operations-btn dropdown-toggle" type="button"
