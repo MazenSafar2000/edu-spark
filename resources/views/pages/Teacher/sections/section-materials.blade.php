@@ -54,7 +54,7 @@
             </div>
 
             <div class="card-content-subject">
-                {{-- @foreach ($materials as $material)
+                @foreach ($materials as $material)
                     @if ($material['type'] == 'book')
                         <div class="card shadow-sm mb-3 content">
                             <div
@@ -381,12 +381,12 @@
                             </div>
                         </div>
                     @endif
-                @endforeach --}}
-                {{-- @if ($materials->isEmpty())
+                @endforeach
+                @if ($materials->isEmpty())
                     <div class="alert alert-info text-center mt-4">
                         {{ trans('main_trans.no_materials') }}
                     </div>
-                @endif --}}
+                @endif
             </div>
         </div>
     </div>

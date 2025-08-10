@@ -75,7 +75,7 @@
                             <tbody>
                                 @foreach ($sections as $section)
                                     <tr class="clickable-row"
-                                        data-href="{{ route('teacher.section.materials', $section->section->id) }}"
+                                        data-href="{{ route('teacher.section.materials', $section->id) }}"
                                         style="cursor: pointer;">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $section->section->My_classs->Grades->Name }}</td>

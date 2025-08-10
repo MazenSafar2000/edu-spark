@@ -21,9 +21,15 @@ class Subject extends Model
         'name' => 'array',
     ];
 
+    // public function exams()
+    // {
+    //     return $this->hasMany(Exam::class);
+    // }
+
     public function exams()
     {
-        return $this->hasMany(Exam::class);
+        return $this->hasMany(SectionExam::class, 'exam_section', 'exam_id', 'section_id', 'subject_id')
+            ->withTimestamps();
     }
 
     // public function grade()

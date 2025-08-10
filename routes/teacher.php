@@ -59,6 +59,9 @@ Route::group(
                 Route::resource('exams', 'ExamController');
                 Route::get('/{section_id}/exam/create', 'ExamController@createNew')->name('createNewExam');
                 Route::get('{exam_id}/exam/questions/index', 'ExamController@addQuestions')->name('addQuestions');
+                Route::resource('sectionsExams', 'SectionExamContrller');
+                // Route::post('/teacher/exams/assign', 'TeacherExamController@assign')->name('teacher.exams.assign');
+
 
                 Route::resource('questions', 'QuestionController');
                 Route::resource('examQuestions', 'ExamQuestionsController');

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\studentExamSession;
+use App\Models\StudentExamAnswers;
 use Illuminate\Http\Request;
 
-class StudentExamSessionController extends Controller
+class StudentExamAnswersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class StudentExamSessionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\studentExamSession  $studentExamSession
+     * @param  \App\Models\StudentExamAnswers  $studentExamAnswers
      * @return \Illuminate\Http\Response
      */
-    public function show(studentExamSession $studentExamSession)
+    public function show(StudentExamAnswers $studentExamAnswers)
     {
         //
     }
@@ -52,10 +52,10 @@ class StudentExamSessionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\studentExamSession  $studentExamSession
+     * @param  \App\Models\StudentExamAnswers  $studentExamAnswers
      * @return \Illuminate\Http\Response
      */
-    public function edit(studentExamSession $studentExamSession)
+    public function edit(StudentExamAnswers $studentExamAnswers)
     {
         //
     }
@@ -64,10 +64,10 @@ class StudentExamSessionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\studentExamSession  $studentExamSession
+     * @param  \App\Models\StudentExamAnswers  $studentExamAnswers
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, studentExamSession $studentExamSession)
+    public function update(Request $request, StudentExamAnswers $studentExamAnswers)
     {
         //
     }
@@ -75,10 +75,10 @@ class StudentExamSessionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\studentExamSession  $studentExamSession
+     * @param  \App\Models\StudentExamAnswers  $studentExamAnswers
      * @return \Illuminate\Http\Response
      */
-    public function destroy(studentExamSession $studentExamSession)
+    public function destroy(StudentExamAnswers $studentExamAnswers)
     {
         //
     }

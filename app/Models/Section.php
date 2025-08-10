@@ -22,17 +22,26 @@ class Section extends Model
 
     public function My_classs()
     {
-        return $this->belongsTo('App\Models\Classroom', 'Class_id');
+        return $this->belongsTo(Classroom::class, 'Class_id');
     }
 
     public function teachers()
     {
-        return $this->belongsToMany('App\Models\Teacher', 'teacher_sections');
+        return $this->belongsToMany(Teacher::class, 'teacher_sections')
+            ->withPivot('subject_id')
+            ->withTimestamps();
+    }
+
+    public function exams()
+    {
+        return $this->belongsToMany(Exam::class, 'section_exams')
+            ->withPivot('subject_id')
+            ->withTimestamps();
     }
 
     public function students()
     {
-        return $this->hasMany(Student::class, 'section_id');
+        return $this->hasMany(Student::class, 'section_id', 'id');
     }
 
     public function teacherSections()
@@ -40,12 +49,11 @@ class Section extends Model
         return $this->hasMany(Teacher_section::class);
     }
 
+
     // public function exams()
     // {
     //     return $this->hasMany(Exam::class);
     // }
-    public function exams()
-    {
-        return $this->belongsToMany(Exam::class, 'section_exams')->withTimestamps();
-    }
+
+
 }

@@ -99,6 +99,5 @@ class AjaxController extends Controller
 
         return response()->json($subjects);
     }
-
     // End teacher filter
 }

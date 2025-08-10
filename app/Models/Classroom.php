@@ -11,12 +11,12 @@ class Classroom extends Model
     use HasFactory;
     use HasTranslations;
 
-    public $translatable = ['Name_Class'];
+    protected $table = 'Classrooms';
     protected $fillable=['Name_Class','Grade_id'];
+    public $translatable = ['Name_Class'];
     protected $casts = [
         'Name_Class' => 'array',
     ];
-    protected $table = 'Classrooms';
     public $timestamps = true;
 
 

@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class studentExamSession extends Model
+class ExamAttempts extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'student_id',
         'exam_id',
+        'score',
+        'final_grade',
+        'correct_answers',
         'started_at',
-        'finished_at',
-        'answers',
-        'current_question_index',
-        'is_submitted',
+        'ended_at'
     ];
 
     public function student()
@@ -29,8 +29,8 @@ class studentExamSession extends Model
         return $this->belongsTo(Exam::class);
     }
 
-    public function studentAnswers()
+    public function answers()
     {
-        return $this->hasMany(StudentAnswer::class);
+        return $this->hasMany(StudentExamAnswers::class, 'attempt_id');
     }
 }

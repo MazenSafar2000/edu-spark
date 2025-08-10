@@ -8,6 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'question',
+        'type',
+        'options',
+        'correct_answer',
+        'score',
+        'qcategory_id',
+        'teacher_id'
+    ];
+
+    protected $casts = [
+        'options' => 'array',
+    ];
+
 
     // public function quizze()
     // {

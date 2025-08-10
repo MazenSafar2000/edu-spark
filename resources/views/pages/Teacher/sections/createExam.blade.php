@@ -16,7 +16,7 @@
                             </ul>
                         </div>
                     @endif
-                    <form class="subject-form" action="{{ route('exams.store') }}" method="POST">
+                    {{-- <form class="subject-form" action="{{ route('exams.store') }}" method="POST">
                         @csrf
 
                         <input type="hidden" name="section_id" value="{{ $teacher_section->section_id }}">
@@ -91,6 +91,54 @@
                         <div class="text-end">
                             <button type="submit" class="btn save-btn">{{ trans('Teacher_trans.save_data') }}</button>
                         </div>
+                    </form> --}}
+
+                    <form method="POST" action="{{ route('sectionsExams.store') }}">
+                        @csrf
+
+                        {{-- <div class="mb-3">
+                            <label for="section_id" class="form-label">اختر الشعبة</label>
+                            <select name="section_id" id="section_id" class="form-control" required>
+                                @foreach ($sections as $section)
+                                    <option value="{{ $section->id }}">{{ $section->name }}</option>
+                                @endforeach
+                            </select>
+                        </div> --}}
+                        <input type="hidden" value="{{ $teacher_section->id}}" name="section_id">
+                        <input type="hidden" name="subject_id" value="{{ $teacher_section->subject_id }}">
+
+                        {{-- جدول الامتحانات --}}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>اختيار</th>
+                                    <th>اسم الامتحان</th>
+                                    <th>المادة</th>
+                                    <th>التاريخ</th>
+                                    <th>المدة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($exams as $exam)
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="exam_ids[]" value="{{ $exam->id }}">
+                                        </td>
+                                        <td>{{ $exam->name }}</td>
+                                        <td>{{ $exam->subject->name }}</td>
+                                        <td>{{ $exam->start_at }}</td>
+                                        <td>{{ $exam->duration }} دقيقة</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center">لا توجد امتحانات</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+
+                        {{-- زر الإضافة --}}
+                        <button type="submit" class="btn btn-primary">إضافة الامتحانات</button>
                     </form>
                 </div>
             </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Section;
+use App\Models\Teacher_section;
 use Illuminate\Http\Request;
 
 class SectionExamContrller extends Controller
@@ -35,7 +37,38 @@ class SectionExamContrller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $request->validate([
+            'section_id' => 'required|exists:sections,id',
+            'subject_id' => 'required',
+            'exam_ids'   => 'required|array',
+            'exam_ids.*' => 'exists:exams,id',
+        ]);
+
+        try {
+
+            $request->validate([
+                'section_id' => 'required|exists:sections,id',
+                'subject_id' => 'required|exists:subjects,id',
+                'exam_ids'   => 'required|array',
+                'exam_ids.*' => 'exists:exams,id',
+            ]);
+
+            $section = Section::findOrFail($request->section_id);
+
+            // تجهيز بيانات الربط مع subject_id
+            $data = [];
+            foreach ($request->exam_ids as $examId) {
+                $data[$examId] = ['subject_id' => $request->subject_id];
+            }
+
+            // ربط الامتحانات مع الشعبة والمادة في الجدول الوسيط
+            $section->exams()->syncWithoutDetaching($data);
+
+            return back()->with('success', 'تم ربط الامتحانات بالشعبة بنجاح');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**

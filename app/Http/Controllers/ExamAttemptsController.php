@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\StudentAnswer;
+use App\Models\ExamAttempts;
 use Illuminate\Http\Request;
 
-class StudentAnswerController extends Controller
+class ExamAttemptsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class StudentAnswerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\StudentAnswer  $studentAnswer
+     * @param  \App\Models\ExamAttempts  $examAttempts
      * @return \Illuminate\Http\Response
      */
-    public function show(StudentAnswer $studentAnswer)
+    public function show(ExamAttempts $examAttempts)
     {
         //
     }
@@ -52,10 +52,10 @@ class StudentAnswerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\StudentAnswer  $studentAnswer
+     * @param  \App\Models\ExamAttempts  $examAttempts
      * @return \Illuminate\Http\Response
      */
-    public function edit(StudentAnswer $studentAnswer)
+    public function edit(ExamAttempts $examAttempts)
     {
         //
     }
@@ -64,10 +64,10 @@ class StudentAnswerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\StudentAnswer  $studentAnswer
+     * @param  \App\Models\ExamAttempts  $examAttempts
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StudentAnswer $studentAnswer)
+    public function update(Request $request, ExamAttempts $examAttempts)
     {
         //
     }
@@ -75,10 +75,10 @@ class StudentAnswerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\StudentAnswer  $studentAnswer
+     * @param  \App\Models\ExamAttempts  $examAttempts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(StudentAnswer $studentAnswer)
+    public function destroy(ExamAttempts $examAttempts)
     {
         //
     }

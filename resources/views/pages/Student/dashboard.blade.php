@@ -23,7 +23,8 @@
                                         alt="Subject Image" width="150">
                                 </div>
                                 <h3 class="title">{{ $item->subject->name }}</h3>
-                                <a href="{{ route('student.subject.materials', $item->id) }}" class="playlist-btn">{{ trans('Students_trans.View_courses') }}</a>
+                                <a href="{{ route('student.subject.materials', $item->id) }}"
+                                    class="playlist-btn">{{ trans('Students_trans.View_courses') }}</a>
                             </div>
                         </div>
                     @endforeach

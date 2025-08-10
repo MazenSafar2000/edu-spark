@@ -20,8 +20,8 @@ Route::middleware(['auth', 'role:manager'])->group(function () {
 });
 
 
-// Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function () {
-//     Route::get('getClassroomsByGrade/{grade_id}', [AjaxController::class, 'getClassroomsByGrade']);
-//     Route::get('getSectionsByClassroom/{classroom_id}', [AjaxController::class, 'getSectionsByClassroom']);
-//     Route::get('getSubjectsBySection/{section_id}', [AjaxController::class, 'getSubjectsBySection']);
-// });
+Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function () {
+    Route::get('getClassroomsByGrade/{grade_id}', [AjaxController::class, 'getClassroomsByGrade']);
+    Route::get('getSectionsByClassroom/{classroom_id}', [AjaxController::class, 'getSectionsByClassroom']);
+    Route::get('getSubjectsBySection/{section_id}', [AjaxController::class, 'getSubjectsBySection']);
+});

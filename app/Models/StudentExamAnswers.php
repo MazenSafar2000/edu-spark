@@ -5,19 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentAnswer extends Model
+class StudentExamAnswers extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'student_exam_session_id',
+        'attempt_id',
         'question_id',
         'answer',
-        'is_correct',
+        'is_correct'
     ];
 
-    public function studentExamSession()
+    public function attempt()
     {
-        return $this->belongsTo(StudentExamSession::class);
+        return $this->belongsTo(ExamAttempts::class, 'attempt_id');
     }
 
     public function question()

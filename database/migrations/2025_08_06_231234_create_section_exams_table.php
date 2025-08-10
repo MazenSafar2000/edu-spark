@@ -15,9 +15,12 @@ return new class extends Migration
     {
         Schema::create('section_exams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('section_id')->constrained('sections')->cascadeOnDelete('delete');
-            $table->foreignId('exam_id')->constrained('exams')->cascadeOnDelete('delete');
+            $table->foreignId('section_id')->constrained('sections')->cascadeOnDelete();
+            $table->foreignId('exam_id')->constrained('exams')->cascadeOnDelete();
+            $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
             $table->timestamps();
+
+            $table->unique(['section_id', 'exam_id', 'subject_id']);
         });
     }
 

@@ -14,13 +14,13 @@ class ExamQuestions extends Model
         "score",
     ];
 
-    public function exam()
-    {
-        return $this->belongsTo(Exam::class);
-    }
+    // public function exam()
+    // {
+    //     return $this->belongsTo(Exam::class);
+    // }
 
-    public function question()
-    {
-        return $this->belongsTo(Question::class);
-    }
+    // public function question()
+    // {
+    //     return $this->belongsTo(Question::class);
+    // }
 }

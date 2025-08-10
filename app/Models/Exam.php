@@ -29,19 +29,14 @@ class Exam extends Model
 
     public $translatable = ['name'];
 
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
-    }
-
     public function subject()
     {
         return $this->belongsTo(Subject::class);
     }
 
-    public function sections()
+    public function teacher()
     {
-        return $this->belongsToMany(Section::class, 'section_exams')->withTimestamps();
+        return $this->belongsTo(Teacher::class);
     }
 
     public function questions()
@@ -50,6 +45,25 @@ class Exam extends Model
             ->withPivot('score')
             ->withTimestamps();
     }
+
+    public function sections()
+    {
+        return $this->belongsToMany(Section::class, 'section_exams')
+            ->withTimestamps();
+    }
+
+    public function attempts()
+    {
+        return $this->hasMany(ExamAttempts::class);
+    }
+
+    public function sectionExams()
+    {
+        return $this->hasMany(SectionExam::class);
+    }
+
+
+
 
     // public function degree()
     // {

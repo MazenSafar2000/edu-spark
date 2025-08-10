@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_answers', function (Blueprint $table) {
+        Schema::create('student_exam_answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_exam_session_id')->constrained('student_exam_sessions')->onDelete('cascade');
+            $table->foreignId('attempt_id')->constrained('exam_attempts')->onDelete('cascade');
             $table->foreignId('question_id')->constrained('questions')->onDelete('cascade');
-            $table->string('answer'); // The student's answer
-            // $table->boolean('is_correct'); // Whether the answer is correct
+            $table->text('answer');
+            $table->boolean('is_correct')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_answers');
+        Schema::dropIfExists('student_exam_answers');
     }
 };

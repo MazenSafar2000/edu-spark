@@ -8,14 +8,30 @@ use Illuminate\Database\Eloquent\Model;
 class SectionExam extends Model
 {
     use HasFactory;
+    // protected $fillable = [
+    //     "section_id",
+    //     "exam_id",
+    //     "subject_id"
+    // ];
 
     public function exams()
     {
-        return $this->hasMany(Exam::class);
+        return $this->belongsTo(Exam::class);
     }
 
-    public function sections()
+    public function subject()
     {
-        return $this->hasMany(Section::class);
+        return $this->belongsTo(Subject::class);
     }
+
+
+    // public function sections()
+    // {
+    //     return $this->hasMany(Section::class);
+    // }
+    // public function sections()
+    // {
+    //     return $this->belongsToMany(Section::class, 'exam_section', 'exam_id', 'section_id', 'subject_id')
+    //         ->withTimestamps();
+    // }
 }

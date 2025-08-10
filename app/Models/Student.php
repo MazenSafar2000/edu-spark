@@ -29,22 +29,22 @@ class Student extends Model
 
     public function gender()
     {
-        return $this->belongsTo('App\Models\Gender', 'gender_id');
+        return $this->belongsTo(Gender::class);
     }
 
     public function grade()
     {
-        return $this->belongsTo('App\Models\Grade', 'Grade_id');
+        return $this->belongsTo(Grade::class, 'Grade_id');
     }
 
     public function classroom()
     {
-        return $this->belongsTo('App\Models\Classroom', 'Classroom_id');
+        return $this->belongsTo(Classroom::class, 'Classroom_id');
     }
 
     public function section()
     {
-        return $this->belongsTo('App\Models\Section', 'section_id');
+        return $this->belongsTo(Section::class);
     }
 
     public function images()
@@ -54,7 +54,7 @@ class Student extends Model
 
     public function myparent()
     {
-        return $this->belongsTo('App\Models\ParentProfile', 'parent_id');
+        return $this->belongsTo(ParentProfile::class);
     }
 
     public function teachers()
@@ -62,6 +62,8 @@ class Student extends Model
         return $this->belongsToMany('App\Models\Teacher', 'teacher_section', 'section_id', 'teacher_id');
     }
 
+
+    // Homework
     public function homeworkSubmissions()
     {
         return $this->hasMany(Homework_submission::class);
@@ -72,27 +74,34 @@ class Student extends Model
         return $this->hasMany(Homework_submission::class);
     }
 
-    // exam process relasinshib
-    public function studentExamSessions()
+    // Exams
+    public function examAttempts()
     {
-        return $this->hasMany(StudentExamSession::class);
+        return $this->hasMany(ExamAttempts::class);
     }
+
+
+    // exam process relasinshib
+    // public function studentExamSessions()
+    // {
+    //     return $this->hasMany(StudentExamSession::class);
+    // }
 
     public function degrees()
     {
         return $this->hasMany(Degree::class);
     }
 
-    public function answers()
-    {
-        return $this->hasManyThrough(StudentAnswer::class, StudentExamSession::class);
-    }
+    // public function answers()
+    // {
+    //     return $this->hasManyThrough(StudentAnswer::class, StudentExamSession::class);
+    // }
 
-    public function exams()
-    {
-        return $this->belongsToMany(Exam::class, 'student_exam_sessions')
-            ->withPivot('started_at', 'finished_at');
-    }
+    // public function exams()
+    // {
+    //     return $this->belongsToMany(Exam::class, 'student_exam_sessions')
+    //         ->withPivot('started_at', 'finished_at');
+    // }
     // end exam process relasinshib
 
 

@@ -42,8 +42,9 @@ class ExamController extends Controller
     public function createNew($id)
     {
         $teacher_section = Teacher_section::findOrFail($id);
+        $exams = Exam::where("teacher_id", Auth::user()->teacher->id)->get();
 
-        return view("pages.Teacher.sections.createExam", compact('teacher_section'));
+        return view("pages.Teacher.sections.createExam", compact('teacher_section', 'exams'));
     }
 
     /**
