@@ -11,13 +11,17 @@
             </div>
 
             <div class="preview-wrapper p-4">
+                @include('components.error-field')
                 <div class="preview-card">
                     <h5 class="exam-title">{{ $exam->name }}</h5>
+                    <h5 class="exam-title">{{ $exam->description }}</h5>
 
                     <ul class="list-unstyled exam-description">
                         {{-- <li><strong> اسم الاختبار :</strong> اختبار لغة عربية </li> --}}
                         <li><strong>{{ trans('Students_trans.subject') }} :</strong>{{ $exam->subject->name ?? '-' }}</li>
                         <li><strong>{{ trans('Students_trans.duration') }} :</strong>{{ $exam->duration }} دقيقة</li>
+                        <li><strong>{{ trans('Students_trans.attempts') }} :</strong>{{ $exam->attemptes }} time/tmes</li>
+                        <li><strong>{{ trans('Students_trans.maximumGrade') }} :</strong>{{ $exam->maximum_grade }}</li>
                         <li><strong>{{ trans('Students_trans.start_at') }}
                                 :</strong>{{ \Carbon\Carbon::parse($exam->start_at)->format('Y-m-d g:i A') }}</li>
                         <li><strong>{{ trans('Students_trans.end_at') }}
@@ -57,7 +61,7 @@
                                 $can_start = $now >= $exam->start_at && $now <= $exam->end_at;
                             @endphp
 
-                            @if ($studentDegree)
+                            {{-- @if ($studentDegree)
                                 <strong>{{ trans('Students_trans.degree') }} : </strong>
                                 {{ $studentDegree->score }}
 
@@ -69,22 +73,26 @@
                                         </div>
                                     </div>
                                 @endif
-                            @else
-                                @if ($now->between($exam->start_at, $exam->end_at))
-                                    {{-- <a href="{{ route('student_exams.show', $exam->id) }}"
+                            @else --}}
+                            @if ($now->between($exam->start_at, $exam->end_at))
+                                {{-- <a href="{{ route('student_exams.show', $exam->id) }}"
                                         class="btn btn-outline-success w-100" role="button" aria-pressed="true"
                                         onclick="alertAbuse()">
                                         <i class="fas fa-person-booth"></i>
                                     </a> --}}
-                                    <a href="{{ route('student.exam.show', $exam->id) }}" class="btn exam-start-btn">
-                                        <i class="fas fa-eye ms-1"></i> محاولة أداء الاختبار
-                                    </a>
-                                @else
-                                    {{-- <button class="btn btn-secondary btn-sm" disabled>
+                                {{-- <a href="{{ route('student.exam.show', $exam->id) }}" class="btn exam-start-btn">
+                                    <i class="fas fa-eye ms-1"></i> محاولة أداء الاختبار
+                                </a> --}}
+                                <form action="{{ route('student.exam.start', $exam->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">ابدأ الامتحان</button>
+                                </form>
+                            @else
+                                {{-- <button class="btn btn-secondary btn-sm" disabled>
                                         {{ trans('Students_trans.not_available') }}
                                     </button> --}}
-                                @endif
                             @endif
+                            {{-- @endif --}}
 
                         </li>
                     </ul>

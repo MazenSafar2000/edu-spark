@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('National_ID')->unique();
             $table->bigInteger('Specialization_id')->unsigned();
             $table->foreign('Specialization_id')->references('id')->on('specializations')->onDelete('cascade');
-            $table->bigInteger('Gender_id')->unsigned();
-            $table->foreign('Gender_id')->references('id')->on('genders')->onDelete('cascade');
+            $table->foreignId('Gender_id')->references('id')->on('genders')->onDelete('cascade');
             $table->date('Joining_Date');
             $table->text('Address');
             $table->timestamps();

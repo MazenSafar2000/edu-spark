@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Student\ExamController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Livewire\StudentTakeExam;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -23,26 +24,7 @@ Route::group(
 
                 Route::prefix('student/exams')->name('student.exam.')->group(function () {
 
-                    // دخول الطالب للامتحان (تأكيد الصلاحية وبدء الجلسة)
-                    Route::get('/exam/{exam_id}', [ExamController::class, 'showExam'])->name('show');
-
-                    // عرض الأسئلة (5 كل مرة)
-                    // Route::get('/show/{exam}', [ExamController::class, 'showExam'])->name('show');
-
-                    // حفظ إجابات 5 أسئلة والانتقال للصفحة التالية
-                    Route::post('/exam/{exam_id}/auto-save', [ExamController::class, 'autoSaveAnswers'])->name('autoSaveAnswers');
-
-                    // صفحة المراجعة قبل التسليم
-                    Route::get('/exam/{exam_id}/review', [ExamController::class, 'reviewExam'])->name('review');
-
-                    // تسليم الامتحان وحساب العلامة
-                    Route::post('/exam/{exam_id}/submit', [ExamController::class, 'submitExam'])->name('submitExam');
-
-                    // في حال انتهاء الوقت – تسليم إجباري
-                    Route::get('/exam/{exam_id}/timeout', [ExamController::class, 'timeOut'])->name('timeout');
-
-                    // عرض النتيجة بعد التسليم
-                    // Route::get('/result/{exam}', [ExamController::class, 'result'])->name('result');
+                    Route::post('/exam/{exam_id}', [ExamController::class, 'startExam'])->name('start');
                 });
 
                 // Route::resource('homework/submissions', 'HomeworkSubmissionController')->names([
@@ -64,6 +46,11 @@ Route::group(
 
                 Route::resource('student_exams', 'ExamController');
             });
+
+            Route::get('/student/exams/attempt/{attemptId}', StudentTakeExam::class)->name('student.exam.take');
         });
     }
+
+
 );
+

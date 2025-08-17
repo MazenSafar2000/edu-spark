@@ -210,10 +210,10 @@ class SubjectController extends Controller
     {
         $exam = Exam::findOrFail($id);
         $student_id = Auth::user()->student->id;
-        $studentDegree = $exam->degree()
-            ->where('student_id', $student_id)
-            ->first();
+        // $studentDegree = $exam->degree()
+        //     ->where('student_id', $student_id)
+        //     ->first();
 
-        return view('pages.Student.exams.viewExam', compact('exam', 'student_id', 'studentDegree'));
+        return view('pages.Student.exams.viewExam', compact('exam', 'student_id'));
     }
 }

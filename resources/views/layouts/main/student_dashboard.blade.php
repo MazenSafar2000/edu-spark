@@ -17,7 +17,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> --}}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -209,7 +209,7 @@
                 <!-- عنصر رسالة -->
                 <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
                     style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg')}}" alt="user" class="rounded-circle me-3"
+                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
@@ -221,7 +221,7 @@
 
                 <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
                     style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg')}}" alt="user" class="rounded-circle me-3"
+                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
@@ -234,7 +234,7 @@
 
                 <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
                     style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg')}}" alt="user" class="rounded-circle me-3"
+                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
@@ -245,7 +245,7 @@
 
                 <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
                     style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg')}}" alt="user" class="rounded-circle me-3"
+                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
@@ -259,8 +259,6 @@
 
         </div>
     </div>
-
-
 
     <!-- نافذة المحادثة المنبثقة -->
     <div class="card-message chat-popup-wrapper position-fixed bottom-0 shadow" id="chatPopup"
@@ -282,7 +280,6 @@
 
     </div>
 
-
     <!-- Footer -->
     @if (App::getLocale() == 'en')
         <footer class="footer bg-white shadow fixed-bottom">
@@ -301,6 +298,9 @@
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/script2.js') }}"></script> --}}
+    @livewireScripts
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 </body>
 
 </html>

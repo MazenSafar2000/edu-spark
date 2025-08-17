@@ -10,13 +10,17 @@ class ExamAttempts extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id',
         'exam_id',
-        'score',
-        'final_grade',
-        'correct_answers',
-        'started_at',
-        'ended_at'
+        'student_id',
+        'attempt_number',
+        'current_question_index',
+        'time_left',
+        'status',
+        // 'score',
+        // 'final_grade',
+        // 'correct_answers',
+        // 'started_at',
+        // 'ended_at'
     ];
 
     public function student()

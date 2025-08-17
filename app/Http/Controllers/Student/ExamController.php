@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Models\Degree;
 use App\Models\Exam;
+use App\Models\ExamAttempts;
 use App\Models\Question;
+use App\Models\SectionExam;
 use App\Models\StudentAnswer;
 use App\Models\studentExamSession;
 use Illuminate\Http\Request;
@@ -48,57 +50,57 @@ class ExamController extends Controller
     //     return redirect()->route('student.exam.show', [$exam_id]);
     // }
 
-    // start the exam
-    public function showExam($exam_id)
-    {
-        $exam = Exam::findOrFail($exam_id);  // جلب تفاصيل الاختبار
-        $questions = Question::where('exam_id', $exam_id)->paginate(5);  // جلب 5 أسئلة في كل صفحة
-        $has_more = $questions->hasMorePages();
+    // // start the exam
+    // public function showExam($exam_id)
+    // {
+    //     $exam = Exam::findOrFail($exam_id);  // جلب تفاصيل الاختبار
+    //     $questions = Question::where('exam_id', $exam_id)->paginate(5);  // جلب 5 أسئلة في كل صفحة
+    //     $has_more = $questions->hasMorePages();
 
-        // التحقق من وجود الجلسة (هل بدأ الطالب الاختبار؟)
-        $session = StudentExamSession::where('exam_id', $exam_id)
-            ->where('student_id', Auth::user()->student->id)
-            ->first();
+    //     // التحقق من وجود الجلسة (هل بدأ الطالب الاختبار؟)
+    //     $session = StudentExamSession::where('exam_id', $exam_id)
+    //         ->where('student_id', Auth::user()->student->id)
+    //         ->first();
 
-        if (!$session) {
-            // إذا لم يكن الطالب قد بدأ الاختبار بعد، نقوم بإنشاء جلسة جديدة
-            $session = StudentExamSession::create([
-                'student_id' => Auth::user()->student->id,
-                'exam_id' => $exam_id,
-                'started_at' => now(),
-            ]);
-        }
+    //     if (!$session) {
+    //         // إذا لم يكن الطالب قد بدأ الاختبار بعد، نقوم بإنشاء جلسة جديدة
+    //         $session = StudentExamSession::create([
+    //             'student_id' => Auth::user()->student->id,
+    //             'exam_id' => $exam_id,
+    //             'started_at' => now(),
+    //         ]);
+    //     }
 
-        return view('pages.Student.exams.exam_page', compact('exam', 'questions', 'session', 'has_more'));
-    }
+    //     return view('pages.Student.exams.exam_page', compact('exam', 'questions', 'session', 'has_more'));
+    // }
 
-    // لتخزين الإجابات تلقائيًا عند تغيير الإجابة
-    public function autoSaveAnswers(Request $request)
-    {
-        $validated = $request->validate([
-            'question_id' => 'required|exists:questions,id',
-            'answer' => 'required|string',
-        ]);
+    // // لتخزين الإجابات تلقائيًا عند تغيير الإجابة
+    // public function autoSaveAnswers(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'question_id' => 'required|exists:questions,id',
+    //         'answer' => 'required|string',
+    //     ]);
 
-        // جلب الجلسة الخاصة بالطالب
-        $session = StudentExamSession::where('exam_id', $request->exam_id)
-            ->where('student_id', Auth::user()->student->id)
-            ->first();
+    //     // جلب الجلسة الخاصة بالطالب
+    //     $session = StudentExamSession::where('exam_id', $request->exam_id)
+    //         ->where('student_id', Auth::user()->student->id)
+    //         ->first();
 
-        if (!$session) {
-            return response()->json(['error' => 'Session not found'], 404);
-        }
+    //     if (!$session) {
+    //         return response()->json(['error' => 'Session not found'], 404);
+    //     }
 
-        // تحديث أو إضافة الإجابة للطلاب في الجلسة
-        $answers = json_decode($session->answers, true) ?? [];
-        $answers[$request->question_id] = $request->answer;
+    //     // تحديث أو إضافة الإجابة للطلاب في الجلسة
+    //     $answers = json_decode($session->answers, true) ?? [];
+    //     $answers[$request->question_id] = $request->answer;
 
-        $session->update([
-            'answers' => json_encode($answers),
-        ]);
+    //     $session->update([
+    //         'answers' => json_encode($answers),
+    //     ]);
 
-        return response()->json(['message' => 'Answer saved successfully']);
-    }
+    //     return response()->json(['message' => 'Answer saved successfully']);
+    // }
 
     //
     // public function saveAnswers(Request $request, $exam_id)
@@ -126,93 +128,158 @@ class ExamController extends Controller
     //     return redirect()->route('student.exam.show', [$exam_id]);
     // }
 
-    // مراجعة الاختبار قبل التسليم
-    public function reviewExam($exam_id)
-    {
-        $exam = Exam::findOrFail($exam_id);
-        $session = StudentExamSession::where('exam_id', $exam_id)
-            ->where('student_id', Auth::user()->student->id)
-            ->first();
+    // // مراجعة الاختبار قبل التسليم
+    // public function reviewExam($exam_id)
+    // {
+    //     $exam = Exam::findOrFail($exam_id);
+    //     $session = StudentExamSession::where('exam_id', $exam_id)
+    //         ->where('student_id', Auth::user()->student->id)
+    //         ->first();
 
-        if (!$session) {
-            return redirect()->back()->with('error', 'Session not found.');
-        }
+    //     if (!$session) {
+    //         return redirect()->back()->with('error', 'Session not found.');
+    //     }
 
-        // تحويل الإجابات المخزنة من JSON إلى مصفوفة
-        $answers = json_decode($session->answers, true);
+    //     // تحويل الإجابات المخزنة من JSON إلى مصفوفة
+    //     $answers = json_decode($session->answers, true);
 
-        // return view('student.review', compact('exam', 'answers'));
-        return view('pages.Student.exams.reviewExam', compact('exam', 'answers'));
-    }
-
-
-    // save answeres and finish attembet
-    public function submitExam(Request $request, $exam_id)
-    {
-        $student_id = Auth::user()->student->id;
-        $exam = Exam::findOrFail($exam_id);
-
-        // جلب الجلسة الخاصة بالطالب
-        $session = StudentExamSession::where('exam_id', $exam_id)
-            ->where('student_id', $student_id)
-            ->first();
-
-        if (!$session) {
-            return redirect()->back()->with('error', 'Session not found.');
-        }
-
-        $answers = json_decode($session->answers, true); // الحصول على إجابات الطالب من الجلسة
-        $totalScore = 0;
-
-        // حساب الدرجة بناءً على الإجابات
-        foreach ($answers as $question_id => $studentAnswer) {
-            $question = Question::findOrFail($question_id);
-
-            // مقارنة الإجابة الصحيحة
-            if (trim($studentAnswer) === trim($question->right_answer)) {
-                $totalScore += $question->score;
-            }
-
-            // حفظ الإجابة في جدول student_answers
-            StudentAnswer::create([
-                'student_exam_session_id' => $session->id,
-                'question_id' => $question_id,
-                'answer' => $studentAnswer,
-            ]);
-        }
-
-        // حفظ الدرجة في جدول degrees
-        Degree::updateOrCreate(
-            ['student_id' => $student_id, 'exam_id' => $exam_id],
-            ['score' => $totalScore, 'date' => now()]
-        );
-
-        // وضع الجلسة على أنها مكتملة
-        $session->update(['is_submitted' => true, 'finished_at' => now()]);
-
-        // إعادة التوجيه لصفحة المراجعة
-        // return redirect()->route('student.exam.review', ['exam_id' => $exam_id]);
-        return redirect()->route('subject.viewExam', [$exam_id]);
-    }
+    //     // return view('student.review', compact('exam', 'answers'));
+    //     return view('pages.Student.exams.reviewExam', compact('exam', 'answers'));
+    // }
 
 
-    // Forced submit after timeout
-    public function timeout($exam_id)
-    {
-        $student_id = Auth::user()->student->id;
-        $session = StudentExamSession::where('exam_id', $exam_id)
-            ->where('student_id', $student_id)
-            ->first();
+    // // save answeres and finish attembet
+    // public function submitExam(Request $request, $exam_id)
+    // {
+    //     $student_id = Auth::user()->student->id;
+    //     $exam = Exam::findOrFail($exam_id);
 
-        if ($session) {
-            // إذا انتهى الوقت، نحدث الجلسة ونعتبرها مكتملة
-            $session->update(['is_submitted' => true, 'finished_at' => now()]);
-        }
+    //     // جلب الجلسة الخاصة بالطالب
+    //     $session = StudentExamSession::where('exam_id', $exam_id)
+    //         ->where('student_id', $student_id)
+    //         ->first();
 
-        return redirect()->route('student.exam.review', ['exam_id' => $exam_id]);
-    }
+    //     if (!$session) {
+    //         return redirect()->back()->with('error', 'Session not found.');
+    //     }
+
+    //     $answers = json_decode($session->answers, true); // الحصول على إجابات الطالب من الجلسة
+    //     $totalScore = 0;
+
+    //     // حساب الدرجة بناءً على الإجابات
+    //     foreach ($answers as $question_id => $studentAnswer) {
+    //         $question = Question::findOrFail($question_id);
+
+    //         // مقارنة الإجابة الصحيحة
+    //         if (trim($studentAnswer) === trim($question->right_answer)) {
+    //             $totalScore += $question->score;
+    //         }
+
+    //         // حفظ الإجابة في جدول student_answers
+    //         StudentAnswer::create([
+    //             'student_exam_session_id' => $session->id,
+    //             'question_id' => $question_id,
+    //             'answer' => $studentAnswer,
+    //         ]);
+    //     }
+
+    //     // حفظ الدرجة في جدول degrees
+    //     Degree::updateOrCreate(
+    //         ['student_id' => $student_id, 'exam_id' => $exam_id],
+    //         ['score' => $totalScore, 'date' => now()]
+    //     );
+
+    //     // وضع الجلسة على أنها مكتملة
+    //     $session->update(['is_submitted' => true, 'finished_at' => now()]);
+
+    //     // إعادة التوجيه لصفحة المراجعة
+    //     // return redirect()->route('student.exam.review', ['exam_id' => $exam_id]);
+    //     return redirect()->route('subject.viewExam', [$exam_id]);
+    // }
+
+
+    // // Forced submit after timeout
+    // public function timeout($exam_id)
+    // {
+    //     $student_id = Auth::user()->student->id;
+    //     $session = StudentExamSession::where('exam_id', $exam_id)
+    //         ->where('student_id', $student_id)
+    //         ->first();
+
+    //     if ($session) {
+    //         // إذا انتهى الوقت، نحدث الجلسة ونعتبرها مكتملة
+    //         $session->update(['is_submitted' => true, 'finished_at' => now()]);
+    //     }
+
+    //     return redirect()->route('student.exam.review', ['exam_id' => $exam_id]);
+    // }
 
 
     /////////////
 
+    public function startExam($exam_id)
+    {
+        try {
+            $user = Auth::user();
+            $student = $user->student;
+            $exam = Exam::findOrFail($exam_id);
+
+            // 1) Time window checks
+            if (now()->lt($exam->start_at)) {
+                return back()->withErrors('الامتحان لم يبدأ بعد.');
+            }
+            if (now()->gt($exam->end_at)) {
+                return back()->withErrors('انتهى وقت الامتحان.');
+            }
+
+            // 2) Section access check (only if you use section_exams)
+            // Comment this block if you don't restrict by sections/subjects
+            $hasAccess = SectionExam::where('exam_id', $exam->id)
+                ->where('section_id', $student->section_id)
+                ->exists();
+            if (!$hasAccess) {
+                return back()->withErrors('هذا الامتحان غير متاح لقسمك.');
+            }
+
+            // 3) Attempts limit
+            $attemptsCount = ExamAttempts::where('student_id', $student->id)
+                ->where('exam_id', $exam->id)
+                ->count();
+
+            if ($attemptsCount >= $exam->attemptes) {
+                return back()->withErrors('لقد استنفدت جميع محاولاتك.');
+            }
+
+            // 4) Reuse unfinished attempt if exists
+            $attempt = ExamAttempts::where('student_id', $student->id)
+                ->where('exam_id', $exam->id)
+                ->where('status', 'in_progress')
+                ->first();
+
+            if (!$attempt) {
+                // Get question IDs (be explicit to avoid ambiguous 'id')
+                $questionIds = $exam->questions()->pluck('questions.id')->toArray();
+
+                // Shuffle if teacher enabled
+                if ($exam->shuffle_questions) {
+                    $questionIds = collect($questionIds)->shuffle()->values()->toArray();
+                }
+
+                $attempt = ExamAttempts::create([
+                    'exam_id'                => $exam->id,
+                    'student_id'             => $student->id,
+                    'attempt_number'         => $attemptsCount + 1,
+                    'current_question_index' => 0, // page index
+                    'time_left'              => $exam->duration * 60, // seconds
+                    'status'                 => 'in_progress',
+                    'started_at'             => now(),
+                    'question_order'         => $questionIds,
+                ]);
+            }
+
+            return redirect()->route('student.exam.take', ['attemptId' => $attempt->id]);
+        } catch (\Throwable $e) {
+            return back()->withErrors(['error' => 'حدث خطأ أثناء بدء الامتحان: ' . $e->getMessage()]);
+        }
+    }
 }
