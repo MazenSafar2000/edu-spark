@@ -277,7 +277,7 @@ class ExamController extends Controller
                 ]);
             }
 
-            return redirect()->route('student.exam.take', ['attemptId' => $attempt->id]);
+            return redirect()->route('student.exam.take', ['attemptId' => $attempt->id, 'examId' => $exam->id]);
         } catch (\Throwable $e) {
             return back()->withErrors(['error' => 'حدث خطأ أثناء بدء الامتحان: ' . $e->getMessage()]);
         }

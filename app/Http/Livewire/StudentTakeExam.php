@@ -298,6 +298,7 @@ class StudentTakeExam extends Component
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Route param
     public $attemptId;
+    public $examId;
 
     // Core state
     public $attempt;
@@ -309,6 +310,7 @@ class StudentTakeExam extends Component
     public $questionsPerPage = 1;
     public $pageIndex = 0;        // page-based (not question-based)
     public $totalPages = 0;
+    public  $allQuestions;
 
     // Answers + scoring helpers
     public $answers = [];         // keyed by question_id => value
@@ -541,6 +543,7 @@ class StudentTakeExam extends Component
     /** Finalize attempt */
     public function submitExam()
     {
+        // dd();
         // Lock if exam time is over
         if (now()->gt($this->exam->end_at)) {
             $this->timeLeft = 0;

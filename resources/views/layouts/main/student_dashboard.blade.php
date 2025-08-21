@@ -8,33 +8,29 @@
     <title>Spark Education</title>
     <link rel="icon" href="{{ asset('assets/images/logo-dark.png') }}" type="image/png">
 
-
-    <!-- ربط ملف bootstrap CSS المحلي -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
 
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet" />
 
-    <!-- font awsam cdn link -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> --}}
-
+    <!-- Font Awesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Rubik:ital,wght@0,300..900;1,300..900&family=Square+Peg&display=swap"
         rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet" />
 
-
-
-    <!-- custom css file link -->
+    <!-- Custom CSS -->
     @if (App::getLocale() == 'en')
         <link href="{{ URL::asset('assets/css/ltr.css') }}" rel="stylesheet">
     @else
         <link href="{{ URL::asset('assets/css/rtl.css') }}" rel="stylesheet">
     @endif
+
+    <!-- Livewire Styles -->
+    @livewireStyles
 </head>
 
 <body>
@@ -293,13 +289,25 @@
         </footer>
     @endif
 
-
-    <!-- ربط ملف bootstrap JS المحلي -->
+    <!-- Bootstrap JS (includes Popper) -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/script.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/script2.js') }}"></script> --}}
-    @livewireScripts
+
+    <!-- jQuery (only if really needed, before any DOM manipulation scripts) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Moment.js & FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
+
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Livewire Scripts -->
+    @livewireScripts
+
+    <!-- Custom JS -->
+    {{-- Only load this after Livewire Scripts --}}
+    {{-- <script src="{{ asset('assets/js/script.js') }}"></script> --}}
 
 </body>
 

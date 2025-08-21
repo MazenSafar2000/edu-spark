@@ -79,11 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleSidebar();
     });
 
-    closeBtn.addEventListener("click", function () {
-        sidebar.classList.add("hidden");
-        mainContent.classList.remove("with-sidebar");
-        mainContent.classList.add("no-sidebar");
-    });
+    // closeBtn.addEventListener("click", function () {
+    //     sidebar.classList.add("hidden");
+    //     mainContent.classList.remove("with-sidebar");
+    //     mainContent.classList.add("no-sidebar");
+    // });
 });
 
 
@@ -106,11 +106,11 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleSidebar();
     });
 
-    closeBtn.addEventListener("click", function () {
-        sidebarStd.classList.add("hidden");
-        mainContent.classList.remove("with-sidebarStd");
-        mainContent.classList.add("no-sidebarStd");
-    });
+    // closeBtn.addEventListener("click", function () {
+    //     sidebarStd.classList.add("hidden");
+    //     mainContent.classList.remove("with-sidebarStd");
+    //     mainContent.classList.add("no-sidebarStd");
+    // });
 });
 
 
@@ -236,21 +236,21 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const toggleLink = document.querySelector(".dropdown-toggle-custom");
     const target = document.querySelector("#studentsMenu");
-    const toggleIcon = toggleLink.querySelector(".toggle-icon");
+    // const toggleIcon = toggleLink.querySelector(".toggle-icon");
 
     // عند الضغط: نتوقع الحالة القادمة
-    toggleLink.addEventListener("click", function (e) {
-        const willOpen = !target.classList.contains("show");
+    // toggleLink.addEventListener("click", function (e) {
+    //     const willOpen = !target.classList.contains("show");
 
-        if (willOpen) {
-            toggleIcon.classList.remove("fa-plus");
-            toggleIcon.classList.add("fa-minus");
-        }
-    });
+    //     if (willOpen) {
+    //         toggleIcon.classList.remove("fa-plus");
+    //         toggleIcon.classList.add("fa-minus");
+    //     }
+    // });
 
     // عند الإغلاق النهائي: نرجّع الأيقونة إلى زائد
-    target.addEventListener("hidden.bs.collapse", function () {
-        toggleIcon.classList.remove("fa-minus");
-        toggleIcon.classList.add("fa-plus");
-    });
+    // target.addEventListener("hidden.bs.collapse", function () {
+    //     toggleIcon.classList.remove("fa-minus");
+    //     toggleIcon.classList.add("fa-plus");
+    // });
 });

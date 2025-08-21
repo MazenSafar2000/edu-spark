@@ -47,7 +47,7 @@ Route::group(
                 Route::resource('student_exams', 'ExamController');
             });
 
-            Route::get('/student/exams/attempt/{attemptId}', StudentTakeExam::class)->name('student.exam.take');
+            Route::get('/student/exams/attempt/{attemptId}/{examId}', StudentTakeExam::class)->name('student.exam.take');
         });
     }
 

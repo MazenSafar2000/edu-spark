@@ -1,6 +1,5 @@
 @extends('layouts.main.student_dashboard')
 @section('student-content')
-
     <!-- ----------------------------------------------------------------------------------------------- -->
     <div id="mainContent" class="transition-all with-sidebar">
         <div class="container exam-preview-container">
@@ -91,116 +90,139 @@
 
                 {{-- Alpine app --}}
                 <script>
-                function examApp() {
-                    return {
-                        attemptId: @js($attemptId),
-                        timeLeft: @js($timeLeft),
-                        pageIndex: @js($pageIndex),
-                        online: navigator.onLine,
+                    function examApp() {
+                        return {
+                            attemptId: @js($attemptId),
+                            examId: @js($examId),
+                            timeLeft: @js($timeLeft),
+                            pageIndex: @js($pageIndex),
+                            online: navigator.onLine,
+                            allQuestions: @js($allQuestions), // Preload all questions grouped by page
+                            currentQuestions: @js($currentQuestions),
+                            answers: @js($answers),
 
-                        init() {
-                            const local = this.getLocalState();
-                            if (local) {
-                                this.safeEmit('restoreClientState', local);
-                                this.timeLeft = Math.min(this.timeLeft, local.timeLeft ?? this.timeLeft);
-                                this.pageIndex = local.pageIndex ?? this.pageIndex;
-                            }
-
-                            window.addEventListener('online', () => {
-                                this.online = true;
-                                this.flushLocalToServer();
-                            });
-                            window.addEventListener('offline', () => {
-                                this.online = false;
-                            });
-
-                            this.startUITimer();
-                        },
-
-                        startUITimer() {
-                            const tick = () => {
-                                if (this.timeLeft > 0) {
-                                    this.timeLeft--;
-                                    this.saveLocalState();
-                                    if (this.online) {
-                                        this.safeEmit('tick');
-                                    }
-                                } else {
-                                    this.safeEmit('submitExam');
-                                    clearInterval(iv);
+                            init() {
+                                const local = this.getLocalState();
+                                if (local) {
+                                    this.timeLeft = Math.min(this.timeLeft, local.timeLeft ?? this.timeLeft);
+                                    this.pageIndex = local.pageIndex ?? this.pageIndex;
+                                    this.answers = local.answers ?? this.answers;
+                                    this.currentQuestions = this.allQuestions[this.pageIndex] ?? [];
                                 }
-                            };
-                            const iv = setInterval(tick, 1000);
-                        },
 
-                        handleAnswer(qid, value) {
-                            const state = this.getLocalState() || {};
-                            state.answers = state.answers || {};
-                            state.answers[qid] = value;
-                            this.setLocalState(state);
+                                window.addEventListener('online', () => {
+                                    this.online = true;
+                                    this.flushLocalToServer();
+                                });
+                                window.addEventListener('offline', () => {
+                                    this.online = false;
+                                });
 
-                            if (this.online) {
-                                this.safeEmit('saveAnswer', qid, value);
-                            }
-                        },
+                                this.startUITimer();
+                            },
 
-                        goPrev() { this.goTo(this.pageIndex - 1); },
-                        goNext() { this.goTo(this.pageIndex + 1); },
-                        goTo(i) {
-                            if (i < 0) return;
-                            this.pageIndex = i;
-                            this.saveLocalState();
-                            this.safeEmit('goToPage', i);
-                        },
+                            // startUITimer() {
+                            //     const iv = setInterval(() => {
+                            //         if (this.timeLeft > 0) {
+                            //             this.timeLeft--;
+                            //             this.saveLocalState();
+                            //             if (this.online) this.safeEmit('tick');
+                            //         } else {
+                            //             clearInterval(iv);
+                            //             this.safeEmit('submitExam');
+                            //         }
+                            //     }, 1000);
+                            // },
 
-                        submitNow() {
-                            this.flushLocalToServer(() => {
-                                this.safeEmit('submitExam');
-                            });
-                        },
+                            handleAnswer(qid, value) {
+                                this.answers[qid] = value;
+                                this.saveLocalState();
+                                if (this.online) this.safeEmit('saveAnswer', qid, value);
+                            },
 
-                        key() { return `attempt_${this.attemptId}_state`; },
-                        getLocalState() {
-                            try { return JSON.parse(localStorage.getItem(this.key()) || 'null'); }
-                            catch { return null; }
-                        },
-                        setLocalState(obj) { localStorage.setItem(this.key(), JSON.stringify(obj)); },
-                        saveLocalState() {
-                            const state = this.getLocalState() || {};
-                            state.timeLeft = this.timeLeft;
-                            state.pageIndex = this.pageIndex;
-                            this.setLocalState(state);
-                        },
+                            goPrev() {
+                                this.goTo(this.pageIndex - 1);
+                            },
 
-                        flushLocalToServer(cb) {
-                            const local = this.getLocalState();
-                            if (!local) { if(cb) cb(); return; }
-                            if (this.online) {
-                                this.safeEmit('restoreClientState', local);
-                                if(cb) setTimeout(cb, 250);
-                            }
-                        },
+                            goNext() {
+                                this.goTo(this.pageIndex + 1);
+                            },
 
-                        format(s) {
-                            s = Math.max(0, parseInt(s || 0));
-                            const m = Math.floor(s / 60);
-                            const r = s % 60;
-                            return `${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`;
-                        },
+                            goTo(i) {
+                                if (i < 0 || i >= this.allQuestions.length) return;
 
-                        // Safe Livewire emitter
-                        safeEmit(event, ...args) {
-                            if (window.Livewire) {
-                                window.Livewire.emit(event, ...args);
-                            } else {
-                                document.addEventListener('livewire:load', () => {
+                                // Instant frontend switch
+                                this.pageIndex = i;
+                                this.currentQuestions = this.allQuestions[i] ?? [];
+
+                                // Save local state
+                                this.saveLocalState();
+
+                                // Sync backend asynchronously (no blocking)
+                                if (this.online) {
+                                    setTimeout(() => this.safeEmit('goToPage', i), 0);
+                                }
+                            },
+
+                            submitNow() {
+                                this.flushLocalToServer(() => {
+                                    this.safeEmit('submitExam');
+                                });
+                            },
+
+                            key() {
+                                return `attempt_${this.attemptId}_state`;
+                            },
+                            getLocalState() {
+                                try {
+                                    return JSON.parse(localStorage.getItem(this.key()) || 'null');
+                                } catch {
+                                    return null;
+                                }
+                            },
+                            setLocalState(obj) {
+                                localStorage.setItem(this.key(), JSON.stringify(obj));
+                            },
+                            saveLocalState() {
+                                this.setLocalState({
+                                    timeLeft: this.timeLeft,
+                                    pageIndex: this.pageIndex,
+                                    answers: this.answers
+                                });
+                            },
+                            flushLocalToServer(cb) {
+                                const local = this.getLocalState();
+                                if (!local) {
+                                    if (cb) cb();
+                                    return;
+                                }
+                                if (this.online) {
+                                    this.safeEmit('restoreClientState', local);
+                                    if (cb) setTimeout(cb, 250);
+                                }
+                            },
+                            format(s) {
+                                s = Math.max(0, parseInt(s || 0));
+                                const m = Math.floor(s / 60);
+                                const r = s % 60;
+                                return `${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`;
+                            },
+
+                            safeEmit(event, ...args) {
+                                if (window.Livewire) {
                                     window.Livewire.emit(event, ...args);
-                                }, { once: true });
+                                } else {
+                                    document.addEventListener('livewire:load', () => {
+                                        window.Livewire.emit(event, ...args);
+                                    }, {
+                                        once: true
+                                    });
+                                }
                             }
                         }
                     }
-                }
-            </script>
+                </script>
+
             </div>
 
         </div>
