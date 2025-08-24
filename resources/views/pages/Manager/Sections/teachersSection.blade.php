@@ -27,7 +27,7 @@
                             <tbody>
                                 @foreach ($sectionTeachers as $teacher)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $loop->iteration  }}</td>
                                         <td>{{ $teacher->teacher->user->name }}</td>
                                         <td>{{ $teacher->subject->name  }}</td>
                                         <td class="position-relative">

@@ -40,7 +40,7 @@
                             <tbody>
                                 @foreach ($Teachers as $Teacher)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $loop->iteration  }}</td>
                                         <td>{{ $Teacher->user->name }}</td>
                                         <td>{{ $Teacher->genders->Name }}</td>
                                         <td>{{ $Teacher->Joining_Date }}</td>
@@ -116,15 +116,7 @@
         </ul>
 
         <div class="table-users mt-5">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('components.error-field')
             <div class="table-content tab-content" id="myTabContent">
                 <!-- teachers -->
                 <div class="tab-pane fade show active" id="teachers" role="tabpanel">
@@ -132,16 +124,16 @@
                         <a href="{{ route('Teachers.create') }}">
                             {{ trans('main_trans.add_teacher') }}
                         </a>
-                        <input type="search" class="form-control search-input"
+                        <input type="text" id="TeacherSearch" class="form-control search-input"
                             placeholder="{{ trans('main_trans.search') }}">
                     </div>
                     <div class="table-responsive">
-                        <table class="table text-center custom-user-table">
+                        <table class="table text-center custom-user-table" id="datatable">
                             <thead class="thead-user">
                                 <tr>
                                     <th>#</th>
                                     <th>{{ trans('Teacher_trans.Name_Teacher') }}</th>
-                                    <th>{{ trans('Teacher_trans.National_ID') }}</th>
+                                    <th>{{ trans('main_trans.National_ID') }}</th>
                                     <th>{{ trans('Teacher_trans.Gender') }}</th>
                                     <th>{{ trans('Teacher_trans.Joining_Date') }}</th>
                                     <th>{{ trans('Teacher_trans.specialization') }}</th>
@@ -151,7 +143,7 @@
                             <tbody>
                                 @foreach ($Teachers as $Teacher)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $Teacher->user->name }}</td>
                                         <td>{{ $Teacher->National_ID }}</td>
                                         <td>{{ $Teacher->genders->Name }}</td>
@@ -274,6 +266,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $Teachers->links() }}
                     </div>
                 </div>
 
@@ -283,11 +276,11 @@
                         <a data-bs-toggle="modal" data-bs-target="#addSpecializationModal">
                             {{ trans('main_trans.add_grade') }}
                         </a>
-                        <input type="search" class="form-control search-input"
+                        <input type="text" id="SpecializationsSearch" class="form-control search-input"
                             placeholder="{{ trans('main_trans.search') }}">
                     </div>
                     <div class="table-responsive">
-                        <table class="table text-center custom-user-table">
+                        <table class="table text-center custom-user-table" id="datatable_specialize">
                             <thead class="thead-user">
                                 <tr>
                                     <th>#</th>
@@ -298,7 +291,7 @@
                             <tbody>
                                 @foreach ($Specializations as $Specialization)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $Specialization->Name }}</td>
                                         <td class="position-relative">
                                             <div class="dropdown">
@@ -333,6 +326,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $Specializations->links()}}
                     </div>
                 </div>
             </div>
@@ -440,6 +434,32 @@
                 </div>
             </div>
         @endforeach
-
     </div>
+
+    {{-- search input code --}}
+    <script>
+        document.getElementById('TeacherSearch').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const table = document.getElementById('datatable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const cells = Array.from(row.cells).map(td => td.textContent.toLowerCase());
+                const match = cells.some(cell => cell.includes(searchValue));
+                row.style.display = match ? '' : 'none';
+            });
+        });
+
+        document.getElementById('SpecializationsSearch').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const table = document.getElementById('datatable_specialize');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const cells = Array.from(row.cells).map(td => td.textContent.toLowerCase());
+                const match = cells.some(cell => cell.includes(searchValue));
+                row.style.display = match ? '' : 'none';
+            });
+        });
+    </script>
 @endsection

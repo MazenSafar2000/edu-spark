@@ -5,15 +5,7 @@
 
 
         <div class="table-users mt-5">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('components.error-field')
             <!-- المحتوى -->
             <div class="table-content tab-content" id="myTabContent">
                 <!-- الطلاب -->
@@ -22,12 +14,12 @@
                         <a data-bs-toggle="modal" data-bs-target="#addSubjectModal" class="btn">
                             {{ trans('main_trans.add_subject') }}
                         </a>
-                        <input type="search" class="form-control search-input"
+                        <input type="text" class="form-control search-input" id="SubjectSearch"
                             placeholder="{{ trans('main_trans.search') }}">
 
                     </div>
                     <div class="table-responsive">
-                        <table class="table text-center custom-user-table">
+                        <table class="table text-center custom-user-table" id="datatable">
                             <thead class="thead-user">
                                 <tr>
                                     <th>#</th>
@@ -38,7 +30,7 @@
                             <tbody>
                                 @foreach ($Subjects as $Subject)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $loop->iteration  }}</td>
                                         <td>{{ $Subject->name }}</td>
                                         <td class="position-relative">
                                             <div class="dropdown">
@@ -72,7 +64,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-
+                        {{ $Subjects->links() }}
 
                         <!-- add new subject modal -->
                         <div class="modal fade custom-modal" id="addSubjectModal" tabindex="-1"
@@ -198,7 +190,7 @@
                 <tbody>
                     @foreach ($Subjects as $Subject)
                         <tr>
-                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $loop->iteration  }}</td>
                             <td>{{ $Subject->name }}</td>
                             <td class="position-relative">
                                 <div class="dropdown">
@@ -234,4 +226,19 @@
             </table>
         </div> --}}
     </div>
+
+    {{-- search input code --}}
+    <script>
+        document.getElementById('SubjectSearch').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const table = document.getElementById('datatable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const cells = Array.from(row.cells).map(td => td.textContent.toLowerCase());
+                const match = cells.some(cell => cell.includes(searchValue));
+                row.style.display = match ? '' : 'none';
+            });
+        });
+    </script>
 @endsection

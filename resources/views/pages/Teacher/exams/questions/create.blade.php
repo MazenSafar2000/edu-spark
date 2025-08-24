@@ -7,15 +7,7 @@
         <div class="container mt-4">
             <div class="card custom-form-card-teacher">
                 <div class="card-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('components.error-field')
 
                     <form action="{{ route('questions.store') }}" method="POST">
                         @csrf

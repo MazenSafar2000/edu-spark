@@ -1,6 +1,16 @@
 <?php
 
 return [
+    'palestine_gaza' => 'فلسطين - غزة',
+    'home' => 'الرئيسية',
+    'offers' => 'ماذا نقدم',
+    'start_now' => 'ابدأ الآن',
+    'send' => 'ارسال',
+    'name' => 'الاسم',
+    'work_team' => 'فريق العمل',
+    'email' => 'البريد الالكتروني',
+    'Write_your_message' => 'أكتب رسالتك هنا..',
+    'Do_not_hesitate' => 'لا تترددوا في التواصل معنا في أي وقت. سنرد عليكم في أقرب وقت ممكن!',
     'menu' => 'القائمة',
     'account' => 'الحساب',
     'Login' => 'تسجيل الدخول',
@@ -25,6 +35,7 @@ return [
     'manager_login' => 'تسجيل دخول المدير',
     'Welcome' => 'مرحبا بك',
     'manager' => 'المدير',
+    'managers' => 'مدراء المدارس',
     'logout' => 'تسجيل الخروج',
     'Academic_content' => 'المحتوى الدراسي',
     'name_en' => 'اسم الطالب باللغة الانجليزية',
@@ -41,6 +52,7 @@ return [
     'number_classes' => 'عدد الصفوف',
     'add_teacher' => 'اضافة مدرس',
     'Warning_Delete' => 'هل انت متأكد من عملية الحدف ؟ ',
+    'National_ID' => 'رقم الهوية',
 
 
     'System_users' => 'من هم مستخدمو النظام ؟',
@@ -77,6 +89,9 @@ return [
     'list_Graduate' => 'قائمة التخرجات',
     'Teachers' => 'المعلمين',
     'List_Teachers' => 'قائمة المعلمين',
+    'All_Teachers' => 'جميع المدرسين',
+    'Current_Teachers' => 'المدرسين الحاليين',
+    'Academic_stages' => 'المراحل الدراسية',
     'Parents' => 'اولياء الامور',
     'School_Principals' => 'مدراء المدارس',
     'List_Parents' => 'قائمة اولياء الامور',

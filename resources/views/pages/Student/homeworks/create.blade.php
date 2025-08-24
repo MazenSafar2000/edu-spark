@@ -9,15 +9,7 @@
                     <span class="preview-title-highlight fw-bold">الواجب</span> --}}
                 </h4>
             </div>
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('components.error-field')
             <form method="POST" action="{{ route('student.submissions.store', $homework->id) }}"
                 enctype="multipart/form-data" class="mt-3">
                 @csrf

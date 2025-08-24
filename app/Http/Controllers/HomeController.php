@@ -11,6 +11,11 @@ class HomeController extends Controller
         return view('auth.login-student-parent');
     }
 
+    public function landingPage()
+    {
+        return view('landingPage');
+    }
+
     public function dashboard()
     {
         return view('dashboard');
@@ -22,4 +27,3 @@ class HomeController extends Controller
     }
 
 }
- 

@@ -16,11 +16,24 @@ class ExamAttempts extends Model
         'current_question_index',
         'time_left',
         'status',
+        'started_at',
+        'deadline_at',
+        'ended_at',
+        'score_obtained',
+        'grade_obtained',
+        'question_order'
         // 'score',
         // 'final_grade',
         // 'correct_answers',
         // 'started_at',
         // 'ended_at'
+    ];
+
+    protected $casts = [
+        'question_order' => 'array', // or 'json'
+        'started_at'     => 'datetime',
+        'ended_at'       => 'datetime',
+        'deadline_at'    => 'datetime',
     ];
 
     public function student()

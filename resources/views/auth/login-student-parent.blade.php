@@ -1,6 +1,6 @@
 @extends('layouts.loginHead')
-@section('content')
-    <section class="login">
+@section('login-content')
+    {{-- <section class="login">
         <div class="login-container">
             <div class="left-section">
                 <div class="image-container">
@@ -79,5 +79,80 @@
                 </div>
             </div>
         </div>
+    </section> --}}
+
+    <section class="login">
+        <div class="login-container">
+
+            <div class="right-section">
+                <div class="login-box">
+                    @include('components.error-field')
+
+                    {{-- Student login form --}}
+                    <form id="stdForm" class="custom-form" style="display: block;"method="POST"
+                        action="{{ route('login.student') }}">
+                        @csrf
+                        <input type="hidden" value="student" name="type">
+
+                        <h2><span>{{ trans('main_trans.Student') }} </span>{{ trans('main_trans.Login') }}</h2>
+                        <input id="email" type="email" name="email" placeholder="{{ trans('main_trans.Enter_ID') }}"
+                            class="input-box-custom  " value="{{ old('email') }}"
+                            required autocomplete="email">
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <input id="password" type="password" name="password"
+                            placeholder="{{ trans('main_trans.Enter_Password') }}"
+                            class="input-box-custom2 @error('password') is-invalid @enderror" required
+                            autocomplete="current-password">
+                        @error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        <button class="login-btn-custom">{{ trans('main_trans.Login') }}</button>
+                    </form>
+
+                    {{-- Parent login form --}}
+                    <form id="parentForm" class="custom-form" style="display: none;"method="POST"
+                        action="{{ route('login.parent') }}" style="display: none;">
+                        @csrf
+                        <input type="hidden" id="user-type" name="type" value="parent">
+
+                        <h2><span>{{ trans('main_trans.Parent') }} </span>{{ trans('main_trans.Login') }}</h2>
+                        <input id="email" type="email" name="email"
+                            placeholder="{{ trans('main_trans.Enter_ID') }}"
+                            class="input-box-custom @error('email') is-invalid @enderror" value="{{ old('email') }}"
+                            required autocomplete="email">
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        <input id="password" type="password" name="password"
+                            placeholder="{{ trans('main_trans.Enter_Password') }}"
+                            class="input-box-custom2 @error('password') is-invalid @enderror" required
+                            autocomplete="current-password">
+                        @error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        <button class="login-btn-custom">{{ trans('main_trans.Login') }}</button>
+                    </form>
+
+                    <div class="icons">
+                        <a href="#" class="login-icon" id="icon-std" onclick="showForm('student',this)"><img
+                                src="{{ asset('assets/images/std-on.png') }}" alt="Student" title="تسجيل دخول الطالب"></a>
+                        <a href="#" class="login-icon" id="icon-parent" onclick="showForm('parent', this)"><img
+                                src="{{ asset('assets/images/par-off.png') }}" alt="Parent"
+                                title="تسجيل دخول ولي الامر"></a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="left-section">
+                <div class="image-container">
+                    <img src="{{ asset('assets/images/child.webp') }}" alt="Student Image" class="student-img">
+                </div>
+            </div>
+        </div>
+
     </section>
 @endsection

@@ -39,30 +39,77 @@
 </head>
 
 <body>
-    <header class="header-page bg-white shadow fixed-top">
-        <div class="header-row container-fluid d-flex align-items-center justify-content-between py-3">
+    <div class="landing-page">
 
-            <!-- القائمة اليسرى (أيقونات) -->
-            <nav class="d-flex gap-4 ms-4">
-                <a href="{{ LaravelLocalization::getLocalizedURL(App::getLocale() == 'ar' ? 'en' : 'ar', null, [], true) }}"
-                    title="{{ trans('main_trans.change_lang') }}"><i class="fas fa-language icon-header"></i></a>
-                <a href="{{ route('aboutUs') }}" title="{{ trans('main_trans.Contact_us') }}"><i
-                        class="fas fa-question icon-header {{ request()->routeIs('aboutUs') ? 'active' : '' }}"></i></a>
-                <a href="#" title="{{ trans('main_trans.Contact_us') }}"><i
-                        class="fas fa-phone icon-header"></i></a>
+        <div class="header-landing">
+            <div class="top-header">
+                <div class="container d-flex flex-wrap justify-content-between align-items-center ">
+                    <div class="d-flex gap-3 flex-wrap">
+                        <span class="info-item-location">{{ trans('main_trans.palestine_gaza') }}<i class="fas fa-map-marker-alt"></i></span>
 
+                        <span class="info-item-hour"> من 8:00 ص - 3:00 م <i class="fas fa-clock"></i> </span>
+                    </div>
+                    <div class="d-flex gap-3">
+                        <span class="contact-item-email"> sparkEducation.edu <i class="fas fa-envelope"></i></span>
+                        <span class="contact-item-phone"> 0595838611 <i class="fas fa-phone"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg main-navbar">
+                <div class="container">
+                    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('landingPage') }}">
+                        <img src="{{ asset('assets/images/spark.png') }}" alt="Logo">
+                    </a>
+
+
+                    <div class="navbar-collapse-item" id="mainNavbar">
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a class="nav-link" href="index.html">{{ trans('main_trans.home') }}</a></li>
+                            <li class="nav-item-lang dropdown lang-switcher">
+                                <a class="nav-link lang-dropdown d-flex align-items-center gap-1" href="#"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @if (App::getLocale() == 'ar')
+                                        <img src="{{ asset('assets/images/ar.png') }}" alt="arabic" width="20"
+                                            class="lang-flag">
+                                        {{-- {{ LaravelLocalization::getCurrentLocaleName() }} --}}
+                                        العربية
+                                    @else
+                                        <img src="{{ asset('assets/images/en.png') }}" alt="english" width="20"
+                                            class="lang-flag">
+                                        {{ LaravelLocalization::getCurrentLocaleName() }}
+                                    @endif
+                                    <i class="fas fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-lang shadow-sm rounded">
+                                    <li>
+                                        <a class="dropdown-item dropdown-item-lang d-flex align-items-center"
+                                            href="{{ LaravelLocalization::getLocalizedURL('ar', null, [], true) }}">
+                                            <img src="{{ asset('assets/images/ar.png') }}" alt="ar"
+                                                width="20"> العربية
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item dropdown-item-lang d-flex align-items-center"
+                                            href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}">
+                                            <img src="{{ asset('assets/images/en.png') }}" alt="en"
+                                                width="20"> English
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
             </nav>
-
-            <!-- الشعار على اليمين -->
-            <a href="{{ route('loginpage') }}">
-                <img src="{{ asset('assets/images/spark.png') }}" alt="spark education">
-            </a>
         </div>
-    </header>
 
+        @yield('login-content')
 
-    @yield('content')
-
+    </div>
 
     <!--- footer start-->
     <footer class="footer">

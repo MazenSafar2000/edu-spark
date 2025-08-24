@@ -36,8 +36,9 @@ Route::group(
         Route::post('/login-parent', [CustomLoginController::class, 'loginParent'])->name('login.parent');
         Route::post('/login-teacher', [CustomLoginController::class, 'loginTeacher'])->name('login.teacher');
         Route::post('/login-manager', [CustomLoginController::class, 'loginManager'])->name('login.manager');
-        Route::get('/', [HomeController::class, 'index'])->name('loginpage');
-        Route::get('aboutUs', [HomeController::class, 'about'])->name('aboutUs');
+        // Route::get('/', [HomeController::class, 'index'])->name('loginpage');
+        Route::get('/', [HomeController::class, 'landingPage'])->name('landingPage');
+        // Route::get('aboutUs', [HomeController::class, 'about'])->name('aboutUs');
 
         Route::get('/dashboard', function () {
             return view('dashboard');
@@ -49,7 +50,7 @@ Route::group(
             Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         });
 
-        Route::get('/login-student-parent', [CustomLoginController::class, 'showStudentParentLogin'])->name('login.student_parent');
+        Route::get('/login/student&parent', [CustomLoginController::class, 'showStudentParentLogin'])->name('login.student_parent');
         Route::get('/school', [CustomLoginController::class, 'showTeacherManagerLogin'])->name('login.teacher_manager');
 
 

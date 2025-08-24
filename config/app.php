@@ -212,4 +212,16 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Exam Settings
+    |--------------------------------------------------------------------------
+    |
+    | Configuration options for exam functionality
+    |
+    */
+
+    'enable_section_access_check' => env('ENABLE_SECTION_ACCESS_CHECK', true),
+
 ];
+

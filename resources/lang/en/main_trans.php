@@ -1,6 +1,16 @@
 <?php
 
 return [
+    'palestine_gaza' => 'Palestine - Gaza',
+    'home' => 'Home',
+    'offers' => 'Offers',
+    'start_now' => 'Start Now',
+    'send' => 'Send',
+    'email' => 'e-mail',
+    'Write_your_message' => 'Write your message here..' ,
+    'Do_not_hesitate' => 'Do not hesitate to contact us at any time. We will respond to you as soon as possible!',
+    'work_team' => 'Work Team',
+    'name' => 'Name',
     'menu' => 'Menu',
     'account' => 'Account',
     'Login' => 'Login',
@@ -16,8 +26,14 @@ return [
     'About_pargraph' => 'We are a comprehensive digital educational platform aimed at enabling students to continue their education anytime and anywhere, especially during challenging times such as wars, natural disasters, and health crises. We strive to provide a flexible learning environment that supports distance learning through virtual classrooms, recorded lessons, and offline access to content. We also offer advanced tools to help teachers efficiently manage educational content, along with interactive features to enhance communication between students and teachers. We believe that education is a fundamental right for all, which is why we are committed to delivering innovative technological solutions to ensure the continuity of learning under all circumstances, with a focus on security, privacy, and ease of use. Our goal is to build a sustainable digital educational future that provides opportunities for everyone without geographical or technical limitations.',
     'teacher_login' => 'Teacher Login',
     'manager_login' => 'Manager Login',
+    'Login' => 'Login',
+    'Teacher' => 'Teacher',
+    'Manager' => 'Manager',
+    'Student' => 'Student',
+    'Parent' => 'Parent',
     'Welcome' => 'Welcome',
     'manager' => 'Manager',
+    'managers' => 'Managers',
     'logout' => 'Logout',
     'Academic_content' => 'Academic Content',
     'name_en' => 'Student Name en',
@@ -34,6 +50,7 @@ return [
     'number_classes' => 'Number Of Classes',
     'add_teacher' => 'Add Teacher',
     'Warning_Delete' => 'Are You Sure OF Deleting Process ?' ,
+    'National_ID' => 'National ID',
 
     'System_users' => 'Who are the users of the system?',
     'Dashboard' => 'Dashboard',
@@ -71,6 +88,9 @@ return [
     'list_Graduate' => 'List Graduate',
     'Teachers' => 'Teachers',
     'List_Teachers' => 'List Teachers',
+    'All_Teachers' => 'All Teachers',
+    'Current_Teachers' => 'Current Teachers',
+    'Academic_stages' => 'Academic stages',
     'Parents' => 'Parents',
     'School_Principals' => 'School Principals',
     'Add_Parent' => 'Add Parent',
@@ -145,6 +165,7 @@ return [
     'write_notes' => 'Write your notes here ... ',
     'any_notes' => 'Any Notes !',
 
+    'notifications' => 'Notifications',
     'no_notifications' => 'No Notifications',
 
 

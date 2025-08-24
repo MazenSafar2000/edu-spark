@@ -11,15 +11,16 @@
                 <div class="tab-pane fade show active" role="tabpanel">
                     <div class="header-table">
                         <a href="{{ route('Parents.create') }}">{{ trans('main_trans.Add_Parent') }}</a>
-                        <input type="search" class="form-control search-input"
+                        <input type="text" class="form-control search-input" id="ParentSearch"
                             placeholder="{{ trans('main_trans.search') }}">
                     </div>
                     <div class="table-responsive">
-                        <table class="table text-center custom-user-table">
+                        <table class="table text-center custom-user-table" id="datatable">
                             <thead class="thead-user">
                                 <tr>
                                     <th>#</th>
                                     <th>{{ trans('Parent_trans.name') }}</th>
+                                    <th>{{ trans('main_trans.National_ID') }}</th>
                                     <th>{{ trans('Parent_trans.Email') }}</th>
                                     <th>{{ trans('Parent_trans.Phone_Father') }}</th>
                                     <th>{{ trans('Parent_trans.Job_Father') }}</th>
@@ -29,8 +30,9 @@
                             <tbody>
                                 @foreach ($parents as $parent)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $parent->user->name }}</td>
+                                        <td>{{ $parent->National_ID }}</td>
                                         <td>{{ $parent->user->email }}</td>
                                         <td>{{ $parent->Phone_Father }}</td>
                                         <td>{{ $parent->Job_Father }}</td>
@@ -99,11 +101,25 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $parents->links() }}
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
+
+    {{-- search input code --}}
+    <script>
+        document.getElementById('ParentSearch').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const table = document.getElementById('datatable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const cells = Array.from(row.cells).map(td => td.textContent.toLowerCase());
+                const match = cells.some(cell => cell.includes(searchValue));
+                row.style.display = match ? '' : 'none';
+            });
+        });
+    </script>
 @endsection

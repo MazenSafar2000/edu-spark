@@ -20,15 +20,7 @@
         </ul>
 
         <div class="table-users mt-5">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('components.error-field')
             <!-- content -->
             <div class="table-content tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="grades" role="tabpanel">

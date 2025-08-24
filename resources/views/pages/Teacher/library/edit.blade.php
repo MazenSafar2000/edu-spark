@@ -3,15 +3,7 @@
     <!-- المحتوى الرئيسي -->
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <div class="container mt-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('components.error-field')
             <div class="card custom-form-card-teacher">
                 <div class="card-body">
                     <form class="subject-form" action="{{ route('library.update', $book->id) }}" method="POST"

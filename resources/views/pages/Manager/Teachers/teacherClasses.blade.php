@@ -30,7 +30,7 @@
                             <tbody>
                                 @foreach ($classes as $class)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $loop->iteration  }}</td>
                                         <td>{{ $class->grade->Name }}</td>
                                         <td>{{ $class->classroom->Name_Class }}</td>
                                         <td>{{ $class->section->Name_Section }}</td>

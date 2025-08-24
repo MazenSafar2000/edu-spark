@@ -40,7 +40,7 @@
                                         @foreach ($Grade->Classrooms as $Classroom)
                                             @foreach ($Classroom->sections as $Section)
                                                 <tr>
-                                                    <td>{{ $loop->index + 1 }}</td>
+                                                    <td>{{ $loop->iteration  }}</td>
                                                     <td>{{ $Section->Name_Section }}</td>
                                                     <td>{{ $Section->My_classs->Name_Class }}</td>
                                                     <td>

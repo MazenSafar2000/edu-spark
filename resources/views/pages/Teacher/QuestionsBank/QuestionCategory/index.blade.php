@@ -4,15 +4,7 @@
         <div class="table-users-teacher mt-5">
             <!-- المحتوى -->
             <div class="table-content-teacher tab-content" id="myTabContent">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                @include('components.error-field')
                 <div class="tab-pane fade show active" role="tabpanel">
                     <div class="header-table-teacher">
                         <a href="" data-bs-toggle="modal"

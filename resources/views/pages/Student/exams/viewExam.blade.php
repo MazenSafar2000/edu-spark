@@ -14,7 +14,7 @@
                 @include('components.error-field')
                 <div class="preview-card">
                     <h5 class="exam-title">{{ $exam->name }}</h5>
-                    <h5 class="exam-title">{{ $exam->description }}</h5>
+                    <textarea class="exam-title" rows="7">{{ $exam->description }}</textarea>
 
                     <ul class="list-unstyled exam-description">
                         {{-- <li><strong> اسم الاختبار :</strong> اختبار لغة عربية </li> --}}

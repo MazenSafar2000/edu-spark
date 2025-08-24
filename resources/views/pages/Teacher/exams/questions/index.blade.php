@@ -2,15 +2,7 @@
 @section('teacher_content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <div class="table-users-teacher mt-5">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            @include('components.error-field')
             <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
                 <h5>إدارة الأسئلة - {{ $exam->title }}</h5>
                 <a href="{{ route('exams.show', $exam->id) }}" class="btn btn-light btn-sm">← العودة لتفاصيل الامتحان</a>

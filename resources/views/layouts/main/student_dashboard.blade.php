@@ -35,7 +35,7 @@
 
 <body>
     <!-- الهيدر -->
-    <header class="header-page bg-white shadow fixed-top">
+    {{-- <header class="header-page bg-white shadow fixed-top">
 
         <div class="header-row container-fluid d-flex align-items-center justify-content-between py-3 ">
 
@@ -117,6 +117,142 @@
 
                 <a href="{{ LaravelLocalization::getLocalizedURL(App::getLocale() == 'ar' ? 'en' : 'ar', null, [], true) }}"
                     title="{{ trans('main_trans.change_lang') }}"><i class="fas fa-language icon-header"></i></a>
+            </nav>
+
+        </div>
+    </header> --}}
+    <header class="header-page bg-white shadow fixed-top">
+
+        <div class="top-header-dashboard">
+            <div class=" d-flex flex-wrap justify-content-between align-items-center ">
+
+
+                <div class="d-flex gap-3 flex-wrap">
+                    <span class="info-item-location">{{ trans('main_trans.palestine_gaza') }}<i
+                            class="fas fa-map-marker-alt"></i></span>
+
+                    <span class="info-item-hour"> من 8:00 ص - 3:00 م <i class="fas fa-clock"></i> </span>
+                </div>
+                <div class="d-flex gap-3">
+                    <span class="contact-item-email"> sparkEducation.edu <i class="fas fa-envelope"></i></span>
+                    <span class="contact-item-phone"> 0595838611 <i class="fas fa-phone"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-row container-fluid d-flex align-items-center justify-content-between py-3 ">
+
+
+
+            <!-- الشعار والقائمة الجانبية -->
+            <div class="d-flex align-items-center logo-spark">
+                <a href="manager-index.html">
+                    <img src="{{ asset('assets/images/spark.png') }}" alt="spark education" class="logo">
+                </a>
+
+                <a href="#" id="sidebarToggle" title="{{ trans('main_trans.menu') }}"><i
+                        class="fas fa-bars fa-lg me-3"></i></a>
+
+            </div>
+
+            <!-- القائمة اليسرى (أيقونات) -->
+            <nav class="d-flex gap-4 ms-4 align-items-center">
+
+                <ul class="d-flex gap-4 ms-4 align-items-center list-unstyled m-0">
+                    <!-- الإشعارات -->
+                    <li class="dropdown">
+                        <a href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" title="{{ trans('main_trans.notifications') }}">
+                            <i class="fas fa-bell icon-header"></i>
+                        </a>
+                        <div class="dropdown-menu notification-dropdown text-end"
+                            aria-labelledby="notificationsDropdown">
+                            <h6 class="notification-title">{{ trans('main_trans.notifications') }}</h6>
+
+                            <div class="notification-content">
+                                <div class="notification-info text-end">
+                                    <strong class="d-block">المعلم</strong>
+                                    <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
+                                </div>
+                                <span>٣٠٠ س</span>
+                            </div>
+
+                            <div class="notification-content">
+                                <div class="notification-info text-end">
+                                    <strong class="d-block">المعلم</strong>
+                                    <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
+                                </div>
+                                <span>٣٠٠ س</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- الحساب -->
+                    <li class="dropdown">
+                        <a href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" title="الحساب">
+                            <i class="fas fa-user icon-header"></i>
+                        </a>
+                        <ul class="dropdown-menu account-dropdown text-end" aria-labelledby="accountDropdown">
+                            <li class="text-center">
+                                <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="صورة المستخدم"
+                                    class="rounded-circle user-img" style="width: 40px; height: 40px;">
+                                <p class="user-name">{{ auth()->user()->name }}</p>
+                                <p class="user-type">{{ trans('Students_trans.student') }}</p>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                {{-- <form action="">
+                                    <button type="submit" class="dropdown-item"><i
+                                            class="fas fa-sign-out-alt"></i>تسجيل الخروج</button>
+                                </form> --}}
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item"><i
+                                            class="fas fa-sign-out-alt"></i>{{ trans('main_trans.logout') }}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item-lang dropdown lang-switcher">
+                        <a class="nav-link lang-dropdown d-flex align-items-center gap-1" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            @if (App::getLocale() == 'ar')
+                                <img src="{{ asset('assets/images/ar.png') }}" alt="arabic" width="20"
+                                    class="lang-flag">
+                                العربية
+                            @else
+                                <img src="{{ asset('assets/images/en.png') }}" alt="english" width="20"
+                                    class="lang-flag">
+                                {{ LaravelLocalization::getCurrentLocaleName() }}
+                            @endif
+                            <i class="fas fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lang shadow-sm rounded">
+                            <li>
+                                <a class="dropdown-item dropdown-item-lang d-flex align-items-center"
+                                    href="{{ LaravelLocalization::getLocalizedURL('ar', null, [], true) }}">
+                                    <img src="{{ asset('assets/images/ar.png') }}" alt="ar" width="20">
+                                    العربية
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item dropdown-item-lang d-flex align-items-center"
+                                    href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}">
+                                    <img src="{{ asset('assets/images/en.png') }}" alt="en" width="20">
+                                    English
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+
             </nav>
 
         </div>

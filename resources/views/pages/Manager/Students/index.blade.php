@@ -52,7 +52,7 @@
                             <tbody>
                                 @foreach ($students as $student)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $loop->iteration  }}</td>
                                         <td>{{ $student->user->name }}</td>
                                         <td>{{ $student->user->email }}</td>
                                         <td>{{ $student->gender->Name }}</td>
@@ -82,7 +82,8 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2" href="#" data-bs-toggle="modal"
+                                                        <a class="dropdown-item d-flex align-items-center gap-2"
+                                                            href="#" data-bs-toggle="modal"
                                                             data-bs-target="#deleteModal{{ $student->id }}">
                                                             <i class="fas fa-trash-alt text-danger"></i>
                                                             {{ trans('main_trans.delete') }}
@@ -127,7 +128,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-
+                        {{ $students->links() }}
                     </div>
                 </div>
 

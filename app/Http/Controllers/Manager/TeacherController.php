@@ -23,8 +23,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $Teachers = Teacher::all();
-        $Specializations = Specialization::all();
+        $Teachers = Teacher::paginate(10);
+        $Specializations = Specialization::paginate(10);
         return view('pages.Manager.Teachers.index', compact('Teachers', 'Specializations'));
     }
 

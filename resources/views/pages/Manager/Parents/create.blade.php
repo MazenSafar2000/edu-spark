@@ -1,8 +1,9 @@
 @extends('layouts.main.manager_dashboard')
 @section('manager_content')
-    @if ($errors->any())
+    {{-- @if ($errors->any())
         <div class="error">{{ $errors->first('Name') }}</div>
-    @endif
+    @endif --}}
+    @include('components.error-field')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <h3 class="manager-header-form">اضافة ولي أمر</h3>
 

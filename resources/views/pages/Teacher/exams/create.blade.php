@@ -7,15 +7,7 @@
         <div class="container mt-4">
             <div class="card custom-form-card-teacher">
                 <div class="card-body">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('components.error-field')
                     <form class="subject-form" action="{{ route('exams.store') }}" method="POST">
                         @csrf
 
@@ -23,7 +15,7 @@
                             <div class="col-md-6">
                                 <div class="form-group-float position-relative ">
                                     <input type="text" name="Name_ar" class="form-control custom-input float-input"
-                                        id="" value="{{ old('Name_ar', ) }}" />
+                                        id="" value="{{ old('Name_ar') }}" />
                                     @error('Name_ar')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

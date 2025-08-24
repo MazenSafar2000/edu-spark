@@ -26,7 +26,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::paginate(10);
         $grades = Grade::all();
         $classrooms = Classroom::all();
         $sections = Section::all();

@@ -27,7 +27,7 @@
                             <tbody>
                                 @foreach ($students as $student)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $loop->iteration  }}</td>
                                         <td>{{ $student->user->name }}</td>
                                         <td>{{ $student->user->email }}</td>
                                         <td>{{ $student->gender->Name }}</td>
