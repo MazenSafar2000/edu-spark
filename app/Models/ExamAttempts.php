@@ -32,8 +32,8 @@ class ExamAttempts extends Model
     protected $casts = [
         'question_order' => 'array', // or 'json'
         'started_at'     => 'datetime',
-        'ended_at'       => 'datetime',
         'deadline_at'    => 'datetime',
+        'ended_at'       => 'datetime',
     ];
 
     public function student()
