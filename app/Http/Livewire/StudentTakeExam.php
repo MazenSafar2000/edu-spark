@@ -123,12 +123,18 @@ class StudentTakeExam extends Component
         return $this->questions->slice($start, $this->questionsPerPage);
     }
 
-    public function goToPage($index)
+    public function goToPage($pageIndex, $questionId = null)
     {
-        $index = (int)$index;
-        if ($index >= 0 && $index < $this->totalPages) {
-            $this->pageIndex = $index;
+        $pageIndex = (int)$pageIndex;
+
+        if ($pageIndex >= 0 && $pageIndex < $this->totalPages) {
+            $this->pageIndex = $pageIndex;
             $this->attempt->update(['current_question_index' => $this->pageIndex]);
+
+            // Emit event to scroll to specific question (if provided)
+            if ($questionId) {
+                $this->emit('scrollToQuestion', $questionId);
+            }
         }
     }
 
@@ -161,12 +167,16 @@ class StudentTakeExam extends Component
     public function checkDeadline()
     {
         $this->attempt->refresh();
-        $this->timeLeft = max(0, now()->diffInSeconds($this->attempt->deadline_at));
 
-        if ($this->timeLeft <= 0) {
+        $this->timeLeft = $this->attempt->deadline_at->isPast()
+            ? 0
+            : now()->diffInSeconds($this->attempt->deadline_at);
+
+        if ($this->timeLeft <= 0 && $this->attempt->status === 'in_progress') {
             $this->submitExam();
         }
     }
+
 
     public function submitExam()
     {

@@ -47,59 +47,112 @@
             </div>
 
             <div class="col-md-3 p-3 text-center">
-                <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="صورة الطالب" class="mb-2 rounded-circle"
+                <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="avatar" class="mb-2 rounded-circle"
                     width="120">
                 <h6>{{ auth()->user()->name }}</h6>
 
-                <div class="d-flex flex-wrap gap-2 mb-4 mt-3" id="questionNumbers">
-                    @for ($i = 0; $i < $totalPages; $i++)
-                        <button class="btn btn-sm {{ $i === $pageIndex ? 'btn-primary' : 'btn-outline-primary' }}"
-                            wire:click="goToPage({{ $i }})">
-                            {{ $i + 1 }}
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    @foreach ($questions as $index => $q)
+                        @php
+                            $answered = isset($answers[$q->id]) && $answers[$q->id] !== '';
+                            $currentPage = floor($index / $questionsPerPage);
+                        @endphp
+                        <button
+                            class="btn btn-sm question-number-btn {{ $answered ? 'btn-success' : 'btn-outline-primary' }}"
+                            wire:click="goToPage({{ floor($index / $questionsPerPage) }}, {{ $q->id }})">
+                            {{ $index + 1 }}
                         </button>
-                    @endfor
+                    @endforeach
                 </div>
+
+
+
 
                 <button class="btn btn-exam-finish w-100" @click="$wire.submitExam()">إنهاء الاختبار</button>
 
-                <div class="text-danger fw-bold mt-3" x-text="formatted"></div>
+                time remaining <div class="text-danger fw-bold mt-3" x-text="formatted"></div>
+                <div x-data="connectionStatus()" x-init="init()">
+                    <span class="badge" :class="online ? 'bg-success' : 'bg-danger'"
+                        x-text="online ? 'متصل' : 'غير متصل'">
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-    <script>
-        function examTimer(initialTime) {
-            return {
-                timeLeft: initialTime,
-                interval: null,
-                formatted: '',
+<script>
+    function examTimer(initialTime) {
+        return {
+            timeLeft: initialTime,
+            interval: null,
+            formatted: '',
 
-                start() {
-                    this.updateFormatted();
+            start() {
+                if (this.interval) return; // لا تنشئ interval جديد إذا موجود
+                this.updateFormatted();
 
-                    // Tick UI every second
-                    this.interval = setInterval(() => {
-                        if (this.timeLeft > 0) {
-                            this.timeLeft--;
-                            this.updateFormatted();
-                        } else {
-                            clearInterval(this.interval);
-                            window.Livewire.emit('checkDeadline');
-                        }
-                    }, 1000);
+                this.interval = setInterval(() => {
+                    if (this.timeLeft > 0) {
+                        this.timeLeft--;
+                        this.updateFormatted();
+                    } else {
+                        clearInterval(this.interval);
+                        this.interval = null; // إعادة تعيين المؤقت
+                        if (window.Livewire) Livewire.emit('submitExam'); // نهاية الامتحان مباشرة
+                    }
+                }, 1000);
 
-                    // Optional: sync every 10s
-                    setInterval(() => {
-                        window.Livewire.emit('checkDeadline');
-                    }, 10000);
-                },
+                // Optional: sync every 10s
+                setInterval(() => {
+                    if (window.Livewire) Livewire.emit('checkDeadline');
+                }, 10000);
+            },
 
-                updateFormatted() {
-                    const m = Math.floor(this.timeLeft / 60);
-                    const s = this.timeLeft % 60;
-                    this.formatted = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-                }
+
+            updateFormatted() {
+                const m = Math.floor(this.timeLeft / 60);
+                const s = this.timeLeft % 60;
+                this.formatted = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            },
+
+            scrollToQuestion(questionId) {
+                this.$nextTick(() => {
+                    const el = document.getElementById(`question-${questionId}`);
+                    if (el) {
+                        el.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }
+                });
             }
         }
-    </script>
+    }
+</script>
+
+<script>
+    function connectionStatus() {
+        return {
+            online: navigator.onLine, // الحالة الحالية
+
+            init() {
+                // تحديث الحالة عند تغيير الاتصال
+                window.addEventListener('online', () => this.online = true);
+                window.addEventListener('offline', () => this.online = false);
+            }
+        }
+    }
+</script>
+
+<script>
+    document.addEventListener('livewire:load', () => {
+        window.Livewire.on('scrollToQuestion', questionId => {
+            const el = document.getElementById(`question-${questionId}`);
+            if (el) el.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        });
+    });
+</script>
