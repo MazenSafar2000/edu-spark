@@ -10,7 +10,8 @@
                         <span class="info-item-location">{{ trans('main_trans.palestine_gaza') }}<i
                                 class="fas fa-map-marker-alt"></i></span>
 
-                        <span class="info-item-hour"> من 8:00 ص - 3:00 م <i class="fas fa-clock"></i> </span>
+                        <span class="info-item-hour">{{ trans('main_trans.working_hours') }}<i class="fas fa-clock"></i>
+                        </span>
                     </div>
                     <div class="d-flex gap-3">
                         <span class="contact-item-email"> sparkEducation.edu <i class="fas fa-envelope"></i></span>
@@ -93,11 +94,12 @@
 
                     <!-- النص -->
                     <div class="col-lg-6 hero-text-box">
-                        <p class="hero-text mb-2">نظام تعليمي متكامل</p>
-                        <h1 class="hero-title">نصنع تجربة <span class="highlight">تعليم ذكية</span></h1>
+                        <p class="hero-text mb-2">{{ trans('main_trans.Comprehensive_Sys') }}</p>
+                        <h1 class="hero-title">{!! trans('main_trans.hero_title', [
+                            'highlight' => '<span class="highlight">' . trans('main_trans.smart_learning') . '</span>',
+                        ]) !!}</h1>
                         <p class="hero-description">
-                            منصة <span>Spark Education </span>تربط بين الطالب والمعلم وولي الأمر والمدير ضمن بيئة رقمية
-                            سهلة وآمنة لإدارة كافة تفاصيل التعليم الحديث
+                            {!! trans('main_trans.hero_description', ['brand' => '<span>Spark Education</span>']) !!}
                         </p>
                         <a href="{{ route('login.student_parent') }}" class="btn hero-btn">
                             <span>{{ trans('main_trans.start_now') }}</span>
@@ -114,7 +116,7 @@
                     <div class="row g-3 justify-content-center">
                         <div class="col-md-3 col-6">
                             <div class="stats-item d-flex align-items-center justify-content-center">
-                                <img src="{{ asset('assets/images/manager.png') }}" alt="مدير" class="stats-icon">
+                                <img src="{{ asset('assets/images/manager.png') }}" alt="manager" class="stats-icon">
                                 <div class="stats-content">
                                     <h5>10k+</h5>
                                     <p>{{ trans('main_trans.School_Principals') }}</p>
@@ -123,7 +125,7 @@
                         </div>
                         <div class="col-md-3 col-6">
                             <div class="stats-item d-flex align-items-center justify-content-center">
-                                <img src="{{ asset('assets/images/teacher.png') }}" alt="معلم" class="stats-icon">
+                                <img src="{{ asset('assets/images/teacher.png') }}" alt="treacher" class="stats-icon">
                                 <div class="stats-content">
                                     <h5>10k+</h5>
                                     <p>{{ trans('main_trans.Teachers') }}</p>
@@ -132,7 +134,7 @@
                         </div>
                         <div class="col-md-3 col-6">
                             <div class="stats-item d-flex align-items-center justify-content-center">
-                                <img src="{{ asset('assets/images/std-on.png') }}" alt="طالب" class="stats-icon">
+                                <img src="{{ asset('assets/images/std-on.png') }}" alt="student" class="stats-icon">
                                 <div class="stats-content">
                                     <h5>10k+</h5>
                                     <p>{{ trans('main_trans.Students') }}</p>
@@ -141,7 +143,7 @@
                         </div>
                         <div class="col-md-3 col-6">
                             <div class="stats-item d-flex align-items-center justify-content-center">
-                                <img src="{{ asset('assets/images/par-on.png') }}" alt="ولي أمر" class="stats-icon">
+                                <img src="{{ asset('assets/images/par-on.png') }}" alt="parent" class="stats-icon">
                                 <div class="stats-content">
                                     <h5>10k+</h5>
                                     <p>{{ trans('main_trans.Parents') }}</p>
@@ -164,14 +166,14 @@
                         <div class="paragraph-box  p-5 rounded ms-auto my-3 me-5">
                             <div class="d-flex align-items-center gap-2 mb-3">
                                 <img src="{{ asset('assets/images/question.png') }}" alt="أيقونة" width="35">
-                                <h3>ماذا نقدم ؟</h3>
+                                <h3>{{ trans('main_trans.what_we_offer') }}</h3>
                             </div>
                             <ul>
-                                <li>دروس تفاعلية مباشرة ومسجلة تتيح للطلاب التعلم في أي وقت ومن أي مكان.</li>
-                                <li>أدوات متقدمة للمعلمين لإعداد المحتوى، إدارة الاختبارات، وتصحيحها بسهولة.</li>
-                                <li>منصة أولياء الأمور لمتابعة تقدم أبنائهم ومشاركتهم في العملية التعليمية.</li>
-                                <li>واجهة بسيطة وسهلة الاستخدام تدعم اللغة العربية، وتناسب مختلف الأعمار.</li>
-                                <li>نظام آمن ومرن يعمل حتى في ظل ضعف الاتصال بالإنترنت أو الظروف الصعبة.</li>
+                                <li>{{ trans('main_trans.Interactive_live') }}</li>
+                                <li>{{ trans('main_trans.Advanced_tools') }}</li>
+                                <li>{{ trans('main_trans.dedicated_parent_portal') }}</li>
+                                <li>{{ trans('main_trans.simple_and_intuitive') }}</li>
+                                <li>{{ trans('main_trans.secure_and_flexible') }}</li>
                             </ul>
                         </div>
                     </div>
@@ -184,8 +186,8 @@
                                 <div class="card feature-card-bg">
                                     <i class="fas fa-laptop-code feature-icon"></i>
                                     <div class="feature-content">
-                                        <h5>بيئة تعليمية ذكية</h5>
-                                        <p>دروس تفاعلية مباشرة ومسجلة تتيح للطلبة التعلم من أي مكان وفي أي وقت.</p>
+                                        <h5>{{ trans('main_trans.Smart_Environment') }}</h5>
+                                        <p>{{ trans('main_trans.Live_and_recorded') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -194,8 +196,8 @@
                                 <div class="card feature-card">
                                     <i class="fas fa-chalkboard-teacher feature-icon"></i>
                                     <div class="feature-content">
-                                        <h5>منصة متكاملة للمعلمين</h5>
-                                        <p>أدوات إعداد المحتوى، إدارة الاختبارات وتصحيحها بسهولة واحترافية.</p>
+                                        <h5>{{ trans('main_trans.Comprehensive_Teacher_Platform') }}</h5>
+                                        <p>{{ trans('main_trans.Advanced_tools_create_content') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -204,8 +206,8 @@
                                 <div class="card feature-card">
                                     <i class="fas fa-user-shield feature-icon"></i>
                                     <div class="feature-content">
-                                        <h5>دعم أولياء الأمور</h5>
-                                        <p>منصة تتيح للآباء متابعة أبنائهم والمشاركة في العملية التعليمية.</p>
+                                        <h5>{{ trans('main_trans.Parental_Engagement') }}</h5>
+                                        <p>{{ trans('main_trans.dedicated_portal') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -214,8 +216,8 @@
                                 <div class="card feature-card-bg">
                                     <i class="fas fa-shield-alt feature-icon"></i>
                                     <div class="feature-content">
-                                        <h5>واجهة سهلة وآمنة</h5>
-                                        <p>واجهة بسيطة تعمل حتى في ظل ضعف الإنترنت أو الظروف الصعبة.</p>
+                                        <h5>{{ trans('main_trans.Simple_Secure_Interface') }}</h5>
+                                        <p>{{ trans('main_trans.intuitive_platform') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -230,40 +232,31 @@
             <div class="container text-center">
                 <h2 class="team-title">{{ trans('main_trans.work_team') }}</h2>
 
-                <p class="team-description">
-                    تم تطوير نظام <span> Spark Education</span> بأيدٍ شابة مبدعة من خريجي تخصص تكنولوجيا الويب وأمن
-                    المعلومات، ضمن مشروع تخرج جامعي تحت إشراف نُخبة من أساتذة الجامعة.
-
-                    عمل الفريق على تصميم نظام تعليمي ذكي يجمع بين الكفاءة التقنية وسهولة الاستخدام، بهدف إحداث نقلة
-                    نوعية في بيئة التعليم الرقمي.
-
-                    نحن لا نقدّم مجرد نظام إلكتروني، بل نضع بين أيديكم رؤية جيلٍ يؤمن بأن المعرفة حقّ، وأن التكنولوجيا
-                    بوابتنا نحو تعليم أكثر عدالة وفاعلية.
-                </p>
+                <p class="team-description">{{ trans('main_trans.work_team_paragrpah') }}</p>
 
                 <div class="team-card row justify-content-center g-4">
                     <div class="col-md-3 col-6">
                         <div class="team-member rounded">
-                            <h5 class="member-name">نور تمراز</h5>
-                            <small class="member-job">تصميم الواجهات</small>
+                            <h5 class="member-name">{{ trans('main_trans.noor') }}</h5>
+                            <small class="member-job">{{ trans('main_trans.Interface_design') }}</small>
                         </div>
                     </div>
                     <div class="col-md-3 col-6">
                         <div class="team-member rounded">
-                            <h5 class="member-name">مازن أبو صفر</h5>
-                            <small class="member-job">برمجة النظام</small>
+                            <h5 class="member-name">{{ trans('main_trans.mazen') }}</h5>
+                            <small class="member-job">{{ trans('main_trans.System_programming') }}</small>
                         </div>
                     </div>
                     <div class="col-md-3 col-6">
                         <div class="team-member rounded">
-                            <h5 class="member-name">مصطفى أبو مهادي</h5>
-                            <small class="member-job">برمجة النظام</small>
+                            <h5 class="member-name">{{ trans('main_trans.mostafa') }}</h5>
+                            <small class="member-job">{{ trans('main_trans.System_programming') }}</small>
                         </div>
                     </div>
                     <div class="col-md-3 col-6">
                         <div class="team-member rounded">
-                            <h5 class="member-name">منتهى دوحان</h5>
-                            <small class="member-job">تحليل النظام</small>
+                            <h5 class="member-name">{{ trans('main_trans.muntaha') }}</h5>
+                            <small class="member-job">{{ trans('main_trans.System_analysis') }}</small>
                         </div>
                     </div>
 
@@ -275,8 +268,7 @@
 
                     <div class="col-md-7 pe-md-5">
                         <h2 class="fw-bold contact-title">{{ trans('main_trans.Contact_us') }}</h2>
-                        <p class="contact-description">لا تترددوا في التواصل معنا في أي وقت. سنرد عليكم في أقرب وقت ممكن!
-                        </p>
+                        <p class="contact-description">{{ trans('main_trans.Do_not_hesitate') }}</p>
                         <form>
                             <input type="text" class="form-control contact-input"
                                 placeholder="{{ trans('main_trans.name') }}">
@@ -293,7 +285,7 @@
                             <p><i class="fas fa-envelope"></i> sparkEducation@edu</p>
                             <p><i class="fas fa-phone"></i> +24 56 89 146</p>
                             <p><i class="fas fa-map-marker-alt"></i>{{ trans('main_trans.palestine_gaza') }}</p>
-                            <p><i class="fas fa-clock"></i> 08:00 am - 03:00 pm</p>
+                            <p><i class="fas fa-clock"></i>{{ trans('main_trans.working_hours') }}</p>
                         </div>
 
                         <div class="info-box-img">
@@ -309,7 +301,7 @@
 
         <!--- footer start-->
         <footer class="footer-index">
-            <h1>&copy; جميع الحقوق محفوظة | <span>spark eucation</span> حقوق الطبع والنشر بواسطة </h1>
+            <h1>{!! trans('main_trans.footer_rights', ['brand' => '<span>Spark Education</span>']) !!}</h1>
             <img src="{{ asset('assets/images/s.png') }}" alt="">
         </footer>
         <!--- footer ends-->

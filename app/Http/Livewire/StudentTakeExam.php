@@ -7,6 +7,7 @@ use App\Models\Exam;
 use App\Models\ExamAttempts;
 use App\Models\Question;
 use App\Models\StudentExamAnswers;
+use App\Services\ExamFinisher;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -55,17 +56,26 @@ class StudentTakeExam extends Component
         }
 
         // Ensure attempt has a deadline
+        // تأكيد وجود deadline_at (مرة واحدة فقط)
         if (!$this->attempt->deadline_at) {
-            $deadlineAt = min(
-                $this->attempt->started_at->copy()->addMinutes((int)$this->exam->duration),
+            $deadlineAt = \Carbon\Carbon::min(
+                $this->attempt->started_at->copy()->addMinutes((int) $this->exam->duration),
                 $this->exam->end_at
             );
             $this->attempt->update(['deadline_at' => $deadlineAt]);
             $this->attempt->refresh();
         }
 
-        // Calculate timeLeft in seconds
-        $this->timeLeft = max(0, now()->diffInSeconds($this->attempt->deadline_at));
+        // فرق زمني موقّع
+        $diff = now()->diffInSeconds($this->attempt->deadline_at, false);
+        $this->timeLeft = max(0, $diff);
+
+        // إنتهى الوقت فعليًا؟
+        if ($this->timeLeft <= 0) {
+            $this->forceFinishAttempt(); // دالة جديدة مضمونة
+            session()->flash('success', 'تم تسليم الامتحان تلقائيًا لانتهاء الوقت.');
+            return redirect()->route('student.dashboard');
+        }
 
         // Load questions
         $order = $this->attempt->question_order ?? [];
@@ -103,6 +113,7 @@ class StudentTakeExam extends Component
             ->pluck('answer', 'question_id')->toArray();
     }
 
+
     public function render()
     {
         return view('livewire.student-take-exam', [
@@ -125,6 +136,12 @@ class StudentTakeExam extends Component
 
     public function goToPage($pageIndex, $questionId = null)
     {
+        $this->attempt->refresh();
+        if ($this->attempt->deadline_at->isPast() || $this->attempt->status !== 'in_progress') {
+            $this->forceFinishAttempt();
+            return;
+        }
+
         $pageIndex = (int)$pageIndex;
 
         if ($pageIndex >= 0 && $pageIndex < $this->totalPages) {
@@ -140,6 +157,12 @@ class StudentTakeExam extends Component
 
     public function saveAnswer($questionId, $value)
     {
+        $this->attempt->refresh();
+        if ($this->attempt->deadline_at->isPast() || $this->attempt->status !== 'in_progress') {
+            $this->forceFinishAttempt();
+            return;
+        }
+
         $questionId = (int)$questionId;
         $this->answers[$questionId] = $value;
 
@@ -168,15 +191,14 @@ class StudentTakeExam extends Component
     {
         $this->attempt->refresh();
 
-        $this->timeLeft = $this->attempt->deadline_at->isPast()
-            ? 0
-            : now()->diffInSeconds($this->attempt->deadline_at);
-
-        if ($this->timeLeft <= 0 && $this->attempt->status === 'in_progress') {
-            $this->submitExam();
+        if ($this->attempt->deadline_at->isPast()) {
+            $this->timeLeft = 0;
+            $this->forceFinishAttempt();
+            return;
         }
-    }
 
+        $this->timeLeft = now()->diffInSeconds($this->attempt->deadline_at);
+    }
 
     public function submitExam()
     {
@@ -184,22 +206,57 @@ class StudentTakeExam extends Component
             return redirect()->route('student.dashboard');
         }
 
-        $scoreObtained = $this->computeFinalScore();
-        $totalMarks = $this->computeExamTotalMarks();
-        $maximumGrade = (float)($this->exam->maximum_grade ?? 100);
-        $gradeObtained = $totalMarks > 0 ? ($scoreObtained / $totalMarks) * $maximumGrade : 0;
+        // $scoreObtained = $this->computeFinalScore();
+        // $totalMarks = $this->computeExamTotalMarks();
+        // $maximumGrade = (float)($this->exam->maximum_grade ?? 100);
+        // $gradeObtained = $totalMarks > 0 ? ($scoreObtained / $totalMarks) * $maximumGrade : 0;
 
-        $this->attempt->update([
-            'status' => 'completed',
-            'ended_at' => now(),
-            'time_left' => 0,
-            'score_obtained' => $scoreObtained,
-            'grade_obtained' => $gradeObtained,
-        ]);
+        // $this->attempt->update([
+        //     'status' => 'completed',
+        //     'ended_at' => now(),
+        //     'time_left' => 0,
+        //     'score_obtained' => $scoreObtained,
+        //     'grade_obtained' => $gradeObtained,
+        // ]);
+
+        $finisher = app(ExamFinisher::class);
+        $finisher->finish($this->attemptId, true);
 
         session()->flash('success', 'تم تسليم الامتحان بنجاح.');
         return redirect()->route('student.dashboard');
     }
+
+    protected function forceFinishAttempt(): void
+    {
+        // أعد تحميل من قاعدة البيانات وبقفل تشاركي
+        $attempt = ExamAttempts::where('id', $this->attempt->id)->lockForUpdate()->first();
+
+        if (!$attempt || $attempt->status !== 'in_progress') {
+            return;
+        }
+
+        // لو الوقت انتهى أو النافذة أغلقت
+        if (now()->greaterThanOrEqualTo($attempt->deadline_at) || now()->greaterThan($this->exam->end_at)) {
+
+            // احسب الدرجات (نفس طريقتك)
+            $scoreObtained = $this->computeFinalScore();
+            $totalMarks    = $this->computeExamTotalMarks();
+            $maximumGrade  = (float)($this->exam->maximum_grade ?? 100);
+            $gradeObtained = $totalMarks > 0 ? ($scoreObtained / $totalMarks) * $maximumGrade : 0;
+
+            $attempt->update([
+                'status'         => 'completed',
+                'ended_at'       => now(),
+                'time_left'      => 0,
+                'score_obtained' => $scoreObtained,
+                'grade_obtained' => $gradeObtained,
+            ]);
+
+            $this->attempt->refresh();
+            $this->timeLeft = 0;
+        }
+    }
+
 
     protected function computeFinalScore(): float
     {
