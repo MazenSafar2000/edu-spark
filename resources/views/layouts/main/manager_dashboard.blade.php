@@ -119,16 +119,14 @@
         </div>
     </header> --}}
     <header class="header-page bg-white shadow fixed-top">
-
         <div class="top-header-dashboard">
             <div class=" d-flex flex-wrap justify-content-between align-items-center ">
-
-
                 <div class="d-flex gap-3 flex-wrap">
                     <span class="info-item-location">{{ trans('main_trans.palestine_gaza') }}<i
                             class="fas fa-map-marker-alt"></i></span>
 
-                    <span class="info-item-hour"> من 8:00 ص - 3:00 م <i class="fas fa-clock"></i> </span>
+                    <span class="info-item-hour">{{ trans('main_trans.working_hours') }}<i class="fas fa-clock"></i>
+                    </span>
                 </div>
                 <div class="d-flex gap-3">
                     <span class="contact-item-email"> sparkEducation.edu <i class="fas fa-envelope"></i></span>
@@ -136,14 +134,10 @@
                 </div>
             </div>
         </div>
-
         <div class="header-row container-fluid d-flex align-items-center justify-content-between py-3 ">
-
-
-
             <!-- الشعار والقائمة الجانبية -->
             <div class="d-flex align-items-center logo-spark">
-                <a href="manager-index.html">
+                <a href="{{ route('manager.dashboard') }}">
                     <img src="{{ asset('assets/images/spark.png') }}" alt="spark education" class="logo">
                 </a>
 
@@ -151,7 +145,6 @@
                         class="fas fa-bars fa-lg me-3"></i></a>
 
             </div>
-
             <!-- القائمة اليسرى (أيقونات) -->
             <nav class="d-flex gap-4 ms-4 align-items-center">
 
@@ -192,19 +185,15 @@
                         </a>
                         <ul class="dropdown-menu account-dropdown text-end" aria-labelledby="accountDropdown">
                             <li class="text-center">
-                                <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="صورة المستخدم"
+                                <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="avatar"
                                     class="rounded-circle user-img" style="width: 40px; height: 40px;">
-                                <p class="user-name">محمد محمد</p>
-                                <p class="user-type">مدير</p>
+                                <p class="user-name">{{ Auth::user()->name }}</p>
+                                <p class="user-type">{{ trans('main_trans.manager') }}</p>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                {{-- <form action="">
-                                    <button type="submit" class="dropdown-item"><i
-                                            class="fas fa-sign-out-alt"></i>تسجيل الخروج</button>
-                                </form> --}}
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="dropdown-item"><i
@@ -246,12 +235,8 @@
                             </li>
                         </ul>
                     </li>
-
                 </ul>
-
-
             </nav>
-
         </div>
     </header>
 
@@ -340,14 +325,12 @@
 
     <div id="sidebar" class="sidebar bg-white shadow position-fixed end-0 vh-100 p-4">
         <ul class="list-unstyled">
-
             <li>
                 <a href="{{ route('manager.dashboard') }}" class="">
                     <span>{{ trans('main_trans.Dashboard') }}</span>
                     <i class="fa fa-home"></i>
                 </a>
             </li>
-
             <!-- عنصر الطلاب مع قائمة تظهر وتختفي -->
             <li class="dropdown-sidebar">
                 <a href="#" class="dropdown-toggle-custom d-flex justify-content-between align-items-center"

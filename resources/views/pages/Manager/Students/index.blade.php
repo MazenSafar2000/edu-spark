@@ -1,6 +1,6 @@
 @extends('layouts.main.manager_dashboard')
 @section('manager_content')
-    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+    {{-- <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <h3 class="manager-header">جدول الطلاب</h3>
         <div class="table-users mt-5">
             <!-- المحتوى -->
@@ -135,6 +135,137 @@
             </div>
         </div>
 
+    </div> --}}
+
+    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+        <h3 class="manager-header">{{ trans('main_trans.list_students') }}</h3>
+        <div class="title-underline-manager"></div>
+        <div class="table-users mt-5">
+            <!-- الطلاب -->
+            <div class="add-std">
+                <a href="{{ route('Students.create') }}" class="add-std-btn">{{ trans('main_trans.add_student') }}</a>
+            </div>
+
+            <div class="header-table">
+                <div class="select-std d-flex gap-2 flex-wrap">
+                    <select class="form-select std-select" id="gradeSelect">
+                        <option value="">{{ trans('main_trans.select_grade') }}</option>
+                        @foreach ($grades as $grade)
+                            <option value="{{ $grade->id }}">{{ $grade->Name }}</option>
+                        @endforeach
+                    </select>
+                    <select class="form-select std-select" id="classroomSelect">
+                        <option value="">{{ trans('main_trans.select_class') }}</option>
+                    </select>
+                    <select class="form-select std-select" id="sectionSelect">
+                        <option value="">{{ trans('main_trans.select_section') }}</option>
+                    </select>
+                </div>
+
+                <input type="search" id="studentSearch" class="form-control search-input"
+                    placeholder="{{ trans('main_trans.search') }}">
+            </div>
+
+
+            <div class="table-responsive manager-table-wrapper">
+                <table class="text-center manager-grade-table" id="datatable">
+                    <thead class="thead-manager">
+                        <tr>
+                            <th>#</th>
+                            <th>{{ trans('Students_trans.name') }}</th>
+                            <th>{{ trans('main_trans.National_ID') }}</th>
+                            <th>{{ trans('Students_trans.email') }}</th>
+                            <th>{{ trans('Students_trans.gender') }}</th>
+                            <th>{{ trans('Students_trans.Grade') }}</th>
+                            <th>{{ trans('Students_trans.classrooms') }}</th>
+                            <th>{{ trans('Students_trans.section') }}</th>
+                            <th>{{ trans('Students_trans.Processes') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($students as $student)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $student->user->name }}</td>
+                                <td>{{ $student->National_ID }}</td>
+                                <td>{{ $student->user->email }}</td>
+                                <td>{{ $student->gender->Name }}</td>
+                                <td>{{ $student->grade->Name }}</td>
+                                <td>{{ $student->classroom->Name_Class }}</td>
+                                <td>{{ $student->section->Name_Section }}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="dropdown-toggle operations-btn" data-bs-toggle="dropdown">
+                                            {{ trans('main_trans.operations') }}
+                                        </button>
+                                        <ul class="dropdown-menu operations-btn-item">
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                    href="{{ route('Students.show', $student->id) }}">
+                                                    <i class="fas fa-eye action-icon eye-icon-action"></i>
+                                                    {{ trans('main_trans.Student_information') }}
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                    href="{{ route('Students.edit', $student->id) }}">
+                                                    <i class="fas fa-edit action-icon edit-icon-action"></i>
+                                                    {{ trans('main_trans.edit') }}
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2" href="#"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $student->id }}">
+                                                    <i class="fas fa-trash-alt action-icon delete-icon-action"></i>
+                                                    {{ trans('main_trans.delete') }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+
+
+                                <!-- Modal حذف الطالب -->
+                                <div class="modal fade" id="deleteModal{{ $student->id }}" tabindex="-1"
+                                    aria-labelledby="deleteModalLabel{{ $student->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered"> <!-- يجعل المودال بالنص -->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="{{ trans('main_trans.close') }}"></button>
+                                            </div>
+
+                                            <form action="{{ route('Students.destroy', $student->id) }}" method="post" id="deleteStudent">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <div class="modal-body text-center">
+                                                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                                                    <p>{{ trans('main_trans.Delete_Student_Warning') }}</p>
+                                                    <p>{{ $student->user->name }}</p>
+                                                </div>
+                                                <div class="modal-footer custom-modal-footer-manager">
+                                                    <button type="submit" form="deleteStudent" class="btn btn-primary custom-save-btn"
+                                                        form="stageForm">{{ trans('main_trans.submit') }}</button>
+                                                    <button type="button" class="btn btn-secondary custom-cancel-btn"
+                                                        data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+                </table>
+                {{ $students->links() }}
+            </div>
+
+        </div>
+
     </div>
 
 
@@ -150,9 +281,9 @@
         const students = Array.from(tbody.querySelectorAll('tr')).map(row => {
             return {
                 row: row,
-                grade: row.cells[4].textContent.trim(),
-                classroom: row.cells[5].textContent.trim(),
-                section: row.cells[6].textContent.trim(),
+                grade: row.cells[5].textContent.trim(),
+                classroom: row.cells[6].textContent.trim(),
+                section: row.cells[7].textContent.trim(),
             };
         });
 

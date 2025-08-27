@@ -1,6 +1,6 @@
 @extends('layouts.main.manager_dashboard')
 @section('manager_content')
-    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+    {{-- <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <h3 class="manager-header-form">{{ trans('main_trans.add_student') }}</h3>
 
         <div class="container mt-4">
@@ -18,7 +18,30 @@
             </div>
         </div>
 
+    </div> --}}
+
+    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+        <h3 class="manager-header-form">{{ trans('main_trans.add_student') }}</h3>
+        <div class="title-underline"></div>
+
+        <div class="container mt-4">
+            <div class="card custom-form-card">
+                <div class="card-body">
+                    @include('components.error-field')
+                    <form class="subject-form" method="post" action="{{ route('Students.store') }}" autocomplete="off"
+                        enctype="multipart/form-data">
+                        @csrf
+
+                        @include('forms._form-student', ['formMode' => 'create'])
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    {{-- filter classes & section --}}
     <script>
         $(document).ready(function() {
             $('select[name="Grade_id"]').on('change', function() {
