@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\Teacher\ExamController;
 use App\Http\Controllers\Teacher\TeacherController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -60,6 +61,16 @@ Route::group(
                 Route::get('/{section_id}/exam/create', 'ExamController@createNew')->name('createNewExam');
                 Route::get('{exam_id}/exam/questions/index', 'ExamController@addQuestions')->name('addQuestions');
                 Route::resource('sectionsExams', 'SectionExamContrller');
+                // Route::get('exam/students/{exam_id}', 'ExamController@testedStudents')->name('tested_students');
+
+
+                Route::get('teacher/exams/{exam_id}/tested-students', [ExamController::class, 'testedStudents'])
+                    ->name('teacher.exams.tested_students');
+                    Route::post('/manual-degree', 'QuizzController@storeManualDegree')->name('manual.degree.store');
+            Route::post('repeat_quizze/{quizze_id}', 'QuizzController@repeat_quizze')->name('repeat.quizze');
+
+
+
                 // Route::post('/teacher/exams/assign', 'TeacherExamController@assign')->name('teacher.exams.assign');
 
 

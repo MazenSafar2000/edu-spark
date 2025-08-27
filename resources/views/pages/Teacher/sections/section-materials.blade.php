@@ -244,7 +244,7 @@
 
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
-                                                href="">
+                                                href="{{ route('teacher.exams.tested_students', $material['data']->id)}}">
                                                 <i class="fas fa-users students-icon action-icon std-icon-action"></i>
                                                 {{ trans('Teacher_trans.Display_Tested_Students') }}
                                             </a>

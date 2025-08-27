@@ -24,11 +24,15 @@ class SectionExam extends Model
         return $this->belongsTo(Subject::class);
     }
 
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
 
-    // public function sections()
-    // {
-    //     return $this->hasMany(Section::class);
-    // }
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
     // public function sections()
     // {
     //     return $this->belongsToMany(Section::class, 'exam_section', 'exam_id', 'section_id', 'subject_id')

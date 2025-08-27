@@ -91,7 +91,7 @@
 
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
-                                                            href="">
+                                                            href="{{ route('tested_students', $exam->id)}}">
                                                             <i
                                                                 class="fas fa-users students-icon action-icon std-icon-action"></i>
                                                             {{ trans('Teacher_trans.Display_Tested_Students') }}

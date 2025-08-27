@@ -3957,7 +3957,7 @@ text-decoration: none;
     }
 
      .exam-container .question-box {
-      display: none;
+      /* display: none; */
       background: linear-gradient(125deg , rgba(7, 35, 64, 0.05), rgba(88, 159, 67, 0.05));
       padding: 20px;
       border-radius: 5px;

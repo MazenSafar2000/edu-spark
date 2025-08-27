@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Degree;
 use App\Models\Exam;
+use App\Models\ExamAttempts;
 use App\Models\ExamQuestions;
 use App\Models\Grade;
 use App\Models\Question;
@@ -223,5 +225,92 @@ class ExamController extends Controller
             })->get();
 
         return view('pages.Teacher.exams.questions.index', compact('questions', 'exam', 'categories'));
+    }
+
+    // public function testedStudents($exam_id)
+    // {
+
+    //     // 1. Get exam with linked sections
+    //     $exam = Exam::with('subject', 'sectionExams.section')->findOrFail($exam_id);
+    //     // dd($exam);
+
+    //     $totalStudents = $exam->sectionExams->students;
+    //     dd($totalStudents);
+
+    //     // 2. Collect all students in these sections
+    //     $sectionIds = $exam->sectionExams->pluck('section_id');
+    //     $students = Student::whereIn('section_id', $sectionIds)->get();
+
+    //     // 3. Get all degrees for this exam
+    //     $degrees = Degree::where('exam_id', $exam_id)->get()->keyBy('student_id');
+
+    //     $labels = $degrees->pluck('student.name');
+    //     $scores = $degrees->pluck('score');
+
+    //     $passed = $degrees->where('score', '>=', $exam->pass_mark ?? 10)->count();
+    //     $failed = $degrees->count() - $passed;
+
+    //     // 4. Attach score to each student
+    //     foreach ($students as $student) {
+    //         $student->score = $degrees[$student->id]->score ?? null;
+    //         $student->feedback = $degrees[$student->id]->feedback ?? null;
+    //     }
+
+    //     return view('pages.Teacher.exams.tested_students', compact('exam', 'students', 'degrees', 'labels', 'scores', 'passed', 'failed'));
+    // }
+
+    public function testedStudents($exam_id)
+    {
+        $exam = Exam::with('sectionExams.section.students')->findOrFail($exam_id);
+
+        // Get all students in sections of this exam
+        $students = $exam->sectionExams
+            ->flatMap(fn($se) => $se->section->students)
+            ->unique('id')
+            ->values();
+
+        // Get last attempt per student
+        $attempts = ExamAttempts::where('exam_id', $exam_id)
+            ->with('student')
+            ->get()
+            ->groupBy('student_id')
+            ->map(fn($group) => $group->sortByDesc('attempt_number')->first());
+
+        // Compute stats
+        $totalStudents = $students->count();
+        $studentsAttempted = $attempts->count();
+        $studentsNotAttempted = $totalStudents - $studentsAttempted;
+
+        $passingGrade = $exam->maximum_grade * 0.5;
+        $studentsSuccess = $attempts->filter(fn($a) => $a->grade_obtained >= $passingGrade)->count();
+        $studentsFail = $studentsAttempted - $studentsSuccess;
+
+        $distribution = [
+            '0-25' => 0,
+            '26-50' => 0,
+            '51-75' => 0,
+            '76-100' => 0,
+        ];
+        foreach ($attempts as $a) {
+            if ($a->grade_obtained === null) continue;
+            if ($a->grade_obtained <= 25) $distribution['0-25']++;
+            elseif ($a->grade_obtained <= 50) $distribution['26-50']++;
+            elseif ($a->grade_obtained <= 75) $distribution['51-75']++;
+            else $distribution['76-100']++;
+        }
+
+        return view('pages.Teacher.exams.tested_students', [
+            'exam' => $exam,
+            'students' => $students,
+            'attempts' => $attempts,
+            'stats' => [
+                'total' => $totalStudents,
+                'attempted' => $studentsAttempted,
+                'not_attempted' => $studentsNotAttempted,
+                'success' => $studentsSuccess,
+                'fail' => $studentsFail,
+            ],
+            'distribution' => $distribution,
+        ]);
     }
 }
