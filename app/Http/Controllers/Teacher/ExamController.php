@@ -276,14 +276,23 @@ class ExamController extends Controller
             ->groupBy('student_id')
             ->map(fn($group) => $group->sortByDesc('attempt_number')->first());
 
+        // Get degrees for students without attempts (manual entries)
+        $degrees = Degree::where('exam_id', $exam_id)
+            ->whereIn('student_id', $students->pluck('id'))
+            ->get()
+            ->keyBy('student_id');
+
         // Compute stats
         $totalStudents = $students->count();
         $studentsAttempted = $attempts->count();
-        $studentsNotAttempted = $totalStudents - $studentsAttempted;
+        $studentsManual = $degrees->count();
+        $studentsNotAttempted = $totalStudents - $studentsAttempted - $studentsManual;
 
         $passingGrade = $exam->maximum_grade * 0.5;
-        $studentsSuccess = $attempts->filter(fn($a) => $a->grade_obtained >= $passingGrade)->count();
-        $studentsFail = $studentsAttempted - $studentsSuccess;
+
+        $studentsSuccess = $attempts->filter(fn($a) => $a->grade_obtained >= $passingGrade)->count()
+            + $degrees->filter(fn($d) => $d->score >= $passingGrade)->count();
+        $studentsFail = ($studentsAttempted + $studentsManual) - $studentsSuccess;
 
         $distribution = [
             '0-25' => 0,
@@ -299,10 +308,19 @@ class ExamController extends Controller
             else $distribution['76-100']++;
         }
 
+        foreach ($degrees as $d) {
+            if ($d->score === null) continue;
+            if ($d->score <= 25) $distribution['0-25']++;
+            elseif ($d->score <= 50) $distribution['26-50']++;
+            elseif ($d->score <= 75) $distribution['51-75']++;
+            else $distribution['76-100']++;
+        }
+
         return view('pages.Teacher.exams.tested_students', [
             'exam' => $exam,
             'students' => $students,
             'attempts' => $attempts,
+            'degrees' => $degrees,
             'stats' => [
                 'total' => $totalStudents,
                 'attempted' => $studentsAttempted,
@@ -312,5 +330,20 @@ class ExamController extends Controller
             ],
             'distribution' => $distribution,
         ]);
+    }
+
+    public function studentAttempts($examId, $studentId)
+    {
+        $exam = Exam::findOrFail($examId);
+        $student = Student::findOrFail($studentId);
+
+        // fetch all attempts of this student for this exam
+        $attempts = ExamAttempts::where('exam_id', $examId)
+            ->where('student_id', $studentId)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+
+        return view('pages.Teacher.exams.student_attempts', compact('exam', 'student', 'attempts'));
     }
 }

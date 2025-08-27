@@ -11,6 +11,7 @@ class StudentExamAnswers extends Model
 
     protected $fillable = [
         'attempt_id',
+        'student_id',
         'question_id',
         'answer',
         'is_correct'

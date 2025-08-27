@@ -55,6 +55,15 @@ class ExamFinisher
                     'grade_obtained' => $gradeObtained,
                 ]);
 
+                // 3) find the highest grade among all completed attempts
+                $bestAttempt = ExamAttempts::where('student_id', $attempt->student_id)
+                    ->where('exam_id', $exam->id)
+                    ->where('status', 'completed')
+                    ->orderByDesc('grade_obtained')
+                    ->first();
+
+                $finalGrade = $bestAttempt ? $bestAttempt->grade_obtained : $gradeObtained;
+
                 // 3) save score in degrees table
                 Degree::updateOrCreate(
                     [
@@ -62,7 +71,7 @@ class ExamFinisher
                         'student_id' => $attempt->student_id,
                     ],
                     [
-                        'score'    => $gradeObtained,
+                        'score'    => $finalGrade,
                         'date'     => now()->toDateString(),
                         'feedback' => null,
                     ]

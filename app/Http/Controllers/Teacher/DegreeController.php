@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Teacher;
 
+use App\Http\Controllers\Controller;
 use App\Models\Degree;
 use Illuminate\Http\Request;
 
@@ -81,5 +82,43 @@ class DegreeController extends Controller
     public function destroy(Degree $degree)
     {
         //
+    }
+
+    public function storeManualDegree(Request $request)
+    {
+        $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'exam_id' => 'required|exists:exams,id',
+            'score' => 'required|numeric|min:0',
+            'feedback' => 'nullable|string',
+        ]);
+
+        try {
+
+            $degree = Degree::where('student_id', $request->student_id)
+                ->where('exam_id', $request->exam_id)
+                ->first();
+
+            if ($degree) {
+                $degree->update([
+                    'score' => $request->score,
+                    'feedback' => $request->feedback,
+                    'date' => now(),
+                ]);
+            } else {
+                Degree::create([
+                    'student_id' => $request->student_id,
+                    'exam_id' => $request->exam_id,
+                    'score' => $request->score,
+                    'feedback' => $request->feedback,
+                    'abuse' => '0',
+                    'date' => now(),
+                ]);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
+
+        return back()->with('success', trans('teacher_trans.score_saved'));
     }
 }

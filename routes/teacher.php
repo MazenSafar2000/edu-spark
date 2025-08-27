@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\Teacher\ExamAttemptsController;
 use App\Http\Controllers\Teacher\ExamController;
 use App\Http\Controllers\Teacher\TeacherController;
 use Illuminate\Support\Facades\Route;
@@ -66,8 +67,15 @@ Route::group(
 
                 Route::get('teacher/exams/{exam_id}/tested-students', [ExamController::class, 'testedStudents'])
                     ->name('teacher.exams.tested_students');
-                    Route::post('/manual-degree', 'QuizzController@storeManualDegree')->name('manual.degree.store');
-            Route::post('repeat_quizze/{quizze_id}', 'QuizzController@repeat_quizze')->name('repeat.quizze');
+                Route::post('/manual-degree', 'DegreeController@storeManualDegree')->name('manual.degree.store');
+                Route::get('/teacher/exams/{exam}/student/{student}/attempts', 'ExamController@studentAttempts')->name('teacher.exams.studentAttempts');
+                // Route::post('repeat_quizze/{quizze_id}', 'QuizzController@repeat_quizze')->name('repeat.quizze');
+
+                Route::resource('examAttempts', ExamAttemptsController::class);
+                Route::get(
+                    '/teacher/exams/{exam}/student/{student}/attempts/{attempt}/answers',
+                    [ExamAttemptsController::class, 'showAttemptAnswers']
+                )->name('teacher.exams.attemptAnswers');
 
 
 

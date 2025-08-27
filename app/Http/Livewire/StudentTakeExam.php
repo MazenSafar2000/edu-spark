@@ -167,7 +167,11 @@ class StudentTakeExam extends Component
         $this->answers[$questionId] = $value;
 
         StudentExamAnswers::updateOrCreate(
-            ['attempt_id' => $this->attempt->id, 'question_id' => $questionId],
+            [
+                'attempt_id' => $this->attempt->id,
+                'question_id' => $questionId,
+                'student_id' => $this->attempt->student_id
+            ],
             [
                 'answer' => $value,
                 'is_correct' => $this->computeCorrectness($questionId, $value),
