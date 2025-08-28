@@ -111,7 +111,7 @@ class DegreeController extends Controller
                     'exam_id' => $request->exam_id,
                     'score' => $request->score,
                     'feedback' => $request->feedback,
-                    'abuse' => '0',
+                    'absence' => '0',
                     'date' => now(),
                 ]);
             }

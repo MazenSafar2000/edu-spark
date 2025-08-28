@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Exports\ExamResultsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Degree;
 use App\Models\Exam;
@@ -14,6 +15,7 @@ use App\Models\Student;
 use App\Models\Teacher_section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExamController extends Controller
 {
@@ -24,7 +26,7 @@ class ExamController extends Controller
      */
     public function index()
     {
-        $exams = Exam::get()->where('teacher_id', Auth::user()->teacher->id);
+        $exams = Exam::where('teacher_id', Auth::user()->teacher->id)->paginate(10);
         return view('pages.teacher.exams.index', compact('exams'));
     }
 
@@ -263,36 +265,39 @@ class ExamController extends Controller
     {
         $exam = Exam::with('sectionExams.section.students')->findOrFail($exam_id);
 
-        // Get all students in sections of this exam
+        // All students in sections of this exam
         $students = $exam->sectionExams
             ->flatMap(fn($se) => $se->section->students)
             ->unique('id')
             ->values();
 
-        // Get last attempt per student
+        // Latest attempts per student
         $attempts = ExamAttempts::where('exam_id', $exam_id)
             ->with('student')
             ->get()
             ->groupBy('student_id')
             ->map(fn($group) => $group->sortByDesc('attempt_number')->first());
 
-        // Get degrees for students without attempts (manual entries)
+        // Manual degrees (teacher updated grades)
         $degrees = Degree::where('exam_id', $exam_id)
             ->whereIn('student_id', $students->pluck('id'))
             ->get()
             ->keyBy('student_id');
 
-        // Compute stats
         $totalStudents = $students->count();
-        $studentsAttempted = $attempts->count();
-        $studentsManual = $degrees->count();
-        $studentsNotAttempted = $totalStudents - $studentsAttempted - $studentsManual;
 
+        // Attempted = students with exam_attempts
+        $studentsAttempted = $attempts->count();
+
+        // Not Attempted = all students - attempted
+        $studentsNotAttempted = $totalStudents - $studentsAttempted;
+
+        // Passing grade rule
         $passingGrade = $exam->maximum_grade * 0.5;
 
-        $studentsSuccess = $attempts->filter(fn($a) => $a->grade_obtained >= $passingGrade)->count()
-            + $degrees->filter(fn($d) => $d->score >= $passingGrade)->count();
-        $studentsFail = ($studentsAttempted + $studentsManual) - $studentsSuccess;
+        // Count success & fail
+        $success = 0;
+        $fail = 0;
 
         $distribution = [
             '0-25' => 0,
@@ -300,20 +305,21 @@ class ExamController extends Controller
             '51-75' => 0,
             '76-100' => 0,
         ];
-        foreach ($attempts as $a) {
-            if ($a->grade_obtained === null) continue;
-            if ($a->grade_obtained <= 25) $distribution['0-25']++;
-            elseif ($a->grade_obtained <= 50) $distribution['26-50']++;
-            elseif ($a->grade_obtained <= 75) $distribution['51-75']++;
-            else $distribution['76-100']++;
-        }
 
-        foreach ($degrees as $d) {
-            if ($d->score === null) continue;
-            if ($d->score <= 25) $distribution['0-25']++;
-            elseif ($d->score <= 50) $distribution['26-50']++;
-            elseif ($d->score <= 75) $distribution['51-75']++;
-            else $distribution['76-100']++;
+        foreach ($students as $student) {
+            // Prefer teacher-updated degree, fallback to last attempt
+            $grade = $degrees[$student->id]->score ?? $attempts[$student->id]->grade_obtained ?? null;
+
+            if ($grade !== null) {
+                if ($grade >= $passingGrade) $success++;
+                else $fail++;
+
+                // Update distribution
+                if ($grade <= 25) $distribution['0-25']++;
+                elseif ($grade <= 50) $distribution['26-50']++;
+                elseif ($grade <= 75) $distribution['51-75']++;
+                else $distribution['76-100']++;
+            }
         }
 
         return view('pages.Teacher.exams.tested_students', [
@@ -325,12 +331,14 @@ class ExamController extends Controller
                 'total' => $totalStudents,
                 'attempted' => $studentsAttempted,
                 'not_attempted' => $studentsNotAttempted,
-                'success' => $studentsSuccess,
-                'fail' => $studentsFail,
+                'success' => $success,
+                'fail' => $fail,
             ],
             'distribution' => $distribution,
         ]);
     }
+
+
 
     public function studentAttempts($examId, $studentId)
     {
@@ -345,5 +353,43 @@ class ExamController extends Controller
 
 
         return view('pages.Teacher.exams.student_attempts', compact('exam', 'student', 'attempts'));
+    }
+
+    public function assignZeroForAbsentStudents($examId)
+    {
+        $exam = Exam::with('sections.students')->findOrFail($examId);
+
+        foreach ($exam->sections as $section) {
+            foreach ($section->students as $student) {
+                // Check if the student has any attempts
+                $hasAttempt = ExamAttempts::where('exam_id', $examId)
+                    ->where('student_id', $student->id)
+                    ->exists();
+
+                // If not, create a degree with 0 (if not already exists)
+                if (!$hasAttempt) {
+                    Degree::firstOrCreate(
+                        [
+                            'exam_id' => $examId,
+                            'student_id' => $student->id,
+                        ],
+                        [
+                            'score' => 0,
+                            'date' => now(),
+                            'feedback' => 'غياب عن الامتحان',
+                            'absence' => '1',
+                        ]
+                    );
+                }
+            }
+        }
+
+        return back()->with('success', 'تم تعيين درجة 0 لكل الطلاب الغائبين عن الامتحان');
+    }
+
+    public function exportExamResults($exam_id)
+    {
+        $exam = Exam::findOrFail($exam_id);
+        return Excel::download(new ExamResultsExport($exam), 'exam_' . $exam_id . '_results.xlsx');
     }
 }

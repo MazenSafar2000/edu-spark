@@ -18,7 +18,7 @@ class RecordedClassController extends Controller
      */
     public function index()
     {
-        $classes = Recorded_class::get()->where('teacher_id', Auth::user()->teacher->id);
+        $classes = Recorded_class::where('teacher_id', Auth::user()->teacher->id)->paginate(10);
         return view("pages.Teacher.recordedClasses.index", compact("classes"));
     }
 

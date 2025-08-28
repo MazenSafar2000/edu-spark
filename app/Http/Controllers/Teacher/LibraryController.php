@@ -28,7 +28,7 @@ class LibraryController extends Controller
      */
     public function index()
     {
-        $data = Library::all();
+        $data = Library::paginate(10);
 
         return view("pages.Teacher.library.index", compact("data"));
     }

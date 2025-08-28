@@ -8,10 +8,15 @@
                 <div class="tab-pane fade show active" role="tabpanel">
                     <div class="header-table-teacher2">
                         <h3 class="teacher-title2">تقييم الواجب</h3>
-                        <input type="search" class="form-control search-input" placeholder="{{ trans('main_trans.search') }}">
+                        <input type="search" id="submissionSearch" class="form-control search-input"
+                            placeholder="{{ trans('main_trans.search') }}">
                     </div>
+                    <a href="{{ route('teacher.homework.export', $homework->id) }}" class="btn btn-success mb-3">
+                        Export to Excel
+                    </a>
+
                     <div class="table-responsive">
-                        <table class="table text-center custom-user-table-teacher">
+                        <table class="table text-center custom-user-table-teacher" id="datatable">
                             <thead class="thead-user">
                                 <tr>
                                     <th>#</th>
@@ -37,7 +42,8 @@
                                         <td>{{ $student->section->Name_Section }}</td>
                                         <td>
                                             @if ($submission && $submission->file_path)
-                                                <a href="{{ asset("storage/attachments/homework_submissions/students/{$student->National_ID}/". $submission->file_path) }}" target="_blank">
+                                                <a href="{{ asset("storage/attachments/homework_submissions/students/{$student->National_ID}/" . $submission->file_path) }}"
+                                                    target="_blank">
                                                     {{ trans('Students_trans.Download_file') }}
                                                 </a>
                                             @else
@@ -75,8 +81,7 @@
                                         aria-labelledby="gradeModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
 
-                                            <form
-                                                action="{{ route('homework.grade', [$homework->id, $student->id]) }}"
+                                            <form action="{{ route('homework.grade', [$homework->id, $student->id]) }}"
                                                 method="POST">
                                                 @csrf
                                                 <div class="modal-content">
@@ -121,12 +126,25 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        {{ $students->links() }}
                     </div>
                 </div>
-
             </div>
         </div>
-
-        <!-- محتوى الصفحة هنا -->
     </div>
+
+    {{-- search input code --}}
+    <script>
+        document.getElementById('submissionSearch').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const table = document.getElementById('datatable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const cells = Array.from(row.cells).map(td => td.textContent.toLowerCase());
+                const match = cells.some(cell => cell.includes(searchValue));
+                row.style.display = match ? '' : 'none';
+            });
+        });
+    </script>
 @endsection

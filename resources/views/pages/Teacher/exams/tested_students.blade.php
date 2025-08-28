@@ -1,6 +1,7 @@
 @extends('layouts.main.teacher_dashboard')
 @section('teacher_content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+        <div class="container mt-4">
         <div class="tab-pane fade show active" id="resuls" role="tabpanel">
             <div class="charts-wrapper">
                 <!-- Donut Chart -->
@@ -19,6 +20,21 @@
                     <input type="search" class="form-control search-input-custom" placeholder="ابحث ...">
                 </div>
 
+                <form action="{{ route('exams.assignZeros', $exam->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fas fa-user-times"></i> تعيين 0 للغائبين
+                    </button>
+                </form>
+
+                <div class="text-end mb-3">
+                    <a href="{{ route('teacher.exam.export', $exam->id) }}" class="btn btn-success">
+                        <i class="fas fa-file-excel"></i> تصدير النتائج
+                    </a>
+                </div>
+
+
+
                 <div class="table-responsive custom-table-wrapper">
                     <table class="table text-center custom-grade-table">
                         <thead class="thead-custom">
@@ -35,13 +51,19 @@
                                 @php
                                     $attempt = $attempts[$student->id] ?? null;
                                     $degree = $degrees[$student->id] ?? null;
-                                    $grade = $attempt->grade_obtained ?? ($degree->score ?? null);
-                                    $ended = $attempt->ended_at ?? ($degree->date ?? null);
+                                    $grade = $degrees[$student->id]->score ?? $attempts[$student->id]->grade_obtained ?? null
+                                    // $ended = $attempt->ended_at ?? ($degree->date ?? null);
                                 @endphp
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $student->user->name }}</td>
-                                    <td>{{ $grade ?? '-' }}</td>
+                                    <td>
+                                        @if($grade !== null)
+                                            {{ number_format($grade, 2) }} / {{ $exam->maximum_grade }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td>
                                         @if ($attempt && $attempt->ended_at)
                                             {{ $attempt->ended_at->format('d-m-Y h:ia') }}
@@ -150,6 +172,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Chart Scripts -->

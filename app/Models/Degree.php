@@ -16,7 +16,7 @@ class Degree extends Model
         'student_id',
         'feedback',
         'score',
-        'abuse',
+        'absence',
         'date',
     ];
 

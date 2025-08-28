@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Teacher\ExamAttemptsController;
 use App\Http\Controllers\Teacher\ExamController;
+use App\Http\Controllers\Teacher\HomeworkController;
 use App\Http\Controllers\Teacher\TeacherController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -45,6 +46,9 @@ Route::group(
                 Route::get('/{section_id}/homework/create', 'HomeworkController@createNew')->name('createNewHomework');
                 Route::get('homeworks/{homework}/submissions', 'HomeworkController@showSubmissions')->name('submissions');
                 Route::post('homeworks/{homework}/grade/{student}', 'HomeworkController@gradeStudent')->name('homework.grade');
+                Route::get('/teacher/homework/{homework}/export', [HomeworkController::class, 'export'])
+                    ->name('teacher.homework.export');
+
 
                 Route::resource('classes/recorded', 'RecordedClassController')->names([
                     'index' => 'recordedClasses.index',
@@ -69,6 +73,11 @@ Route::group(
                     ->name('teacher.exams.tested_students');
                 Route::post('/manual-degree', 'DegreeController@storeManualDegree')->name('manual.degree.store');
                 Route::get('/teacher/exams/{exam}/student/{student}/attempts', 'ExamController@studentAttempts')->name('teacher.exams.studentAttempts');
+                Route::post('/exams/{exam}/assign-zeros', [ExamController::class, 'assignZeroForAbsentStudents'])->name('exams.assignZeros');
+                Route::get('/teacher/exams/{exam}/export', [ExamController::class, 'exportExamResults'])
+                    ->name('teacher.exam.export');
+
+
                 // Route::post('repeat_quizze/{quizze_id}', 'QuizzController@repeat_quizze')->name('repeat.quizze');
 
                 Route::resource('examAttempts', ExamAttemptsController::class);

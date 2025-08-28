@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Exports\HomeworkSubmissionsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\Homework;
@@ -12,6 +13,7 @@ use App\Models\Teacher_section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HomeworkController extends Controller
 {
@@ -22,7 +24,7 @@ class HomeworkController extends Controller
      */
     public function index()
     {
-        $homeworks = Homework::all()->where('teacher_id', auth()->user()->teacher->id);
+        $homeworks = Homework::where('teacher_id', auth()->user()->teacher->id)->paginate(10);
 
         return view("pages.Teacher.homework.index", compact("homeworks"));
     }
@@ -245,7 +247,7 @@ class HomeworkController extends Controller
             ->where('grade_id', $homework->grade_id)
             ->where('classroom_id', $homework->classroom_id)
             ->where('section_id', $homework->section_id)
-            ->get();
+            ->paginate(10);
 
 
 
@@ -271,5 +273,12 @@ class HomeworkController extends Controller
 
         toastr()->success(trans('messages.Update'));
         return back();
+    }
+
+    public function export($homeworkId)
+    {
+        $homework = Homework::findOrFail($homeworkId);
+
+        return Excel::download(new HomeworkSubmissionsExport($homeworkId), "Homework_{$homework->title}_Submissions.xlsx");
     }
 }

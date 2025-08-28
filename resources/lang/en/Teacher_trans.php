@@ -115,6 +115,8 @@ return [
     'status' => 'Status',
     'submission_timing' => 'Submission Timing',
     'no_submissions' => 'No Submissions',
+    'Delivered' => 'Delivered',
+    'Not_delivered' => 'Not Delivered',
     'Back' => 'Back',
     'grade_homework' => 'Grade Homework',
     'no_students' => 'No Students',

@@ -111,6 +111,8 @@
                                 </select>
                             </div>
 
+                            <input type="checkbox" id="selectAll"> Select All
+
                             <div id="questionsTableWrapper" style="display: none">
                                 <table class="table table-bordered">
                                     <thead>
@@ -168,34 +170,6 @@
                 </div>
             </div>
         </div>
-
-
-        {{-- <form action="" method="POST">
-        @csrf
-
-        <div class="mb-3">
-            <label for="category">اختر فئة الأسئلة:</label>
-            <select name="category_id" id="category-select" class="form-select">
-                <option value="">اختر فئة</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->title }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div id="questions-list">
-            <!-- سيتم تحميل الأسئلة بناءً على الفئة المختارة (AJAX أو تحميل مسبق) -->
-            @foreach ($questions as $question)
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="question_ids[]" value="{{ $question->id }}"
-                        {{ in_array($question->id, $selectedQuestions) ? 'checked' : '' }}>
-                    <label class="form-check-label">{{ $question->question }}</label>
-                </div>
-            @endforeach
-        </div>
-
-        <button type="submit" class="btn btn-success mt-3">حفظ الأسئلة</button>
-    </form> --}}
     </div>
 @endsection
 @section('js')
@@ -224,7 +198,7 @@
                         questions.forEach(question => {
                             const tr = document.createElement('tr');
                             tr.innerHTML = `
-                            <td><input type="checkbox" name="question_ids[]" value="${question.id}"></td>
+                            <td><input type="checkbox" class="itemCheckbox" name="question_ids[]" value="${question.id}"></td>
                             <td>${question.question}</td>
                             <td>${question.type}</td>
                             <td>${question.score}</td>
@@ -238,6 +212,14 @@
                         console.error("حدث خطأ أثناء تحميل الأسئلة:", error);
                         questionsTableWrapper.style.display = 'none';
                     });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#selectAll').click(function() {
+                $('.itemCheckbox').prop('checked', this.checked);
             });
         });
     </script>

@@ -40,6 +40,7 @@ return [
 
     'Do_not_hesitate' => 'لا تترددوا في التواصل معنا في أي وقت. سنرد عليكم في أقرب وقت ممكن!',
     'name' => 'الاسم',
+    'student_name' => 'اسم الطالب',
     'email' => 'البريد الالكتروني',
     'Write_your_message' => 'أكتب رسالتك هنا..',
     'send' => 'ارسال',
@@ -84,6 +85,14 @@ return [
     'add_grade' => 'اضافة مرحلة',
     'add_class' => 'اضافة صف',
     'add_section' => 'اضافة شعبة',
+    'number_students_section' => 'عدد الطلاب في الشعبة',
+    'number_students_tested' => 'عدد الطلاب الذين أدوا الاختبار',
+    'number_student_success' => 'عدد الطلاب الناجحين',
+    'number_student_failed' => 'عدد الطلاب الراسبين',
+    'successful' => 'ناجح',
+    'Failed' => 'راسب',
+    'not_examed' => 'لم يؤدِ الامتحان',
+
     'number_students' => 'عدد الطلاب',
     'number_sections' => 'عدد الشعب',
     'number_classes' => 'عدد الصفوف',
@@ -107,11 +116,12 @@ return [
     'Last_ope_sys' => 'اخر العمليات على النظام',
     'Grades' => 'المراحل الدراسية',
     'Grade' => 'المرحلة الدراسية',
+    'number_attempt' => 'عدد المحاولات',
     'Grades_list' => 'قائمة المراحل الدراسية',
     'classes' => 'الصفوف',
     'List_classes' => 'قائمة الصفوف الدراسية',
-    'sections' => 'الاقسام',
-    'Section' => 'الشعبة',
+    'sections' => 'الشُعب',
+    'section' => 'الشعبة',
     'List_sections' => 'قائمة الاقسام الدراسية',
     'Number_sections' => 'عدد الاقسام',
     'Students' => 'الطلاب',
@@ -208,6 +218,11 @@ return [
     'Date_added' => 'تاريخ الاضافة',
     'write_notes' => 'اكتب ملاحظاتك هنا...',
     'any_notes' => 'أي ملاحظات !',
+    'final_score' => 'الدرجة النهائية',
+    'status' => 'الحالة',
+    'Delivery_date' => 'تاريخ التسليم',
+
+
 
 
 

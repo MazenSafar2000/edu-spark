@@ -139,7 +139,7 @@
                                 <option selected disabled>{{ trans('Teacher_trans.select_subject') }}</option>
                                 @foreach ($subjects as $subject)
                                     <option value="{{ $subject->id }}"
-                                        {{ old('subject_id', $section?->subject_id ?? '') == $subject->id ? 'selected' : '' }}>
+                                        {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
                                         {{ $subject->subject->name }}</option>
 
 

@@ -10,13 +10,13 @@
                 <div class="tab-pane fade show active" role="tabpanel">
                     <div class="header-table-teacher">
                         <a href="{{ route('exams.create') }}">{{ trans('Teacher_trans.add_new_quizz') }}</a>
-                        <input type="search" class="form-control search-input"
+                        <input type="search" id="examSearch" class="form-control search-input"
                             placeholder="{{ trans('main_trans.search') }}">
 
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table text-center custom-user-table-teacher">
+                        <table class="table text-center custom-user-table-teacher" id="datatable">
                             <thead class="thead-user">
                                 <tr>
                                     <th>#</th>
@@ -134,10 +134,25 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $exams->links() }}
                     </div>
                 </div>
             </div>
         </div>
-        <!-- محتوى الصفحة هنا -->
     </div>
+
+    {{-- search input code --}}
+    <script>
+        document.getElementById('examSearch').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const table = document.getElementById('datatable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const cells = Array.from(row.cells).map(td => td.textContent.toLowerCase());
+                const match = cells.some(cell => cell.includes(searchValue));
+                row.style.display = match ? '' : 'none';
+            });
+        });
+    </script>
 @endsection
