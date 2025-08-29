@@ -1,7 +1,7 @@
 @extends('layouts.main.teacher_dashboard')
 @section('teacher_content')
     <!-- المحتوى الرئيسي -->
-    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+    {{-- <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <div class="container mt-4">
             @include('components.error-field')
             <div class="card custom-form-card-teacher">
@@ -97,6 +97,132 @@
                 </div>
             </div>
         </div>
+    </div> --}}
+
+    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+
+        <h3 class="teacher-header-form">{{ trans('Teacher_trans.Edit_book') }}</h3>
+        <div class="title-underline"></div>
+
+        <div class="container mt-4">
+            <div class="card custom-form-card-teacher">
+                <div class="card-body">
+                    <form class="subject-form" action="{{ route('library.update', $book->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="form-group-float position-relative ">
+                                    <input type="text" name="title" id="title_id"
+                                        class="form-control custom-input float-input @error('title') custom-input-error @enderror"
+                                        placeholder=" " value="{{ old('title', $book->title) }}" />
+                                    <label for="title_id"
+                                        class="float-label">{{ trans('Teacher_trans.book_name') }}*</label>
+                                </div>
+                                @error('title')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
+                                @enderror
+
+
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="" class="text-danger">{{ trans('main_trans.Grade') }}*</label>
+                                <select class="form-select custom-select @error('grade_id') custom-select-error @enderror"
+                                    name="grade_id" id="grade-select">
+                                    <option selected disabled>{{ trans('main_trans.select_grade') }}</option>
+                                    @foreach ($Grades as $grade)
+                                        <option value="{{ $grade->id }}"
+                                            {{ old('grade_id', $book->Grade_id) == $grade->id ? 'selected' : '' }}>
+                                            {{ $grade->Name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('grade_id')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="" class="text-danger">{{ trans('main_trans.classroom') }}*</label>
+                                <select
+                                    class="form-select custom-select  @error('classroom_id') custom-select-error @enderror"
+                                    name="classroom_id" id="classroom-select">
+                                    <option value="{{ $book->Classroom_id }}">
+                                        {{ $book->classroom->Name_Class }}
+                                    </option>
+                                </select>
+                                @error('classroom_id')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label for="" class="text-danger">{{ trans('main_trans.section') }}*</label>
+                                <select
+                                    class="form-select custom-select  @error('section_id') custom-select-error @enderror"
+                                    name="section_id" id="section-select">
+                                    <option value="{{ $book->section_id }}">
+                                        {{ $book->section->Name_Section }}
+                                    </option>
+                                </select>
+                                @error('section_id')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="">
+                                <label for="" class="text-danger">{{ trans('Students_trans.subjects') }}*</label>
+                                <select class="form-select custom-select @error('subject_id') custom-select-error @enderror"
+                                    name="subject_id" id="subject-select">
+                                    <option value="{{ $book->subject_id }}">
+                                        {{ $book->subject->name }}
+                                    </option>
+                                </select>
+                                @error('subject_id')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="" class="text-danger">{{ trans('Parent_trans.Attachments') }}*</label>
+                                <input type="file" class="form-control custom-input" accept="application/pdf"
+                                    name="file_name" id="file_name">
+                            </div>
+                            @error('file_name')
+                                <div class="error-message" id="error-bookNameArabic">
+                                    <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+
+
+                        <div class="text-end">
+                            <button type="submit" class="btn save-btn">{{ trans('main_trans.submit') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- محتوى الصفحة هنا -->
     </div>
 @endsection
 @section('js')

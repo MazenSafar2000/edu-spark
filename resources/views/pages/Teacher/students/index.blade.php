@@ -1,6 +1,6 @@
 @extends('layouts.main.teacher_dashboard')
 @section('teacher_content')
-    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+    {{-- <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <h3 class="manager-header">جدول الطلاب</h3>
         <div class="table-users mt-5">
             <!-- المحتوى -->
@@ -47,7 +47,7 @@
                             <tbody>
                                 @foreach ($students as $student)
                                     <tr>
-                                        <td>{{ $loop->iteration  }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $student->user->name }}</td>
                                         <td>{{ $student->user->email }}</td>
                                         <td>{{ $student->gender->Name }}</td>
@@ -115,6 +115,78 @@
             </div>
         </div>
 
+    </div> --}}
+
+    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+        <h3 class="teacher-title2">{{ trans('main_trans.list_students') }}</h3>
+        <div class="title-underline"></div>
+
+
+        <div class="container custom-table-teacher">
+            <div class="header-table-teacher2">
+                <div class="select-std d-flex gap-2 flex-wrap">
+                    <select class="form-select std-select" id="gradeSelect">
+                        <option selected disabled>{{ trans('main_trans.select_grade') }}</option>
+                        @foreach ($grades as $grade)
+                            <option value="{{ $grade->id }}">{{ $grade->Name }}</option>
+                        @endforeach
+                    </select>
+                    <select class="form-select std-select" id="classroomSelect">
+                        <option selected disabled>{{ trans('main_trans.select_class') }}</option>
+                    </select>
+                    <select class="form-select std-select" id="sectionSelect">
+                        <option selected disabled>{{ trans('main_trans.select_section') }}</option>
+                    </select>
+                </div>
+
+                <div class="search-box-student text-end mb-3">
+                    <input type="search" id="studentSearch" class="form-control search-input-custom"
+                        placeholder="{{ trans('main_trans.search') }}">
+                </div>
+
+            </div>
+
+
+            <div class="table-responsive custom-table-wrapper">
+                <table class="text-center custom-grade-table" id="datatable">
+                    <thead class="thead-custom">
+                        <tr>
+                            <th>#</th>
+                            <th>{{ trans('Students_trans.name') }}</th>
+                            <th>{{ trans('Students_trans.email') }}</th>
+                            <th>{{ trans('Students_trans.gender') }}</th>
+                            <th>{{ trans('Students_trans.Grade') }}</th>
+                            <th>{{ trans('Students_trans.classrooms') }}</th>
+                            <th>{{ trans('Students_trans.section') }}</th>
+                            <th>{{ trans('Students_trans.Processes') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($students as $student)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $student->user->name }}</td>
+                                <td>{{ $student->user->email }}</td>
+                                <td>{{ $student->gender->Name }}</td>
+                                <td>{{ $student->grade->Name }}</td>
+                                <td>{{ $student->classroom->Name_Class }}</td>
+                                <td>{{ $student->section->Name_Section }}</td>
+                                <td>
+                                    <a href="{{ route('students.show', $student->id) }}"><i
+                                            class="fa-solid fa-eye action-icon eye-icon-action"
+                                            title="{{ trans('main_trans.Student_information') }}"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <br>
+                {{ $students->links('vendor.pagination.custom') }}
+
+
+            </div>
+        </div>
+
     </div>
 
 
@@ -152,9 +224,9 @@
         function updateClassrooms() {
             const selectedGrade = gradeSelect.options[gradeSelect.selectedIndex].text;
             if (!gradeSelect.value) {
-                classroomSelect.innerHTML = '<option value="">-- Select Classroom --</option>';
+                classroomSelect.innerHTML = '<option value="">{{ trans('main_trans.select_class') }}</option>';
                 classroomSelect.disabled = true;
-                sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+                sectionSelect.innerHTML = '<option value="">{{ trans('main_trans.select_section') }}</option>';
                 sectionSelect.disabled = true;
                 return;
             }
@@ -162,10 +234,10 @@
             const classrooms = getUniqueValues(students, 'classroom', {
                 grade: selectedGrade
             });
-            classroomSelect.innerHTML = '<option value="">-- Select Classroom --</option>' +
+            classroomSelect.innerHTML = '<option value="">{{ trans('main_trans.select_class') }}</option>' +
                 classrooms.map(c => `<option value="${c}">${c}</option>`).join('');
             classroomSelect.disabled = false;
-            sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+            sectionSelect.innerHTML = '<option value="">{{ trans('main_trans.select_section') }}</option>';
             sectionSelect.disabled = true;
         }
 
@@ -174,7 +246,7 @@
             const selectedGrade = gradeSelect.options[gradeSelect.selectedIndex].text;
             const selectedClassroom = classroomSelect.value;
             if (!selectedClassroom) {
-                sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+                sectionSelect.innerHTML = '<option value="">{{ trans('main_trans.select_section') }}</option>';
                 sectionSelect.disabled = true;
                 return;
             }
@@ -182,7 +254,7 @@
                 grade: selectedGrade,
                 classroom: selectedClassroom
             });
-            sectionSelect.innerHTML = '<option value="">-- Select Section --</option>' +
+            sectionSelect.innerHTML = '<option value="">{{ trans('main_trans.select_section') }}</option>' +
                 sections.map(s => `<option value="${s}">${s}</option>`).join('');
             sectionSelect.disabled = false;
         }

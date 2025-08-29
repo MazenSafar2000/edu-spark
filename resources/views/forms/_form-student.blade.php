@@ -79,7 +79,7 @@
         <div class="col-md-6">
             <div class="form-group-float position-relative">
                 <select class="form-select custom-select float-input @error('gender_id') is-invalid @enderror"
-                    id="grade" name="gender_id">
+                     name="gender_id">
                     <option selected disabled>{{ trans('Parent_trans.Choose') }}</option>
                     @foreach ($Genders as $Gender)
                     <option value="{{ $Gender->id }}"
@@ -251,7 +251,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group-float position-relative ">
-            <input type="password" class="form-control custom-input float-input" id="studentPass"
+            <input type="password" name="password" class="form-control custom-input float-input" id="studentPass"
                 autocomplete="new-password" placeholder=" " />
             <label for="studentPass" class="float-label">{{ trans('main_trans.Password') }}</label>
             @error('password')
@@ -260,30 +260,63 @@
         </div>
     </div>
 </div>
+
 <div class="row mb-3">
-    <div class="col-md-6">
-        <label for="" class="text-danger">{{ trans('main_trans.Date_of_Birth') }}</label>
-        <input type="date" class="form-control custom-input" id="subjectAr" placeholder="" value="{{ old('Date_Birth', $Student->Date_Birth) }}" />
-    </div>
-    <div class="col-md-6">
-        <label for="" class="text-danger">الجنس</label>
-        <select class="form-select custom-select" id="grade">
-            <option selected disabled>اختر الجنس ...</option>
-        </select>
-    </div>
+    <label for="" class="text-danger">{{ trans('Students_trans.email') }}</label>
+    <input type="email" name="email" class="form-control custom-input" id="subjectAr" placeholder=""
+        value="{{ old('email', $Student->user->email ?? '') }}" />
 </div>
 
 <div class="row mb-3">
     <div class="col-md-6">
+        <label for="" class="text-danger">{{ trans('main_trans.Date_of_Birth') }}</label>
+        <input type="date" name="Date_Birth" class="form-control custom-input" id="subjectAr" placeholder=""
+            value="{{ old('Date_Birth', $Student->Date_Birth) }}" />
+    </div>
+    <div class="col-md-6">
+        <label for="" class="text-danger">الجنس</label>
+        <select class="form-select custom-select" name="gender_id">
+            <option selected disabled>اختر الجنس ...</option>
+            @foreach ($Genders as $Gender)
+                <option value="{{ $Gender->id }}"
+                    {{ old('gender_id', $Student->gender_id ?? '') == $Gender->id ? 'selected' : '' }}>
+                    {{ $Gender->Name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+</div>
+
+
+
+<div class="row mb-3">
+    <div class="col-md-6">
         <label for="" class="text-danger"> ولي الامر </label>
-        <select class="form-select custom-select" id="grade">
+        <select class="form-select custom-select" name="parent_id">
             <option selected disabled>ولي الامر ...</option>
+            @foreach ($parents as $parent)
+                <option value="{{ $parent->id }}"
+                    {{ old('parent_id', $Student->parent_id) == $parent->id ? 'selected' : '' }}>
+                    {{ $parent->user->name }}
+                </option>
+            @endforeach
         </select>
     </div>
     <div class="col-md-6">
         <label for="" class="text-danger">السنة الأكاديمية</label>
-        <select class="form-select custom-select" id="grade">
-            <option selected disabled>اختر السنة الاكاديمية ...</option>
+        <select class="form-select custom-select @error('academic_year') is-invalid @enderror" name="academic_year"
+            id="academic_year">
+            <option selected disabled>{{ trans('Students_trans.academic_year') }}</option>
+            @php $current_year = date('Y'); @endphp
+            @for ($year = $current_year; $year <= $current_year + 1; $year++)
+                @php
+                    $academicYear = $year . '/' . ($year + 1);
+                @endphp
+                <option value="{{ $academicYear }}"
+                    {{ old('academic_year', $Student->academic_year) == $academicYear ? 'selected' : '' }}>
+                    {{ $academicYear }}
+                </option>
+            @endfor
         </select>
     </div>
 </div>
@@ -291,20 +324,34 @@
 <div class="row mb-4">
     <div class="col-md-4">
         <label for="" class="text-danger">المرحلة*</label>
-        <select class="form-select custom-select" id="grade">
+        <select class="form-select custom-select" name="Grade_id" id="Grade_id">
             <option selected disabled>اختر المرحلة ...</option>
+             @foreach ($my_classes as $c)
+                <option value="{{ $c->id }}"
+                    {{ old('Grade_id', $Student->Grade_id) == $c->id ? 'selected' : '' }}>{{ $c->Name }}</option>
+                @endforeach
         </select>
     </div>
     <div class="col-md-4">
         <label for="" class="text-danger">الصف*</label>
-        <select class="form-select custom-select" id="class">
+        <select class="form-select custom-select" id="Classroom_id" name="Classroom_id">
             <option selected disabled>اختر الصف ...</option>
+             @if ($Student->user)
+                <option value="{{ $Student->Classroom_id }}" selected>
+                    {{ $Student->classroom->Name_Class }}
+                </option>
+                @endif
         </select>
     </div>
     <div class="col-md-4">
         <label for="" class="text-danger">الشعبة*</label>
-        <select class="form-select custom-select" id="teacher">
+        <select class="form-select custom-select" name="section_id"  id="section_id">
             <option selected disabled>اختر الشعبة ...</option>
+            @if ($Student->user)
+                <option value="{{ $Student->section_id }}" selected>
+                    {{ $Student->section->Name_Section }}
+                </option>
+                @endif
         </select>
     </div>
 </div>

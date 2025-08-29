@@ -39,6 +39,22 @@ class TeacherController extends Controller
         return view('pages.Teacher.dashboard', compact('sectionCount', 'studentCount', 'sections'));
     }
 
+    public function sections()
+    {
+        $userId = auth()->id();
+        $teacher = Teacher::where('user_id', $userId)->firstOrFail();
+
+        $sectionCount = $teacher->sections()->count();
+        $studentCount = Student::whereIn('section_id', $teacher->sections->pluck('id'))->count();
+
+        // استدعاء Teacher_section مع العلاقات المطلوبة
+        $sections = $teacher->teacherSections()
+            ->with(['section.students', 'section.My_classs.Grades', 'subject'])
+            ->paginate(10);
+
+        return view('pages.Teacher.sections.index', compact('sectionCount', 'studentCount', 'sections'));
+    }
+
 
     // public function showSectionMaterials($sec_id)
     // {

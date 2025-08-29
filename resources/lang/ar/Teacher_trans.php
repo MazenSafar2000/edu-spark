@@ -32,7 +32,7 @@ return [
     'quizz_name' => 'اسم الاختبار',
     'subject' => 'المادة الدراسية',
     'teacher_name' => 'اسم المدرس',
-    'durartion' => 'وقت الامتحان',
+    'duration' => 'وقت الامتحان',
     'duration_minute' => 'المدة الزمنية للاختبار (دقائق) : ',
     'operations' => 'العمليات',
     'edit' => 'تعديل',
@@ -158,6 +158,10 @@ return [
     'dashboard' => 'لوحة التحكم',
     'students' => 'الطلاب',
     'profile' => 'الملف الشخصي',
+    'Total_question_scores' => 'مجموع درجات الاسئلة',
+    'Final_grade' => 'الدرجة النهائية',
+    'shuffle_questions' => 'تبديل ترتيب الأسئلة',
+
 
     'not_taken' => 'لم يتم الاختبار',
     'assign_score' => 'تعيين درجة',

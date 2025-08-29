@@ -36,6 +36,8 @@ Route::group(
 
 
             Route::group(['namespace' => 'App\Http\Controllers\Teacher'], function () {
+                Route::get('/sections', [TeacherController::class, 'sections'])->name('sections');
+
                 Route::get('/section-materials/{section_id}', 'TeacherController@showSectionMaterials')
                     ->name('teacher.section.materials');
 

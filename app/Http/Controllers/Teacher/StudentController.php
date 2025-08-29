@@ -18,7 +18,7 @@ class StudentController extends Controller
         $section_ids = $teacher->sections()->pluck('sections.id')->toArray();
 
         // Filter students by those sections
-        $data['students'] = Student::whereIn('section_id', $section_ids)->get();
+        $data['students'] = Student::whereIn('section_id', $section_ids)->paginate(20);
 
         $data['grades'] = Grade::all();
 

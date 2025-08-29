@@ -221,9 +221,18 @@ return [
     'final_score' => 'الدرجة النهائية',
     'status' => 'الحالة',
     'Delivery_date' => 'تاريخ التسليم',
-
-
-
+    'view' => 'عرض',
+    'from' => 'من',
+    'to' => 'الى',
+    'entries' => 'الادخالات',
+    'paretn_details' => 'بيانات ولي الأمر',
+    'exam_details' => 'تفاصيل الاختبار',
+    'details' => 'التفاصيل',
+    'questions' => 'الأسئلة',
+    'results' => 'النتائج',
+    'more' => 'المزيد',
+    'instructions' => 'تعليمات',
+    'Save_modifications' => 'حفظ التعديلات',
 
 
     'no_notifications' => 'لا توجد اشعارات',

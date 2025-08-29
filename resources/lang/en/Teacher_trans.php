@@ -32,7 +32,7 @@ return [
     'quizz_name' => 'Quizz Name',
     'subject' => 'Subject',
     'teacher_name' => 'Teacher Name',
-    'durartion' => 'Durartion',
+    'duration' => 'Duration',
     'duration_minute' => 'Test duration (minutes):',
     'operations' => 'Operations',
     'edit' => 'Edit',
@@ -162,6 +162,9 @@ return [
     'dashboard' => 'Dashboard',
     'students' => 'Students',
     'profile' => 'Profile',
+    'Total_question_scores' => 'Total question scores',
+    'Final_grade' => 'Final grade',
+    'shuffle_questions' => 'shuffle questions',
 
     'not_taken' => 'Not Taken',
     'assign_score' => 'Assign Score',

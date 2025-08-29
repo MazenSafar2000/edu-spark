@@ -1,6 +1,6 @@
 @extends('layouts.main.teacher_dashboard')
 @section('teacher_content')
-    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+    {{-- <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <section class="dashboard-teacher">
             <div class="container-fluid">
                 <div class="row gy-4">
@@ -92,16 +92,120 @@
 
             </div>
         </div>
+    </div> --}}
+
+    <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
+        <section class="dashboard-teacher">
+            <div class="container">
+                <div class="row gy-4">
+
+
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card stats-card border-0 rounded-3 p-3">
+                            <div class="card-welcome-content d-flex justify-content-between align-items-center">
+
+                                <div class="user-welcome">
+                                    <h4>{{ trans('main_trans.Welcome') }}</h4>
+                                    <h6>{{ Auth::user()->name }}</h6>
+                                    <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="" class="rounded-circle">
+                                </div>
+                                <img src="{{ asset('assets/images/welcome.png') }}" alt="">
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card stats-card border-0 rounded-3 ">
+                            <div class="card-techaer-content d-flex justify-content-center align-items-center">
+                                <i class="fa-solid fa-user-graduate fa-2x"></i>
+
+                                <div class="user-number-teacher">
+                                    <h4 class="fw-bold">{{ $studentCount }}</h4>
+                                    <h6 class="text-muted">{{ trans('main_trans.number_students') }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card stats-card border-0 rounded-3">
+                            <div class="card-techaer-content d-flex justify-content-center align-items-center">
+                                <i class="fas fa-book fa-2x"></i>
+
+                                <div class="user-number-teacher">
+                                    <h4 class="fw-bold">{{ $sectionCount }}</h4>
+                                    <h6 class="text-muted">{{ trans('main_trans.number_classes') }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </section>
+
+
+        <div class="container custom-table-teacher">
+
+            <h3 class="teacher-title3" style="margin-bottom: 2rem;">{{ trans('main_trans.List_classes') }}</h3>
+
+            <div class="table-responsive custom-table-wrapper">
+
+
+                <table class=" table-hover text-center custom-grade-table">
+                    <thead class="thead-custom">
+                        <tr>
+                            <th>#</th>
+                            <th>{{ trans('main_trans.Grade') }}</th>
+                            <th>{{ trans('main_trans.classroom') }}</th>
+                            <th>{{ trans('main_trans.section') }}</th>
+                            <th>{{ trans('main_trans.subject_name') }}</th>
+                            <th>{{ trans('main_trans.number_students') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($sections as $section)
+                            <tr onclick="window.location.href='{{ route('teacher.section.materials', $section->id) }}'" style="cursor: pointer;">
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $section->section->My_classs->Grades->Name }}</td>
+                                <td>{{ $section->section->My_classs->Name_Class }}</td>
+                                <td>{{ $section->section->My_classs->Name_Class }}</td>
+                                <td>{{ $section->subject->name }}</td>
+                                <td>{{ $section->section->students->count() }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{-- <div class="pagination-container d-flex justify-content-between">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <div class="pagination-show">
+                        <p>عرض 1 إلى 10 من 10 إدخالات</p>
+                        <div class="title-underline-page"></div>
+
+                    </div>
+                </div> --}}
+            </div>
+        </div>
     </div>
-@endsection
-@section('js')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".clickable-row").forEach(function(row) {
-                row.addEventListener("click", function() {
-                    window.location = this.dataset.href;
-                });
-            });
-        });
-    </script>
 @endsection

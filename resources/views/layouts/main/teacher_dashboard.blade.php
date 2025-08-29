@@ -274,7 +274,7 @@
             </li>
 
             <li>
-                <a href="teacher-grade.html">
+                <a href="{{ route('sections')}}">
                     <span>المراحل الدراسية</span>
                     <i class="fas fa-graduation-cap"></i>
                 </a>
