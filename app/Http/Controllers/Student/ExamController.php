@@ -60,7 +60,7 @@ class ExamController extends Controller
     //         }
     //         // 3) Attempts limit
     //         // Validate that exam has attempts limit set
-    //         if (!is_numeric($exam->attemptes) || $exam->attemptes <= 0) {
+    //         if (!is_numeric($exam->attempts) || $exam->attempts <= 0) {
     //             return back()->withErrors('الامتحان غير متوفر حالياً (عدد المحاولات غير محدد).');
     //         }
 
@@ -68,7 +68,7 @@ class ExamController extends Controller
     //             ->where('exam_id', $exam->id)
     //             ->count();
 
-    //         if ($attemptsCount >= $exam->attemptes) {
+    //         if ($attemptsCount >= $exam->attempts) {
     //             return back()->withErrors('لقد استنفدت جميع محاولاتك.');
     //         }
 
@@ -156,7 +156,7 @@ class ExamController extends Controller
             }
 
             // Validate attempts config
-            if (!is_numeric($exam->attemptes) || $exam->attemptes <= 0) {
+            if (!is_numeric($exam->attempts) || $exam->attempts <= 0) {
                 return back()->withErrors('الامتحان غير متوفر حالياً (عدد المحاولات غير محدد).');
             }
 
@@ -173,7 +173,7 @@ class ExamController extends Controller
                     ->where('status', 'completed')
                     ->count();
 
-                if ($completedAttempts >= (int)$exam->attemptes) {
+                if ($completedAttempts >= (int)$exam->attempts) {
                     return back()->withErrors('لقد استنفدت جميع محاولاتك.');
                 }
 

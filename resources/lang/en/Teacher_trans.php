@@ -173,13 +173,38 @@ return [
     'Close' => 'Close',
     'Save_changes' => 'Save changes',
     'grade_exam' => 'Grade Exam',
-
-
-
-
-
-
-
+    'category' => 'Category',
+    'type' => 'Type',
+    'score' => 'Score',
+    'from_QB' => 'Add a question from the question bank',
+    'random_Q' => 'Add a random question',
+    'select_category' => 'Select Category',
+    'random_Q_number' => 'Random number of questions',
+    'from_q_b' => 'form questions bank',
+    'random_q' => 'random questions',
+    'update_score' => 'Update Score For Student:',
+    'editScore' => 'edit score',
+    'show_attempts' => 'show attempts',
+    'attempts' => 'attempts',
+    'did_not_perform' => 'did not perform',
+    'failed' => 'failed',
+    'succeeded' => 'succeeded',
+    'tested' => 'tested',
+    'number_students' => 'number of students',
+    'instructions' => 'Instructions',
+    'student_attempts' => 'Student Attempts',
+    'started' => 'Started',
+    'ended' => 'Ended',
+    'completed' => 'completed',
+    'show_answers' => 'Show the answers to the student upon completion!',
+    'question_per_page' => 'questions per page',
+    'maximum_grade' => 'Maximum Grade',
+    'new_category' => 'new category',
+    'createQC' => 'Add New Question Category',
+    'QB_title' => 'Question Bank Title',
+    'category' => 'Category',
+    'questions_categories' => 'Questions Categories',
+    'questionBank' => 'Question Bank',
 
 
 

@@ -170,43 +170,38 @@ return [
     'Close' => 'إغلاق',
     'Save_changes' => 'حفظ التغييرات',
     'grade_exam' => 'تقييم الاختبار',
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    'category' => 'الصنف',
+    'type' => 'النوع',
+    'score' => 'الدرجة',
+    'from_QB' => 'اضافة سؤال من بنك الاسئلة',
+    'from_q_b' => 'من بنك الاسئلة',
+    'random_q' => 'اسئلة عشةائية',
+    'random_Q' => 'إضافة سؤال عشوائي',
+    'select_category' => 'حدد التصنيف',
+    'random_Q_number' => 'عدد الاسئلة العشوائي',
+    'update_score' => 'تعديل الدرجة للطالب:',
+    'editScore' => 'تعديل الدرجة',
+    'show_attempts' => 'عرض المحاولات',
+    'attempts' => 'المحاولات',
+    'failed' => 'رسبوا',
+    'succeeded' => 'نجحوا',
+    'did_not_perform' => 'لم يؤدوا',
+    'tested' => 'ادوا الاختبار',
+    'number_students' => 'عدد الطلاب',
+    'instructions' => 'التعليمات',
+    'student_attempts' => 'محاولات الطالب',
+    'started' => 'بدأ',
+    'ended' => 'انتهى',
+    'completed' => 'مكتمل',
+    'question_per_page' => 'الأسئلة في كل صفحة',
+    'maximum_grade' => 'الدرجة النهائية',
+    'show_answers' => 'عرض الاجابات للطالب مع الانتهاء !',
+    'new_category' => 'اضافة تصنيف جديد',
+    'category' => 'التصنيف',
+    'createQC' => 'اضافة تصنيف جديد',
+    'QB_title' => 'عنوان التصنيف',
+    'questions_categories' => 'اصناف الاسئلة',
+    'questionBank' => 'بنك الاسئلة',
 
 
 

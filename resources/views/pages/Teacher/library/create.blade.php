@@ -192,7 +192,7 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <label for="" class="text-danger">{{ trans('Parent_trans.Attachments') }}*</label>
-                                <input type="file" class="form-control custom-input" accept="application/pdf"
+                                <input type="file" class="form-control custom-input @error('subject_id') custom-input-error @enderror" accept="application/pdf"
                                     name="file_name" id="file_name">
                             </div>
                             @error('file_name')

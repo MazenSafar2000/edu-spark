@@ -17,7 +17,7 @@ class QuestionsCategotryController extends Controller
      */
     public function index()
     {
-        $data['questionCategories'] = QuestionsCategotry::all();
+        $data['questionCategories'] = QuestionsCategotry::paginate(20);
 
         return view('pages.Teacher.QuestionsBank.QuestionCategory.index', $data);
     }
@@ -57,7 +57,7 @@ class QuestionsCategotryController extends Controller
 
 
             toastr()->success(trans('messages.success'));
-            return redirect()->route('questionsCategotry.index');
+            return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }

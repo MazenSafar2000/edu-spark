@@ -62,14 +62,15 @@ class ExamController extends Controller
         // dd($request->boolean('show_answers'));
 
         $request->validate([
-            'Name_en' => 'required|string|max:255',
             'Name_ar' => 'required|string|max:255',
+            'Name_en' => 'required|string|max:255',
             'description' => 'required|string',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
             'duration' => 'required|integer|min:1',
-            'attemptes' => 'required',
+            'attempts' => 'required',
             'question_per_page' => 'required',
+            'maximum_grade' => 'required',
             'subject_id' => 'required|exists:subjects,id',
             'show_answers' => 'nullable'
         ]);
@@ -82,7 +83,7 @@ class ExamController extends Controller
             $exam->start_at = $request->start_at;
             $exam->end_at = $request->end_at;
             $exam->duration = $request->duration;
-            $exam->attemptes = $request->attemptes;
+            $exam->attempts = $request->attempts;
             $exam->question_per_page = $request->question_per_page;
             if ($request->maximum_grade) {
                 $exam->maximum_grade = $request->maximum_grade;
@@ -130,9 +131,86 @@ class ExamController extends Controller
     {
         $exam = Exam::findOrFail($exam->id);
 
-        // $questions = Question::where('exam_id', $exam->id)->get();
+        $totalMarks = $exam->questions->sum(fn($q) => $q->pivot->score);
 
-        return view('pages.Teacher.exams.view', compact('exam'));
+        $teacherId = Auth::user()->teacher->id;
+        $categories = QuestionsCategotry::with('questionsBank')
+            ->whereHas('questionsBank', function ($q) use ($teacherId) {
+                $q->where('teacher_id', $teacherId);
+            })->get();
+
+        // All students in sections of this exam
+        $students = $exam->sectionExams
+            ->flatMap(fn($se) => $se->section->students)
+            ->unique('id')
+            ->values();
+
+        // Latest attempts per student
+        $attempts = ExamAttempts::where('exam_id', $exam->id)
+            ->with('student')
+            ->get()
+            ->groupBy('student_id')
+            ->map(fn($group) => $group->sortByDesc('attempt_number')->first());
+
+        // Manual degrees (teacher updated grades)
+        $degrees = Degree::where('exam_id', $exam->id)
+            ->whereIn('student_id', $students->pluck('id'))
+            ->get()
+            ->keyBy('student_id');
+
+        $totalStudents = $students->count();
+
+        // Attempted = students with exam_attempts
+        $studentsAttempted = $attempts->count();
+
+        // Not Attempted = all students - attempted
+        $studentsNotAttempted = $totalStudents - $studentsAttempted;
+
+        // Passing grade rule
+        $passingGrade = $exam->maximum_grade * 0.5;
+
+        // Count success & fail
+        $success = 0;
+        $fail = 0;
+
+        $distribution = [
+            '0-25' => 0,
+            '26-50' => 0,
+            '51-75' => 0,
+            '76-100' => 0,
+        ];
+
+        foreach ($students as $student) {
+            // Prefer teacher-updated degree, fallback to last attempt
+            $grade = $degrees[$student->id]->score ?? $attempts[$student->id]->grade_obtained ?? null;
+
+            if ($grade !== null) {
+                if ($grade >= $passingGrade) $success++;
+                else $fail++;
+
+                // Update distribution
+                if ($grade <= 25) $distribution['0-25']++;
+                elseif ($grade <= 50) $distribution['26-50']++;
+                elseif ($grade <= 75) $distribution['51-75']++;
+                else $distribution['76-100']++;
+            }
+        }
+
+        return view('pages.Teacher.exams.view', [
+            'exam' => $exam,
+            'categories' => $categories,
+            'students' => $students,
+            'attempts' => $attempts,
+            'degrees' => $degrees,
+            'stats' => [
+                'total' => $totalStudents,
+                'attempted' => $studentsAttempted,
+                'not_attempted' => $studentsNotAttempted,
+                'success' => $success,
+                'fail' => $fail,
+            ],
+            'distribution' => $distribution,
+        ]);
     }
 
     /**
@@ -167,7 +245,7 @@ class ExamController extends Controller
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
             'duration' => 'required|integer|min:1',
-            'attemptes' => 'required',
+            'attempts' => 'required',
             'question_per_page' => 'required',
             'subject_id' => 'required|exists:subjects,id',
             'show_answers' => 'nullable'
@@ -180,7 +258,7 @@ class ExamController extends Controller
             $quizz->start_at = $request->post('start_at');
             $quizz->end_at = $request->post('end_at');
             $quizz->duration = $request->post('duration');
-            $quizz->attemptes = $request->post('attemptes');
+            $quizz->attempts = $request->post('attempts');
             $quizz->question_per_page = $request->post('question_per_page');
             if ($request->maximum_grade) {
                 $quizz->maximum_grade = $request->post('maximum_grade');
@@ -209,7 +287,7 @@ class ExamController extends Controller
             $exam->delete();
 
             toastr()->error(trans('messages.Delete'));
-            return redirect()->back();
+            return redirect()->route('exams.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }

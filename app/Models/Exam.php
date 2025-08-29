@@ -17,7 +17,7 @@ class Exam extends Model
         'start_at',
         'end_at',
         'duration',
-        'attemptes',
+        'attempts',
         'question_per_page',
         'total_marks',
         'maximum_grade',

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->dateTime('start_at');
             $table->dateTime('end_at');
             $table->integer('duration')->default(10);   // duration in minutes
-            $table->integer('attemptes')->default(10);
+            $table->integer('attempts')->default(10);
             $table->integer('question_per_page')->default(1);
             $table->float('total_marks')->default(0); // مجموع درجات الأسئلة فعليًا
             $table->float('maximum_grade')->default(100); // الدرجة النهائية المعتمدة لحساب النتيجة

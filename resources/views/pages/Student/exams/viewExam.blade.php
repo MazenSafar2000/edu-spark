@@ -20,7 +20,7 @@
                         {{-- <li><strong> اسم الاختبار :</strong> اختبار لغة عربية </li> --}}
                         <li><strong>{{ trans('Students_trans.subject') }} :</strong>{{ $exam->subject->name ?? '-' }}</li>
                         <li><strong>{{ trans('Students_trans.duration') }} :</strong>{{ $exam->duration }} دقيقة</li>
-                        <li><strong>{{ trans('Students_trans.attempts') }} :</strong>{{ $exam->attemptes }} time/tmes</li>
+                        <li><strong>{{ trans('Students_trans.attempts') }} :</strong>{{ $exam->attempts }} time/tmes</li>
                         <li><strong>{{ trans('Students_trans.maximumGrade') }} :</strong>{{ $exam->maximum_grade }}</li>
                         <li><strong>{{ trans('Students_trans.start_at') }}
                                 :</strong>{{ \Carbon\Carbon::parse($exam->start_at)->format('Y-m-d g:i A') }}</li>
