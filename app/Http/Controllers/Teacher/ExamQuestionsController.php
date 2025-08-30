@@ -18,19 +18,19 @@ class ExamQuestionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($exam_id)
-    {
-        $exam = Exam::findOrFail($exam_id);
-        $totalMarks = $exam->questions->sum(fn($q) => $q->pivot->score);
+    // public function index($exam_id)
+    // {
+    //     $exam = Exam::findOrFail($exam_id);
+    //     $totalMarks = $exam->questions->sum(fn($q) => $q->pivot->score);
 
-        $teacherId = Auth::user()->teacher->id;
-        $categories = QuestionsCategotry::with('questionsBank')
-            ->whereHas('questionsBank', function ($q) use ($teacherId) {
-                $q->where('teacher_id', $teacherId);
-            })->get();
+    //     $teacherId = Auth::user()->teacher->id;
+    //     $categories = QuestionsCategotry::with('questionsBank')
+    //         ->whereHas('questionsBank', function ($q) use ($teacherId) {
+    //             $q->where('teacher_id', $teacherId);
+    //         })->get();
 
-        return view("pages.Teacher.exams.questions.index", compact('exam', 'totalMarks', 'categories'));
-    }
+    //     return view("pages.Teacher.exams.questions.index", compact('exam', 'totalMarks', 'categories'));
+    // }
 
     /**
      * Show the form for creating a new resource.

@@ -44,7 +44,7 @@
                         <div class="row mb-4">
                             <div class="form-group-float position-relative ">
                                 <textarea name="description"
-                                    class="form-control custom-input float-input @error('description') custom-input-error @enderror">{{ old('description') }}</textarea>
+                                    class="form-control custom-textarea float-input @error('description') custom-textarea-error @enderror" placeholder="">{{ old('description') }}</textarea>
                                 <label for="description"
                                     class="float-label">{{ trans('Teacher_trans.instructions') }}</label>
                             </div>
@@ -174,7 +174,7 @@
                                     class="">{{ trans('Teacher_trans.show_answers') }}</label>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" name="show_answers" id="flexSwitchCheckDefault">
-                                    
+
                                 </div>
                             </div>
                         </div>

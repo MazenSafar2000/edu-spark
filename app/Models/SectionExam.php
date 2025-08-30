@@ -16,7 +16,7 @@ class SectionExam extends Model
 
     public function exams()
     {
-        return $this->belongsTo(Exam::class);
+        return $this->belongsTo(Exam::class, 'exam_id');
     }
 
     public function subject()

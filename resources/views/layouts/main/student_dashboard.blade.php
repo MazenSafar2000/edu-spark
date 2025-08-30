@@ -413,17 +413,9 @@
     </div>
 
     <!-- Footer -->
-    @if (App::getLocale() == 'en')
-        <footer class="footer bg-white shadow fixed-bottom">
-            &copy; {{ trans('main_trans.Copyright_by') }} <span>spark education</span> |
-            {{ trans('main_trans.All_rights_reserved') }}
-        </footer>
-    @else
-        <footer class="footer bg-white shadow fixed-bottom">
-            &copy; {{ trans('main_trans.All_rights_reserved') }} | <span>spark education</span>
-            {{ trans('main_trans.Copyright_by') }}
-        </footer>
-    @endif
+    <footer class="footer bg-white shadow fixed-bottom">
+        {!! trans('main_trans.footer_rights', ['brand' => '<span>Spark Education</span>']) !!}
+    </footer>
 
     <!-- Bootstrap JS (includes Popper) -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

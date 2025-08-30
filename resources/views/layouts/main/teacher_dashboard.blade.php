@@ -144,7 +144,7 @@
 
             <!-- الشعار والقائمة الجانبية -->
             <div class="d-flex align-items-center logo-spark">
-                <a href="manager-index.html">
+                <a href="{{ route('teacher.dashboard') }}">
                     <img src="{{ asset('assets/images/spark.png') }}" alt="spark education" class="logo">
                 </a>
 
@@ -274,8 +274,8 @@
             </li>
 
             <li>
-                <a href="{{ route('sections')}}">
-                    <span>المراحل الدراسية</span>
+                <a href="{{ route('sections') }}">
+                    <span>{{ trans('main_trans.Academic_stages') }}</span>
                     <i class="fas fa-graduation-cap"></i>
                 </a>
             </li>
@@ -300,14 +300,14 @@
 
                     <i class="toggle-icon fas fa-plus"></i>
                     <div class="d-flex align-items-center gap-2">
-                        <span>Questions</span>
+                        <span>{{ trans('main_trans.questions') }}</span>
                         <i class="fas fa-user-graduate"></i>
                     </div>
                 </a>
 
                 <ul id="questionsMenu" class="collapse list-unstyled ps-4 mt-2">
-                    <li><a href="{{ route('questionsBank.index') }}">questions bank</a></li>
-                    <li><a href="{{ route('questionsCategotry.index') }}">questions categories</a></li>
+                    <li><a href="{{ route('questionsBank.index') }}">{{ trans('Teacher_trans.questionBank') }}</a></li>
+                    <li><a href="{{ route('questionsCategotry.index') }}">{{ trans('Teacher_trans.questions_categories') }}</a></li>
                 </ul>
             </li>
 
@@ -342,93 +342,121 @@
                 </a>
             </li>
         </ul>
-
     </div>
 
     @yield('teacher_content')
 
-
     <!-- زر فتح الرسائل باستخدام Bootstrap -->
-    <button class="btn btn-primary position-fixed  m-4 d-flex align-items-center gap-2 shadow open-msg-btn"
-        type="button" data-bs-toggle="offcanvas" data-bs-target="#messagesOffcanvas"
-        aria-controls="messagesOffcanvas">
-        <i class="fas fa-message"></i>
-        <span class="msg-label">الرسائل</span>
+    <button class="position-fixed  m-4 d-flex align-items-center gap-2 shadow open-msg-btn" type="button"
+        data-bs-toggle="offcanvas" data-bs-target="#messagesOffcanvas" aria-controls="messagesOffcanvas">
+        <i class="fas fa-comments"></i>
     </button>
 
     <!-- Offcanvas الرسائل -->
     <div class="offcanvas offcanvas-bottom messages-panel" tabindex="-1" id="messagesOffcanvas"
         aria-labelledby="messagesOffcanvasLabel">
-        <div
-            class="offcanvas-header message-title text-white d-flex flex-row-reverse justify-content-between align-items-center">
-            <h5 class="offcanvas-title ms-auto">الرسائل</h5>
+
+        <div class="chat-popup-header d-flex justify-content-between align-items-center">
+
+            <span id="chatUserName" class="chat-username">الرسائل</span>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                 aria-label="إغلاق"></button>
+
         </div>
 
 
+
+
         <div class="offcanvas-body d-flex flex-column p-0">
+            <div>
+                <input type="text" class="form-control search-msg" placeholder="ابحث ...">
+            </div>
+
             <div class="messages-body overflow-auto flex-grow-1 p-3">
                 <!-- عنصر رسالة -->
-                <a href="manager_chat.html"
-                    class="d-flex align-items-center border-bottom py-2 text-decoration-none text-dark message-item">
-                    <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="user" class="rounded-circle me-3"
+                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
+                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
+                    <img src="../images/pic-2.jpg" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
+                        <p class="mb-0">لديك مهام جديدة</p>
                     </div>
                     <span>٣٠٠ س</span>
-                </a>
+                </div>
 
-                <a href="manager_chat.html"
-                    class="d-flex align-items-center border-bottom py-2 text-decoration-none text-dark message-item">
-                    <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="user" class="rounded-circle me-3"
+
+                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
+                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
+                    <img src="../images/pic-2.jpg" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
+                        <p class="mb-0">لديك مهام جديدة</p>
                     </div>
                     <span>٣٠٠ س</span>
-                </a>
+                </div>
 
 
-                <a href="manager_chat.html"
-                    class="d-flex align-items-center border-bottom py-2 text-decoration-none text-dark message-item">
-                    <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="user" class="rounded-circle me-3"
+
+                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
+                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
+                    <img src="../images/pic-2.jpg" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
+                        <p class="mb-0">لديك مهام جديدة</p>
                     </div>
                     <span>٣٠٠ س</span>
-                </a>
+                </div>
 
-                <a href="manager_chat.html"
-                    class="d-flex align-items-center border-bottom py-2 text-decoration-none text-dark message-item">
-                    <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="user" class="rounded-circle me-3"
+                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
+                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
+                    <img src="../images/pic-2.jpg" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
+                        <p class="mb-0">لديك مهام جديدة</p>
                     </div>
                     <span>٣٠٠ س</span>
-                </a>
+                </div>
+
                 <!-- يمكنك إضافة المزيد من الرسائل هنا -->
-            </div>
-            <div class="message-footer text-center">
-                <a href="manager_chat.html" class="text-decoration-none ">إظهار جميع الرسائل</a>
             </div>
         </div>
     </div>
 
+
+
+    <!-- نافذة المحادثة المنبثقة -->
+    <div class="card-message chat-popup-wrapper position-fixed bottom-0 shadow" id="chatPopup"
+        style="display: none;">
+
+        <div class="chat-popup-header d-flex justify-content-between align-items-center">
+
+            <span id="chatUserName" class="chat-username">المعلم</span>
+            <button class="chat-close-button btn btn-sm btn-close" onclick="closeChatPopup()"></button>
+        </div>
+
+        <div class="chat-popup-body overflow-auto" id="chatBody">
+            <div class="chat-msg-bot text-muted small">مرحباً! كيف يمكنني مساعدتك؟</div>
+        </div>
+
+        <div class="chat-popup-footer">
+            <input type="text" class="chat-input form-control" placeholder="اكتب رسالة..."
+                onkeydown="sendMessage(event)">
+        </div>
+
+    </div>
+
+
+
     <!--- footer start-->
     <footer class="footer bg-white shadow fixed-bottom">
-
-        &copy; جميع الحقوق محفوظة | <span>spark eucation</span> حقوق الطبع والنشر بواسطة
-
+        {!! trans('main_trans.footer_rights', ['brand' => '<span>Spark Education</span>']) !!}
     </footer>
     <!--- footer ends-->
+
 
     <!-- ربط ملف bootstrap JS المحلي -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

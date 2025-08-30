@@ -32,7 +32,7 @@ return [
     'quizz_name' => 'اسم الاختبار',
     'subject' => 'المادة الدراسية',
     'teacher_name' => 'اسم المدرس',
-    'duration' => 'وقت الامتحان',
+    'duration' => 'المدة',
     'duration_minute' => 'المدة الزمنية للاختبار (دقائق) : ',
     'operations' => 'العمليات',
     'edit' => 'تعديل',
@@ -202,6 +202,10 @@ return [
     'QB_title' => 'عنوان التصنيف',
     'questions_categories' => 'اصناف الاسئلة',
     'questionBank' => 'بنك الاسئلة',
+    'export' => 'تصدير',
+    'homework_results' => 'نتائج الواجب',
+    'set_zero' => 'تعيين صفر للغائبين',
+    'add_selected' => 'اضافة المحدد',
 
 
 

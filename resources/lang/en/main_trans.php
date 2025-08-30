@@ -227,7 +227,7 @@ return [
     'paretn_details' => 'Guardian data',
     'exam_details' => 'Exam Details',
     'details' => 'details',
-    'questions' => 'questions',
+    'questions' => 'Questions',
     'results' => 'results',
     'more' => 'more',
     'instructions' => 'Instructions',
@@ -235,6 +235,7 @@ return [
 
     'notifications' => 'Notifications',
     'no_notifications' => 'No Notifications',
+    'remove' => 'remove'
 
 
 

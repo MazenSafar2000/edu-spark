@@ -205,6 +205,11 @@ return [
     'category' => 'Category',
     'questions_categories' => 'Questions Categories',
     'questionBank' => 'Question Bank',
+    'export' => 'export',
+    'homework_results' => 'Homework Results',
+    'set_zero' => 'assign zerro for Absent',
+    'add_selected' => 'Add Selected',
+
 
 
 

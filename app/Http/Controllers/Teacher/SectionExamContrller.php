@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Section;
+use App\Models\SectionExam;
 use App\Models\Teacher_section;
 use Illuminate\Http\Request;
 
@@ -113,6 +114,14 @@ class SectionExamContrller extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $exam = SectionExam::findOrFail($id);
+            $exam->delete();
+
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

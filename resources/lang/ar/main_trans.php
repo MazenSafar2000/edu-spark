@@ -234,9 +234,9 @@ return [
     'instructions' => 'تعليمات',
     'Save_modifications' => 'حفظ التعديلات',
 
-
     'no_notifications' => 'لا توجد اشعارات',
-    ''
+    'remove' => 'ازالة',
+
 
 
 

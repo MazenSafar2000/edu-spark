@@ -46,7 +46,7 @@
                         <div class="row mb-4">
                             <div class="form-group-float position-relative ">
                                 <textarea name="description"
-                                    class="form-control custom-input float-input @error('description') custom-input-error @enderror">{{ old('description', $exam->description) }}</textarea>
+                                    class="form-control custom-textarea float-input @error('description') custom-textarea-error @enderror">{{ old('description', $exam->description) }}</textarea>
                                 <label for="description"
                                     class="float-label">{{ trans('Teacher_trans.instructions') }}</label>
                             </div>

@@ -114,7 +114,7 @@
     <!--- footer start-->
     <footer class="footer">
 
-        &copy; جميع الحقوق محفوظة | <span>spark eucation</span> حقوق الطبع والنشر بواسطة
+{!! trans('main_trans.footer_rights', ['brand' => '<span>Spark Education</span>']) !!}
 
     </footer>
     <!--- footer ends-->

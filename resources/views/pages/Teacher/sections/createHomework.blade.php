@@ -3,12 +3,12 @@
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
 
         <h3 class="teacher-header-form">{{ trans('Teacher_trans.add_new_homework') }}</h3>
+        <div class="title-underline"></div>
 
         <div class="container mt-4">
             <div class="card custom-form-card-teacher">
                 <div class="card-body">
-                    @include('components.error-field')
-                    <form class="subject-form" action="{{ route('homeworks.store') }}" method="POST"
+                    <form class="subject-form"action="{{ route('homeworks.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
 
@@ -18,79 +18,126 @@
                             value="{{ $teacher_section->section->My_classs->Grades->id }}">
                         <input type="hidden" name="subject_id" value="{{ $teacher_section->subject_id }}">
 
-
                         <div class="row mb-3">
-                            <div class="form-group-float position-relative ">
-                                <input type="text" name="title" class="form-control custom-input float-input"
-                                    id="title" placeholder=" " />
-                                @error(' ')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
-                                <label for="title"
-                                    class="float-label">{{ trans('Teacher_trans.homework_title') }}*</label>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label for=""
-                                    class="text-danger">{{ trans('Teacher_trans.homework_description') }}*</label>
-                                <textarea name="description" id="" class="form-control custom-textarea fs-5 p-3" rows="3"
-                                    placeholder="{{ trans('Teacher_trans.homework_description') }}*"></textarea>
-                                @error('description')
-                                    <small class="text-danger">{{ $message }}</small>
+                            <div class="col-md-6">
+                                <div class="form-group-float position-relative ">
+                                    <input type="text" name="title"
+                                        class="form-control custom-input float-input @error('title') custom-input-error @enderror"
+                                        id="title" placeholder=" " value="{{ old('title') }}" />
+                                    <label for=""
+                                        class="float-label">{{ trans('Teacher_trans.homework_title') }}*</label>
+                                </div>
+                                @error('title')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
                                 @enderror
                             </div>
-                        </div>
-
-
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label for=""
-                                    class="text-danger">{{ trans('Teacher_trans.total_degree') }}*</label>
-                                <input type="number" name="total_degree" class="form-control custom-input" min="1">
+                            <div class="col-md-6">
+                                <div class="form-group-float position-relative ">
+                                    <input type="number" name="total_degree" min="1"
+                                        class="form-control custom-input float-input @error('total_degree') custom-input-error @enderror"
+                                        id="" placeholder=" " value="{{ old('total_degree') }}" />
+                                    <label for="total_degree"
+                                        class="float-label">{{ trans('Teacher_trans.total_degree') }}*</label>
+                                </div>
                                 @error('total_degree')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="" class="text-danger">{{ trans('Teacher_trans.homework_description') }}
+                                    <small>(optional)</small></label>
+                                <textarea name="description"
+                                    class="form-control custom-textarea fs-5 p-3 @error('description') custom-textarea-error @enderror" rows="3"
+                                    placeholder="{{ trans('Teacher_trans.homework_description') }}">{{ old('description') }}</textarea>
+                            </div>
+                            @error('description')
+                                <div class="error-message" id="error-bookNameArabic">
+                                    <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                        <div class="row mb-3">
+
+
 
                         </div>
 
-                        <label for="hobbies" class="text-danger">{{ trans('Teacher_trans.allowed_file_types') }}*
-                            :</label><br>
-                        <select name="allowed_file_types[]" class="form-control" multiple required>
-                            <option value="pdf">PDF</option>
-                            <option value="doc">Word (DOC)</option>
-                            <option value="docx">Word (DOCX)</option>
-                            <option value="jpg">Image (JPG)</option>
-                            <option value="png">Image (PNG)</option>
-                            <option value="rar">RAR File</option>
-                            <option value="zip">ZIP File</option>
-                        </select>
-                        <small class="text-muted">{{ trans('Teacher_trans.hold_ctrl') }}</small>
+
+
+                        <label for="hobbies"
+                            class="text-danger">{{ trans('Teacher_trans.allowed_file_types') }}*</label><br>
+
+                        <div class="checkbox-file mt-4">
+                            <div>
+                                <input type="checkbox" id="filetype_pdf" name="allowed_file_types[]" value="pdf"
+                                    class="ms-2">
+                                <label for="filetype_pdf">PDF</label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="filetype_doc" name="allowed_file_types[]" value="doc"
+                                    class="ms-2">
+                                <label for="filetype_doc">Word (DOC)</label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="filetype_docx" name="allowed_file_types[]" value="docx"
+                                    class="ms-2">
+                                <label for="filetype_docx">Word (DOCX)</label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="filetype_jpg" name="allowed_file_types[]" value="jpg"
+                                    class="ms-2">
+                                <label for="filetype_jpg">Image (JPG)</label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="filetype_png" name="allowed_file_types[]" value="png"
+                                    class="ms-2">
+                                <label for="filetype_png">Image (PNG)</label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="filetype_rar" name="allowed_file_types[]" value="rar"
+                                    class="ms-2">
+                                <label for="filetype_rar">RAR File</label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="filetype_zip" name="allowed_file_types[]" value="zip"
+                                    class="ms-2">
+                                <label for="filetype_zip">ZIP File</label>
+                            </div>
+                        </div>
                         @error('allowed_file_types')
-                            <small class="text-danger">{{ $message }}</small>
+                            <div class="error-message" id="error-bookNameArabic">
+                                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                            </div>
                         @enderror
-                        <br>
+
+
 
                         <label for="hobbies"
                             class="text-danger fw-bold fs-5 text-decoration-underline mt-4">{{ trans('Teacher_trans.allow_multiple_submissions') }}:</label><br>
+
                         <div class="checkbox-allow mt-3">
                             <div>
-                                <input type="checkbox" id="allow_multiple_submissions"
-                                    name="allow_multiple_submissions"class="ms-2">
+                                <input type="checkbox" id="allow_multiple_submissions" name="allow_multiple_submissions"
+                                    value="" class="ms-2">
                                 <label for="" class="fs-5 ">{{ trans('Teacher_trans.yes_allow') }}</label>
                             </div>
                         </div>
-
+                        <br>
                         <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for=""
-                                    class="text-danger">{{ trans('Teacher_trans.homework_due_date') }}*</label>
-                                <input type="datetime-local" name="due_date" class="form-control custom-input"
-                                    placeholder="{{ trans('Teacher_trans.homework_due_date') }}">
-                            </div>
-
                             <div class="col-md-6">
                                 <label for=""
                                     class="text-danger">{{ trans('Teacher_trans.homework_attachment') }}({{ trans('Teacher_trans.optional') }})</label>
@@ -108,20 +155,33 @@
                                     </div>
                                 @endif
                                 @error('attachment')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for=""
+                                    class="text-danger">{{ trans('Teacher_trans.homework_due_date') }}*</label>
+                                <input type="datetime-local" name="due_date"
+                                    class="form-control custom-input @error('due_date') custom-input-error @enderror"
+                                    value="{{ old('due_date') }}">
+                                @error('due_date')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
                                 @enderror
                             </div>
                         </div>
 
-
                         <div class="text-end">
-                            <button type="submit"
-                                class="btn save-btn">{{ trans('Teacher_trans.Create_Homework') }}</button>
+                            <button type="submit" class="btn save-btn">{{ trans('Teacher_trans.save') }}</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+        <!-- محتوى الصفحة هنا -->
     </div>
 @endsection
 @section('js')

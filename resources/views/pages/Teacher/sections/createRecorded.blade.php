@@ -3,11 +3,11 @@
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
 
         <h3 class="teacher-header-form">{{ trans('Teacher_trans.Add_new_recordedClass') }}</h3>
+        <div class="title-underline"></div>
 
         <div class="container mt-4">
             <div class="card custom-form-card-teacher">
                 <div class="card-body">
-                    @include('components.error-field')
                     <form class="subject-form" action="{{ route('recordedClasses.store') }}" method="POST">
                         @csrf
 
@@ -20,41 +20,56 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group-float position-relative ">
-                                    <input type="text" name="title" class="form-control custom-input float-input" />
-                                    @error('title')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <label for=""
-                                        class="float-label">{{ trans('Teacher_trans.Class_title') }}</label>
+                                    <input type="text" name="title"
+                                        class="form-control custom-input float-input @error('title') custom-input-error @enderror"
+                                        id="" placeholder=" " value="{{ old('title') }}" />
+                                    <label for="title"
+                                        class="float-label">{{ trans('Teacher_trans.Class_title') }}*</label>
                                 </div>
+                                @error('title')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-
                         </div>
+
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group-float position-relative ">
-                                    <input type="text" name="description"
-                                        class="form-control custom-input float-input" />
-                                    <label for=""
+                                    <textarea name="description"
+                                        class="form-control custom-textarea float-input @error('description') custom-textarea-error @enderror"
+                                        id="" placeholder="">{{ old('description') }}</textarea>
+                                    <label for="description"
                                         class="float-label">{{ trans('Teacher_trans.class_description_optional') }}</label>
                                 </div>
+                                @error('description')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <div class="form-group-float position-relative ">
-                                    <input type="url" name="video_url" class="form-control custom-input float-input"
-                                        placeholder=" " />
-                                    <label for=""
+                                    <input type="url" name="video_url"
+                                        class="form-control custom-input float-input @error('video_url') custom-input-error @enderror"
+                                        placeholder=" " value="{{ old('video_url') }}" />
+                                    <label for="video_url"
                                         class="float-label">{{ trans('Teacher_trans.Class_link') }}</label>
                                 </div>
-                                <p>{{ trans('Teacher_trans.Class_link') }} <small>
-                                        {{ trans('Teacher_trans.video_types') }}</small></p>
+                                <p>{{ trans('Teacher_trans.video_types') }}</p>
+                                @error('video_url')
+                                    <div class="error-message" id="error-bookNameArabic">
+                                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-
                         </div>
+
+
 
                         <div class="text-end">
                             <button type="submit" class="btn save-btn">{{ trans('Grades_trans.submit') }}</button>

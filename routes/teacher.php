@@ -78,9 +78,8 @@ Route::group(
                 Route::post('/exams/{exam}/assign-zeros', [ExamController::class, 'assignZeroForAbsentStudents'])->name('exams.assignZeros');
                 Route::get('/teacher/exams/{exam}/export', [ExamController::class, 'exportExamResults'])
                     ->name('teacher.exam.export');
-
-
-                // Route::post('repeat_quizze/{quizze_id}', 'QuizzController@repeat_quizze')->name('repeat.quizze');
+                Route::get('/exams/{exam}/results', [ExamController::class, 'showResults'])
+                    ->name('exam.results');
 
                 Route::resource('examAttempts', ExamAttemptsController::class);
                 Route::get(

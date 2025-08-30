@@ -19,9 +19,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::where('teacher_id', Auth::user()->teacher->id)->get();
-
-        return view('pages.Teacher.QuestionsBank.QuestionCategory.questions.index', compact('questions'));
+        
     }
 
     /**
@@ -91,13 +89,13 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $exam_id = $id;
-        // $data['grades'] = Grade::all();
+    // public function show($id)
+    // {
+    //     $exam_id = $id;
+    //     // $data['grades'] = Grade::all();
 
-        return view('pages.Teacher.exams.questions.create', compact('exam_id'));
-    }
+    //     return view('pages.Teacher.exams.questions.create', compact('exam_id'));
+    // }
 
     /**
      * Show the form for editing the specified resource.
