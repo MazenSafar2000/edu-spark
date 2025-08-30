@@ -7,6 +7,7 @@ use App\Models\QuestionsBank;
 use App\Models\QuestionsCategotry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Flasher\Laravel\Facade\Flasher;
 
 class QuestionsCategotryController extends Controller
 {
@@ -56,7 +57,7 @@ class QuestionsCategotryController extends Controller
 
 
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -112,7 +113,7 @@ class QuestionsCategotryController extends Controller
 
 
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('questionsCategotry.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -130,7 +131,7 @@ class QuestionsCategotryController extends Controller
         try {
             $questionsCategotry->delete();
 
-            toastr()->error(trans('messages.Delete'));
+            Flasher::addError(trans('messages.Delete'));
             return redirect()->route('questionsCategotry.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

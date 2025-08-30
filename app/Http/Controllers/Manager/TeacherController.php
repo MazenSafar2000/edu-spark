@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Flasher\Laravel\Facade\Flasher;
 
 class TeacherController extends Controller
 {
@@ -91,7 +92,7 @@ class TeacherController extends Controller
 
             DB::commit();
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('Teachers.index');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -161,7 +162,7 @@ class TeacherController extends Controller
 
             DB::commit();
 
-            toastr()->success(__('messages.Update'));
+            Flasher::addSuccess(__('messages.Update'));
             return redirect()->route('Teachers.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -185,7 +186,7 @@ class TeacherController extends Controller
             $user->delete(); // Deletes the associated user record
         }
 
-        toastr()->error(trans('messages.Delete'));
+        Flasher::addError(trans('messages.Delete'));
         return redirect()->route('Teachers.index');
     }
 

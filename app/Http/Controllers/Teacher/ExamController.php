@@ -107,7 +107,7 @@ class ExamController extends Controller
             //     $student->myparent->notify(new ParentNewExamAdded($exam, $student));
             // }
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('exams.index');
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
@@ -279,7 +279,7 @@ class ExamController extends Controller
             $quizz->teacher_id = Auth::user()->teacher->id;
             $quizz->save();
 
-            toastr()->success(trans('messages.Update'));
+            Flasher::addSuccess(trans('messages.Update'));
             return redirect()->route('exams.index');
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
@@ -297,7 +297,7 @@ class ExamController extends Controller
         try {
             $exam->delete();
 
-            toastr()->error(trans('messages.Delete'));
+            Flasher::addError(trans('messages.Delete'));
             return redirect()->route('exams.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

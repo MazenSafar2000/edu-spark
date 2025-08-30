@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Flasher\Laravel\Facade\Flasher;
 
 class ImageController extends Controller
 {
@@ -56,10 +57,10 @@ class ImageController extends Controller
                 ]);
             }
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return back();
         } catch (\Exception $e) {
-            toastr()->error($e->getMessage());
+            Flasher::addError($e->getMessage());
             return back();
         }
     }
@@ -109,7 +110,7 @@ class ImageController extends Controller
     {
         try {
             // $image = Image::findOrFail($id)->delete();
-            // toastr()->error(trans('messages.success'));
+            // Flasher::addError(trans('messages.success'));
 
             $image = Image::findOrFail($id);
             $studentName = $image->imageable->user->name; // get student name
@@ -121,10 +122,10 @@ class ImageController extends Controller
 
             $image->delete();
 
-            toastr()->error(trans('messages.Delete'));
+            Flasher::addError(trans('messages.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
-            toastr()->error($e->getMessage());
+            Flasher::addError($e->getMessage());
             return redirect()->back();
         }
     }

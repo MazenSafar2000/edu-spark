@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" {{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ app()->getLocale() }} {{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
 
@@ -35,7 +35,6 @@
     @else
         <link href="{{ URL::asset('assets/css/rtl.css') }}" rel="stylesheet">
     @endif
-
 
 </head>
 
@@ -306,8 +305,11 @@
                 </a>
 
                 <ul id="questionsMenu" class="collapse list-unstyled ps-4 mt-2">
-                    <li><a href="{{ route('questionsBank.index') }}">{{ trans('Teacher_trans.questionBank') }}</a></li>
-                    <li><a href="{{ route('questionsCategotry.index') }}">{{ trans('Teacher_trans.questions_categories') }}</a></li>
+                    <li><a href="{{ route('questionsBank.index') }}">{{ trans('Teacher_trans.questionBank') }}</a>
+                    </li>
+                    <li><a
+                            href="{{ route('questionsCategotry.index') }}">{{ trans('Teacher_trans.questions_categories') }}</a>
+                    </li>
                 </ul>
             </li>
 
@@ -463,6 +465,7 @@
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/filters.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/script2.js') }}"></script> --}}
+
     @yield('js')
 
 </body>

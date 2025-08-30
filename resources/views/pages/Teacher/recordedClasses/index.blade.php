@@ -6,17 +6,15 @@
         <div class="title-underline"></div>
 
         <div class="container custom-table-teacher">
-
             <div class="header-table-teacher">
                 <a href="{{ route('recordedClasses.create') }}">{{ trans('Teacher_trans.Add_new_recordedClass') }}</a>
-
-
                 <div class="search-box-student text-end mb-3">
                     <input type="search" id="classesSearch" class="form-control search-input-custom"
                         placeholder="{{ trans('main_trans.search') }}">
                 </div>
             </div>
             <div class="table-responsive custom-table-wrapper">
+                @include('components.error-field')
                 <table class="text-center custom-grade-table" id="datatable">
                     <thead class="thead-custom">
                         <tr>
@@ -79,7 +77,8 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="{{ trans('Grades_trans.Close') }}"></button>
                                         </div>
-                                        <form id="deleteClassForm" action="{{ route('recordedClasses.destroy', $class->id) }}" method="POST">
+                                        <form id="deleteClassForm"
+                                            action="{{ route('recordedClasses.destroy', $class->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <div class="modal-body text-center">
@@ -87,7 +86,8 @@
                                                 <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
                                             </div>
                                             <div class="modal-footer justify-content-center">
-                                                <button type="submit" form="deleteClassForm" class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                <button type="submit" form="deleteClassForm"
+                                                    class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
                                                 <button type="button" class="btn btn-cancel"
                                                     data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                                             </div>
@@ -103,6 +103,7 @@
         </div>
 
     </div>
+
 
     {{-- search input code --}}
     <script>

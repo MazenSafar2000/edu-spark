@@ -8,6 +8,7 @@ use App\Models\Grade;
 use App\Models\Section;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Flasher\Laravel\Facade\Flasher;
 
 class GradeController extends Controller
 {
@@ -61,7 +62,7 @@ class GradeController extends Controller
 
             Grade::create($request->only('Name', 'Notes'));
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('Grades.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -113,7 +114,7 @@ class GradeController extends Controller
             'Notes' => $request->input('Notes'),
         ]);
 
-            toastr()->success(trans('messages.Update'));
+            Flasher::addSuccess(trans('messages.Update'));
             return redirect()->route('Grades.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -131,13 +132,13 @@ class GradeController extends Controller
         $hasClassrooms = Classroom::where('Grade_id', $id)->exists();
 
         if ($hasClassrooms) {
-            toastr()->warning(trans('Grades_trans.delete_Grade_Error'));
+            Flasher::addWarning(trans('Grades_trans.delete_Grade_Error'));
             return redirect()->route('Grades.index');
         }
 
         Grade::findOrFail($id)->delete();
 
-        toastr()->error(trans('messages.Delete'));
+        Flasher::addError(trans('messages.Delete'));
         return redirect()->route('Grades.index');
     }
 }

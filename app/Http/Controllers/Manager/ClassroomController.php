@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\Classroom;
 use App\Models\Grade;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
@@ -47,7 +48,7 @@ class ClassroomController extends Controller
 
             Classroom::create($request->all());
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -97,7 +98,7 @@ class ClassroomController extends Controller
             $classroom->Grade_id = $request->input('Grade_id');
             $classroom->save();
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -120,7 +121,7 @@ class ClassroomController extends Controller
             }
 
             $classroom->delete();
-            toastr()->error(trans('messages.Delete'));
+            Flasher::addError(trans('messages.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -134,7 +135,7 @@ class ClassroomController extends Controller
     //     $delete_all_id = explode(",", $request->delete_all_id);
 
     //     Classroom::whereIn('id', $delete_all_id)->Delete();
-    //     toastr()->error(trans('messages.Delete'));
+    //     Flasher::addError(trans('messages.Delete'));
     //     return redirect()->route('Classrooms.index');
     // }
 

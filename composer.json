@@ -13,8 +13,8 @@
         "livewire/livewire": "^2.12",
         "maatwebsite/excel": "3.1.60",
         "mcamara/laravel-localization": "^2.0",
-        "spatie/laravel-translatable": "^6.11",
-        "yoeunes/toastr": "^2.3"
+        "php-flasher/flasher-toastr-laravel": "^1.15",
+        "spatie/laravel-translatable": "^6.11"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

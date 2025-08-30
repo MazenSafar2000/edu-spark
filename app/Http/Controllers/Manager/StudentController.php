@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Flasher\Laravel\Facade\Flasher;
 
 class StudentController extends Controller
 {
@@ -106,7 +107,7 @@ class StudentController extends Controller
                 }
             }
             DB::commit(); // insert data
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('Students.create');
         } catch (\Exception $e) {
             DB::rollback();
@@ -189,7 +190,7 @@ class StudentController extends Controller
 
             DB::commit();
 
-            toastr()->success(trans('messages.Update'));
+            Flasher::addSuccess(trans('messages.Update'));
             return redirect()->route('Students.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -212,7 +213,7 @@ class StudentController extends Controller
         if ($user) {
             $user->delete(); // Deletes the associated user record
         }
-        toastr()->error(trans('messages.Delete'));
+        Flasher::addError(trans('messages.Delete'));
         return redirect()->route('Students.index');
     }
 
@@ -245,7 +246,7 @@ class StudentController extends Controller
             $images->imageable_type = 'App\Models\Student';
             $images->save();
         }
-        toastr()->success(trans('messages.success'));
+        Flasher::addSuccess(trans('messages.success'));
         return redirect()->route('Students.show', $request->student_id);
     }
 
@@ -258,7 +259,7 @@ class StudentController extends Controller
 
         // Delete in data
         image::where('id', $request->id)->where('filename', $request->filename)->delete();
-        toastr()->error(trans('messages.Delete'));
+        Flasher::addError(trans('messages.Delete'));
         return redirect()->route('Students.show', $request->student_id);
     }
 }

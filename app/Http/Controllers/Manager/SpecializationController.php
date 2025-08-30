@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Models\Specialization;
 use Illuminate\Http\Request;
+use Flasher\Laravel\Facade\Flasher;
 
 class SpecializationController extends Controller
 {
@@ -45,7 +46,7 @@ class SpecializationController extends Controller
 
             Specialization::create($request->only('Name'));
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -95,7 +96,7 @@ class SpecializationController extends Controller
                 'Name'  => $request->input('Name'),
             ]);
 
-            toastr()->success(trans('messages.Update'));
+            Flasher::addSuccess(trans('messages.Update'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -113,7 +114,7 @@ class SpecializationController extends Controller
         try {
             Specialization::findOrFail($id)->delete();
 
-            toastr()->error(trans('messages.Delete'));
+            Flasher::addError(trans('messages.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

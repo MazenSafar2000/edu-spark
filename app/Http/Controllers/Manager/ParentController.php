@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Flasher\Laravel\Facade\Flasher;
 
 class ParentController extends Controller
 {
@@ -75,7 +76,7 @@ class ParentController extends Controller
 
             DB::commit();
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('Parents.index');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -160,7 +161,7 @@ class ParentController extends Controller
 
             DB::commit();
 
-            toastr()->info(trans('messages.update'));
+            Flasher::addInfo(trans('messages.update'));
             return redirect()->route('Parents.index');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -183,7 +184,7 @@ class ParentController extends Controller
         if ($user) {
             $user->delete(); // Deletes the associated user record
         }
-        toastr()->error(trans('messages.Delete'));
+        Flasher::addError(trans('messages.Delete'));
         return redirect()->route('Parents.index');
     }
 }

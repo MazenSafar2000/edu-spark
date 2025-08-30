@@ -192,7 +192,7 @@ class ExamQuestionsController extends Controller
 
                 Exam::where('id', $examId)->update(['total_marks' => $totalMarks]);
 
-                toastr()->error(trans('messages.Delete'));
+                Flasher::addError(trans('messages.Delete'));
                 return redirect()->back();
             }
         } catch (\Exception $e) {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Flasher\Laravel\Facade\Flasher;
 
 class SubjectController extends Controller
 {
@@ -60,7 +61,7 @@ class SubjectController extends Controller
             // dd($data);
             Subject::create($data);
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -124,7 +125,7 @@ class SubjectController extends Controller
 
             $subject->update($data);
 
-            toastr()->success(trans('messages.Update'));
+            Flasher::addSuccess(trans('messages.Update'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -143,7 +144,7 @@ class SubjectController extends Controller
 
             Subject::findOrFail($id)->delete();
 
-            toastr()->error(trans('messages.Delete'));
+            Flasher::addError(trans('messages.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

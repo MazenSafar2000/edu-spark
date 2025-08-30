@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\Recorded_class;
 use App\Models\Teacher_section;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,7 +83,8 @@ class RecordedClassController extends Controller
             //     $student->notify(new NewRecordedClassAdded($recordedClassId, $request->title, auth()->user()->Name));
             // }
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
+
             return redirect()->route('recordedClasses.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -144,10 +146,10 @@ class RecordedClassController extends Controller
                 'video_url' => $request->video_url,
             ]);
 
-            toastr()->success(trans('messages.Update'));
+            Flasher::addSuccess(trans('messages.Update'));
             return redirect()->route('recordedClasses.index');
         } catch (\Exception $e) {
-            toastr()->error($e->getMessage());
+            Flasher::addError($e->getMessage());
             return redirect()->back();
         }
     }
@@ -163,7 +165,7 @@ class RecordedClassController extends Controller
         $recordedClass = Recorded_class::findOrFail($id);
         $recordedClass->delete();
 
-        toastr()->error('mesages.Delete');
+        Flasher::addError(trans('messages.Delete'));
         return redirect()->back();
     }
 }

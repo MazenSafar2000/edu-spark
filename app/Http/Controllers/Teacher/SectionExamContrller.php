@@ -118,7 +118,7 @@ class SectionExamContrller extends Controller
             $exam = SectionExam::findOrFail($id);
             $exam->delete();
 
-            toastr()->error(trans('messages.Delete'));
+            Flasher::addError(trans('messages.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

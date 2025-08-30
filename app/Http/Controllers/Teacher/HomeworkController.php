@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Flasher\Laravel\Facade\Flasher;
 
 class HomeworkController extends Controller
 {
@@ -112,7 +113,7 @@ class HomeworkController extends Controller
             // }
 
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('homeworks.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -209,11 +210,11 @@ class HomeworkController extends Controller
                 $homework->update(['attachment_path' => $fileName]);
             }
 
-            toastr()->success(trans('messages.Update'));
+            Flasher::addSuccess(trans('messages.Update'));
             return redirect()->route('homeworks.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-            toastr()->error($e->getMessage());
+            Flasher::addError($e->getMessage());
         }
     }
 
@@ -233,7 +234,7 @@ class HomeworkController extends Controller
 
         $homework->delete();
 
-        toastr()->error(trans('messages.Delete'));
+        Flasher::addError(trans('messages.Delete'));
         return redirect()->back();
     }
 
@@ -271,7 +272,7 @@ class HomeworkController extends Controller
             'status' => 'graded',
         ]);
 
-        toastr()->success(trans('messages.Update'));
+        Flasher::addSuccess(trans('messages.Update'));
         return back();
     }
 

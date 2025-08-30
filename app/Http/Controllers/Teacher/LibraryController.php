@@ -14,7 +14,9 @@ use App\Models\Teacher_section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\AttachFilesTrait;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Support\Facades\Storage;
+
 
 class LibraryController extends Controller
 {
@@ -97,7 +99,7 @@ class LibraryController extends Controller
 
             // $this->uploadFile($request, $folderName, $fileName);
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('library.create');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -183,7 +185,7 @@ class LibraryController extends Controller
 
             $library->update($data);
 
-            toastr()->success(trans('messages.update'));
+            Flasher::addSuccess(trans('messages.update'));
             return redirect()->route('library.index');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -206,7 +208,7 @@ class LibraryController extends Controller
 
             Storage::disk('public')->delete("attachments/library/teachers/{$library->teacher->National_ID}/{$library->file_name}");
 
-            toastr()->success(trans('messages.delete'));
+            Flasher::addSuccess(trans('messages.delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

@@ -9,6 +9,7 @@ use App\Models\Question;
 use App\Models\QuestionsCategotry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Flasher\Laravel\Facade\Flasher;
 
 class QuestionController extends Controller
 {
@@ -19,7 +20,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
@@ -75,7 +76,7 @@ class QuestionController extends Controller
 
             $question->save();
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -153,7 +154,7 @@ class QuestionController extends Controller
 
             $question->save();
 
-            toastr()->success(trans('messages.Update'));
+            Flasher::addSuccess(trans('messages.Update'));
             return redirect()->route('questionsBank.index');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -172,7 +173,7 @@ class QuestionController extends Controller
         try {
             $question->delete();
 
-            toastr()->error(trans('messages.Delete'));
+            Flasher::addError(trans('messages.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

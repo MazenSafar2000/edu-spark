@@ -11,6 +11,7 @@ use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\Teacher_section;
 use Illuminate\Http\Request;
+use Flasher\Laravel\Facade\Flasher;
 
 class SectionController extends Controller
 {
@@ -60,7 +61,7 @@ class SectionController extends Controller
                 'Status' => '1',
             ]);
 
-            toastr()->success(trans('messages.success'));
+            Flasher::addSuccess(trans('messages.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -122,7 +123,7 @@ class SectionController extends Controller
             }
             $section->save();
 
-            toastr()->success(trans('messages.Update'));
+            Flasher::addSuccess(trans('messages.Update'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -142,7 +143,7 @@ class SectionController extends Controller
         try {
             Section::findOrFail($id)->delete();
 
-            toastr()->error(trans('messages.Delete'));
+            Flasher::addError(trans('messages.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

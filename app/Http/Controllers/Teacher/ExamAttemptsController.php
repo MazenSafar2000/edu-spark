@@ -8,6 +8,7 @@ use App\Models\Exam;
 use App\Models\ExamAttempts;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Flasher\Laravel\Facade\Flasher;
 
 class ExamAttemptsController extends Controller
 {
@@ -110,7 +111,7 @@ class ExamAttemptsController extends Controller
                 ]
             );
 
-            toastr()->success(trans('messages.delete'));
+            Flasher::addSuccess(trans('messages.delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
