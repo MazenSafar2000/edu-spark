@@ -206,6 +206,9 @@ return [
     'homework_results' => 'نتائج الواجب',
     'set_zero' => 'تعيين صفر للغائبين',
     'add_selected' => 'اضافة المحدد',
+    'Add_automatic_meeting' => 'اضافة لقاء تقائي',
+    'Add_manual_meeting' => 'اضافة لقاء يدوي',
+
 
 
 

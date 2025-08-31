@@ -131,7 +131,8 @@
                     <span class="info-item-location">{{ trans('main_trans.palestine_gaza') }}<i
                             class="fas fa-map-marker-alt"></i></span>
 
-                    <span class="info-item-hour"> من 8:00 ص - 3:00 م <i class="fas fa-clock"></i> </span>
+                    <span class="info-item-hour">{{ trans('main_trans.working_hours') }}<i class="fas fa-clock"></i>
+                    </span>
                 </div>
                 <div class="d-flex gap-3">
                     <span class="contact-item-email"> sparkEducation.edu <i class="fas fa-envelope"></i></span>
@@ -146,7 +147,7 @@
 
             <!-- الشعار والقائمة الجانبية -->
             <div class="d-flex align-items-center logo-spark">
-                <a href="manager-index.html">
+                <a href="{{ route('student.dashboard') }}">
                     <img src="{{ asset('assets/images/spark.png') }}" alt="spark education" class="logo">
                 </a>
 
@@ -195,7 +196,7 @@
                         </a>
                         <ul class="dropdown-menu account-dropdown text-end" aria-labelledby="accountDropdown">
                             <li class="text-center">
-                                <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="صورة المستخدم"
+                                <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="avatar"
                                     class="rounded-circle user-img" style="width: 40px; height: 40px;">
                                 <p class="user-name">{{ auth()->user()->name }}</p>
                                 <p class="user-type">{{ trans('Students_trans.student') }}</p>
@@ -261,53 +262,54 @@
 
     <!-- الشريط الجانبي -->
     <div id="sidebarStd" class="sidebarStd bg-white shadow position-fixed end-0 vh-100 p-4">
-        <div class="sidebar-std">
+    <div class="sidebar-std">
 
-            <div class="widget">
-                <h3>{{ trans('Students_trans.My_courses') }}</h3>
-                <ul>
-                    <li><a href="student-subject-data.html">
-                            <span class="course-name"> رياضيات</span>
-                            <span class="instructor-name">م. ميادة مغاري </span>
-                        </a></li>
+      <div class="widget">
+        <h3>مقرراتي الدراسية</h3>
+        <ul>
+          <li><a href="student-subject-data.html">
+              <span class="course-name"> رياضيات</span>
+              <span class="instructor-name">م. ميادة مغاري </span>
+            </a></li>
 
-                    <li><a href="student-subject-data.html">
-                            <span class="course-name"> لغة عربية</span>
-                            <span class="instructor-name">م. ميادة مغاري </span>
-                        </a></li>
+          <li><a href="student-subject-data.html">
+              <span class="course-name"> لغة عربية</span>
+              <span class="instructor-name">م. ميادة مغاري </span>
+            </a></li>
 
-                    <li><a href="student-subject-data.html">
-                            <span class="course-name"> علوم</span>
-                            <span class="instructor-name">م. ميادة مغاري </span>
-                        </a></li>
+          <li><a href="student-subject-data.html">
+              <span class="course-name"> علوم</span>
+              <span class="instructor-name">م. ميادة مغاري </span>
+            </a></li>
 
-                    <li><a href="student-subject-data.html">
-                            <span class="course-name"> تنشئة</span>
-                            <span class="instructor-name">م. ميادة مغاري </span>
-                        </a></li>
-                </ul>
-            </div>
+          <li><a href="student-subject-data.html">
+              <span class="course-name"> تنشئة</span>
+              <span class="instructor-name">م. ميادة مغاري </span>
+            </a></li>
 
-            <div class="widget">
-                <h3>الأحداث القادمة</h3>
-                <a href="student-exam-preview.html">اختبار لغة عربية <span>12-2-2026</span></a>
-                <br>
-                <a href="student-hw-preview.html">واجب رياضيات <span>12-2-2026</span></a>
-            </div>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <h3>الأحداث القادمة</h3>
+        <a href="student-exam-preview.html">اختبار لغة عربية <span>12-2-2026</span></a>
+        <br>
+        <a href="student-hw-preview.html">واجب رياضيات <span>12-2-2026</span></a>
+      </div>
 
 
-            <div class="mini-calendar">
-                <div class="calendar-header">
-                    <span onclick="changeMonth(-1)">‹</span>
-                    <span id="mini-month-year">مايو 2025</span>
-                    <span onclick="changeMonth(1)">›</span>
-                </div>
-                <div class="calendar-grid" id="mini-calendar-grid"></div>
-            </div>
+      <div class="mini-calendar">
+        <div class="calendar-header">
+          <span onclick="changeMonth(-1)">‹</span>
+          <span id="mini-month-year">مايو 2025</span>
+          <span onclick="changeMonth(1)">›</span>
         </div>
-
-
+        <div class="calendar-grid" id="mini-calendar-grid"></div>
+      </div>
     </div>
+
+
+  </div>
 
 
 

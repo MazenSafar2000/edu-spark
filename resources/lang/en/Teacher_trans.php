@@ -209,6 +209,8 @@ return [
     'homework_results' => 'Homework Results',
     'set_zero' => 'assign zerro for Absent',
     'add_selected' => 'Add Selected',
+    'Add_automatic_meeting' => 'Add an automatic meeting',
+    'Add_manual_meeting' => 'Add a manual meeting',
 
 
 

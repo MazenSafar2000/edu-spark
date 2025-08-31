@@ -305,9 +305,11 @@
                 </a>
 
                 <ul id="questionsMenu" class="collapse list-unstyled ps-4 mt-2">
-                    <li><a href="{{ route('questionsBank.index') }}">{{ trans('Teacher_trans.questionBank') }}</a>
+                    <li>
+                        <a href="{{ route('questionsBank.index') }}">{{ trans('Teacher_trans.questionBank') }}</a>
                     </li>
-                    <li><a
+                    <li>
+                        <a
                             href="{{ route('questionsCategotry.index') }}">{{ trans('Teacher_trans.questions_categories') }}</a>
                     </li>
                 </ul>
@@ -322,23 +324,21 @@
 
             <li>
                 <a href="{{ route('recordedClasses.index') }}">
-                    <span>الدروس المسجلة</span>
+                    <span>{{ trans('Teacher_trans.recorded_classes') }}</span>
                     <i class="fas fa-play-circle"></i>
                 </a>
             </li>
 
             <li>
-                <a href="teacher-meet.html">
-                    <span>اللقاءات المباشرة</span>
+                <a href="{{ route('ZoomClasses.index') }}">
+                    <span>{{ trans('Teacher_trans.Online_classes') }}</span>
                     <i class="fas fa-video"></i>
                 </a>
             </li>
 
-
-
             <li>
                 <a href="teacher-profile.html">
-                    <span>الملف الشخصي</span>
+                    <span>{{ trans('Teacher_trans.profile') }}</span>
                     <i class="fa-solid fa-user"></i>
 
                 </a>
