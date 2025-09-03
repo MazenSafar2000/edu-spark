@@ -27,6 +27,7 @@ return new class extends Migration
             $table->boolean('allow_multiple_submissions')->default(false);
             $table->dateTime('due_date');
             $table->string('attachment_path')->nullable();
+            $table->boolean('show_grade')->default(0);
             $table->foreignId('created_by_teacher_id')->constrained('teachers');
             $table->timestamps();
         });

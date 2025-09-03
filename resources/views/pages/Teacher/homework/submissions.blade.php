@@ -9,15 +9,34 @@
         <div class="container custom-table-teacher">
 
             <div class="search-box-student  mb-3 d-flex justify-content-between">
-                <input type="search" id="submissionSearch" class="form-control search-input-custom" placeholder="{{ trans('Teacher_trans.search') }}">
+                <input type="search" id="submissionSearch" class="form-control search-input-custom"
+                    placeholder="{{ trans('Teacher_trans.search') }}">
 
                 <div class="btn-export-zero d-flex align-items-center">
-                    <a href="{{ route('teacher.homework.export', $homework->id) }}" class="btn-export">{{ trans('Teacher_trans.export') }}</a>
+                    <form action="{{ route('homework.toggleShowGrade', $homework->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('PATCH')
+                        <div class="d-flex checkbox-show-result">
+                            <label class="custom-checkbox-label2">
+                                <input type="checkbox" class="custom-checkbox" name="show_grade" value="1"
+                                    onchange="this.form.submit()" {{ $homework->show_grade ? 'checked' : '' }}>
+                                {{ trans('main_trans.View_students_grades') }}
+                            </label>
+                        </div>
+                    </form>
+
+                    <a href="{{ route('teacher.homework.export', $homework->id) }}"
+                        class="btn-export">{{ trans('Teacher_trans.export') }}</a>
+                    <form action="{{ route('homework.assignZeros', $homework->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn-zero">{{ trans('Teacher_trans.set_zero_hm') }}</button>
+                    </form>
                 </div>
             </div>
 
 
             <div class="table-responsive custom-table-wrapper">
+                @include('components.error-field')
                 <table class="text-center custom-grade-table" id="datatable">
                     <thead class="thead-custom">
                         <tr>
@@ -94,7 +113,7 @@
 
                                         <!-- جسم المودال -->
                                         <div class="modal-body custom-modal-body">
-                                            <form id="gradeHmForm" class="custom-form"
+                                            <form id="gradeHmForm{{ $student->id }}" class="custom-form"
                                                 action="{{ route('homework.grade', [$homework->id, $student->id]) }}"
                                                 method="POST">
                                                 @csrf
@@ -120,7 +139,7 @@
                                         <!-- تذييل المودال -->
                                         <div class="modal-footer custom-modal-footer">
                                             <button type="submit" class="btn btn-primary custom-save-btn"
-                                                form="gradeHmForm">تقييم</button>
+                                                form="gradeHmForm{{ $student->id }}">تقييم</button>
                                             <button type="button" class="btn btn-secondary custom-cancel-btn"
                                                 data-bs-dismiss="modal">إلغاء</button>
                                         </div>

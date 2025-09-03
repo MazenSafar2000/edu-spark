@@ -237,6 +237,8 @@ return [
     'no_notifications' => 'لا توجد اشعارات',
     'remove' => 'ازالة',
 
+    'View_students_grades' => 'عرض العلامات الطلاب'
+
 
 
 

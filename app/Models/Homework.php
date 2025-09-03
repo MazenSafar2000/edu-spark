@@ -23,6 +23,7 @@ class Homework extends Model
         'classroom_id',
         'section_id',
         'attachment_path',
+        'show_grade',
         'created_by_teacher_id',
 
     ];

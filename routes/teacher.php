@@ -51,6 +51,10 @@ Route::group(
                 Route::post('homeworks/{homework}/grade/{student}', 'HomeworkController@gradeStudent')->name('homework.grade');
                 Route::get('/teacher/homework/{homework}/export', [HomeworkController::class, 'export'])
                     ->name('teacher.homework.export');
+                Route::post('/homeworks/{homework}/assign-zeros', [HomeworkController::class, 'assignZeroForAbsentStudents'])->name('homework.assignZeros');
+                Route::patch('/homeworks/{homework}/toggle-show-grade', [HomeworkController::class, 'toggleShowGrade'])
+                    ->name('homework.toggleShowGrade');
+
 
 
                 Route::resource('classes/recorded', 'RecordedClassController')->names([
@@ -66,7 +70,7 @@ Route::group(
 
                 Route::resource('ZoomClasses', OnlineClassController::class);
                 Route::get('zoom/create.indirect', [OnlineClassController::class, 'createIndirect'])->name('ZoomClasses.create.indirect');
-                Route::post('zoom/indirect/store', [OnlineClassController::class,'storeIndirect'])->name('store.zoom.indirect');
+                Route::post('zoom/indirect/store', [OnlineClassController::class, 'storeIndirect'])->name('store.zoom.indirect');
 
                 Route::resource('exams', 'ExamController');
                 Route::get('/{section_id}/exam/create', 'ExamController@createNew')->name('createNewExam');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Models\Homework;
 use App\Models\Homework_submission;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -58,40 +59,52 @@ class HomeworkSubmissionController extends Controller
             ->where('homework_id', $homework->id)
             ->first();
 
-        // $filePath = $this->uploadStudentHomeworkFile($request, $studentName);
+        // Store new file
         $path = $request->file('submission_file')->storeAs(
             "attachments/homework_submissions/students/{$folderName}",
             $fileName,
             'public'
         );
 
+        // Determine delivery status
+        $deliveryStatus = now()->gt($homework->due_date) ? 'submittedOutOfTime' : 'submittedOnTime';
+
         if ($existingSubmission) {
             if (!$homework->allow_multiple_submissions) {
                 return back()->with('message', __('Students_trans.submission_already_done'));
             }
 
-            // Delete old file
-            Storage::disk('public')->delete("attachments/homework_submissions/students/{$folderName}/". $existingSubmission->file_path);
+            // Delete old file if exists
+            if ($existingSubmission->file_path) {
+                Storage::disk('public')->delete(
+                    "attachments/homework_submissions/students/{$folderName}/" . $existingSubmission->file_path
+                );
+            }
 
-            // Update existing
+            // Update existing submission
             $existingSubmission->update([
-                'file_path' => $fileName,
-                'submitted_at' => now(),
-                'status' => now()->gt($homework->due_date) ? 'late' : 'pending',
+                'file_path'        => $fileName,
+                'notes'            => $request->notes,
+                'submitted_at'     => now(),
+                'delivery_status'  => $deliveryStatus,
+                'evaluation_status' => 'notEvaluated', // reset evaluation
             ]);
         } else {
             Homework_submission::create([
-                'homework_id' => $homework->id,
-                'student_id' => $student->id,
-                'file_path' => $fileName,
-                'notes' => $request->notes,
-                'submitted_at' => now(),
-                'status' => now()->gt($homework->due_date) ? 'late' : 'pending',
+                'homework_id'      => $homework->id,
+                'student_id'       => $student->id,
+                'file_path'        => $fileName,
+                'notes'            => $request->notes,
+                'submitted_at'     => now(),
+                'delivery_status'  => $deliveryStatus,
+                'evaluation_status' => 'notEvaluated',
             ]);
         }
 
-        return redirect()->back()->with('success', __('Students_trans.submitted_successfully'));
+        Flasher::addSuccess(trans('Students_trans.submitted_successfully'));
+        return redirect()->back();
     }
+
 
     /**
      * Display the specified resource.

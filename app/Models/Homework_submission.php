@@ -15,9 +15,11 @@ class Homework_submission extends Model
         'file_path',
         'notes',
         'submitted_at',
-        'status',
+        'delivery_status',
+        'evaluation_status',
         'degree',
         'feedback',
+        'show_grade',
     ];
 
     protected $casts = [

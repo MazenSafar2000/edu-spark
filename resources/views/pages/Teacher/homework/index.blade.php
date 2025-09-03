@@ -26,7 +26,7 @@
                             <th>{{ trans('Teacher_trans.section') }} </th>
                             <th>{{ trans('Teacher_trans.subject') }} </th>
                             <th>{{ trans('Teacher_trans.homework_title') }}</th>
-                            <th>{{ trans('Teacher_trans.homework_description') }}</th>
+                            {{-- <th>{{ trans('Teacher_trans.homework_description') }}</th> --}}
                             <th>{{ trans('Teacher_trans.total_degree') }}</th>
                             <th>{{ trans('Teacher_trans.allow_multiple_submissions') }}</th>
                             <th>{{ trans('Teacher_trans.homework_due_date') }} </th>
@@ -42,7 +42,7 @@
                                 <td>{{ $homework->section->Name_Section }}</td>
                                 <td>{{ $homework->subject->name }}</td>
                                 <td style="max-width: 200px">{{ $homework->title }}</td>
-                                <td style="max-width: 200px">{{ $homework->description }}</td>
+                                {{-- <td style="max-height: 10px; ">{{ $homework->description }}</td> --}}
                                 <td>{{ $homework->total_degree }}</td>
                                 <td>{{ $homework->allow_multiple_submissions ? 'Yes' : 'No' }}</td>
                                 <td>{{ $homework->due_date }}</td>

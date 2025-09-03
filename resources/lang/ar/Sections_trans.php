@@ -12,7 +12,7 @@ return [
     'Section_name_en' => 'اسم القسم باللغة الانجليزية',
     'Select_Grade' => '-- حدد المرحلة --',
     'Name_Grade' => 'اسم المرحلة',
-    'Notes' => 'Notes',
+    'Notes' => 'ملاحظات',
     'submit' => 'حفظ البيانات',
     'Name_Section'=>'اسم القسم',
     'Name_Class'=>'اسم الصف',

@@ -235,9 +235,9 @@ return [
 
     'notifications' => 'Notifications',
     'no_notifications' => 'No Notifications',
-    'remove' => 'remove'
+    'remove' => 'remove',
 
-
+    'View_students_grades' => "View students' grades"
 
 
 

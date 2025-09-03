@@ -1,96 +1,203 @@
 @extends('layouts.main.student_dashboard')
 @section('student-content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
-
         <div class="container exam-preview-container">
             <div class="exam-preview-title text-center">
                 <h4>
-                    <span class="preview-title-text fw-bold">معاينة </span>
-                    <span class="preview-title-highlight fw-bold">الواجب</span>
+                    <span class="preview-title-text fw-bold">{{ trans('Students_trans.preview_homework') }}</span>
                 </h4>
             </div>
 
-            <div class="preview-wrapper p-4">
-                <div class="preview-card">
-                    <h5 class="exam-title">{{ $homework->title }}</h5>
+            <div class="container page-wrap py-4">
+                <div class="header-box mb-3">
+                    <div class="header-dates">
+                        <div>{{ $homework->title }}</div>
+                        <hr>
+                        <div><strong>{{ trans('Students_trans.Opens') }}:
+                            </strong>{{ $homework->created_at->translatedFormat('l d F Y، h:i A') }}</div>
+                        <div><strong>{{ trans('Students_trans.Close') }}:
+                            </strong>{{ $homework->due_date->translatedFormat('l d F Y، h:i A') }}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="tiny">
+                            <p style="white-space: pre-line;">
 
-                    <ul class="list-unstyled exam-description">
-                        <li><strong>{{ trans('Students_trans.homework_description') }}
-                                :</strong>{{ $homework->description }}</li>
-                        <li><strong>{{ trans('Students_trans.subject') }} :</strong>{{ $homework->subject->name }}</li>
-                        <li><strong>{{ trans('Students_trans.total_degree') }} :</strong>{{ $homework->total_degree }}</li>
-                        <li><strong>{{ trans('Students_trans.Delivery_Deadline') }} :</strong>{{ $homework->due_date }}</li>
-                        @if ($homework->attachment_path)
-                            <li><strong>{{ trans('Students_trans.Submitted_File') }}:</strong>
-                                <a href="{{ asset('storage/attachments/homeworks/teachers/' . $homework->teacher->National_ID . '/' . $homework->attachment_path) }}"
-                                    target="_blank" class="btn btn-sm btn-info">
-                                    {{ trans('Students_trans.View File') }}
-                                </a>
-                            </li>
-                        @endif
-
-                        @if ($submission)
-                            <div class="alert alert-success">{{ trans('Students_trans.you_submit') }}</div>
-                            <p><strong>{{ trans('Students_trans.Status') }}:</strong>
-                                @if ($submission->is_late)
-                                    <span class="badge badge-warning">{{ trans('Students_trans.Late_Submission') }}</span>
-                                @else
-                                    <span class="badge text-success  badge-success">{{ trans('Students_trans.on_time') }}</span>
-                                @endif
+                                {{ $homework->description }}
                             </p>
-                            <p><strong>{{ trans('Students_trans.Submission_Date') }}:</strong>
-                                {{ $submission->submitted_at }}</p>
-                            @if ($homework->allow_multiple_submissions)
-                                <a href="{{ route('student.submissions.create', $homework->id) }}"
-                                    class="btn btn-warning btn-sm">{{ __('Students_trans.Resubmit') }}</a>
-                            @endif
-                            @if ($submission && ($submission->degree !== null || $submission->feedback))
-                                <div class="mt-4">
-                                    <div class="card border-success shadow-sm">
-                                        <div class="card-header bg-success text-white">
-                                            <h5 class="mb-0">{{ __('Students_trans.Grading_Feedback') }}</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            @if ($submission->degree !== null)
-                                                <p class="mb-2">
-                                                    <strong>{{ __('Students_trans.degree') }}:</strong>
-                                                    <span class="badge badge-pill badge-primary px-3 py-2 text-success"
-                                                        style="font-size: 16px;">
-                                                        {{ $submission->degree }} /
-                                                        {{ $homework->total_degree }}
-                                                    </span>
-                                                </p>
-                                            @endif
+                        </div>
+                    </div>
+                </div>
 
-                                            @if ($submission->feedback)
-                                                <p class="mt-3 mb-0">
-                                                    <strong>{{ __('Students_trans.Feedback') }}:
-                                                    </strong><span> {{ $submission->feedback }}</span>
-                                                </p>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                <div class="action-btn d-flex gap-2">
+                    @php
+                        $now = now();
+                        $duePassed = $now->gt($homework->due_date);
+                    @endphp
+
+                    @php
+                        $now = now();
+                        $deadline = \Carbon\Carbon::parse($homework->due_date);
+
+                        $hasSubmission = $submission ? true : false;
+                        $allowMultiple = $homework->allow_multiple_submissions;
+                        $beforeDeadline = $now->lte($deadline);
+                    @endphp
+
+
+
+                    @if ($hasSubmission)
+                        {{-- Case 1: Student already submitted --}}
+                        @if ($allowMultiple && $beforeDeadline)
+                            {{-- 1A: Multiple allowed, still before deadline → can resubmit --}}
+                            <a href="{{ route('student.submissions.create', $homework->id) }}" class="btn action-btn-edit">
+                                {{ trans('Students_trans.Resubmit') }}
+                            </a>
+                        @elseif($allowMultiple && !$beforeDeadline)
+                            {{-- 1B: Multiple allowed, after deadline → cannot resubmit --}}
+                            <button class="action-btn-edit" disabled>
+                                {{ trans('Students_trans.Resubmit') }}
+                            </button>
                         @else
-                            <div class="exam-buttons d-flex  gap-3">
-                                <a href="{{ route('student.submissions.create', $homework->id) }}" class="btn exam-start-btn">
-                                    <i class="fas fa-eye ms-1"></i> تسليم الواجب
-                                </a>
-                            </div>
+                            {{-- 1C: Multiple NOT allowed → cannot resubmit --}}
+                            <button class="action-btn-edit" disabled>
+                                {{ trans('Students_trans.Submitted') }}
+                            </button>
                         @endif
+                    @else
+                        {{-- Case 2: Student has NOT submitted yet --}}
+                        @if ($allowMultiple && $beforeDeadline)
+                            {{-- 2A: Not submitted, multiple allowed, before deadline → can submit normally --}}
+                            <a href="{{ route('student.submissions.create', $homework->id) }}" class="btn action-btn-edit">
+                                {{ trans('Students_trans.Submit') }}
+                            </a>
+                        @elseif($allowMultiple && !$beforeDeadline)
+                            {{-- 2B: Not submitted, multiple allowed, after deadline → submit late --}}
+                            <a href="{{ route('student.submissions.create', $homework->id) }}" class="btn btn-danger">
+                                {{ trans('Students_trans.Submit_late') }}
+                            </a>
+                        @elseif(!$allowMultiple && $beforeDeadline)
+                            {{-- 2C: Not submitted, multiple NOT allowed, before deadline → normal submit --}}
+                            <a href="{{ route('student.submissions.create', $homework->id) }}" class="btn action-btn-edit">
+                                {{ trans('Students_trans.Submit') }}
+                            </a>
+                        @elseif(!$allowMultiple && !$beforeDeadline)
+                            {{-- 2D: Not submitted, multiple NOT allowed, after deadline → submit late --}}
+                            <a href="{{ route('student.submissions.create', $homework->id) }}" class="btn btn-danger">
+                                {{ trans('Students_trans.Submit_late') }}
+                            </a>
+                        @endif
+                    @endif
+                </div>
 
-                        {{-- <li>
-                            <strong>الحالة:</strong>
-                            <span class="exam-status">متاح الان للتسليم ينتهي بعد 23 ساعة و52 دقيقة</span>
-                        </li> --}}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table status-table">
+                                <tbody>
+                                    <tr>
+                                        <th>{{ trans('Students_trans.delivery_status') }}</th>
+                                        <td>
+                                            @if ($submission)
+                                                <span
+                                                    class="status-badge text-success">{{ trans('Students_trans.Submitted') }}</span>
+                                            @else
+                                                <span
+                                                    class="status-badge text-danger">{{ trans('Students_trans.Not_Submitted') }}</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ trans('Students_trans.evaluation_status') }}</th>
+                                        <td>
+                                            @if ($submission && $submission->degree !== null && $homework->show_grade)
+                                                <span class="text-success">
+                                                    {{ $submission->degree }} / {{ $homework->total_degree}}
+                                                </span>
+                                                <br>
+                                                <small class="text-success">
+                                                    {{ trans('Students_trans.teacher_feedback') }}:
+                                                    {{ $submission->feedback ?? '-' }}
+                                                </small>
+                                            @elseif ($submission && $submission->degree !== null && !$homework->show_grade)
+                                                <span class="text-dark">{{ trans('Students_trans.graded') }}</span>
+                                            @else
+                                                <span class="text-dark">{{ trans('Students_trans.Not_Graded_Yet') }}</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ trans('Students_trans.time_remaining') }}</th>
+                                        <td class="text-success">
+                                            @php
+                                                $now = now();
+                                                $deadline = $homework->due_date;
+                                            @endphp
 
-                    </ul>
+                                            @if ($submission)
+                                                @if ($submission->submitted_at->lt($deadline))
+                                                    @php
+                                                        $diff = $deadline->diff($submission->submitted_at);
+                                                    @endphp
+                                                    <span class="text-success">
+                                                        {{ trans('Students_trans.turned') }} {{ $diff->d }} {{ trans('Students_trans.days') }} {{ $diff->h }} {{ trans('Students_trans.hours') }}
+                                                        {{ $diff->i }} {{ trans('Students_trans.minutes') }} {{ trans('Students_trans.early') }}
+                                                    </span>
+                                                @else
+                                                    @php
+                                                        $diff = $submission->submitted_at->diff($deadline);
+                                                    @endphp
+                                                    <span class="text-danger">
+                                                        {{ trans('Students_trans.turned') }} {{ $diff->d }} {{ trans('Students_trans.days') }} {{ $diff->h }} {{ trans('Students_trans.hours') }}
+                                                        {{ $diff->i }} {{ trans('Students_trans.minutes') }} {{ trans('Students_trans.late') }}
+                                                    </span>
+                                                @endif
+                                            @else
+                                                @if ($now->lt($deadline))
+                                                    @php
+                                                        $diff = $deadline->diff($now);
+                                                    @endphp
+                                                    <span class="text-success">
+                                                        {{ trans('Students_trans.remaining') }} {{ $diff->d }} {{ trans('Students_trans.days') }} {{ $diff->h }} {{ trans('Students_trans.hours') }}
+                                                        {{ $diff->i }} {{ trans('Students_trans.minutes') }}
+                                                    </span>
+                                                @else
+                                                    @php
+                                                        $diff = $now->diff($deadline);
+                                                    @endphp
+                                                    <span class="text-danger">
+                                                        {{ trans('Students_trans.ended_since') }} {{ $diff->d }} {{ trans('Students_trans.days') }} {{ $diff->h }}
+                                                        {{ trans('Students_trans.hours') }} {{ $diff->i }} {{ trans('Students_trans.minutes') }}
+                                                    </span>
+                                                @endif
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ trans('Students_trans.Submitted_File') }}</th>
+                                        <td class="align-items-center gap-2">
+                                            @if ($submission && $submission->file_path)
+                                                <span
+                                                    class="muted">{{ $submission->submitted_at->translatedFormat('h:i A، d F Y') }}</span>
 
-
+                                                <a class="file-pill" href="{{ asset('storage/attachments/homework_submissions/students/'. $submission->student->National_ID. '/' . $submission->file_path) }}" target="_blank">
+                                                    {{ trans('Teacher_trans.download') }}
+                                                </a>
+                                            @else
+                                                {{ trans('Students_trans.no_files') }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{ trans('Students_trans.your_notes') }}</th>
+                                        <td>{{ $submission->notes ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <br><br><br><br>
 @endsection

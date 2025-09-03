@@ -347,14 +347,6 @@
                                         <button type="submit" class="btn-zero"><i class="fas fa-user-times"></i>
                                             {{ trans('Teacher_trans.set_zero') }}</button>
                                     </form>
-                                    {{-- <form action="{{ route('exams.assignZeros', $exam->id) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-user-times"></i> تعيين 0 للغائبين
-                                        </button>
-                                    </form> --}}
-                                    {{-- <a href="#" class="btn-zero">نتيجة صفر</a> --}}
                                 </div>
                             </div>
 

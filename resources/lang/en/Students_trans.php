@@ -79,6 +79,7 @@ return [
     'View File' => 'View File',
     'Teacher_Notes' => 'Teacher Notes',
     'Not_Graded_Yet' => 'Not Graded Yet',
+    'graded' => 'Graded',
     'Back' => 'Back',
     'Status' => 'Status',
     'subject_materials' => 'Subject Materials',
@@ -98,6 +99,7 @@ return [
     'its_over' => "It's Over",
     'preview_homework' => 'Preview Homework',
     'you_submit' => 'You have already submitted this homework.',
+    'already_submitted' => 'You already submitted this homework. Multiple submissions are not allowed.',
     'library_list' => 'Library List',
     'uploaded_at' => 'Uploaded At',
     'view_courses' => 'View Courses',
@@ -105,7 +107,7 @@ return [
     'preview_VideoClass' => 'Preview Video Class',
     'VideoClass' => 'Video Class',
     'class_description' => 'Video Class Description',
-    'open_video' => 'Open Video',
+    'open_video' => 'Open video externally',
     'cant_open_drive_video' => 'The link is not valid for Google Drive viewing.',
     'cant_open_youtube_video' => 'The link is not valid for YouTube viewing.',
     'teacher_name' => 'Teacher Name',
@@ -126,7 +128,29 @@ return [
     'Download_file' => 'Download File',
     'answered' => 'Answered',
     'not_answered' => 'Not Answered',
-
     'Feedback' => 'Feedback',
+    'Not_supported' => 'Video Type Not supported',
+    'submit_homework' => 'Submit Homework',
+    'Closes' => 'Closes',
+    'Opens' => 'Opens',
+    'Submit_late' => 'Submit Out Off Time',
+    'teacher_feedback' => 'Teacher Feedback',
+
+    'days' => 'days',
+    'hours' => 'hours',
+    'minutes' => 'minutes',
+    'early' => 'early',
+    'turned' => 'was submitted',
+    'late' => 'late',
+
+    'evaluation_status' => 'Evaluation Status',
+    'delivery_status' => 'Delivery Status',
+    'remaining' => 'remaining',
+    'ended_since' => 'ended since',
+    'no_files' => 'no files',
+    'your_notes' => 'Your Notes',
+
+
+
 
 ];

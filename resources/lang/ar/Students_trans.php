@@ -80,6 +80,7 @@ return [
     'View File' => 'عرض الملف',
     'Teacher_Notes' => 'ملاحظات المعلم',
     'Not_Graded_Yet' => 'لم يتم تقييمه بعد',
+    'graded' => 'تم التقييم',
     'Back' => 'رجوع',
     'Status' => 'الحالة',
     'subject_materials' => 'مواد المادة الدراسية',
@@ -97,6 +98,8 @@ return [
     'its_over' => 'انتهى',
     'preview_homework' => 'معاينة الواجب',
     'you_submit' => 'لقد قمت بتسليم هذا الواجب مسبقاً.',
+    'already_submitted' => 'لقد قدمت بالفعل هذا الواجب المنزلي.
+لا يسمح بتقديمات متعددة.',
     'library_list' => 'قائمة المكتبة',
     'uploaded_at' => 'تاريخ الرفع',
     'view_courses' => 'عرض الدروس',
@@ -104,7 +107,7 @@ return [
     'preview_VideoClass' => 'معاينة فيديو الدرس',
     'VideoClass' => 'فيديو الدرس',
     'class_description' => 'وصف الدرس',
-    'open_video' => 'فتح الفيديو',
+    'open_video' => 'فتح الفيديو خارجيا',
     'cant_open_drive_video' => 'الرابط غير صالح لعرض Google Drive.',
     'cant_open_youtube_video' => 'الرابط غير صالح لعرض YouTube.',
     'teacher_name' => 'اسم المعلم',
@@ -124,9 +127,28 @@ return [
     'Download_file' => 'تنزيل الملف',
     'answered' => 'مُجاب',
     'not_answered' => 'غير مُجاب',
-
-
     'Feedback' => 'التعليقات',
+    'Not_supported' => 'نوع الفيديو غير مدعوم',
+    'submit_homework' => 'تسليم الواجب المدرسي',
+    'Closes' => 'يغلق',
+    'Opens' => 'يفتح',
+    'Submit_late' => 'تسليم متأخر',
+    'teacher_feedback' => 'ملاحظات المعلم',
+
+    'days' => 'ايام',
+    'hours' => 'ساعات',
+    'minutes' => 'دقائق',
+    'early' => 'مبكرا',
+    'turned' => 'تم التسليم',
+    'late' => 'متأخرة',
+
+    'evaluation_status' => 'حالة التسليم',
+    'delivery_status' => 'حالة التقييم',
+    'remaining' => 'متبقي',
+    'ended_since' => 'انتهى منذ',
+    'no_files' => 'لا يوجد ملف',
+    'your_notes' => 'ملاحظاتك',
+
 
 
 

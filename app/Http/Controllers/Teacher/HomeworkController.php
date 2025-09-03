@@ -238,7 +238,6 @@ class HomeworkController extends Controller
         return redirect()->back();
     }
 
-
     public function showSubmissions(Homework $homework)
     {
         // Get students in the same grade/class/section of the homework
@@ -257,23 +256,36 @@ class HomeworkController extends Controller
 
     public function gradeStudent(Request $request, Homework $homework, Student $student)
     {
-        $submission = Homework_submission::firstOrCreate([
-            'homework_id' => $homework->id,
-            'student_id' => $student->id,
-        ], [
-            'submitted_at' => now(), // default value in case it's a 0 grade
-            'file_path' => null,
-            'status' => 'graded'
+        $request->validate([
+            'degree'   => 'required|integer|min:0|max:' . $homework->total_degree,
+            'feedback' => 'nullable|string',
         ]);
 
-        $submission->update([
-            'degree' => $request->degree,
-            'feedback' => $request->feedback,
-            'status' => 'graded',
-        ]);
+        try {
+            $submission = Homework_submission::firstOrCreate(
+                [
+                    'homework_id' => $homework->id,
+                    'student_id'  => $student->id,
+                ],
+                [
+                    'submitted_at'     => null,
+                    'file_path'        => null,
+                    'delivery_status'  => 'notSubmitted',
+                    'evaluation_status' => 'notEvaluated',
+                ]
+            );
 
-        Flasher::addSuccess(trans('messages.Update'));
-        return back();
+            $submission->update([
+                'degree'            => $request->degree,
+                'feedback'          => $request->feedback,
+                'evaluation_status' => 'evaluated',
+            ]);
+
+            Flasher::addSuccess(trans('messages.Update'));
+            return back();
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     public function export($homeworkId)
@@ -281,5 +293,43 @@ class HomeworkController extends Controller
         $homework = Homework::findOrFail($homeworkId);
 
         return Excel::download(new HomeworkSubmissionsExport($homeworkId), "Homework_{$homework->title}_Submissions.xlsx");
+    }
+
+    public function assignZeroForAbsentStudents(Homework $homework)
+    {
+        // Get all student IDs in this homework's section
+        $studentIds = $homework->section->students()->pluck('id');
+
+        // Get IDs of students who already have a submission
+        $submittedIds = $homework->submissions()->pluck('student_id');
+
+        // Find students without any submission record
+        $studentsWithoutSubmission = $studentIds->diff($submittedIds);
+
+        foreach ($studentsWithoutSubmission as $studentId) {
+            $homework->submissions()->create([
+                'student_id'        => $studentId,
+                'degree'            => 0,
+                'feedback'          => 'لم يتم التسليم',
+                'delivery_status'   => 'notSubmitted',
+                'evaluation_status' => 'evaluated',
+                'submitted_at'      => null,
+                'file_path'         => null,
+            ]);
+        }
+
+        Flasher::addSuccess(trans('messages.Update'));
+        return back();
+    }
+
+    public function toggleShowGrade(Request $request, Homework $homework)
+    {
+        // If checkbox is not sent, fallback to 0
+        $homework->update([
+            'show_grade' => $request->has('show_grade') ? 1 : 0,
+        ]);
+
+        Flasher::addSuccess(__('messages.Update'));
+        return back();
     }
 }

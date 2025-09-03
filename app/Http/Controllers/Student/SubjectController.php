@@ -130,8 +130,6 @@ class SubjectController extends Controller
         $homeworks = $filter(Homework::class)->get();
         $recorded  = $filter(Recorded_class::class)->get();
         $online    = $filter(Online_class::class)->get();
-
-        // For exams (pivot table case)
         $exams = Exam::whereHas('sections', function ($q) use ($sectionId) {
             $q->where('section_id', $sectionId);
         })

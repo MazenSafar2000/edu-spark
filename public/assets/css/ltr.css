@@ -1158,6 +1158,7 @@ header.header-page img.logo {
     background-color: var(--white);
 }
 
+
 .footer span {
     color: var(--main-color);
     font-weight: bold;
@@ -1328,7 +1329,6 @@ header.header-page img.logo {
 }
 
 .add-question-plus-manager {
-    margin-left: 4rem;
     background-color: var(--main-color);
     color: var(--white);
     padding: .5rem 1rem;
@@ -2848,6 +2848,16 @@ h6.section-heading {
     font-size: 1.3rem;
 }
 
+.custom-checkbox-label2 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.3rem;
+    margin-right: 2rem;
+}
+
+
+
 .custom-checkbox {
     width: 20px;
     height: 20px;
@@ -3029,7 +3039,7 @@ h6.section-heading {
     margin-bottom: 1rem;
 }
 
-.search-box-student input {
+.search-box-student .earch-input-custom {
     text-align: left;
     border: 1px solid rgba(88, 159, 67, 0.2);
     padding: .7rem;
@@ -3282,7 +3292,6 @@ h6.section-heading {
 }
 
 .add-question-plus {
-    margin-left: 1rem;
     background-color: var(--main-color);
     color: var(--white);
     padding: .5rem 1rem;
@@ -3331,7 +3340,7 @@ h6.section-heading {
 .custom-form-card-teacher .card-body .subject-form div input[type="url"].custom-input,
 .custom-form-card-teacher .card-body .subject-form div input[type="file"].custom-input,
 .custom-form-card-teacher .card-body .subject-form div .custom-textarea {
-    padding: 15px;
+    padding: 10px;
     margin: 5px 0;
     border-top-right-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -3341,6 +3350,16 @@ h6.section-heading {
     border: none;
     color: var(--light-color);
 
+}
+
+.custom-form-card-teacher .card-body .subject-form div input[type="text"].custom-input-option {
+    padding: 10px;
+    margin: 5px 0;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    font-size: 1.3rem;
+    border: none;
+    color: var(--light-color);
 }
 
 .custom-form-card-teacher .card-body .subject-form div input[type="text"].custom-input-error,
@@ -3743,6 +3762,7 @@ h6.section-heading {
     z-index: 1;
     background-color: #fff;
     left: 0;
+    overflow: auto;
 }
 
 .sidebarStd .sidebar-std {
@@ -4494,6 +4514,204 @@ h6.section-heading {
     background-color: rgba(88, 159, 67, 0.7);
     transition: .3s linear;
 }
+
+/* -------------------- */
+
+
+
+/* شريط المواعيد */
+.exam-preview-container .page-wrap .header-box {
+    background: #fff;
+    border-radius: .5rem;
+    padding: 2rem;
+}
+
+.page-wrap .header-box .header-dates {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.page-wrap .header-box .tiny {
+    font-size: 1.3rem;
+    color: var(--main-color);
+}
+
+.action-btn {
+    margin-bottom: 1rem;
+}
+
+/* أزرار الأكشن */
+.action-btn .action-btn-edit,
+.action-btn .action-btn-delete {
+    font-size: 1.1rem;
+    background-color: var(--main-color);
+    color: var(--white);
+    padding: .5rem;
+    border-radius: 3px;
+}
+
+.action-btn .action-btn-edit:hover,
+.action-btn .action-btn-delete:hover {
+    background-color: rgba(88, 159, 67, 0.7);
+    transition: .3s linear;
+}
+
+.page-wrap .card {
+    border: none;
+}
+
+/* عنوان البطاقة */
+.section-title {
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: var(--main-color);
+    padding: .5rem .5rem;
+}
+
+/* الجدول */
+
+.status-table th {
+    width: 30%;
+    color: #555;
+    font-size: 1.2rem;
+    /* padding: .5rem .5rem; */
+}
+
+.status-table td {
+    vertical-align: middle;
+    font-size: 1.1rem;
+    /* padding: .5rem .5rem; */
+}
+
+/* حالة النجاح */
+.status-table .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .5rem .5rem;
+    border-radius: 3px;
+    font-weight: bold;
+    background: #e8f5e9;
+    color: var(--main-color);
+}
+
+.status-table .status-badge-un {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .5rem .5rem;
+    border-radius: 3px;
+    font-weight: bold;
+    background: #f5e8e8;
+    color: var(--red);
+}
+
+/* الملف */
+.file-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .5rem .5rem;
+    border-radius: 3px;
+    border: 1px solid var(--main-color);
+    background: #fff;
+    text-decoration: none;
+    color: var(--main-color);
+    margin-left: 1rem;
+}
+
+
+
+.muted {
+    color: var(--light-color);
+}
+
+/* ================= */
+
+.exam-title-preview {
+    font-weight: bold;
+    font-size: 1.7rem;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    color: var(--black);
+    margin-bottom: 1.5rem;
+
+}
+
+.exam-title-preview i {
+    font-size: 1.3rem;
+}
+
+.attempts-section .attempts-header {
+    margin-bottom: 2rem;
+}
+
+.attempts-title {
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: var(--black);
+    margin-bottom: 1rem;
+}
+
+.attempts-header .attempts-count {
+    /* background: var(--main-color);  */
+    color: var(--light-color);
+    padding: .2rem .6rem;
+    border-radius: 3px;
+    font-size: 1.25rem;
+}
+
+.action-btn-attempt {
+    background: var(--main-color);
+    color: #fff;
+    padding: .3rem .6rem;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
+    margin-top: 2rem;
+
+
+}
+
+.attempts-list .attempt-item .attempt-card {
+    border-radius: .5rem;
+    background: #fff;
+}
+
+.attempt-card-header {
+    font-weight: bold;
+    padding: .6rem .9rem;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    background-color: rgba(88, 159, 67, 0.08);
+}
+
+.attempt-table th {
+    width: 30%;
+    color: var(--black);
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: .7rem;
+    background-color: rgba(88, 159, 67, 0.08);
+
+}
+
+.attempt-table td {
+    color: #222;
+    font-size: 1.1rem;
+    padding: .7rem;
+}
+
+
+.attempt-footer .btn-attempt {
+    font-size: 1.4rem;
+    color: var(--main-color);
+    /* text-decoration: none; */
+    font-weight: bold;
+}
+
+
 
 
 /* ------student dashboard end------- */
