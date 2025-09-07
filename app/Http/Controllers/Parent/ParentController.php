@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Parent;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
+use App\Models\ExamAttempts;
 use App\Models\Homework;
 use App\Models\Homework_submission;
 use App\Models\Library;
@@ -121,6 +122,7 @@ class ParentController extends Controller
 
     public function bookDetails($bookId)
     {
+
         $book = Library::findOrFail($bookId);
 
         return view('pages.Parent.bookDetails', compact('book'));
@@ -145,10 +147,25 @@ class ParentController extends Controller
         return view('pages.Parent.recordedClassDetails', compact('class'));
     }
 
-    public function examDetails($examId)
+    public function examDetails($examId, $studentId)
     {
-        $exam = Recorded_class::findOrFail($examId);
+        $exam = Exam::findOrFail($examId);
 
-        return view('pages.Parent.examDetails', compact('exam'));
+        $student_id = Student::findOrFail($studentId);
+
+        // Get all attempts of this student for this exam
+        $examAttempts = ExamAttempts::where('exam_id', $exam->id)
+            ->where('student_id', $student_id)
+            ->orderBy('attempt_number')
+            ->get();
+
+        return view('pages.Parent.examDetails', compact('exam', 'examAttempts', 'student_id'));
+    }
+
+    public function zoomClassDetails($classId)
+    {
+        $class = Online_class::findOrFail($classId);
+
+        return view('pages.Parent.ZoomClassDetails', compact('class'));
     }
 }

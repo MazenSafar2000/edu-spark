@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- الشريط الجانبي -->
-                <div class="col-md-3 p-3 text-center">
+                <div class="col-md-3 p-3 text-center question-number-container">
                     <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="avatar" class="mb-2 rounded-circle"
                         width="120">
                     <h6>{{ auth()->user()->name }}</h6>
@@ -62,9 +62,10 @@
                                 $currentPage = floor($index / $questionsPerPage);
                             @endphp
                             <button
-                                class="btn btn-sm question-number-btn {{ $answered ? 'btn-success' : 'btn-outline-primary' }}"
+                                class="btn btn-sm question-number-btn {{ $answered ? 'active' : '' }}"
                                 wire:click="goToPage({{ floor($index / $questionsPerPage) }}, {{ $q->id }})">
                                 {{ $index + 1 }}
+
                             </button>
                         @endforeach
                     </div>

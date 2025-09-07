@@ -131,7 +131,7 @@
                                     @elseif($material['type'] == 'exam')
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center gap-2"
-                                                href="{{ route('exam.results', $material['exam_id']) }}">
+                                                href="{{ route('exam.results', $material['section_exam_id']) }}">
                                                 <i class="fas fa-question-circle action-icon question-icon-action"></i>
                                                 {{ trans('Teacher_trans.ExamDetails') }}
                                             </a>

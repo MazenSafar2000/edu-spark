@@ -28,7 +28,7 @@ return new class extends Migration
 
             $table->foreignId('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->foreignId('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
-            $table->boolean('show_answers')->default(false)->nullable();
+            
             $table->timestamps();
         });
     }

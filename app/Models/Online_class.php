@@ -48,4 +48,9 @@ class Online_class extends Model
     {
         return $this->belongsTo('App\Models\Subject', 'subject_id');
     }
+
+    public function teacher()
+    {
+        return $this->belongsTo(teacher::class);
+    }
 }

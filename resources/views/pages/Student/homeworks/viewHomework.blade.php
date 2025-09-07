@@ -24,6 +24,14 @@
                             <p style="white-space: pre-line;">
 
                                 {{ $homework->description }}
+
+                                @if ($homework->attachment_path)
+                                    <a class=""
+                                        href="{{ asset('storage/attachments/homeworks/teachers/' . $homework->teacher->National_ID . '/' . $homework->attachment_path) }}"
+                                        target="_blank">
+                                        {{ trans('Teacher_trans.attachment_path') }}
+                                    </a>
+                                @endif
                             </p>
                         </div>
                     </div>
@@ -112,7 +120,7 @@
                                         <td>
                                             @if ($submission && $submission->degree !== null && $homework->show_grade)
                                                 <span class="text-success">
-                                                    {{ $submission->degree }} / {{ $homework->total_degree}}
+                                                    {{ $submission->degree }} / {{ $homework->total_degree }}
                                                 </span>
                                                 <br>
                                                 <small class="text-success">
@@ -134,45 +142,62 @@
                                                 $deadline = $homework->due_date;
                                             @endphp
 
-                                            @if ($submission)
+                                            @if ($submission && $submission->submitted_at)
+                                                {{-- Student submitted --}}
                                                 @if ($submission->submitted_at->lt($deadline))
+                                                    {{-- Submitted before deadline --}}
                                                     @php
                                                         $diff = $deadline->diff($submission->submitted_at);
                                                     @endphp
                                                     <span class="text-success">
-                                                        {{ trans('Students_trans.turned') }} {{ $diff->d }} {{ trans('Students_trans.days') }} {{ $diff->h }} {{ trans('Students_trans.hours') }}
-                                                        {{ $diff->i }} {{ trans('Students_trans.minutes') }} {{ trans('Students_trans.early') }}
+                                                        {{ trans('Students_trans.turned') }}
+                                                        {{ $diff->d }} {{ trans('Students_trans.days') }}
+                                                        {{ $diff->h }} {{ trans('Students_trans.hours') }}
+                                                        {{ $diff->i }} {{ trans('Students_trans.minutes') }}
+                                                        {{ trans('Students_trans.early') }}
                                                     </span>
                                                 @else
+                                                    {{-- Submitted after deadline --}}
                                                     @php
                                                         $diff = $submission->submitted_at->diff($deadline);
                                                     @endphp
                                                     <span class="text-danger">
-                                                        {{ trans('Students_trans.turned') }} {{ $diff->d }} {{ trans('Students_trans.days') }} {{ $diff->h }} {{ trans('Students_trans.hours') }}
-                                                        {{ $diff->i }} {{ trans('Students_trans.minutes') }} {{ trans('Students_trans.late') }}
+                                                        {{ trans('Students_trans.turned') }}
+                                                        {{ $diff->d }} {{ trans('Students_trans.days') }}
+                                                        {{ $diff->h }} {{ trans('Students_trans.hours') }}
+                                                        {{ $diff->i }} {{ trans('Students_trans.minutes') }}
+                                                        {{ trans('Students_trans.late') }}
                                                     </span>
                                                 @endif
                                             @else
+                                                {{-- Student did NOT submit --}}
                                                 @if ($now->lt($deadline))
+                                                    {{-- Before deadline --}}
                                                     @php
                                                         $diff = $deadline->diff($now);
                                                     @endphp
                                                     <span class="text-success">
-                                                        {{ trans('Students_trans.remaining') }} {{ $diff->d }} {{ trans('Students_trans.days') }} {{ $diff->h }} {{ trans('Students_trans.hours') }}
+                                                        {{ trans('Students_trans.remaining') }}
+                                                        {{ $diff->d }} {{ trans('Students_trans.days') }}
+                                                        {{ $diff->h }} {{ trans('Students_trans.hours') }}
                                                         {{ $diff->i }} {{ trans('Students_trans.minutes') }}
                                                     </span>
                                                 @else
+                                                    {{-- After deadline --}}
                                                     @php
                                                         $diff = $now->diff($deadline);
                                                     @endphp
                                                     <span class="text-danger">
-                                                        {{ trans('Students_trans.ended_since') }} {{ $diff->d }} {{ trans('Students_trans.days') }} {{ $diff->h }}
-                                                        {{ trans('Students_trans.hours') }} {{ $diff->i }} {{ trans('Students_trans.minutes') }}
+                                                        {{ trans('Students_trans.ended_since') }}
+                                                        {{ $diff->d }} {{ trans('Students_trans.days') }}
+                                                        {{ $diff->h }} {{ trans('Students_trans.hours') }}
+                                                        {{ $diff->i }} {{ trans('Students_trans.minutes') }}
                                                     </span>
                                                 @endif
                                             @endif
                                         </td>
                                     </tr>
+
                                     <tr>
                                         <th>{{ trans('Students_trans.Submitted_File') }}</th>
                                         <td class="align-items-center gap-2">
@@ -180,7 +205,9 @@
                                                 <span
                                                     class="muted">{{ $submission->submitted_at->translatedFormat('h:i A، d F Y') }}</span>
 
-                                                <a class="file-pill" href="{{ asset('storage/attachments/homework_submissions/students/'. $submission->student->National_ID. '/' . $submission->file_path) }}" target="_blank">
+                                                <a class="file-pill"
+                                                    href="{{ asset('storage/attachments/homework_submissions/students/' . $submission->student->National_ID . '/' . $submission->file_path) }}"
+                                                    target="_blank">
                                                     {{ trans('Teacher_trans.download') }}
                                                 </a>
                                             @else

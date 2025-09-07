@@ -1,113 +1,124 @@
 @extends('layouts.main.student_dashboard')
 @section('student-content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
-
         <div class="container exam-preview-container">
             <div class="exam-preview-title text-center">
                 <h4>
-                    <span class="preview-title-text fw-bold">معاينة </span>
-                    <span class="preview-title-highlight fw-bold">الاختبار</span>
+                    <span class="preview-title-text fw-bold">{{ trans('Students_trans.exam_details') }}</span>
                 </h4>
             </div>
 
-            <div class="preview-wrapper p-4">
+            <div class="container page-wrap py-4">
                 @include('components.error-field')
-                <div class="preview-card">
-                    <h5 class="exam-title">{{ $exam->name }}</h5>
-                    <textarea class="exam-title" rows="7">{{ $exam->description }}</textarea>
+                <!-- Exam Title -->
+                <div class="exam-title-preview">
+                    <i class="fa fa-pen-to-square"></i>
+                    {{ $exam->name }}
+                </div>
 
-                    <ul class="list-unstyled exam-description">
-                        {{-- <li><strong> اسم الاختبار :</strong> اختبار لغة عربية </li> --}}
-                        <li><strong>{{ trans('Students_trans.subject') }} :</strong>{{ $exam->subject->name ?? '-' }}</li>
-                        <li><strong>{{ trans('Students_trans.duration') }} :</strong>{{ $exam->duration }} دقيقة</li>
-                        <li><strong>{{ trans('Students_trans.attempts') }} :</strong>{{ $exam->attempts }} time/tmes</li>
-                        <li><strong>{{ trans('Students_trans.maximumGrade') }} :</strong>{{ $exam->maximum_grade }}</li>
-                        <li><strong>{{ trans('Students_trans.start_at') }}
-                                :</strong>{{ \Carbon\Carbon::parse($exam->start_at)->format('Y-m-d g:i A') }}</li>
-                        <li><strong>{{ trans('Students_trans.end_at') }}
-                                :</strong>{{ \Carbon\Carbon::parse($exam->end_at)->format('Y-m-d g:i A') }}</li>
-                        <li>
-                            <strong>{{ trans('Students_trans.Status') }}:</strong>
-                            {{-- <span class="exam-status">متاح الان للتقديم، ينتهي بعد 23 ساعة و52 دقيقة</span> --}}
-                            @php
-                                $now = now();
-                                $start = \Carbon\Carbon::parse($exam->start_at);
-                                $end = \Carbon\Carbon::parse($exam->end_at);
-                            @endphp
+                <!-- Exam Dates & Info -->
+                <div class="header-box mb-3">
+                    <div class="header-dates">
+                        <div><strong>{{ trans('Students_trans.Opens') }}:
+                            </strong>{{ \Carbon\Carbon::parse($exam->start_at)->translatedFormat('l d F Y، h:i A') }}</div>
+                        <div><strong>{{ trans('Students_trans.Close') }}:
+                            </strong>{{ \Carbon\Carbon::parse($exam->end_at)->translatedFormat('l d F Y، h:i A') }}</div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="tiny">
+                            {{ $exam->description }}
+                        </div>
+                    </div>
+                </div>
 
-                            @if ($now->lt($start))
-                                <span class="text-warning">@php
-                                    $diffStart = $now->diff($start);
-                                @endphp
-                                    يبدأ بعد
-                                    {{ $diffStart->h > 0 ? $diffStart->h . ' ساعة و ' : '' }}{{ $diffStart->i }}
-                                    دقيقة
-                                </span>
-                            @elseif($now->between($start, $end))
-                                <span class="text-success">@php
-                                    $diffEnd = $now->diff($end);
-                                @endphp
-                                    متاح الآن (ينتهي بعد
-                                    {{ $diffEnd->h > 0 ? $diffEnd->h . ' ساعة و ' : '' }}{{ $diffEnd->i }}
-                                    دقيقة)
-                                </span>
-                            @else
-                                <span class="text-danger">انتهى</span>
-                            @endif
-                        </li>
-                        <li class="list-group-item">
-                            @php
-                                $now = now();
-                                $can_start = $now >= $exam->start_at && $now <= $exam->end_at;
-                            @endphp
+                <!-- Attempts Section -->
+                <div class="attempts-section mb-3">
+                    <div class="attempts-header">
+                        <p class="attempts-count">{{ trans('main_trans.number_attempt') }}: {{ $exam->attempts }}</p>
+                        <p class="attempts-count">{{ trans('Students_trans.duration') }}: {{ $exam->duration }}
+                            minut/minutes</p>
+                        <p class="attempts-count">{{ trans('main_trans.Success_score') }}: {{ $exam->maximum_grade / 2 }}
+                            {{ trans('main_trans.Out_of') }} {{ $exam->maximum_grade }}</p>
+                    </div>
 
-                            {{-- @if ($studentDegree)
-                                <strong>{{ trans('Students_trans.degree') }} : </strong>
-                                {{ $studentDegree->score }}
+                    <h5 class="attempts-title">{{ trans('main_trans.your_attempts') }}</h5>
 
-                                @if (!empty($studentDegree->feedback))
-                                    <div class="mt-2">
-                                        <strong>{{ trans('Teacher_trans.Feedback') }}:</strong>
-                                        <div class="alert alert-info mt-1 mb-0">
-                                            {{ $studentDegree->feedback }}
-                                        </div>
+                    <div class="row g-3 attempts-list">
+                        @foreach ($examAttempts as $index => $attempt)
+                            <div class="col-12 col-md-6 col-lg-4 attempt-item">
+                                <div class="attempt-card shadow-sm">
+                                    <div class="attempt-card-header">{{ trans('Students_trans.attempt') }}
+                                        {{ $index + 1 }}</div>
+                                    <div class="attempt-card-body p-0">
+                                        <table class="table mb-0 attempt-table">
+                                            <tbody>
+                                                <tr>
+                                                    <th>{{ trans('Students_trans.Status') }}</th>
+                                                    <td>{{ ucfirst(str_replace('_', ' ', $attempt->status)) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{ trans('Students_trans.started') }}</th>
+                                                    <td>{{ $attempt->started_at ? \Carbon\Carbon::parse($attempt->started_at)->translatedFormat('l d F Y h:i A') : '-' }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{ trans('Students_trans.ended') }}</th>
+                                                    <td>{{ $attempt->ended_at ? \Carbon\Carbon::parse($attempt->ended_at)->translatedFormat('l d F Y h:i A') : '-' }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{ trans('Students_trans.duration') }}</th>
+                                                    <td>
+                                                        @if ($attempt->started_at && $attempt->ended_at)
+                                                            @php
+                                                                $duration =
+                                                                    strtotime($attempt->ended_at) -
+                                                                    strtotime($attempt->started_at);
+                                                                $minutes = gmdate('i', $duration);
+                                                                $seconds = gmdate('s', $duration);
+                                                            @endphp
+
+                                                            {{ $minutes }} {{ trans('Students_trans.minutes') }}
+                                                            {{ $seconds }} {{ trans('Students_trans.seconds') }}
+                                                        @else
+                                                            -
+                                                        @endif
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <th>{{ trans('Students_trans.Review') }}</th>
+                                                    <td>{{ $exam->sectionExams->first()->show_answers ? $attempt->grade_obtained : trans('Students_trans.not_allowed') }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                @endif
-                            @else --}}
-                            @if ($now->between($exam->start_at, $exam->end_at))
-                                {{-- <a href="{{ route('student_exams.show', $exam->id) }}"
-                                        class="btn btn-outline-success w-100" role="button" aria-pressed="true"
-                                        onclick="alertAbuse()">
-                                        <i class="fas fa-person-booth"></i>
-                                    </a> --}}
-                                {{-- <a href="{{ route('student.exam.show', $exam->id) }}" class="btn exam-start-btn">
-                                    <i class="fas fa-eye ms-1"></i> محاولة أداء الاختبار
-                                </a> --}}
-                                <form action="{{ route('student.exam.start', $exam->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary">ابدأ الامتحان</button>
-                                </form>
-                            @else
-                                {{-- <button class="btn btn-secondary btn-sm" disabled>
-                                        {{ trans('Students_trans.not_available') }}
-                                    </button> --}}
-                            @endif
-                            {{-- @endif --}}
+                                    <div class="attempt-footer p-2">
+                                        @if ($exam->sectionExams->first()->show_answers)
+                                            <a href="{{ route('student.exam.review', $attempt->id)}}" class="btn-attempt">{{ trans('Students_trans.questions_review') }}</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
 
-                        </li>
-                    </ul>
+                    <div class="text-center my-3">
+                        @if ($examAttempts->count() < $exam->attempts)
+                            {{-- <a href="{{ route('student.exam.start', $exam->id) }}" class="btn action-btn-attempt">
+                                {{ trans('main_trans.taking_test_now') }}
+                            </a> --}}
+                            <form action="{{ route('student.exam.start', $exam->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">ابدأ الامتحان</button>
+                            </form>
+                        @endif
+                    </div>
 
-                    {{-- <div class="exam-buttons d-flex gap-3">
-                        <a href="student-exam.html" class="btn exam-start-btn">
-                            <i class="fas fa-eye ms-1"></i> محاولة أداء الاختبار
-                        </a>
-
-                    </div> --}}
                 </div>
             </div>
         </div>
-
-        <!-- محتوى الصفحة هنا -->
     </div>
-    <br><br><br><br>
 @endsection

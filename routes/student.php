@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\Student\ExamAttemptsController;
 use App\Http\Controllers\Student\ExamController;
+use App\Http\Controllers\Student\NotificationController;
 use App\Http\Controllers\Student\StudentController;
-use App\Http\Livewire\StudentTakeExam;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -20,22 +21,13 @@ Route::group(
                 Route::get('{id}/viewBook', 'SubjectController@viewBook')->name('subject.viewBook');
                 Route::get('{id}/viewHomework', 'SubjectController@viewHomework')->name('subject.viewHomework');
                 Route::get('{id}/view/recoreded/class', 'SubjectController@viewRecoreded')->name('subject.viewRecoreded');
+                Route::get('{id}/view/zoom/class', 'SubjectController@viewZoomClass')->name('subject.viewZoomClass');
                 Route::get('{id}/viewExam', 'SubjectController@viewExam')->name('subject.viewExam');
 
                 Route::prefix('student/exams')->name('student.exam.')->group(function () {
 
                     Route::post('/exam/{exam_id}', [ExamController::class, 'startExam'])->name('start');
                 });
-
-                // Route::resource('homework/submissions', 'HomeworkSubmissionController')->names([
-                //     'index' => 'homeworkSubmissions.index',
-                //     'create' => 'homeworkSubmissions.create',
-                //     'store' => 'homeworkSubmissions.store',
-                //     'show' => 'homeworkSubmissions.show',
-                //     'edit' => 'homeworkSubmissions.edit',
-                //     'update' => 'homeworkSubmissions.update',
-                //     'destroy' => 'homeworkSubmissions.destroy'
-                // ]);
 
                 Route::prefix('student/homework-submissions')->name('student.submissions.')->group(function () {
                     Route::get('/', 'HomeworkSubmissionController@index')->name('index'); // List of assigned homeworks
@@ -45,9 +37,11 @@ Route::group(
                 });
 
                 Route::resource('student_exams', 'ExamController');
+
+                Route::get('/student/exams/attempt/{attempt}/review', [ExamAttemptsController::class, 'review'])
+                    ->name('student.exam.review');
             });
 
-            // Route::get('/student/exams/attempt/{attemptId}/{examId}', StudentTakeExam::class)->name('student.exam.take');
             Route::get('/student/exams/attempt/{attemptId}/{examId}', function ($attemptId, $examId) {
                 return view('pages.Student.exams.takeExam', compact('attemptId', 'examId'));
             })->name('student.exam.take');
@@ -56,4 +50,3 @@ Route::group(
 
 
 );
-

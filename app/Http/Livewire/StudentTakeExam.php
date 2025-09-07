@@ -242,22 +242,8 @@ class StudentTakeExam extends Component
         // لو الوقت انتهى أو النافذة أغلقت
         if (now()->greaterThanOrEqualTo($attempt->deadline_at) || now()->greaterThan($this->exam->end_at)) {
 
-            // احسب الدرجات (نفس طريقتك)
-            $scoreObtained = $this->computeFinalScore();
-            $totalMarks    = $this->computeExamTotalMarks();
-            $maximumGrade  = (float)($this->exam->maximum_grade ?? 100);
-            $gradeObtained = $totalMarks > 0 ? ($scoreObtained / $totalMarks) * $maximumGrade : 0;
-
-            $attempt->update([
-                'status'         => 'completed',
-                'ended_at'       => now(),
-                'time_left'      => 0,
-                'score_obtained' => $scoreObtained,
-                'grade_obtained' => $gradeObtained,
-            ]);
-
-            $this->attempt->refresh();
-            $this->timeLeft = 0;
+            $finisher = app(ExamFinisher::class);
+            $finisher->finish($this->attemptId, true);
         }
     }
 

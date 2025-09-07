@@ -139,6 +139,7 @@ return [
     'days' => 'days',
     'hours' => 'hours',
     'minutes' => 'minutes',
+    'seconds' => 'seconds',
     'early' => 'early',
     'turned' => 'was submitted',
     'late' => 'late',
@@ -149,6 +150,15 @@ return [
     'ended_since' => 'ended since',
     'no_files' => 'no files',
     'your_notes' => 'Your Notes',
+
+    'attempt' => 'attempt',
+    'started' => 'started',
+    'ended' => 'ended',
+    'Review' => 'Review',
+    'allowed' => 'allowed',
+    'not_allowed' => 'not allowed',
+    'questions_review' => 'Questions Review',
+    'preview_ZoomClass' => 'Preview Zoom Class',
 
 
 

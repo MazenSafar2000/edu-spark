@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class SectionExam extends Model
 {
     use HasFactory;
-    // protected $fillable = [
-    //     "section_id",
-    //     "exam_id",
-    //     "subject_id"
-    // ];
+    protected $fillable = [
+        'section_id',
+        'exam_id',
+        'subject_id',
+        'show_answers',
+    ];
 
     public function exams()
     {

@@ -7,6 +7,7 @@ use App\Models\Exam;
 use App\Models\ExamQuestions;
 use App\Models\Question;
 use App\Models\QuestionsCategotry;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

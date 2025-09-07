@@ -24,16 +24,6 @@ class Library extends Model
         'created_by_teacher_id',
     ];
 
-    // protected static function booted()
-    // {
-    //     static::deleting(function ($library) {
-    //         if ($library->file_name && $library->teacher && $library->teacher->user) {
-    //             $teacherName = $library->teacher->user->name;
-    //             $library->deleteFile($teacherName, $library->file_name);
-    //         }
-    //     });
-    // }
-
     public function grade()
     {
         return $this->belongsTo('App\Models\Grade', 'Grade_id');

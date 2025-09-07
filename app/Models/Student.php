@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 
 class Student extends Model
 {
+    use Notifiable;
     use HasFactory;
 
     protected $fillable = [
@@ -81,30 +83,10 @@ class Student extends Model
     }
 
 
-    // exam process relasinshib
-    // public function studentExamSessions()
-    // {
-    //     return $this->hasMany(StudentExamSession::class);
-    // }
-
     public function degrees()
     {
         return $this->hasMany(Degree::class);
     }
-
-    // public function answers()
-    // {
-    //     return $this->hasManyThrough(StudentAnswer::class, StudentExamSession::class);
-    // }
-
-    // public function exams()
-    // {
-    //     return $this->belongsToMany(Exam::class, 'student_exam_sessions')
-    //         ->withPivot('started_at', 'finished_at');
-    // }
-    // end exam process relasinshib
-
-
 
     protected static function booted()
     {

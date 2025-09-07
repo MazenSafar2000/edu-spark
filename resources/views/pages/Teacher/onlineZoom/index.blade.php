@@ -45,13 +45,12 @@
                                 <td>{{ $zoomClass->section->Name_Section }}</td>
                                 <td>{{ $zoomClass->start_at }}</td>
                                 <td>{{ $zoomClass->duration }}</td>
-                                <td class="text-danger"><a href="{{ $zoomClass->join_url }}" target="_blank">انضم
-                                        الان</a></td>
+                                <td class="text-danger"><a href="{{ $zoomClass->join_url }}" target="_blank">{{ trans('main_trans.join_now') }}</a></td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="dropdown-toggle dropdown-toggle-operations"
                                             data-bs-toggle="dropdown">
-                                            العمليات
+                                            {{ trans('Teacher_trans.operations') }}
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-operations">
                                             <li>

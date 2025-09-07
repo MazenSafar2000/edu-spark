@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Exam;
+use App\Models\ExamAttempts;
 use App\Models\Homework;
 use App\Models\Homework_submission;
 use App\Models\Library;
@@ -207,11 +208,22 @@ class SubjectController extends Controller
     public function viewExam($id)
     {
         $exam = Exam::findOrFail($id);
-        $student_id = Auth::user()->student->id;
-        // $studentDegree = $exam->degree()
-        //     ->where('student_id', $student_id)
-        //     ->first();
 
-        return view('pages.Student.exams.viewExam', compact('exam', 'student_id'));
+        $student_id = Auth::user()->student->id;
+
+        // Get all attempts of this student for this exam
+        $examAttempts = ExamAttempts::where('exam_id', $exam->id)
+            ->where('student_id', $student_id)
+            ->orderBy('attempt_number')
+            ->get();
+
+        return view('pages.Student.exams.viewExam', compact('exam', 'student_id', 'examAttempts'));
+    }
+
+    public function viewZoomClass($id)
+    {
+        $class = Online_class::findOrFail($id);
+
+        return view('pages.Student.courses.viewZoomClass', compact('class'));
     }
 }

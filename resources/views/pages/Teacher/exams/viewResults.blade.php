@@ -336,6 +336,18 @@
                                     placeholder="{{ trans('Teacher_trans.search') }}">
 
                                 <div class="btn-export-zero d-flex align-items-center">
+                                    <form action="{{ route('exam.toggleShowGrade', $sectionExam->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div class="d-flex checkbox-show-result">
+                                            <label class="custom-checkbox-label2">
+                                                <input type="checkbox" class="custom-checkbox" name="show_answers"
+                                                    value="1" onchange="this.form.submit()"
+                                                    {{ $sectionExam->show_answers ? 'checked' : '' }}>
+                                                {{ trans('main_trans.View_students_grades') }}
+                                            </label>
+                                        </div>
+                                    </form>
 
                                     <a href="{{ route('teacher.exam.export', $exam->id) }}" class="btn-export"><i
                                             class="fas fa-file-excel"></i> {{ trans('Teacher_trans.export') }}</a>

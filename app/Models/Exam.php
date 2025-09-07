@@ -24,7 +24,6 @@ class Exam extends Model
         'shuffle_questions',
         'subject_id',
         'teacher_id',
-        'show_answers',
     ];
 
     public $translatable = ['name'];

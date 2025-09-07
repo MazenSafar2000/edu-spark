@@ -5,6 +5,7 @@ use App\Http\Controllers\Teacher\ExamAttemptsController;
 use App\Http\Controllers\Teacher\ExamController;
 use App\Http\Controllers\Teacher\HomeworkController;
 use App\Http\Controllers\Teacher\OnlineClassController;
+use App\Http\Controllers\Teacher\SectionExamContrller;
 use App\Http\Controllers\Teacher\TeacherController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -76,7 +77,8 @@ Route::group(
                 Route::get('/{section_id}/exam/create', 'ExamController@createNew')->name('createNewExam');
                 Route::get('{exam_id}/exam/questions/index', 'ExamController@addQuestions')->name('addQuestions');
                 Route::resource('sectionsExams', 'SectionExamContrller');
-                // Route::get('exam/students/{exam_id}', 'ExamController@testedStudents')->name('tested_students');
+                Route::patch('/exams/{exam}/toggle-show-grade', [SectionExamContrller::class, 'toggleShowGrade'])
+                    ->name('exam.toggleShowGrade');
 
 
                 Route::get('teacher/exams/{exam_id}/tested-students', [ExamController::class, 'testedStudents'])

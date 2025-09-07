@@ -237,7 +237,14 @@ return [
     'no_notifications' => 'لا توجد اشعارات',
     'remove' => 'ازالة',
 
-    'View_students_grades' => 'عرض العلامات الطلاب'
+    'View_students_grades' => 'عرض العلامات الطلاب',
+    'Success_score' => 'علامة النجاح',
+    'Out_of' => 'من اصل',
+    'your_attempts' => 'محاولاتك',
+    'taking_test_now' => 'محاولة أداء الاختبار الآن',
+    'join_now' => 'انضم الان',
+
+
 
 
 

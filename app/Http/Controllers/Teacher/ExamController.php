@@ -74,7 +74,6 @@ class ExamController extends Controller
             'question_per_page' => 'required',
             'maximum_grade' => 'required',
             'subject_id' => 'required|exists:subjects,id',
-            'show_answers' => 'nullable'
         ]);
 
 
@@ -91,22 +90,8 @@ class ExamController extends Controller
                 $exam->maximum_grade = $request->maximum_grade;
             }
             $exam->subject_id = $request->subject_id;
-            $exam->show_answers = $request->boolean('show_answers');
             $exam->teacher_id = Auth::user()->teacher->id;
             $exam->save();
-
-            // $students = Student::where('grade_id', $request->Grade_id)
-            //     ->where('classroom_id', $request->Classroom_id)
-            //     ->where('section_id', $request->section_id)
-            //     ->get();
-
-
-            // $examTitle = $exam->getTranslation('name', app()->getLocale());
-
-            // foreach ($students as $student) {
-            //     $student->notify(new NewExamAdded($exam->id, $examTitle, auth()->user()->Name));
-            //     $student->myparent->notify(new ParentNewExamAdded($exam, $student));
-            // }
 
             Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('exams.index');
@@ -141,7 +126,8 @@ class ExamController extends Controller
 
     public function showResults($exam_id)
     {
-        $exam = Exam::findOrFail($exam_id);
+        $sectionExam = SectionExam::findOrFail($exam_id);
+        $exam = $sectionExam->exams;
 
         $totalMarks = $exam->questions->sum(fn($q) => $q->pivot->score);
 
@@ -209,6 +195,7 @@ class ExamController extends Controller
         }
 
         return view('pages.Teacher.exams.viewResults', [
+            'sectionExam' => $sectionExam,
             'exam' => $exam,
             'categories' => $categories,
             'students' => $students,
@@ -260,7 +247,6 @@ class ExamController extends Controller
             'attempts' => 'required',
             'question_per_page' => 'required',
             'subject_id' => 'required|exists:subjects,id',
-            'show_answers' => 'nullable'
         ]);
 
         try {
@@ -276,7 +262,6 @@ class ExamController extends Controller
                 $quizz->maximum_grade = $request->post('maximum_grade');
             }
             $quizz->subject_id = $request->post('subject_id');
-            $quizz->show_answers = $request->boolean('show_answers');
             $quizz->teacher_id = Auth::user()->teacher->id;
             $quizz->save();
 

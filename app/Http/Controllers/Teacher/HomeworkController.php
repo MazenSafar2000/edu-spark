@@ -10,6 +10,8 @@ use App\Models\Homework_submission;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher_section;
+use App\Notifications\Parent\NewHomeworkAdded as ParentNewHomeworkAdded;
+use App\Notifications\Student\NewHomeworkAdded;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -108,7 +110,7 @@ class HomeworkController extends Controller
             //     ->get();
 
             // foreach ($students as $student) {
-            //     $student->notify(new NewHomeworkAdded($homework->id, $homework->title, auth()->user()->Name));
+            //     $student->notify(new NewHomeworkAdded($homework->id, $homework->title, Auth::user()->name));
             //     $student->myparent->notify(new ParentNewHomeworkAdded($homework, $student));
             // }
 

@@ -17,6 +17,11 @@
                     <textarea class="form-control textarea-notes" name="notes" rows="4"
                         placeholder="{{ trans('main_trans.write_notes') }}">{{ old('notes', $existing->notes ?? '') }}</textarea>
                 </div>
+                @error('notes')
+                    <div class="error-message" id="error-bookNameArabic">
+                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                    </div>
+                @enderror
 
                 <!-- File Input -->
                 <div class="mb-3">
@@ -24,8 +29,14 @@
                         class="form-label text-danger">({{ trans('Students_trans.Allowed_files_type') }}:
                         {{ implode(', ', $homework->allowed_file_types) }})*</label>
                     <input class="form-control file-upload-custom @error('submission_file') is-invalid @enderror"
-                        type="file" name="submission_file" id="fileUpload" @if ($existing && !$homework->allow_multiple_submissions) @disabled(true) @endif>
+                        type="file" name="submission_file" id="fileUpload"
+                        @if ($existing && !$homework->allow_multiple_submissions) @disabled(true) @endif>
                 </div>
+                @error('submission_file')
+                    <div class="error-message" id="error-bookNameArabic">
+                        <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                    </div>
+                @enderror
 
                 @if ($existing && !$homework->allow_multiple_submissions)
                     <div class="alert alert-warning">{{ trans('Students_trans.already_submitted') }}</div>

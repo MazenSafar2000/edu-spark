@@ -23,7 +23,8 @@
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="{{ route('subject.viewBook', $material['data']->id) }}" class="btn action-eye-btn">
+                                    <a href="{{ route('subject.viewBook', $material['data']->id) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 
@@ -43,7 +44,8 @@
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="{{ route('subject.viewHomework', $material['data']->id) }}" class="btn action-eye-btn">
+                                    <a href="{{ route('subject.viewHomework', $material['data']->id) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 
@@ -63,7 +65,8 @@
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="{{ route('subject.viewExam', $material['data']->id) }}" class="btn action-eye-btn">
+                                    <a href="{{ route('subject.viewExam', $material['data']->id) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 
@@ -75,7 +78,8 @@
                         <div class="accordion-item">
                             <div class="unit-content d-flex justify-content-between">
                                 <div class="unit-content-subject">
-                                    <a href="{{ route('subject.viewRecoreded', $material['data']->id) }}" class="unit-link">
+                                    <a href="{{ route('subject.viewRecoreded', $material['data']->id) }}"
+                                        class="unit-link">
                                         <i class="fas fa-play-circle"></i>
                                         {{ $material['title'] }}
                                     </a>
@@ -83,7 +87,8 @@
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="{{ route('subject.viewRecoreded', $material['data']->id) }}" class="btn action-eye-btn">
+                                    <a href="{{ route('subject.viewRecoreded', $material['data']->id) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 
@@ -95,7 +100,8 @@
                         <div class="accordion-item">
                             <div class="unit-content d-flex justify-content-between">
                                 <div class="unit-content-subject">
-                                    <a href="student-lesson-preview.html" class="unit-link">
+                                    <a href="{{ route('subject.viewZoomClass', $material['data']->id) }}"
+                                        class="unit-link">
                                         <i class="fas fa-video"></i>
                                         {{ $material['title'] }}
                                     </a>
@@ -103,7 +109,8 @@
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="student-lesson-preview.html" class="btn action-eye-btn">
+                                    <a href="{{ route('subject.viewZoomClass', $material['data']->id) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 

@@ -237,7 +237,12 @@ return [
     'no_notifications' => 'No Notifications',
     'remove' => 'remove',
 
-    'View_students_grades' => "View students' grades"
+    'View_students_grades' => "View students' grades",
+    'Success_score' => 'Success Score',
+    'Out_of' => 'Out of',
+    'your_attempts' => 'Your Attempts',
+    'taking_test_now' => 'Try taking the test now',
+    'join_now' => 'Join Now',
 
 
 

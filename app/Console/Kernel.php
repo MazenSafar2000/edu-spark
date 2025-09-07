@@ -18,6 +18,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('exams:close-overdue')->everyMinute();
         $schedule->command('exams:assign-zeros')->everyTenMinutes();
+        $schedule->command('notify:exam-start-or-end')->everyMinute();
+        $schedule->command('notify:homework-deadline')->everyMinute();
     }
 
     /**

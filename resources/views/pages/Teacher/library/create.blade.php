@@ -8,6 +8,7 @@
         <div class="container mt-4">
             <div class="card custom-form-card-teacher">
                 <div class="card-body">
+                    @include('components.error-field')
                     <form class="subject-form" action="{{ route('library.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf

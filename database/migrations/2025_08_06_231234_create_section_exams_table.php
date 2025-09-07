@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('section_id')->constrained('sections')->cascadeOnDelete();
             $table->foreignId('exam_id')->constrained('exams')->cascadeOnDelete();
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
+            $table->boolean('show_answers')->default(false)->nullable();
             $table->timestamps();
 
             $table->unique(['section_id', 'exam_id', 'subject_id']);

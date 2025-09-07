@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\Online_class;
 use App\Models\Student;
+use App\Notifications\Student\NewLiveClassAdded;
 use App\Services\ZoomService;
 use Carbon\Carbon;
 use Flasher\Laravel\Facade\Flasher;
@@ -105,16 +106,16 @@ class OnlineClassController extends Controller
             ]);
 
 
-            // $students = Student::where('grade_id', $request->Grade_id)
-            //     ->where('Classroom_id', $request->Classroom_id)
-            //     ->where('section_id', $request->section_id)
-            //     ->get();
+            $students = Student::where('grade_id', $request->Grade_id)
+                ->where('Classroom_id', $request->Classroom_id)
+                ->where('section_id', $request->section_id)
+                ->get();
 
-            // $onlineClassId = $onlineClass->id;
+            $onlineClassId = $onlineClass->id;
 
-            // foreach ($students as $student) {
-            //     $student->notify(new NewLiveClassAdded($onlineClassId, $meeting['topic'], auth()->user()->Name));
-            // }
+            foreach ($students as $student) {
+                $student->notify(new NewLiveClassAdded($onlineClassId, $meeting['topic'], Auth::user()->name));
+            }
 
             Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('ZoomClasses.index');

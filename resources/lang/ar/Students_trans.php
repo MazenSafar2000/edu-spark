@@ -138,6 +138,7 @@ return [
     'days' => 'ايام',
     'hours' => 'ساعات',
     'minutes' => 'دقائق',
+    'seconds' => 'ثواني',
     'early' => 'مبكرا',
     'turned' => 'تم التسليم',
     'late' => 'متأخرة',
@@ -148,6 +149,15 @@ return [
     'ended_since' => 'انتهى منذ',
     'no_files' => 'لا يوجد ملف',
     'your_notes' => 'ملاحظاتك',
+
+    'attempt' => 'محاولة',
+    'started' => 'بدأ',
+    'ended' => 'انتهى',
+    'Review' => 'المراجعة',
+    'allowed' => 'مسموح بها',
+    'not_allowed' => 'غير مسموح',
+    'questions_review' => 'مراجعة الاسئلة',
+    'preview_ZoomClass' => 'معاينة حصة زووم',
 
 
 

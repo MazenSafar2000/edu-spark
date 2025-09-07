@@ -129,8 +129,8 @@ class ExamAttemptsController extends Controller
 
         // decode the saved question order
         $orderedQuestionIds = is_array($attempt->question_order)
-    ? $attempt->question_order
-    : (is_string($attempt->question_order) ? json_decode($attempt->question_order, true) : []);
+            ? $attempt->question_order
+            : (is_string($attempt->question_order) ? json_decode($attempt->question_order, true) : []);
 
 
         // reorder the questions to match student view

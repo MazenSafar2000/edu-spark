@@ -168,17 +168,6 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label for="show_answers"
-                                    class="">{{ trans('Teacher_trans.show_answers') }}</label>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="show_answers" id="flexSwitchCheckDefault">
-
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="text-end">
                             <button type="submit" class="btn save-btn">{{ trans('Teacher_trans.save') }}</button>
                         </div>

@@ -212,6 +212,7 @@ return [
     'Add_automatic_meeting' => 'Add an automatic meeting',
     'Add_manual_meeting' => 'Add a manual meeting',
     'set_zero_hm' => 'Assign Zero to Non-Submitters',
+    'attachment_path' => 'attachments files',
 
 
 

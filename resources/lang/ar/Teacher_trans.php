@@ -209,10 +209,7 @@ return [
     'Add_automatic_meeting' => 'اضافة لقاء تقائي',
     'Add_manual_meeting' => 'اضافة لقاء يدوي',
     'set_zero_hm' => 'تعيين صغر للغائبين عن الواجب',
-
-
-
-
+    'attachment_path' => 'ملفات مرفقة',
 
 
 

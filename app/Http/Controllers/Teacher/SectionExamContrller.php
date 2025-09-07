@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Models\Exam;
 use App\Models\Section;
 use App\Models\SectionExam;
-use App\Models\Teacher_section;
+use App\Models\Student;
+use App\Notifications\Parent\NewExamAdded as ParentNewExamAdded;
+use App\Notifications\Student\NewExamAdded;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
 
 class SectionExamContrller extends Controller
@@ -41,20 +45,12 @@ class SectionExamContrller extends Controller
         // dd($request->all());
         $request->validate([
             'section_id' => 'required|exists:sections,id',
-            'subject_id' => 'required',
+            'subject_id' => 'required|exists:subjects,id',
             'exam_ids'   => 'required|array',
             'exam_ids.*' => 'exists:exams,id',
         ]);
 
         try {
-
-            $request->validate([
-                'section_id' => 'required|exists:sections,id',
-                'subject_id' => 'required|exists:subjects,id',
-                'exam_ids'   => 'required|array',
-                'exam_ids.*' => 'exists:exams,id',
-            ]);
-
             $section = Section::findOrFail($request->section_id);
 
             // تجهيز بيانات الربط مع subject_id
@@ -65,6 +61,19 @@ class SectionExamContrller extends Controller
 
             // ربط الامتحانات مع الشعبة والمادة في الجدول الوسيط
             $section->exams()->syncWithoutDetaching($data);
+
+            // $students = Student::where('grade_id', $request->Grade_id)
+            //     ->where('classroom_id', $request->Classroom_id)
+            //     ->where('section_id', $request->section_id)
+            //     ->get();
+
+
+            // $examTitle = $exam->getTranslation('name', app()->getLocale());
+
+            // foreach ($students as $student) {
+            //     $student->notify(new NewExamAdded($exam->id, $examTitle, Auth::user()->name));
+            //     $student->myparent->notify(new ParentNewExamAdded($exam, $student));
+            // }
 
             return back()->with('success', 'تم ربط الامتحانات بالشعبة بنجاح');
         } catch (\Exception $e) {
@@ -123,5 +132,16 @@ class SectionExamContrller extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
+    }
+
+    public function toggleShowGrade(Request $request, SectionExam $exam)
+    {
+        // If checkbox is not sent, fallback to 0
+        $exam->update([
+            'show_answers' => $request->has('show_answers') ? 1 : 0,
+        ]);
+
+        Flasher::addSuccess(__('messages.Update'));
+        return back();
     }
 }
