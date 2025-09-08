@@ -22,47 +22,13 @@
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Rubik:ital,wght@0,300..900;1,300..900&family=Square+Peg&display=swap"
         rel="stylesheet">
 
-    <script src="{{ mix('js/app.js') }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
-        import Echo from 'laravel-echo';
-        window.Pusher = require('pusher-js');
-
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: "{{ config('broadcasting.connections.pusher.key') }}",
-            cluster: "{{ config('broadcasting.connections.pusher.options.cluster') }}",
-            wsHost: window.location.hostname,
-            wsPort: 6001, // if using laravel-websockets; else omit for pusher cloud
-            wssPort: 6001,
-            forceTLS: true,
-            enabledTransports: ['ws', 'wss']
-        });
-
-        const userId = {{ auth()->id() }};
-        window.Echo.private(`App.Models.User.${userId}`)
-            .notification((notification) => {
-                // 1) bump unread badge
-                const badge = document.querySelector('#notif-badge');
-                const current = parseInt(badge?.innerText || '0', 10);
-                if (badge) badge.innerText = current + 1;
-
-                // 2) prepend to dropdown list
-                const list = document.querySelector('#notif-list');
-                if (list) {
-                    const li = document.createElement('li');
-                    li.className = 'notif-item unread';
-                    li.dataset.id = notification.id ?? '';
-                    li.innerHTML = `
-        <a href="${notification.url ?? '#'}">
-          <div class="title">${notification.title ?? 'Notification'}</div>
-          <div class="meta"><span class="type">${notification.type ?? ''}</span> • <time data-ts="${notification.created_at ?? new Date().toISOString()}"></time></div>
-          <div class="msg">${notification.message ?? ''}</div>
-        </a>`;
-                    list.prepend(li);
-                    // (relative time will be filled by step #2 below)
-                }
-            });
+        window.App = {
+            userId: {{ auth()->id() ?? 'null' }}
+        }
     </script>
+    @vite(['resources/js/app.js'])
 
 
     <!-- Custom CSS -->
@@ -77,93 +43,6 @@
 </head>
 
 <body>
-    <!-- الهيدر -->
-    {{-- <header class="header-page bg-white shadow fixed-top">
-
-        <div class="header-row container-fluid d-flex align-items-center justify-content-between py-3 ">
-
-            <!-- الشعار والقائمة الجانبية -->
-            <div class="d-flex align-items-center logo-spark">
-                <a href="{{ route('student.dashboard') }}" class="logo-link">
-                    <img src="{{ asset('assets/images/spark.png') }}" alt="spark education">
-                </a>
-
-                <a href="#" id="sidebarToggle" title="{{ trans('main_trans.menu') }}"><i
-                        class="fas fa-bars fa-lg me-3"></i></a>
-
-            </div>
-
-            <!-- القائمة اليسرى (أيقونات) -->
-            <nav class="d-flex gap-4 ms-4 align-items-center">
-
-                <div class="dropdown">
-                    <a href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                        title="الاشعارات">
-                        <i class="fas fa-bell icon-header"></i>
-                    </a>
-
-                    <a href="#" class="dropdown-menu notification-dropdown text-end"
-                        aria-labelledby="userDropdown">
-
-                        <h6 class="notification-title">الاشعارات</h6>
-
-                        <div class="notification-content">
-                            <div class="notification-info text-end">
-                                <strong class="d-block">المعلم</strong>
-                                <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
-                            </div>
-                            <span>٣٠٠ س</span>
-
-                        </div>
-
-                        <div class="notification-content">
-                            <div class="notification-info text-end">
-                                <strong class="d-block">المعلم</strong>
-                                <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
-                            </div>
-                            <span>٣٠٠ س</span>
-
-                        </div>
-
-                    </a>
-
-
-                </div>
-
-                <!-- القائمة المنسدلة للحساب -->
-                <div class="dropdown">
-                    <a href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                        title="{{ trans('main_Trans.account') }}">
-                        <i class="fas fa-user icon-header"></i>
-                    </a>
-
-                    <ul class="dropdown-menu account-dropdown text-end" aria-labelledby="userDropdown">
-                        <li class="text-center">
-                            <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="user avatar"
-                                class="rounded-circle user-img" style="width: 40px; height: 40px;">
-                            <p class="user-name"> {{ auth()->user()->name }} </p>
-                            <p class="user-type">{{ trans('Students_trans.student') }}</p>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="dropdown-item">
-                                    {{ trans('main_trans.logout') }}
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-
-                <a href="{{ LaravelLocalization::getLocalizedURL(App::getLocale() == 'ar' ? 'en' : 'ar', null, [], true) }}"
-                    title="{{ trans('main_trans.change_lang') }}"><i class="fas fa-language icon-header"></i></a>
-            </nav>
-
-        </div>
-    </header> --}}
     <header class="header-page bg-white shadow fixed-top">
 
         <div class="top-header-dashboard">
@@ -200,46 +79,50 @@
                         <a href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false" title="الاشعارات" class="position-relative">
                             <i class="fas fa-bell icon-header"></i>
-                            @if (auth()->user()->unreadNotifications()->count() > 0)
-                                <span class="notification-dot"></span>
-                            @endif
+
+                            {{-- dot that we can toggle live --}}
+                            <span id="notif-dot"
+                                class="notification-dot @if (auth()->user()->unreadNotifications()->count() == 0) d-none @endif"></span>
                         </a>
+
                         <div class="dropdown-menu notification-dropdown text-end"
                             aria-labelledby="notificationsDropdown">
                             <h6 class="notification-title d-flex justify-content-between align-items-center">
                                 {{ trans('Sidebar_trans.Notifications') }}
-                                <span
-                                    class="badge badge-number text-white">{{ auth()->user()->unreadNotifications()->count() }}</span>
+                                <span id="notif-badge" class="badge badge-number text-white">
+                                    {{ auth()->user()->unreadNotifications()->count() }}
+                                </span>
                             </h6>
+
                             <form action="{{ route('notifications.readAll') }}" method="POST">
                                 @csrf
                                 <button type="submit">{{ trans('main_trans.mark_all_read') }}</button>
                             </form>
 
-                            @foreach (auth()->user()->Notifications as $notification)
-                                <div class="notification-content">
-                                    <a href="{{ $notification->data['url'] ?? '#' }}"
-                                        class="notification-info text-end ">
-                                        <p
-                                            class="mb-0 @if ($notification->read_at) text-muted @else fw-bold @endif">
-                                            {{ $notification->data['message'] ?? 'Notification' }} -
-                                            {{ $notification->data['title'] ?? '' }}
-                                        </p>
-                                    </a>
-                                    <span
-                                        class="@if ($notification->read_at) text-muted @else fw-bold @endif">{{ $notification->created_at->diffForHumans() }}</span>
-                                </div>
-                            @endforeach
-
-                            @if (auth()->user()->Notifications->isEmpty())
-                                <div class="notification-content">
-                                    <div class="notification-info text-end">
-                                        <p>{{ trans('main_trans.no_notifications') }}</p>
+                            {{-- make the list addressable --}}
+                            <div id="notif-list">
+                                @forelse (auth()->user()->unreadNotifications as $notification)
+                                    <div class="notification-content">
+                                        <a href="{{ $notification->data['url'] ?? '#' }}"
+                                            class="notification-info text-end">
+                                            <p class="mb-0 fw-bold">
+                                                {{ $notification->data['message'] ?? 'Notification' }} -
+                                                {{ $notification->data['title'] ?? '' }}
+                                            </p>
+                                        </a>
+                                        <span class="fw-bold">{{ $notification->created_at->diffForHumans() }}</span>
                                     </div>
-                                </div>
-                            @endif
+                                @empty
+                                    <div class="notification-content">
+                                        <div class="notification-info text-end">
+                                            <p>{{ trans('main_trans.no_notifications') }}</p>
+                                        </div>
+                                    </div>
+                                @endforelse
+                            </div>
                         </div>
                     </li>
+
 
                     <!-- الحساب -->
                     <li class="dropdown">
@@ -273,8 +156,8 @@
                     </li>
 
                     <li class="nav-item-lang dropdown lang-switcher">
-                        <a class="nav-link lang-dropdown d-flex align-items-center gap-1" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link lang-dropdown d-flex align-items-center gap-1" href="#"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @if (App::getLocale() == 'ar')
                                 <img src="{{ asset('assets/images/ar.png') }}" alt="arabic" width="20"
                                     class="lang-flag">
@@ -307,7 +190,6 @@
             </nav>
         </div>
     </header>
-
 
     <!-- الشريط الجانبي -->
     <div id="sidebarStd" class="sidebarStd bg-white shadow position-fixed end-0 vh-100 p-4">
@@ -360,12 +242,7 @@
 
     </div>
 
-
-
     @yield('student-content')
-
-
-
 
     <!-- زر فتح الرسائل باستخدام Bootstrap -->
     <button class="position-fixed  m-4 d-flex align-items-center gap-2 shadow open-msg-btn" type="button"
@@ -488,7 +365,6 @@
         document.addEventListener('DOMContentLoaded', refreshTimes);
     </script>
 
-
     <!-- Bootstrap JS (includes Popper) -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
@@ -502,12 +378,9 @@
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <script src="{{ asset('assets/js/script.js') }}"></script>
     <!-- Livewire Scripts -->
     @livewireScripts
-
-    <!-- Custom JS -->
-    {{-- Only load this after Livewire Scripts --}}
-    {{-- <script src="{{ asset('assets/js/script.js') }}"></script> --}}
 
 </body>
 

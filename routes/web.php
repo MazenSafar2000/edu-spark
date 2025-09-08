@@ -98,6 +98,10 @@ Route::group(
     }
 );
 
+Route::get('/pusher', function() {
+    return view('pusher');
+});
+
 
 
 require __DIR__ . '/auth.php';
