@@ -876,18 +876,34 @@ body {
 
 /* header start */
 
+.badge-number {
+    background-color: var(--red);
+    padding: .4rem .6rem;
+}
+
+.notification-dot {
+    position: absolute;
+    right: 2px;
+    /* زبطت المسافة من اليمين */
+    width: 10px;
+    height: 10px;
+    background: var(--red);
+    border-radius: 50%;
+}
+
+
 .notification-title {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: var(--main-color);
     font-weight: bold;
-    padding-bottom: 1rem;
+    padding: 1rem;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, .2);
 }
 
 .dropdown-menu.notification-dropdown {
     width: 35rem;
-    height: auto;
-    padding: 2rem;
+    height: 33rem;
+    /* padding: 2rem; */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border: none;
     border-bottom: 2px solid var(--main-color);
@@ -899,6 +915,7 @@ body {
     display: block;
     /* نتحكم بالانميشن */
     visibility: hidden;
+    overflow: auto;
 
 }
 
@@ -930,11 +947,17 @@ body {
 .dropdown-menu.notification-dropdown .notification-content .notification-info p {
     font-size: 1.3rem;
     color: var(--light-color);
-    padding-top: .8rem;
+    padding-right: .8rem;
+}
+
+.dropdown-menu.notification-dropdown .notification-content a {
+    text-decoration: none;
 }
 
 .dropdown-menu.notification-dropdown .notification-content span {
     color: var(--light-color);
+    padding-left: .8rem;
+    text-align: left;
 }
 
 

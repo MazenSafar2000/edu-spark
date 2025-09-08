@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class Student extends Model
 {
-    use Notifiable;
     use HasFactory;
 
     protected $fillable = [

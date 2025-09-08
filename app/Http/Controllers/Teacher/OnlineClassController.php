@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Grade;
 use App\Models\Online_class;
 use App\Models\Student;
+use App\Models\User;
 use App\Notifications\Student\NewLiveClassAdded;
 use App\Services\ZoomService;
 use Carbon\Carbon;
@@ -13,6 +14,7 @@ use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class OnlineClassController extends Controller
 {
@@ -105,17 +107,14 @@ class OnlineClassController extends Controller
                 'created_by_teacher_id' => Auth::user()->teacher->id,
             ]);
 
+            $usersQ = User::query()
+                ->whereHas('student', function ($q) use ($onlineClass) {
+                    $q->where('section_id', $onlineClass->section_id);
+                });
 
-            $students = Student::where('grade_id', $request->Grade_id)
-                ->where('Classroom_id', $request->Classroom_id)
-                ->where('section_id', $request->section_id)
-                ->get();
-
-            $onlineClassId = $onlineClass->id;
-
-            foreach ($students as $student) {
-                $student->notify(new NewLiveClassAdded($onlineClassId, $meeting['topic'], Auth::user()->name));
-            }
+            $usersQ->chunkById(200, function ($users) use ($onlineClass) {
+                Notification::send($users, new NewLiveClassAdded($onlineClass));
+            });
 
             Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('ZoomClasses.index');
@@ -150,7 +149,7 @@ class OnlineClassController extends Controller
         ]);
 
         try {
-            Online_class::create([
+            $onlineClass = Online_class::create([
                 'integration' => false,
                 'Grade_id' => $request->Grade_id,
                 'Classroom_id' => $request->Classroom_id,
@@ -167,6 +166,15 @@ class OnlineClassController extends Controller
                 'join_url' => $request->join_url,
                 'created_by_teacher_id' => Auth::user()->teacher->id,
             ]);
+
+            $usersQ = User::query()
+                ->whereHas('student', function ($q) use ($onlineClass) {
+                    $q->where('section_id', $onlineClass->section_id);
+                });
+
+            $usersQ->chunkById(200, function ($users) use ($onlineClass) {
+                Notification::send($users, new NewLiveClassAdded($onlineClass));
+            });
 
             Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('ZoomClasses.index');

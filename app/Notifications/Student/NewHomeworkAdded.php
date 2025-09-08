@@ -2,37 +2,40 @@
 
 namespace App\Notifications\Student;
 
+use App\Models\Homework;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class NewHomeworkAdded extends Notification
 {
     use Queueable;
-    protected $homeworkId;
-    protected $homeworkTitle;
-    protected $teacherName;
 
-    public function __construct($homeworkId, $homeworkTitle, $teacherName)
-    {
-        $this->homeworkId = $homeworkId;
-        $this->homeworkTitle = $homeworkTitle;
-        $this->teacherName = $teacherName;
-    }
+    public function __construct(public Homework $homework) {}
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'new homework added',
-            'body' => 'teacher ' . $this->teacherName . ' added anew homework: ' . $this->homeworkTitle,
-            'url' => route('student.homeworks.preview', $this->homeworkId) // url to redirect to reading the notification details
+            'type'        => 'homework',
+            'title'       => $this->homework->title ?? 'New homework',
+            'homework_id' => $this->homework->id,
+            'section_id'  => $this->homework->section_id,
+            'subject_id'  => $this->homework->subject_id,
+            'teacher_id'  => $this->homework->teacher_id,
+            'message'     => 'A new homework has been posted for your section.',
+            'url'         => route('subject.viewHomework', $this->homework),
         ];
     }
 
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage($this->toDatabase($notifiable));
+    }
 }

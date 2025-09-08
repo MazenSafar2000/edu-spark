@@ -10,6 +10,7 @@ use App\Models\Homework_submission;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher_section;
+use App\Models\User;
 use App\Notifications\Parent\NewHomeworkAdded as ParentNewHomeworkAdded;
 use App\Notifications\Student\NewHomeworkAdded;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Flasher\Laravel\Facade\Flasher;
+use Illuminate\Support\Facades\Notification;;
 
 class HomeworkController extends Controller
 {
@@ -104,16 +106,14 @@ class HomeworkController extends Controller
                 $homework->update(['attachment_path' => $fileName]);
             }
 
-            // $students = Student::where('grade_id', $request->grade_id)
-            //     ->where('classroom_id', $request->classroom_id)
-            //     ->where('section_id', $request->section_id)
-            //     ->get();
+            $usersQ = User::query()
+                ->whereHas('student', function ($q) use ($homework) {
+                    $q->where('section_id', $homework->section_id);
+                });
 
-            // foreach ($students as $student) {
-            //     $student->notify(new NewHomeworkAdded($homework->id, $homework->title, Auth::user()->name));
-            //     $student->myparent->notify(new ParentNewHomeworkAdded($homework, $student));
-            // }
-
+            $usersQ->chunkById(200, function ($users) use ($homework) {
+                Notification::send($users, new NewHomeworkAdded($homework));
+            });
 
             Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('homeworks.index');

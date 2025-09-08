@@ -243,7 +243,7 @@ return [
     'your_attempts' => 'Your Attempts',
     'taking_test_now' => 'Try taking the test now',
     'join_now' => 'Join Now',
-
+    'mark_all_read' => 'mark all as read',
 
 
 

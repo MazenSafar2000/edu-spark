@@ -7,6 +7,7 @@
 
         <div class="container mt-4">
             <div class="card custom-form-card-teacher">
+                @include('components.error-field')
                 <div class="card-body">
                     <form class="subject-form" action="{{ route('recordedClasses.store') }}" method="POST">
                         @csrf

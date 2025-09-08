@@ -2,63 +2,47 @@
 
 namespace App\Notifications\Student;
 
+use App\Models\Exam;
+use App\Models\SectionExam;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class NewExamAdded extends Notification
 {
     use Queueable;
-    protected $quizzeId;
-    protected $examTitle;
-    protected $teacherName;
 
-    public function __construct($quizzeId, $examTitle, $teacherName)
-    {
-        $this->quizzeId = $quizzeId;
-        $this->examTitle = $examTitle;
-        $this->teacherName = $teacherName;
-    }
+    public function __construct(
+        public Exam $exam,
+        public int $sectionId,
+        public int $subjectId
+    ) {}
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'new exam added',
-            'body' => 'teacher ' . $this->teacherName . 'added anew exam: ' . $this->examTitle,
-            'url' => route('student.exams.preview', $this->quizzeId) // url to redirect to reading the notification details
+            'type'        => 'exam',
+            'title'       => $this->exam->name,
+            'exam_id'     => $this->exam->id,
+            'section_id'  => $this->sectionId,
+            'subject_id'  => $this->subjectId,
+            'start_at'    => optional($this->exam->start_at)->toDateTimeString(),
+            'end_at'      => optional($this->exam->end_at)->toDateTimeString(),
+            'duration'    => $this->exam->duration,
+            'message'     => 'A new exam has been assigned to your section.',
+            'url'         => route('subject.viewExam', $this->exam),
         ];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toBroadcast($notifiable)
     {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
+        return new BroadcastMessage($this->toDatabase($notifiable));
     }
 }

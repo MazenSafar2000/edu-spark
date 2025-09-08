@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Library;
+use Illuminate\Support\Facades\Notification;
 use App\Models\Section;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\Teacher_section;
+use App\Models\User;
 use App\Notifications\Student\NewBookAdded;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,18 +100,14 @@ class LibraryController extends Controller
                 'public' // disk name من config/filesystems.php
             );
 
-            Student::query()
-                ->where('Grade_id', $request->grade_id)
-                ->where('Classroom_id', $request->classroom_id)
-                ->where('section_id', $request->section_id)
-                ->with('user:id,name') // eager load
-                ->chunkById(300, function ($students) use ($library) {
-                    foreach ($students as $student) {
-                        optional($student->user)->notify(
-                            new NewBookAdded($library->id, $library->title, Auth::user()->name)
-                        );
-                    }
+            $usersQ = User::query()
+                ->whereHas('student', function ($q) use ($library) {
+                    $q->where('section_id', $library->section_id);
                 });
+                
+            $usersQ->chunkById(200, function ($users) use ($library) {
+                Notification::send($users, new NewBookAdded($library));
+            });
 
             Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('library.create');

@@ -7,10 +7,13 @@ use App\Models\Exam;
 use App\Models\Section;
 use App\Models\SectionExam;
 use App\Models\Student;
+use App\Models\User;
 use App\Notifications\Parent\NewExamAdded as ParentNewExamAdded;
 use App\Notifications\Student\NewExamAdded;
 use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class SectionExamContrller extends Controller
 {
@@ -40,44 +43,66 @@ class SectionExamContrller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
     public function store(Request $request)
     {
-        // dd($request->all());
-        $request->validate([
-            'section_id' => 'required|exists:sections,id',
-            'subject_id' => 'required|exists:subjects,id',
-            'exam_ids'   => 'required|array',
-            'exam_ids.*' => 'exists:exams,id',
+        $validated = $request->validate([
+            'section_id' => ['required', 'exists:sections,id'],
+            'subject_id' => ['required', 'exists:subjects,id'],
+            'exam_ids'   => ['required', 'array'],
+            'exam_ids.*' => ['exists:exams,id'],
         ]);
 
-        try {
-            $section = Section::findOrFail($request->section_id);
+        $sectionId = (int) $validated['section_id'];
+        $subjectId = (int) $validated['subject_id'];
+        $examIds   = array_map('intval', $validated['exam_ids']);
 
-            // تجهيز بيانات الربط مع subject_id
-            $data = [];
-            foreach ($request->exam_ids as $examId) {
-                $data[$examId] = ['subject_id' => $request->subject_id];
+        DB::beginTransaction();
+        try {
+            $section = Section::findOrFail($sectionId);
+
+            // Find which exams are already linked *for this subject* (triple unique on pivot).
+            $already = $section->exams()
+                ->wherePivot('subject_id', $subjectId)
+                ->pluck('exams.id')
+                ->all();
+
+            $newExamIds = array_values(array_diff($examIds, $already));
+
+            // Attach only new ones with the subject on the pivot
+            if (!empty($newExamIds)) {
+                $attachData = [];
+                foreach ($newExamIds as $id) {
+                    $attachData[$id] = ['subject_id' => $subjectId];
+                }
+                $section->exams()->attach($attachData);
             }
 
-            // ربط الامتحانات مع الشعبة والمادة في الجدول الوسيط
-            $section->exams()->syncWithoutDetaching($data);
+            DB::commit();
 
-            // $students = Student::where('grade_id', $request->Grade_id)
-            //     ->where('classroom_id', $request->Classroom_id)
-            //     ->where('section_id', $request->section_id)
-            //     ->get();
+            // Notify students in the section (optionally also filter by subject enrollment if you track that)
+            if (!empty($newExamIds)) {
+                $exams = Exam::whereIn('id', $newExamIds)->get();
 
+                $usersQ = User::query()
+                    ->whereHas('student', fn($q) => $q->where('section_id', $sectionId));
 
-            // $examTitle = $exam->getTranslation('name', app()->getLocale());
+                // If you track per-student subject enrollment, also filter by subject:
+                // $usersQ->whereHas('student.enrollments', fn($q) => $q->where('subject_id', $subjectId));
 
-            // foreach ($students as $student) {
-            //     $student->notify(new NewExamAdded($exam->id, $examTitle, Auth::user()->name));
-            //     $student->myparent->notify(new ParentNewExamAdded($exam, $student));
-            // }
+                $usersQ->chunkById(200, function ($users) use ($exams, $sectionId, $subjectId) {
+                    foreach ($exams as $exam) {
+                        Notification::send($users, new NewExamAdded($exam, $sectionId, $subjectId));
+                    }
+                });
+            }
 
-            return back()->with('success', 'تم ربط الامتحانات بالشعبة بنجاح');
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+            Flasher::addSuccess(trans('messages.success'));
+            return redirect()->route('teacher.section.materials', $request->section_id);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 

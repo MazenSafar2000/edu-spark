@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Student;
 
+use App\Models\Library;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -12,39 +13,28 @@ class NewBookAdded extends Notification
 {
     use Queueable;
 
-    public function __construct(
-        protected int $bookId,
-        protected string $bookTitle,
-        protected string $teacherName
-    ) {}
+    public function __construct(public Library $library) {}
 
     public function via($notifiable)
     {
-        return ['database', 'broadcast']; // add 'mail' later if needed
+        return ['database', 'broadcast'];
     }
 
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'كتاب جديد',
-            'body'  => 'المعلم ' . $this->teacherName . ' أضاف كتابًا: ' . $this->bookTitle,
-            // ✅ point to the right place for books
-            'action_url' => route('subject.viewBook', $this->bookId),
-            'meta'  => [
-                'library_id' => $this->bookId,
-                'type'       => 'library',
-            ],
+            'title'       => $this->library->title ?? 'New Book',
+            'library_id'  => $this->library->id,
+            'section_id'  => $this->library->section_id,
+            'subject_id'  => $this->library->subject_id,
+            'teacher_id'  => $this->library->teacher_id,
+            'message'     => 'A new book was added to your section.',
+            'url'         => route('subject.viewBook', $this->library),
         ];
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage($this->toDatabase($notifiable));
-    }
-
-    // Optional: customize JS event name if you want `.listen('.new-book')`
-    public function broadcastType(): string
-    {
-        return 'new-book';
     }
 }

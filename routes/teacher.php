@@ -11,14 +11,6 @@ use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
-
-// Route::middleware(['auth', 'role:teacher'])->group(function () {
-
-//     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
-
-// });
-
-
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),

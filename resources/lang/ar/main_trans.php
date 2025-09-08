@@ -243,6 +243,8 @@ return [
     'your_attempts' => 'محاولاتك',
     'taking_test_now' => 'محاولة أداء الاختبار الآن',
     'join_now' => 'انضم الان',
+    'mark_all_read' => 'تعليم الكل كمقروء',
+
 
 
 

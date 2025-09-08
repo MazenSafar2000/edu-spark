@@ -40,6 +40,9 @@ Route::group(
 
                 Route::get('/student/exams/attempt/{attempt}/review', [ExamAttemptsController::class, 'review'])
                     ->name('student.exam.review');
+
+                Route::post('/notifications/read-all', [NotificationController::class, 'markAll'])
+                    ->name('notifications.readAll');    
             });
 
             Route::get('/student/exams/attempt/{attemptId}/{examId}', function ($attemptId, $examId) {
