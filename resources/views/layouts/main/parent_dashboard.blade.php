@@ -2,22 +2,21 @@
 <html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spark Education</title>
     <link rel="icon" href="{{ asset('assets/images/logo-dark.png') }}" type="image/png">
 
-
-    <!-- ربط ملف bootstrap CSS المحلي -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
 
+    <!-- FullCalendar CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
 
-    <!-- font awsam cdn link -->
+    <!-- Font Awesome & Google Fonts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,8 +24,13 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Rubik:ital,wght@0,300..900;1,300..900&family=Square+Peg&display=swap"
         rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        window.App = {
+            userId: {{ auth()->id() ?? 'null' }}
+        }
+    </script>
+    @vite(['resources/js/app.js'])
 
 
     <!-- custom css file link -->
@@ -77,28 +81,42 @@
                     <!-- الإشعارات -->
                     <li class="dropdown">
                         <a href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false" title="الاشعارات">
+                            aria-expanded="false" title="{{ trans('Sidebar_trans.Notifications') }}"
+                            class="position-relative">
                             <i class="fas fa-bell icon-header"></i>
+                            <!-- النقطة الحمراء على الأيقونة -->
+                            <span id="notif-dot" class="notification-dot @if (auth()->user()->unreadNotifications()->count() == 0) d-none @endif"></span>
                         </a>
                         <div class="dropdown-menu notification-dropdown text-end"
                             aria-labelledby="notificationsDropdown">
-                            <h6 class="notification-title">الاشعارات</h6>
-
-                            <div class="notification-content">
-                                <div class="notification-info text-end">
-                                    <strong class="d-block">المعلم</strong>
-                                    <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
+                            <h6 class="notification-title d-flex justify-content-between align-items-center px-3 py-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    {{ trans('Sidebar_trans.Notifications') }}
+                                    <span id="notif-badge" class="badge badge-number text-white"
+                                        id="notifCount">{{ auth()->user()->unreadNotifications()->count() }}</span>
                                 </div>
-                                <span>٣٠٠ س</span>
+                                <form action="{{ route('notifications.readAll') }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="btn btn-sm btn-link  mark-read-btn mark-all-read">{{ trans('main_trans.mark_all_read') }}</button>
+                                </form>
+                            </h6>
+
+                            <div id="notif-list" class="notification-list">
+                                @forelse (auth()->user()->unreadNotifications as $notification)
+                                    <div class="notification-content">
+                                        <a href="{{ $notification->data['url'] ?? '#' }}"
+                                            class="notification-info text-end">
+                                            <p class="mb-0">{{ $notification->data['message'] ?? 'Notification' }} -
+                                                {{ $notification->data['title'] ?? '' }}</p>
+                                        </a>
+                                        <span>{{ $notification->created_at->diffForHumans() }}</span>
+                                    </div>
+                                @empty
+                                    <div class="notification-footer">{{ trans('main_trans.no_notifications') }}</div>
+                                @endforelse
                             </div>
 
-                            <div class="notification-content">
-                                <div class="notification-info text-end">
-                                    <strong class="d-block">المعلم</strong>
-                                    <p class="mb-0">يوجد طالب جديد يريد التسجيل في النظام</p>
-                                </div>
-                                <span>٣٠٠ س</span>
-                            </div>
                         </div>
                     </li>
 
@@ -128,7 +146,6 @@
                             </li>
                         </ul>
                     </li>
-
 
                     <!-- مبدّل اللغة -->
                     <li class="nav-item-lang-dashboard dropdown lang-switcher">
@@ -172,7 +189,7 @@
     <br><br><br><br>
 
 
-    
+
     <!-- زر فتح الرسائل باستخدام Bootstrap -->
     <button class="position-fixed  m-4 d-flex align-items-center gap-2 shadow open-msg-btn" type="button"
         data-bs-toggle="offcanvas" data-bs-target="#messagesOffcanvas" aria-controls="messagesOffcanvas">
@@ -284,12 +301,31 @@
     </footer>
     <!--- footer ends-->
 
+    <script>
+        function relTime(ts) {
+            const d = new Date(ts);
+            const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+            if (diff < 60) return `${diff}s`;
+            if (diff < 3600) return `${Math.floor(diff/60)}m`;
+            if (diff < 86400) return `${Math.floor(diff/3600)}h`;
+            return `${Math.floor(diff/86400)}d`;
+        }
+
+        function refreshTimes() {
+            document.querySelectorAll('#notif-list time').forEach((t) => {
+                const ts = t.getAttribute('data-ts') || t.getAttribute('title');
+                if (ts) t.textContent = relTime(ts);
+            });
+        }
+        setInterval(refreshTimes, 60_000);
+        document.addEventListener('DOMContentLoaded', refreshTimes);
+    </script>
+
+    <!-- Bootstrap JS (includes Popper) -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- ربط ملف bootstrap JS المحلي -->
-    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
-    <script src="{{ asset('assets/js/filters.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/script2.js') }}"></script> --}}
 
     @yield('js')
 

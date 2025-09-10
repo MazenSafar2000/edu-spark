@@ -177,7 +177,7 @@
                                         </li>
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center gap-2" href="#"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal-meet">
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal-meet{{ $material['data']->id }}">
                                                 <i class="fas fa-trash-alt action-icon delete-icon-action"></i>
                                                 {{ trans('main_trans.delete') }}
                                             </a>
@@ -266,7 +266,8 @@
                                     aria-label="{{ trans('main_trans.close') }}"></button>
                             </div>
                             <form id="deleteExamForm{{ $material['section_exam_id'] }}"
-                                action="{{ route('sectionsExams.destroy', $material['section_exam_id']) }}" method="POST">
+                                action="{{ route('sectionsExams.destroy', $material['section_exam_id']) }}"
+                                method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <div class="modal-body text-center">
@@ -313,6 +314,33 @@
                     </div>
                 </div>
             @elseif($material['type'] == 'online')
+                <!-- delete zoom class modal-->
+                <div class="modal fade" id="deleteModal-meet{{ $material['data']->id }}" tabindex="-1"
+                    aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                            </div>
+                            <form id="deleteZoomForm{{ $material['data']->id }}" action="{{ route('ZoomClasses.destroy', $material['data']->id) }}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <div class="modal-body text-center">
+                                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                                    <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                </div>
+                            </form>
+                            <div class="modal-footer justify-content-center">
+                                <button type="submit" form="deleteZoomForm{{ $material['data']->id }}"
+                                    class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                <button type="button" class="btn btn-cancel"
+                                    data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endif
         @endforeach
     </div>

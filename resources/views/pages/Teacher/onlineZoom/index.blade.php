@@ -53,18 +53,18 @@
                                             {{ trans('Teacher_trans.operations') }}
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-operations">
-                                            <li>
+                                            {{-- <li>
                                                 <a class="dropdown-item d-flex align-items-center gap-2"
                                                     href="teacher-forms/teacher-edit-meet.html">
-                                                    <i class="fas fa-edit action-icon edit-icon-action"></i> تعديل
+                                                    <i class="fas fa-edit action-icon edit-icon-action"></i> {{ trans('main_trans.edit') }}
                                                 </a>
-                                            </li>
+                                            </li> --}}
 
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center gap-2" href="#"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal-meet{{ $zoomClass->id }}">
-                                                    <i class="fas fa-trash-alt action-icon delete-icon-action"></i> حذف
+                                                    <i class="fas fa-trash-alt action-icon delete-icon-action"></i> {{ trans('main_trans.delete') }}
                                                 </a>
                                             </li>
                                         </ul>

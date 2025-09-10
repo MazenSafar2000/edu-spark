@@ -96,6 +96,19 @@ class SectionExamContrller extends Controller
                         Notification::send($users, new NewExamAdded($exam, $sectionId, $subjectId));
                     }
                 });
+
+                Student::with(['myparent.user'])
+                    ->where('section_id', $sectionId)
+                    ->chunkById(200, function ($children) use ($exams) {
+                        foreach ($children as $child) {
+                            $parentUser = optional($child->myparent)->user;
+                            if (!$parentUser) continue;
+
+                            foreach ($exams as $exam) {
+                                $parentUser->notify(new ParentNewExamAdded($exam, $child));
+                            }
+                        }
+                    });
             }
 
             Flasher::addSuccess(trans('messages.success'));

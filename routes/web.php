@@ -4,12 +4,8 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Manager\ManagerController;
-use App\Http\Controllers\Parent\ParentController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Student\StudentController;
-use App\Http\Controllers\Manager\StudentController as MangerStudentController;
-use App\Http\Controllers\Manager\TeacherController as ManagerTeacherController;
-use App\Http\Controllers\Teacher\TeacherController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -76,32 +72,16 @@ Route::group(
                 Route::resource('Subjects', 'SubjectController');
                 Route::resource('TeacherSections', 'TeacherSectionController');
 
-
                 Route::resource('Images', 'ImageController');
-
-
-                // Route::resource('online_classes', 'OnlineClasseController');
-                // Route::get('indirect_admin', 'OnlineClasseController@indirectCreate')->name('indirect.create.admin');
-                // Route::post('indirect_admin', 'OnlineClasseController@storeIndirect')->name('indirect.store.admin');
-                // Route::resource('Graduated', 'GraduatedController');
-                // Route::post('/Graduated/one', 'GraduatedController@graduateOne')->name('Graduated.one');
-                // Route::resource('Promotion', 'PromotionController');
-                // Route::get('download_file/{filename}', 'LibraryController@downloadAttachment')->name('downloadAttachment');
-                // Route::resource('library', 'LibraryController');
-                // Route::post('Upload_attachment', 'StudentController@Upload_attachment')->name('Upload_attachment');
-                // Route::get('Download_attachment/{studentsname}/{filename}', 'StudentController@Download_attachment')->name('Download_attachment');
-                // Route::post('Delete_attachment', 'StudentController@Delete_attachment')->name('Delete_attachment');
             });
 
             Route::view('add_parent', 'livewire.add-parent')->name('add_parent');
         });
+
+        Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])
+            ->middleware('auth')
+            ->name('notifications.readAll');
     }
 );
-
-Route::get('/pusher', function() {
-    return view('pusher');
-});
-
-
 
 require __DIR__ . '/auth.php';

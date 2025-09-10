@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\Parent\ParentController;
-use App\Http\Controllers\Teacher\TeacherController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Controllers\Parent\NotificationController;
 
 Route::group(
     [

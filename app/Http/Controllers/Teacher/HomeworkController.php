@@ -106,6 +106,7 @@ class HomeworkController extends Controller
                 $homework->update(['attachment_path' => $fileName]);
             }
 
+            // student notify
             $usersQ = User::query()
                 ->whereHas('student', function ($q) use ($homework) {
                     $q->where('section_id', $homework->section_id);
@@ -114,6 +115,20 @@ class HomeworkController extends Controller
             $usersQ->chunkById(200, function ($users) use ($homework) {
                 Notification::send($users, new NewHomeworkAdded($homework));
             });
+
+            // parent notify
+            Student::with(['myparent.user'])
+                ->where('grade_id', $homework->grade_id)
+                ->where('classroom_id', $homework->classroom_id)
+                ->where('section_id', $homework->section_id)
+                ->chunkById(200, function ($children) use ($homework) {
+                    foreach ($children as $child) {
+                        $parentUser = optional($child->myparent)->user;
+                        if ($parentUser) {
+                            $parentUser->notify(new ParentNewHomeworkAdded($homework, $child));
+                        }
+                    }
+                });
 
             Flasher::addSuccess(trans('messages.success'));
             return redirect()->route('homeworks.index');

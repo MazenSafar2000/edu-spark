@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('total_degree');
             $table->foreignId('grade_id')->references('id')->on('Grades')->onDelete('cascade');
             $table->foreignId('classroom_id')->references('id')->on('Classrooms')->onDelete('cascade');

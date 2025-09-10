@@ -77,52 +77,45 @@
                     <!-- الإشعارات -->
                     <li class="dropdown">
                         <a href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false" title="الاشعارات" class="position-relative">
+                            aria-expanded="false" title="{{ trans('Sidebar_trans.Notifications') }}"
+                            class="position-relative">
                             <i class="fas fa-bell icon-header"></i>
-
-                            {{-- dot that we can toggle live --}}
+                            <!-- النقطة الحمراء على الأيقونة -->
                             <span id="notif-dot"
                                 class="notification-dot @if (auth()->user()->unreadNotifications()->count() == 0) d-none @endif"></span>
                         </a>
-
                         <div class="dropdown-menu notification-dropdown text-end"
                             aria-labelledby="notificationsDropdown">
-                            <h6 class="notification-title d-flex justify-content-between align-items-center">
-                                {{ trans('Sidebar_trans.Notifications') }}
-                                <span id="notif-badge" class="badge badge-number text-white">
-                                    {{ auth()->user()->unreadNotifications()->count() }}
-                                </span>
+                            <h6 class="notification-title d-flex justify-content-between align-items-center px-3 py-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    {{ trans('Sidebar_trans.Notifications') }}
+                                    <span class="badge badge-number text-white"
+                                        id="notif-badge">{{ auth()->user()->unreadNotifications()->count() }}</span>
+                                </div>
+                                <form action="{{ route('notifications.readAll') }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="btn btn-sm btn-link  mark-read-btn mark-all-read">{{ trans('main_trans.mark_all_read') }}</button>
+                                </form>
                             </h6>
 
-                            <form action="{{ route('notifications.readAll') }}" method="POST">
-                                @csrf
-                                <button type="submit">{{ trans('main_trans.mark_all_read') }}</button>
-                            </form>
-
-                            {{-- make the list addressable --}}
-                            <div id="notif-list">
+                            <div id="notif-list" class="notification-list">
                                 @forelse (auth()->user()->unreadNotifications as $notification)
                                     <div class="notification-content">
                                         <a href="{{ $notification->data['url'] ?? '#' }}"
                                             class="notification-info text-end">
-                                            <p class="mb-0 fw-bold">
-                                                {{ $notification->data['message'] ?? 'Notification' }} -
-                                                {{ $notification->data['title'] ?? '' }}
-                                            </p>
+                                            <p class="mb-0">{{ $notification->data['message'] ?? 'Notification' }} -
+                                                {{ $notification->data['title'] ?? '' }}</p>
                                         </a>
-                                        <span class="fw-bold">{{ $notification->created_at->diffForHumans() }}</span>
+                                        <span>{{ $notification->created_at->diffForHumans() }}</span>
                                     </div>
                                 @empty
-                                    <div class="notification-content">
-                                        <div class="notification-info text-end">
-                                            <p>{{ trans('main_trans.no_notifications') }}</p>
-                                        </div>
-                                    </div>
+                                    <div class="notification-footer">{{ trans('main_trans.no_notifications') }}</div>
                                 @endforelse
                             </div>
+
                         </div>
                     </li>
-
 
                     <!-- الحساب -->
                     <li class="dropdown">
@@ -141,10 +134,6 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                {{-- <form action="">
-                                    <button type="submit" class="dropdown-item"><i
-                                            class="fas fa-sign-out-alt"></i>تسجيل الخروج</button>
-                                </form> --}}
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="dropdown-item"><i
@@ -344,6 +333,8 @@
     <footer class="footer bg-white shadow fixed-bottom">
         {!! trans('main_trans.footer_rights', ['brand' => '<span>Spark Education</span>']) !!}
     </footer>
+    <!--- footer ends-->
+
 
     <script>
         function relTime(ts) {
