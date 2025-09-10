@@ -1,149 +1,13 @@
 @extends('layouts.main.manager_dashboard')
 @section('manager_content')
-    {{-- <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
-        <h3 class="manager-header">جدول الطلاب</h3>
-        <div class="table-users mt-5">
-            <!-- المحتوى -->
-            <div class="table-content tab-content" id="myTabContent">
-                <!-- الطلاب -->
-                <div class="tab-pane fade show active" id="students" role="tabpanel">
-                    <div class="add-std">
-                        <a href="{{ route('Students.create') }}"
-                            class="btn add-std-btn">{{ trans('main_trans.add_student') }}</a>
-                    </div>
-
-                    <div class="header-table">
-                        <div class="select-std d-flex gap-2 flex-wrap">
-                            <select class="form-select std-select" id="gradeSelect">
-                                <option value="">-- Select Grade --</option>
-                                @foreach ($grades as $grade)
-                                    <option value="{{ $grade->id }}">{{ $grade->Name }}</option>
-                                @endforeach
-                            </select>
-                            <select class="form-select std-select" id="classroomSelect">
-                                <option value="">-- Select Classroom --</option>
-                                <!-- Options filled dynamically -->
-                            </select>
-                            <select class="form-select std-select" id="sectionSelect">
-                                <option value="">-- Select Section --</option>
-                                <!-- Options filled dynamically -->
-                            </select>
-                        </div>
-
-                        <input type="text" id="studentSearch" class="form-control search-input"
-                            placeholder="{{ trans('main_trans.search') }}">
-                    </div>
-
-
-                    <div class="table-responsive">
-                        <table class="table text-center custom-user-table" id="datatable">
-                            <thead class="thead-user">
-                                <tr>
-                                    <th>#</th>
-                                    <th>{{ trans('Students_trans.name') }}</th>
-                                    <th>{{ trans('Students_trans.email') }}</th>
-                                    <th>{{ trans('Students_trans.gender') }}</th>
-                                    <th>{{ trans('Students_trans.Grade') }}</th>
-                                    <th>{{ trans('Students_trans.classrooms') }}</th>
-                                    <th>{{ trans('Students_trans.section') }}</th>
-                                    <th>{{ trans('Students_trans.Processes') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($students as $student)
-                                    <tr>
-                                        <td>{{ $loop->iteration  }}</td>
-                                        <td>{{ $student->user->name }}</td>
-                                        <td>{{ $student->user->email }}</td>
-                                        <td>{{ $student->gender->Name }}</td>
-                                        <td>{{ $student->grade->Name }}</td>
-                                        <td>{{ $student->classroom->Name_Class }}</td>
-                                        <td>{{ $student->section->Name_Section }}</td>
-                                        <td class="position-relative">
-                                            <div class="dropdown">
-                                                <button class="btn operations-btn dropdown-toggle" type="button"
-                                                    id="operationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    {{ trans('main_trans.operations') }}
-                                                </button>
-                                                <ul class="dropdown-menu operations-dropdown text-end"
-                                                    aria-labelledby="operationsDropdown">
-                                                    <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2"
-                                                            href="{{ route('Students.show', $student->id) }}">
-                                                            <i class="fa-solid fa-eye text-success"></i>
-                                                            {{ trans('main_trans.Student_information') }}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2"
-                                                            href="{{ route('Students.edit', $student->id) }}">
-                                                            <i class="fas fa-edit text-primary"></i>
-                                                            {{ trans('main_trans.edit') }}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2"
-                                                            href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal{{ $student->id }}">
-                                                            <i class="fas fa-trash-alt text-danger"></i>
-                                                            {{ trans('main_trans.delete') }}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <!-- Modal حذف الطالب -->
-                                        <div class="modal fade" id="deleteModal{{ $student->id }}" tabindex="-1"
-                                            aria-labelledby="deleteModalLabel{{ $student->id }}" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <!-- يجعل المودال بالنص -->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="إغلاق"></button>
-                                                    </div>
-
-                                                    <form action="{{ route('Students.destroy', $student->id) }}"
-                                                        method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-
-                                                        <div class="modal-body text-center">
-                                                            <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                                            <p>هل أنت متأكد أنك تريد حذف هذا الطالب؟</p>
-                                                            <p>{{ $student->user->name }}</p>
-                                                        </div>
-
-                                                        <div class="modal-footer justify-content-center">
-                                                            <button type="submit" class="btn btn-del">تأكيد
-                                                                الحذف</button>
-                                                            <button type="button" class="btn btn-cancel"
-                                                                data-bs-dismiss="modal">إلغاء</button>
-                                                        </div>
-                                                    </form>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $students->links() }}
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div> --}}
-
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <h3 class="manager-header">{{ trans('main_trans.list_students') }}</h3>
         <div class="title-underline-manager"></div>
+
         <div class="table-users mt-5">
-            <!-- الطلاب -->
+            <!-- students -->
             <div class="add-std">
-                <a href="{{ route('Students.create') }}" class="add-std-btn">{{ trans('main_trans.add_student') }}</a>
+                <a href="{{ route('Students.create') }}" class="btn add-std-btn">{{ trans('main_trans.add_student') }}</a>
             </div>
 
             <div class="header-table">
@@ -237,7 +101,8 @@
                                                     aria-label="{{ trans('main_trans.close') }}"></button>
                                             </div>
 
-                                            <form action="{{ route('Students.destroy', $student->id) }}" method="post" id="deleteStudent">
+                                            <form action="{{ route('Students.destroy', $student->id) }}" method="post"
+                                                id="deleteStudent">
                                                 @csrf
                                                 @method('DELETE')
 
@@ -247,7 +112,8 @@
                                                     <p>{{ $student->user->name }}</p>
                                                 </div>
                                                 <div class="modal-footer custom-modal-footer-manager">
-                                                    <button type="submit" form="deleteStudent" class="btn btn-primary custom-save-btn"
+                                                    <button type="submit" form="deleteStudent"
+                                                        class="btn btn-primary custom-save-btn"
                                                         form="stageForm">{{ trans('main_trans.submit') }}</button>
                                                     <button type="button" class="btn btn-secondary custom-cancel-btn"
                                                         data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
@@ -261,13 +127,10 @@
 
                     </tbody>
                 </table>
-                {{ $students->links() }}
+                {{ $students->links('vendor.pagination.custom') }}
             </div>
-
         </div>
-
     </div>
-
 
     <script>
         // Get references

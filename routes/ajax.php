@@ -14,11 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth', 'role:manager'])->group(function () {
-    // Route::get('/Get_classrooms/{id}', [AjaxController::class, 'getClassrooms']);
-    // Route::get('/Get_Sections/{id}', [AjaxController::class, 'Get_Sections']);
+Route::middleware(['web', 'auth', 'role:manager'])->group(function () {
+    Route::get('/ajax/classrooms/{grade}', [AjaxController::class, 'getClassrooms'])
+        ->name('ajax.classrooms');
+    Route::get('/ajax/sections/{classroom}', [AjaxController::class, 'getSections'])
+        ->name('ajax.sections');
 });
-
 
 Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->group(function () {
     Route::get('getClassroomsByGrade/{grade_id}', [AjaxController::class, 'getClassroomsByGrade']);

@@ -245,7 +245,7 @@ return [
     'join_now' => 'Join Now',
     'mark_all_read' => 'mark all as read',
 
-
+    'no_students' => 'There are no students in this class.'
 
 
 

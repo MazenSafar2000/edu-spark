@@ -32,7 +32,7 @@
                                 <i class="fas fa-chalkboard-teacher fa-2x"></i>
                             </div>
                             <hr>
-                            <a href="{{ route('Teachers.index')}}" class="text-center d-block text-decoration-none"><i
+                            <a href="{{ route('Teachers.index') }}" class="text-center d-block text-decoration-none"><i
                                     class="fas fa-user-friends"></i> {{ trans('main_trans.View_data') }}</a>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                                 <i class="fas fa-laptop fa-2x"></i>
                             </div>
                             <hr>
-                            <a href="{{ route('Grades.index')}}" class="text-center d-block text-decoration-none"><i
+                            <a href="{{ route('Grades.index') }}" class="text-center d-block text-decoration-none"><i
                                     class="fas fa-user-friends"></i> {{ trans('main_trans.View_data') }}</a>
                         </div>
                     </div>
@@ -74,32 +74,32 @@
         </section>
 
         <div class="table-users mt-5">
-
             <!-- التبويبات -->
-            <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="students-tab" data-bs-toggle="tab" data-bs-target="#students"
-                        type="button" role="tab">{{ trans('main_trans.Students') }}</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="teachers-tab" data-bs-toggle="tab" data-bs-target="#teachers"
-                        type="button" role="tab">{{ trans('main_trans.Teachers') }}</button>
-                </li>
-
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="parents-tab" data-bs-toggle="tab" data-bs-target="#parents" type="button"
-                        role="tab">{{ trans('main_trans.Parents') }}</button>
-                </li>
-
-            </ul>
+            <div class="index-table">
+                <h3>{{ trans('main_trans.Last_ope_sys') }}</h3>
+                <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="students-tab" data-bs-toggle="tab" data-bs-target="#students"
+                            type="button" role="tab">{{ trans('main_trans.Students') }}</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="teachers-tab" data-bs-toggle="tab" data-bs-target="#teachers"
+                            type="button" role="tab">{{ trans('main_trans.Teachers') }}</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="parents-tab" data-bs-toggle="tab" data-bs-target="#parents"
+                            type="button" role="tab">{{ trans('main_trans.Parents') }}</button>
+                    </li>
+                </ul>
+            </div>
 
             <!-- المحتوى -->
             <div class="table-content tab-content" id="myTabContent">
                 <!-- الطلاب -->
                 <div class="tab-pane fade show active" id="students" role="tabpanel">
-                    <div class="table-responsive">
-                        <table class="table text-center custom-user-table">
-                            <thead class="thead-user">
+                    <div class="table-responsive manager-table-wrapper">
+                        <table class="text-center manager-grade-table">
+                            <thead class="thead-manager">
                                 <tr>
                                     <th>#</th>
                                     <th>{{ trans('Students_trans.student_name') }}</th>
@@ -133,9 +133,9 @@
 
                 <!-- المعلمين -->
                 <div class="tab-pane fade" id="teachers" role="tabpanel">
-                    <div class="table-responsive">
-                        <table class="table text-center custom-user-table">
-                            <thead class="thead-user">
+                    <div class="table-responsive manager-table-wrapper">
+                        <table class=" text-center manager-grade-table">
+                            <thead class="thead-manager">
                                 <tr>
                                     <th>#</th>
                                     <th>{{ trans('main_trans.Number_of_teachers') }}</th>
@@ -144,23 +144,20 @@
                                     <th>{{ trans('main_trans.specialization') }}</th>
                                     <th>{{ trans('Students_trans.created_at') }}
                                 </tr>
-                                </tr>
                             </thead>
                             <tbody>
                                 @forelse(\App\Models\Teacher::latest()->take(5)->get() as $teacher)
-                            <tbody>
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $teacher->user->name }}</td>
-                                    <td>{{ $teacher->genders->Name }}</td>
-                                    <td>{{ $teacher->Joining_Date }}</td>
-                                    <td>{{ $teacher->specializations->Name }}</td>
-                                    <td class="text-success">{{ $teacher->created_at }}</td>
-                                @empty
-                                    <td class="alert-danger" colspan="5">{{ trans('main_trans.no_data') }}</td>
-                                </tr>
-                            </tbody>
-                            @endforelse
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $teacher->user->name }}</td>
+                                        <td>{{ $teacher->genders->Name }}</td>
+                                        <td>{{ $teacher->Joining_Date }}</td>
+                                        <td>{{ $teacher->specializations->Name }}</td>
+                                        <td class="text-success">{{ $teacher->created_at }}</td>
+                                    @empty
+                                        <td class="alert-danger" colspan="5">{{ trans('main_trans.no_data') }}</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -168,14 +165,14 @@
 
                 <!-- أولياء الأمور -->
                 <div class="tab-pane fade" id="parents" role="tabpanel">
-                    <div class="table-responsive">
-                        <table class="table text-center custom-user-table">
-                            <thead class="thead-user">
+                    <div class="table-responsive manager-table-wrapper">
+                        <table class=" text-center manager-grade-table">
+                            <thead class="thead-manager">
                                 <tr>
                                     <th>#</th>
                                     <th>{{ trans('Parent_trans.Name_Father') }}</th>
                                     <th>{{ trans('Students_trans.email') }}</th>
-                                    {{-- <th>{{ trans('Parent_trans.ID') }}</th> --}}
+                                    <th>{{ trans('main_trans.National_ID') }}</th>
                                     <th>{{ trans('Parent_trans.Phone_Father') }}</th>
                                     <th>{{ trans('Students_trans.created_at') }}</th>
                                 </tr>
@@ -186,7 +183,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $parent->user->name }}</td>
                                         <td>{{ $parent->user->email }}</td>
-                                        {{-- <td> {{ $parent->id}} </td> --}}
+                                        <td>{{ $parent->National_ID }}</td>
                                         <td>{{ $parent->Phone_Father }}</td>
                                         <td class="text-success">{{ $parent->created_at }}</td>
                                     @empty
@@ -199,7 +196,6 @@
                 </div>
             </div>
         </div>
-
         <!-- محتوى الصفحة هنا -->
     </div>
 @endsection

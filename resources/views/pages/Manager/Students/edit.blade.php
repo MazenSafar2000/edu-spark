@@ -20,60 +20,154 @@
         </div>
     </div>
 
+    {{-- filter classes & section --}}
     <script>
-        $(document).ready(function() {
-            $('select[name="Grade_id"]').on('change', function() {
-                var Grade_id = $(this).val();
-                if (Grade_id) {
+        document.addEventListener('DOMContentLoaded', function() {
+            const gradeSel = document.querySelector('select[name="Grade_id"]');
+            const classSel = document.querySelector('select[name="Classroom_id"]');
+            const sectionSel = document.querySelector('select[name="section_id"]');
+
+            function resetSelect(sel, placeholder) {
+                sel.innerHTML = '';
+                const opt = document.createElement('option');
+                opt.disabled = true;
+                opt.selected = true;
+                opt.textContent = placeholder;
+                sel.appendChild(opt);
+            }
+
+            if (gradeSel) {
+                gradeSel.addEventListener('change', function() {
+                    const gradeId = this.value;
+                    resetSelect(classSel, "{{ trans('Parent_trans.Choose') }}...");
+                    resetSelect(sectionSel, "{{ trans('Parent_trans.Choose') }}...");
+
+                    if (!gradeId) return;
+
                     $.ajax({
-                        url: "{{ URL::to('Get_classrooms') }}/" + Grade_id,
+                        url: "{{ route('ajax.classrooms', ':grade') }}".replace(':grade', gradeId),
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
-                            $('select[name="Classroom_id"]').empty();
-                            $('select[name="Classroom_id"]').append(
-                                "<option selected disabled >{{ trans('Parent_trans.Choose') }}...</option>"
-                            );
-                            $.each(data, function(key, value) {
-                                $('select[name="Classroom_id"]').append(
-                                    '<option value="' + key + '">' + value +
-                                    '</option>');
+                            // data is {id: "Name", ...}
+                            Object.entries(data).forEach(([id, name]) => {
+                                classSel.insertAdjacentHTML('beforeend',
+                                    `<option value="${id}">${name}</option>`);
                             });
-
                         },
+                        error: function(xhr) {
+                            console.error('Failed to load classrooms', xhr.status, xhr
+                                .responseText);
+                        }
                     });
-                } else {
-                    console.log('AJAX load did not work');
-                }
-            });
+                });
+            }
+
+            if (classSel) {
+                classSel.addEventListener('change', function() {
+                    const classId = this.value;
+                    resetSelect(sectionSel, "{{ trans('Parent_trans.Choose') }}...");
+
+                    if (!classId) return;
+
+                    $.ajax({
+                        url: "{{ route('ajax.sections', ':classroom') }}".replace(':classroom',
+                            classId),
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            Object.entries(data).forEach(([id, name]) => {
+                                sectionSel.insertAdjacentHTML('beforeend',
+                                    `<option value="${id}">${name}</option>`);
+                            });
+                        },
+                        error: function(xhr) {
+                            console.error('Failed to load sections', xhr.status, xhr
+                                .responseText);
+                        }
+                    });
+                });
+            }
         });
+    </script>
+@endsection
+@section('js')
+    <script>
+        $(function() {
+            const $grade = $('#Grade_id');
+            const $class = $('#Classroom_id');
+            const $section = $('#section_id');
 
+            const selectedGrade = $grade.data('selected-grade') || '';
+            const selectedClass = $class.data('selected-classroom') || '';
+            const selectedSection = $section.data('selected-section') || '';
 
-        $(document).ready(function() {
-            $('select[name="Classroom_id"]').on('change', function() {
-                var Classroom_id = $(this).val();
-                if (Classroom_id) {
-                    $.ajax({
-                        url: "{{ URL::to('Get_Sections') }}/" + Classroom_id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('select[name="section_id"]').empty();
-                            $('select[name="section_id"]').append(
-                                "<option selected disabled >{{ trans('Parent_trans.Choose') }}...</option>"
-                            );
-                            $.each(data, function(key, value) {
-                                $('select[name="section_id"]').append(
-                                    '<option value="' + key + '">' + value +
-                                    '</option>');
-                            });
+            function resetSelect($sel, placeholder) {
+                $sel.empty().append(`<option selected disabled>${placeholder}</option>`);
+            }
 
-                        },
+            function loadClassrooms(gradeId, preselectId) {
+                resetSelect($class, "{{ trans('Parent_trans.Choose') }}...");
+                resetSelect($section, "{{ trans('Parent_trans.Choose') }}...");
+
+                if (!gradeId) return $.Deferred().resolve().promise();
+
+                return $.ajax({
+                    url: "{{ route('ajax.classrooms', ':grade') }}".replace(':grade', gradeId),
+                    type: "GET",
+                    dataType: "json"
+                }).done(function(data) {
+                    $.each(data, function(id, name) {
+                        $class.append(`<option value="${id}">${name}</option>`);
                     });
-                } else {
-                    console.log('AJAX load did not work');
-                }
+                    if (preselectId) $class.val(String(preselectId));
+                }).fail(function(xhr) {
+                    console.error('Failed to load classrooms', xhr.status, xhr.responseText);
+                });
+            }
+
+            function loadSections(classId, preselectId) {
+                resetSelect($section, "{{ trans('Parent_trans.Choose') }}...");
+
+                if (!classId) return $.Deferred().resolve().promise();
+
+                return $.ajax({
+                    url: "{{ route('ajax.sections', ':class') }}".replace(':class', classId),
+                    type: "GET",
+                    dataType: "json"
+                }).done(function(data) {
+                    $.each(data, function(id, name) {
+                        $section.append(`<option value="${id}">${name}</option>`);
+                    });
+                    if (preselectId) $section.val(String(preselectId));
+                }).fail(function(xhr) {
+                    console.error('Failed to load sections', xhr.status, xhr.responseText);
+                });
+            }
+
+            // Normal change handlers (when manager changes Grade/Classroom)
+            $grade.on('change', function() {
+                const gid = $(this).val();
+                loadClassrooms(gid, null);
             });
+
+            $class.on('change', function() {
+                const cid = $(this).val();
+                loadSections(cid, null);
+            });
+
+            // ✨ Rehydrate after validation error / on edit:
+            // If we have an old/selected grade, load its classrooms, then load sections, then select both
+            if (selectedGrade) {
+                // Ensure the grade select shows the previous choice
+                $grade.val(String(selectedGrade));
+
+                loadClassrooms(selectedGrade, selectedClass).then(function() {
+                    if (selectedClass) {
+                        return loadSections(selectedClass, selectedSection);
+                    }
+                });
+            }
         });
     </script>
 @endsection

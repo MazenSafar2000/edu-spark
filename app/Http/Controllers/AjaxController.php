@@ -9,20 +9,25 @@ use App\Models\Teacher_section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 class AjaxController extends Controller
 {
-    // Get Classrooms
-    public function getClassrooms($id)
+    // Get Classrooms for a grade
+    public function getClassrooms($gradeId): JsonResponse
     {
-        return Classroom::where("Grade_id", $id)->pluck("Name_Class", "id");
+        $classrooms = Classroom::where('Grade_id', $gradeId)
+            ->pluck('Name_Class', 'id'); // -> ["id" => "Name"]
+
         return response()->json($classrooms);
     }
 
-    //Get Sections
-    public function Get_Sections($id)
+    // Get Sections for a classroom
+    public function getSections($classroomId): JsonResponse
     {
-        return Section::where("Class_id", $id)->pluck("Name_Section", "id");
+        $sections = Section::where('Class_id', $classroomId)
+            ->pluck('Name_Section', 'id');
+
         return response()->json($sections);
     }
 
@@ -75,7 +80,6 @@ class AjaxController extends Controller
 
         return response()->json($sections);
     }
-
 
     public function getSubjectsBySection($section_id)
     {

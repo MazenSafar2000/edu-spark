@@ -1020,20 +1020,19 @@ body {
 
 .dropdown-menu.notification-dropdown .notification-content .notification-info p {
     font-size: 1.3rem;
-    color: var(--black);
+    color: var(--light-color);
     padding-left: .8rem;
     text-align: left;
-}
-
-.dropdown-menu.notification-dropdown .notification-content span {
-    color: var(--black);
-    padding-right: .8rem;
 }
 
 .dropdown-menu.notification-dropdown .notification-content a {
     text-decoration: none;
 }
 
+.dropdown-menu.notification-dropdown .notification-content span {
+    color: var(--light-color);
+    padding-right: .8rem;
+}
 
 .dropdown-menu.account-dropdown {
     min-width: 250px;
@@ -1870,6 +1869,7 @@ header.header-page img.logo {
 .custom-form-card .card-body .subject-form div input[type="text"].custom-input,
 .custom-form-card .card-body .subject-form div input[type="date"].custom-input,
 .custom-form-card .card-body .subject-form div input[type="number"].custom-input,
+.custom-form-card .card-body .subject-form div input[type="email"].custom-input,
 .custom-form-card .card-body .subject-form div input[type="password"].custom-input,
 .custom-form-card .card-body .subject-form div input[type="datetime-local"].custom-input,
 .custom-form-card .card-body .subject-form div input[type="url"].custom-input,

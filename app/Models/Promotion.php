@@ -13,36 +13,67 @@ class Promotion extends Model
 
     public function student()
     {
-        return $this->belongsTo('App\Models\Student', 'student_id');
+        return $this->belongsTo(Student::class, 'student_id');
     }
 
-    public function f_grade()
-    {
-        return $this->belongsTo('App\Models\Grade', 'from_grade');
-    }
+    // public function f_grade()
+    // {
+    //     return $this->belongsTo(Grade::class, 'from_grade');
+    // }
 
+    // public function f_classroom()
+    // {
+    //     return $this->belongsTo(Classroom::class,'from_Classroom', 'id');
+    // }
+
+    // public function f_section()
+    // {
+    //     return $this->belongsTo(Section::class, 'from_section');
+    // }
+
+    // public function t_grade()
+    // {
+    //     return $this->belongsTo(Grade::class, 'to_grade');
+    // }
+
+    // public function t_classroom()
+    // {
+    //     return $this->belongsTo(Classroom::class, 'to_Classroom');
+    // }
+
+    // public function t_section()
+    // {
+    //     return $this->belongsTo(Section::class, 'to_section');
+    // }
+
+    // Promotion.php
     public function f_classroom()
     {
-        return $this->belongsTo('App\Models\Classroom', 'from_Classroom');
-    }
-
-    public function f_section()
-    {
-        return $this->belongsTo('App\Models\Section', 'from_section');
-    }
-
-    public function t_grade()
-    {
-        return $this->belongsTo('App\Models\Grade', 'to_grade');
+        return $this->belongsTo(Classroom::class, 'from_classroom', 'id');
     }
 
     public function t_classroom()
     {
-        return $this->belongsTo('App\Models\Classroom', 'to_Classroom');
+        return $this->belongsTo(Classroom::class, 'to_classroom', 'id');
+    }
+
+    public function f_grade()
+    {
+        return $this->belongsTo(Grade::class, 'from_grade', 'id');
+    }
+
+    public function t_grade()
+    {
+        return $this->belongsTo(Grade::class, 'to_grade', 'id');
+    }
+
+    public function f_section()
+    {
+        return $this->belongsTo(Section::class, 'from_section', 'id');
     }
 
     public function t_section()
     {
-        return $this->belongsTo('App\Models\Section', 'to_section');
+        return $this->belongsTo(Section::class, 'to_section', 'id');
     }
 }

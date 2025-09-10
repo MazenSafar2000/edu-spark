@@ -14,7 +14,7 @@ class Grade extends Model
     public $translatable = ['Name'];
     protected $fillable = ['Name', 'Notes'];
     protected $casts = [
-        'Name' => 'array', // or 'json'
+        'Name' => 'array',
     ];
     protected $table = 'Grades';
     public $timestamps = true;

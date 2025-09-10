@@ -108,7 +108,7 @@ class StudentController extends Controller
             }
             DB::commit(); // insert data
             Flasher::addSuccess(trans('messages.success'));
-            return redirect()->route('Students.create');
+            return redirect()->route('Students.index');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -153,9 +153,8 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|',
             'National_ID' => 'required|string|min:9|max:9|regex:/[0-9]{9}/',
-            'password' => 'required|string|min:6',
             'gender_id' => 'required|exists:genders,id',
             'Date_Birth' => 'required|date',
             'Grade_id' => 'required|exists:grades,id',
@@ -166,6 +165,7 @@ class StudentController extends Controller
         ]);
 
         try {
+
             DB::beginTransaction();
 
             $student = Student::findOrFail($id);

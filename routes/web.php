@@ -4,6 +4,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Manager\ManagerController;
+use App\Http\Controllers\manager\PromotionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
@@ -53,10 +54,8 @@ Route::group(
         Route::middleware(['auth', 'role:manager'])->group(function () {
             Route::get('/manager/dashboard', [ManagerController::class, 'dashboard'])->name('manager.dashboard');
 
-            Route::get('/Get_classrooms/{id}', [AjaxController::class, 'getClassrooms']);
-            Route::get('/Get_Sections/{id}', [AjaxController::class, 'Get_Sections']);
-
             Route::group(['namespace' => 'App\Http\Controllers\Manager'], function () {
+
                 Route::resource('Students', 'StudentController');
                 Route::get('Download_attachment/{studentsname}/{filename}', 'ImageController@Download_attachment')->name('Download_attachment');
 
@@ -73,6 +72,8 @@ Route::group(
                 Route::resource('TeacherSections', 'TeacherSectionController');
 
                 Route::resource('Images', 'ImageController');
+
+                Route::resource('Promotion', 'PromotionController');
             });
 
             Route::view('add_parent', 'livewire.add-parent')->name('add_parent');

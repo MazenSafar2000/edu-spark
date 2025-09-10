@@ -11,7 +11,7 @@ class Classroom extends Model
     use HasFactory;
     use HasTranslations;
 
-    protected $table = 'Classrooms';
+    protected $table = 'classrooms';
     protected $fillable=['Name_Class','Grade_id'];
     public $translatable = ['Name_Class'];
     protected $casts = [

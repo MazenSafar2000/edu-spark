@@ -19,14 +19,7 @@
 
              <div class="table-users mt-5">
                  <!-- المحتوى -->
-                 @if (session()->has('error'))
-                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                         <strong>{{ session()->get('error') }}</strong>
-                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                         </button>
-                     </div>
-                 @endif
+                 @include('components.error-field')
                  <div class="table-content tab-content" id="myTabContent">
                      <div class="tab-pane fade show active" id="details" role="tabpanel">
                          <div class="container">
@@ -37,10 +30,10 @@
                                              <td>{{ trans('Students_trans.name') }}</td>
                                              <td> {{ $Student->user->name }} </td>
                                          </tr>
-                                         {{-- <tr>
-                                             <td> رقم الهوية</td>
-                                             <td>876543234567</td>
-                                         </tr> --}}
+                                         <tr>
+                                             <td>{{ trans('main_trans.National_ID') }}</td>
+                                             <td>{{ $Student->National_ID }}</td>
+                                         </tr>
                                          <tr>
                                              <td>{{ trans('Students_trans.email') }}</td>
                                              <td>{{ $Student->user->email }} </td>
@@ -109,12 +102,13 @@
                                          @endforeach
                                      @endif
 
-                                     <input type="hidden" name="student_name"
-                                         value="{{ $Student->user->getTranslation('name', 'en') }}">
+                                     <input type="hidden" name="student_national_id"
+                                         value="{{ $Student->National_ID }}">
                                      <input type="hidden" name="student_id" value="{{ $Student->id }}">
                                  </div>
 
-                                 <button type="submit" class="btn btn-upload mb-4 btn-outline-success">{{ trans('Grades_trans.submit') }}</button>
+                                 <button type="submit"
+                                     class="btn btn-upload mb-4 btn-outline-success">{{ trans('Grades_trans.submit') }}</button>
                              </form>
 
 
@@ -138,7 +132,7 @@
                                                  <td>{{ $attachment->filename }}</td>
                                                  <td>{{ $attachment->created_at->diffForHumans() }}</td>
                                                  <td>
-                                                     <a href="{{ url('Download_attachment') }}/{{ $attachment->imageable->user->name }}/{{ $attachment->filename }}"
+                                                     <a href="{{ url('Download_attachment') }}/{{ $attachment->imageable->National_ID }}/{{ $attachment->filename }}"
                                                          class="btn btn-sm btn-download"><i
                                                              class="fa-solid fa-download"></i>{{ trans('Students_trans.Download') }}</a>
                                                      <a class="btn btn-sm btn-delete" data-bs-toggle="modal"

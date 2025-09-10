@@ -7,6 +7,7 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Flasher\Laravel\Facade\Flasher;
+use Illuminate\Support\Facades\Response;
 
 class ImageController extends Controller
 {
@@ -42,13 +43,13 @@ class ImageController extends Controller
             'photos'   => 'required',
             'photos.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'student_id' => 'required|exists:students,id',
-            'student_name' => 'required|string',
+            'student_national_id' => 'required',
         ]);
 
         try {
             foreach ($request->file('photos') as $file) {
-                $name = $file->getClientOriginalName();
-                $file->storeAs('attachments/students/' . $request->student_name, $name, 'upload_attachments');
+                $name = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('attachments/students/' . $request->student_national_id, $name, 'public');
 
                 Image::create([
                     'filename'        => $name,
@@ -108,31 +109,32 @@ class ImageController extends Controller
      */
     public function destroy(Image $image, $id)
     {
-        try {
-            // $image = Image::findOrFail($id)->delete();
-            // Flasher::addError(trans('messages.success'));
+        $image = Image::findOrFail($id);
+        $studentNational_ID = $image->imageable->National_ID;
 
-            $image = Image::findOrFail($id);
-            $studentName = $image->imageable->user->name; // get student name
-            $filePath = public_path('attachments/students/' . $studentName . '/' . $image->filename);
+        $filePath = 'attachments/students/' . $studentNational_ID . '/' . $image->filename;
 
-            if (file_exists($filePath)) {
-                unlink($filePath); // delete from disk
-            }
-
-            $image->delete();
-
-            Flasher::addError(trans('messages.Delete'));
-            return redirect()->back();
-        } catch (\Exception $e) {
-            Flasher::addError($e->getMessage());
-            return redirect()->back();
+        if (Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
         }
+
+        $image->delete();
+
+        Flasher::addError(trans('messages.Delete'));
+        return redirect()->back();
     }
 
 
-    public function Download_attachment($studentsname, $filename)
+
+    public function Download_attachment($studentNationalId, $filename)
     {
-        return response()->download(public_path('attachments/students/' . $studentsname . '/' . $filename));
+        $filePath = 'attachments/students/' . $studentNationalId . '/' . $filename;
+
+        if (Storage::disk('public')->exists($filePath)) {
+            $absolutePath = Storage::disk('public')->path($filePath);
+            return Response::download($absolutePath);
+        }
+        
+        return response()->download(public_path('attachments/students/' . $studentNationalId . '/' . $filename));
     }
 }

@@ -213,27 +213,31 @@
     <div class="col-md-6">
         <div class="form-group-float position-relative ">
             <input type="text" name="name_ar"
-                class="form-control custom-input float-input @error('name_ar') is-invalid @enderror" id="studentNameAr"
-                placeholder=" "
-                @if ($Student->user) value="{{ old('name_ar', $Student->user->getTranslation('name', 'ar')) }}" @endif />
+                class="form-control custom-input float-input @error('name_ar') custom-input-error @enderror"
+                id="studentNameAr" placeholder=" "
+                value="{{ old('name_ar', $Student->user?->getTranslation('name', 'ar')) }}" />
             <label for="studentNameAr" class="float-label">{{ trans('main_trans.name_ar') }}</label>
-            @error('name_ar')
-                <div class="invalid-feedback">{{ $message }}</div>
-                <h3>{{ $message }}</h3>
-            @enderror
         </div>
+        @error('name_ar')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
 
     </div>
     <div class="col-md-6">
         <div class="form-group-float position-relative ">
-            <input type="text" name="name_en" class="form-control custom-input float-input" id="studentNameEn"
-                placeholder=" "
-                @if ($Student->user) value="{{ old('name_en', $Student->user->getTranslation('name', 'en')) }}" @endif />
-            @error('name_en')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+            <input type="text" name="name_en"
+                class="form-control custom-input float-input @error('name_en') custom-input-error @enderror"
+                id="studentNameEn" placeholder=" "
+                value="{{ old('name_en', $Student->user?->getTranslation('name', 'en')) }}" />
             <label for="studentNameEn" class="float-label">{{ trans('main_trans.name_en') }}</label>
         </div>
+        @error('name_en')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
 </div>
 
@@ -241,42 +245,66 @@
 <div class="row mb-3">
     <div class="col-md-6">
         <div class="form-group-float position-relative ">
-            <input type="text" name="National_ID" class="form-control custom-input float-input" id="studentID"
-                autocomplete="off" placeholder=" " value="{{ old('National_ID', $Teacher->National_ID ?? '') }}" />
+            <input type="number" name="National_ID"
+                class="form-control custom-input float-input @error('National_ID') custom-input-error @enderror"
+                id="studentID" autocomplete="off" placeholder=" "
+                value="{{ old('National_ID', $Student->National_ID ?? '') }}" />
             <label for="studentID" class="float-label">{{ trans('main_trans.National_ID') }}</label>
-            @error('National_ID')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div>
+        @error('National_ID')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
     <div class="col-md-6">
         <div class="form-group-float position-relative ">
-            <input type="password" name="password" class="form-control custom-input float-input" id="studentPass"
-                autocomplete="new-password" placeholder=" " />
+            <input type="password" name="password"
+                class="form-control custom-input float-input @error('password') custom-input-error @enderror"
+                id="studentPass" autocomplete="new-password" placeholder=" " />
             <label for="studentPass" class="float-label">{{ trans('main_trans.Password') }}</label>
-            @error('password')
-                <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
         </div>
+        @error('password')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
 </div>
 
 <div class="row mb-3">
-    <label for="" class="text-danger">{{ trans('Students_trans.email') }}</label>
-    <input type="email" name="email" class="form-control custom-input" id="subjectAr" placeholder=""
-        value="{{ old('email', $Student->user->email ?? '') }}" />
+    <div class="col-md-12">
+        <div class="form-group-float position-relative ">
+            <input type="email" name="email"
+                class="form-control custom-input float-input @error('email') custom-input-error @enderror"
+                id="subjectEmail" placeholder="" value="{{ old('email', $Student->user->email ?? '') }}"
+                placeholder=" " />
+            <label for="email" class="float-label">{{ trans('Students_trans.email') }}</label>
+        </div>
+        @error('email')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
+    </div>
 </div>
 
 <div class="row mb-3">
     <div class="col-md-6">
         <label for="" class="text-danger">{{ trans('main_trans.Date_of_Birth') }}</label>
-        <input type="date" name="Date_Birth" class="form-control custom-input" id="subjectAr" placeholder=""
-            value="{{ old('Date_Birth', $Student->Date_Birth) }}" />
+        <input type="date" name="Date_Birth"
+            class="form-control custom-input @error('Date_Birth') custom-input-error @enderror" id="subjectAr"
+            placeholder="" value="{{ old('Date_Birth', $Student->Date_Birth) }}" />
+        @error('Date_Birth')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
     <div class="col-md-6">
-        <label for="" class="text-danger">الجنس</label>
-        <select class="form-select custom-select" name="gender_id">
-            <option selected disabled>اختر الجنس ...</option>
+        <label for="" class="text-danger">{{ trans('Teacher_trans.Gender') }}</label>
+        <select class="form-select custom-select @error('gender_id') custom-select-error @enderror" name="gender_id">
+            <option selected disabled>{{ trans('Parent_trans.Choose') }}</option>
             @foreach ($Genders as $Gender)
                 <option value="{{ $Gender->id }}"
                     {{ old('gender_id', $Student->gender_id ?? '') == $Gender->id ? 'selected' : '' }}>
@@ -284,16 +312,19 @@
                 </option>
             @endforeach
         </select>
+        @error('gender_id')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
 </div>
 
-
-
 <div class="row mb-3">
     <div class="col-md-6">
-        <label for="" class="text-danger"> ولي الامر </label>
-        <select class="form-select custom-select" name="parent_id">
-            <option selected disabled>ولي الامر ...</option>
+        <label for="" class="text-danger">{{ trans('Students_trans.parent') }}</label>
+        <select class="form-select custom-select @error('parent_id') custom-select-error @enderror" name="parent_id">
+            <option selected disabled>{{ trans('Parent_trans.Choose') }}</option>
             @foreach ($parents as $parent)
                 <option value="{{ $parent->id }}"
                     {{ old('parent_id', $Student->parent_id) == $parent->id ? 'selected' : '' }}>
@@ -301,11 +332,16 @@
                 </option>
             @endforeach
         </select>
+        @error('parent_id')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
     <div class="col-md-6">
-        <label for="" class="text-danger">السنة الأكاديمية</label>
-        <select class="form-select custom-select @error('academic_year') is-invalid @enderror" name="academic_year"
-            id="academic_year">
+        <label for="" class="text-danger">{{ trans('Students_trans.academic_year') }}*</label>
+        <select class="form-select custom-select @error('academic_year') custom-select-error @enderror"
+            name="academic_year" id="academic_year">
             <option selected disabled>{{ trans('Students_trans.academic_year') }}</option>
             @php $current_year = date('Y'); @endphp
             @for ($year = $current_year; $year <= $current_year + 1; $year++)
@@ -318,55 +354,76 @@
                 </option>
             @endfor
         </select>
+        @error('academic_year')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
 </div>
 
 <div class="row mb-4">
     <div class="col-md-4">
-        <label for="" class="text-danger">المرحلة*</label>
-        <select class="form-select custom-select" name="Grade_id" id="Grade_id">
-            <option selected disabled>اختر المرحلة ...</option>
-             @foreach ($my_classes as $c)
+        <label for="" class="text-danger">{{ trans('main_trans.Grade') }}*</label>
+        <select class="form-select custom-select @error('Grade_id') custom-select-error @enderror" name="Grade_id"
+            id="Grade_id" data-selected-grade="{{ old('Grade_id', $Student->Grade_id ?? '') }}">
+            <option selected disabled>{{ trans('main_trans.select_grade') }}</option>
+            @foreach ($my_classes as $c)
                 <option value="{{ $c->id }}"
-                    {{ old('Grade_id', $Student->Grade_id) == $c->id ? 'selected' : '' }}>{{ $c->Name }}</option>
-                @endforeach
+                    {{ old('Grade_id', $Student->Grade_id ?? '') == $c->id ? 'selected' : '' }}>
+                    {{ $c->Name }}
+                </option>
+            @endforeach
         </select>
+        @error('Grade_id')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
     <div class="col-md-4">
-        <label for="" class="text-danger">الصف*</label>
-        <select class="form-select custom-select" id="Classroom_id" name="Classroom_id">
-            <option selected disabled>اختر الصف ...</option>
-             @if ($Student->user)
-                <option value="{{ $Student->Classroom_id }}" selected>
-                    {{ $Student->classroom->Name_Class }}
-                </option>
-                @endif
+        <label for="" class="text-danger">{{ trans('main_trans.classroom') }}*</label>
+        <select class="form-select custom-select @error('Classroom_id') custom-select-error @enderror"
+            id="Classroom_id" name="Classroom_id"
+            data-selected-classroom="{{ old('Classroom_id', $Student->Classroom_id ?? '') }}">
+            <option selected disabled>{{ trans('main_trans.select_class') }}</option>
         </select>
+        @error('Classroom_id')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
     <div class="col-md-4">
-        <label for="" class="text-danger">الشعبة*</label>
-        <select class="form-select custom-select" name="section_id"  id="section_id">
-            <option selected disabled>اختر الشعبة ...</option>
-            @if ($Student->user)
-                <option value="{{ $Student->section_id }}" selected>
-                    {{ $Student->section->Name_Section }}
-                </option>
-                @endif
+        <label for="" class="text-danger">{{ trans('Students_trans.section') }}*</label>
+        <select class="form-select custom-select @error('section_id') custom-select-error @enderror"
+            name="section_id" id="section_id"
+            data-selected-section="{{ old('section_id', $Student->section_id ?? '') }}">
+            <option selected disabled>{{ trans('main_trans.select_section') }}</option>
         </select>
+        @error('section_id')
+            <div class="error-message" id="error-bookNameArabic">
+                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+            </div>
+        @enderror
     </div>
 </div>
 
-<div class="row mb-3">
-    <div class="col-md-6">
-        <label for="" class="text-danger">صورة *</label>
-        <input type="file" class="form-control custom-input" id="subjectAr">
+@if ($formMode === 'create')
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <label for="" class="text-danger">{{ trans('Students_trans.Attachments') }}</label>
+            <input type="file" accept="image/*" name="photos[]" multiple
+                class="form-control custom-input @error('photos[]') custom-input-error @enderror" id="photos">
+            @error('photos[]')
+                <div class="error-message" id="error-bookNameArabic">
+                    <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                </div>
+            @enderror
+        </div>
     </div>
-    <div class="col-md-6">
-        <label for="" class="text-danger">مرفقات *</label>
-        <input type="file" class="form-control custom-input" id="subjectAr">
-    </div>
-</div>
+@endif
 
 <div class="text-end">
-    <button type="submit" class="btn save-btn">اضافة</button>
+    <button type="submit" class="btn save-btn">{{ trans('Students_trans.submit') }}</button>
 </div>

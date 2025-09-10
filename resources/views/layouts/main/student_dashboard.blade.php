@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -44,11 +44,8 @@
 
 <body>
     <header class="header-page bg-white shadow fixed-top">
-
         <div class="top-header-dashboard">
             <div class=" d-flex flex-wrap justify-content-between align-items-center ">
-
-
                 <div class="d-flex gap-3 flex-wrap">
                     <span class="info-item-location">{{ trans('main_trans.palestine_gaza') }}<i
                             class="fas fa-map-marker-alt"></i></span>
