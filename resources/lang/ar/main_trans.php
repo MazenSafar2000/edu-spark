@@ -166,6 +166,8 @@ return [
     'New_academic_stage' => 'المرحلة الدراسية الجديدة',
     'submit' => 'تأكيد',
     'rollback_all' => 'تراجع الكل',
+    'rollback_selected' => 'ارجاع المحدد',
+    'rollback' => 'ارجاع',
     'academic_year' => 'السنة الدراسية',
     'old_academic_year' => 'السنة الدراسية السابقة',
     'old_classroom' => 'الصف الدراسي السابق',
@@ -245,8 +247,25 @@ return [
     'join_now' => 'انضم الان',
     'mark_all_read' => 'تعليم الكل كمقروء',
 
-    'no_students' => 'لا يوجد طلاب في هذا الصف.'
+    'no_students' => 'لا يوجد طلاب في هذا الصف.',
 
+    'graduate_year' => 'سنة التخرج',
+    'sure_delete_this_graduate' => 'هل أنت متأكد أنك تريد حذف هذا الخريج ؟',
+    'reason' => 'السبب',
+    'add_specialization' => 'اضافة تخصص جديد',
+    'edit_specialization' => 'تعديل التخصص',
+    'Specialization_name_ar' => 'اسم التخصص بالعربية',
+    'Specialization_name_en' => 'اسم التخصص بالانجليزية',
+    'edit_teacher' => 'تعديل بيانات المدرس',
+    'Address' => 'العنوان',
+
+    'teacher_information' => 'بيانات المعلم',
+    'his_sections' => 'الصفوف الخاصة به',
+    'edit_parent' => 'تعديل بيانات ولي الامر',
+    'Subjects_name_ar' => 'اسم المادة الدراسية بالعربية',
+    'Subjects_name_en' => 'اسم المادة الدراسية بالانجليزية',
+    'view_teachers' => 'عرض المعلمين',
+    'view_students' => 'عرض الطلاب',
 
 
 

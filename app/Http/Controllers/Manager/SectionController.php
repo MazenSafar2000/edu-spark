@@ -168,7 +168,7 @@ class SectionController extends Controller
     public function StudentsSection($id)
     {
         $section = Section::findOrFail($id);
-        $students = Student::where('section_id', $id)->get();
+        $students = Student::where('section_id', $id)->paginate(20);
 
         return view('pages.Manager.Sections.studentsSection', compact('students', 'section'));
     }

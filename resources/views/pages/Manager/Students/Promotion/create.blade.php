@@ -6,7 +6,13 @@
 
         <div class="container my-4">
             <div class="card custom-form-card">
-                @include('components.error-field')
+                @if (Session::has('error_promotions'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            <li><strong>{{ Session::get('error_promotions') }}</strong></li>
+                        </ul>
+                    </div>
+                @endif
                 <div class="card-body">
                     <form class="subject-form" method="post" action="{{ route('Promotion.store') }}">
                         @csrf
@@ -16,8 +22,7 @@
                             <div class="row g-3">
                                 <div class="col-md-3">
                                     <label for="Grade_id" class="text-danger">{{ trans('Students_trans.Grade') }}*</label>
-                                    <select
-                                        class="form-select custom-select @error('Grade_id') is-invalid @enderror"
+                                    <select class="form-select custom-select @error('Grade_id') is-invalid @enderror"
                                         name="Grade_id" id="Grade_id" required>
                                         <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
                                         @foreach ($Grades as $Grade)
@@ -33,8 +38,7 @@
                                 <div class="col-md-3">
                                     <label for="Classroom_id"
                                         class="text-danger">{{ trans('Students_trans.classrooms') }}*</label>
-                                    <select
-                                        class="form-select custom-select @error('Classroom_id') is-invalid @enderror"
+                                    <select class="form-select custom-select @error('Classroom_id') is-invalid @enderror"
                                         name="Classroom_id" id="Classroom_id" required>
                                         <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
                                     </select>
@@ -47,8 +51,7 @@
                                 <div class="col-md-3">
                                     <label for="section_id"
                                         class="text-danger">{{ trans('Students_trans.section') }}*</label>
-                                    <select
-                                        class="form-select custom-select  @error('section_id') is-invalid @enderror"
+                                    <select class="form-select custom-select  @error('section_id') is-invalid @enderror"
                                         name="section_id" id="section_id" required>
                                         <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
                                     </select>
@@ -89,8 +92,7 @@
                                 <div class="col-md-3">
                                     <label for="Grade_id_new"
                                         class="text-danger">{{ trans('Students_trans.Grade') }}*</label>
-                                    <select
-                                        class="form-select custom-select @error('Grade_id_new') is-invalid @enderror"
+                                    <select class="form-select custom-select @error('Grade_id_new') is-invalid @enderror"
                                         name="Grade_id_new" id="Grade_id_new" required>
                                         <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
                                         @foreach ($Grades as $Grade)

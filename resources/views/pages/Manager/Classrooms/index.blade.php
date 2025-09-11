@@ -4,11 +4,12 @@
             {{ trans('main_trans.add_class') }}
         </a>
 
-        <input type="search" class="form-control search-input" placeholder="ابحث ...">
+        <input type="search" id="classSearch" class="form-control search-input"
+            placeholder="{{ trans('main_trans.search') }}">
     </div>
     <div class="table-responsive">
-        <table class="table text-center custom-user-table">
-            <thead class="thead-user">
+        <table class=" text-center manager-grade-table" id="classroomsTable">
+            <thead class="thead-manager">
                 <tr>
                     <th>#</th>
                     <th>{{ trans('My_Classes_trans.Name_class') }}</th>
@@ -22,27 +23,26 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $Classroom->Name_Class }}</td>
                         <td>{{ $Classroom->Grades->Name }}</td>
-                        <td class="position-relative">
+                        <td>
                             <div class="dropdown">
-                                <button class="btn operations-btn dropdown-toggle" type="button"
-                                    id="operationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="dropdown-toggle operations-btn" data-bs-toggle="dropdown">
                                     {{ trans('main_trans.operations') }}
                                 </button>
-                                <ul class="dropdown-menu operations-dropdown text-end"
-                                    aria-labelledby="operationsDropdown">
-
+                                <ul class="dropdown-menu operations-btn-item">
                                     <li>
                                         <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
                                             href="#" data-bs-toggle="modal"
                                             data-bs-target="#editClassModal{{ $Classroom->id }}">
-                                            <i class="fas fa-edit text-primary"></i> {{ trans('main_trans.edit') }}
+                                            <i class="fas fa-edit action-icon edit-icon-action"></i>
+                                            {{ trans('main_trans.edit') }}
                                         </a>
                                     </li>
+
                                     <li>
                                         <a class="dropdown-item d-flex align-items-center gap-2" href="#"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteModalClassroom{{ $Classroom->id }}">
-                                            <i class="fas fa-trash-alt text-danger"></i>
+                                            <i class="fas fa-trash-alt action-icon delete-icon-action"></i>
                                             {{ trans('main_trans.delete') }}
                                         </a>
                                     </li>
@@ -75,7 +75,10 @@
                             @csrf
                             @method('PUT')
 
-                            @include('forms._form-classroom', ['formMode' => 'edit', 'classroom' => $Classroom])
+                            @include('forms._form-classroom', [
+                                'formMode' => 'edit',
+                                'classroom' => $Classroom,
+                            ])
                             <!-- التذييل -->
                             <div class="modal-footer custom-modal-footer">
                                 <button type="submit"
@@ -96,26 +99,28 @@
         <div class="modal fade" id="deleteModalClassroom{{ $Classroom->id }}" tabindex="-1"
             aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered"> <!-- يجعل المودال بالنص -->
-                <form action="{{ route('Classrooms.destroy', $Classroom->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                    </div>
+                    <form id="deleteClassForm{{ $Classroom->id }}"
+                        action="{{ route('Classrooms.destroy', $Classroom->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
 
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="{{ trans('Grades_trans.Close') }}"></button>
-                        </div>
                         <div class="modal-body text-center">
                             <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
                             <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
                         </div>
-                        <div class="modal-footer justify-content-center">
-                            <button type="submit" class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
-                            <button type="button" class="btn btn-cancel"
-                                data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
-                        </div>
+                    </form>
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" form="deleteClassForm{{ $Classroom->id }}"
+                            class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                        <button type="button" class="btn btn-cancel"
+                            data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     @endforeach
@@ -150,11 +155,7 @@
 
                     </form>
                 </div>
-
-
-
             </div>
         </div>
     </div>
-
 </div>

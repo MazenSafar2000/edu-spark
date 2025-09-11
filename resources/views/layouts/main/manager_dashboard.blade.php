@@ -203,12 +203,12 @@
                 <ul id="studentsMenu" class="collapse list-unstyled ps-4 mt-2">
                     <li><a href="{{ route('Students.index') }}">{{ trans('main_trans.Students') }}</a></li>
                     <li><a href="{{route('Promotion.index')}}">{{trans('main_trans.Students_Promotions')}}</a></li>
-                    <li><a href="manager-graduated.html">الخريجين</a></li>
+                    <li><a href="{{route('Graduate.index')}}">{{trans('main_trans.Grades_list')}}</a></li>
                     {{-- <li><a href="manager-std-record.html">السجل</a></li> --}}
                 </ul>
             </li>
 
-            <li class="dropdown-sidebar">
+            {{-- <li class="dropdown-sidebar">
                 <a href="#" class="dropdown-toggle-custom d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#techaersMenu" aria-expanded="false">
 
@@ -224,6 +224,13 @@
                     <li><a href="manager-teacher.html">{{ trans('main_trans.All_Teachers') }}</a></li>
                     <li><a href="manager-teacher-record.html">{{ trans('main_trans.history') }}</a></li>
                 </ul>
+            </li> --}}
+
+            <li>
+                <a href="{{ route('Teachers.index') }}">
+                    <span>{{ trans('main_trans.Current_Teachers') }}</span>
+                    <i class="fas fa-user-shield"></i>
+                </a>
             </li>
 
 

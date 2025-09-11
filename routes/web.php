@@ -61,6 +61,8 @@ Route::group(
 
                 Route::resource('Teachers', 'TeacherController');
                 Route::get('Teachers/Classes/{id}', 'TeacherController@TeacherClasses')->name('TeachersClasses');
+                Route::get('/section-materials/{teacherId}/{sectionId}', 'TeacherController@showSectionMaterials')
+                    ->name('teacher.section.data');
                 Route::resource('Grades', 'GradeController');
                 Route::resource('Classrooms', 'ClassroomController');
                 Route::resource('Parents', 'ParentController');
@@ -74,9 +76,15 @@ Route::group(
                 Route::resource('Images', 'ImageController');
 
                 Route::resource('Promotion', 'PromotionController');
+
+                Route::resource('Graduate', 'GraduatedController');
+                Route::post('/Graduated/one/{studentId}', 'GraduatedController@graduateOne')->name('Graduated.one');
+                Route::post('/promotions/rollback-selected', [PromotionController::class, 'rollbackSelected'])
+                    ->name('Promotion.rollbackSelected');
             });
 
-            Route::view('add_parent', 'livewire.add-parent')->name('add_parent');
+            // Route::view('add_parent', 'livewire.add-parent')->name('add_parent');
+
         });
 
         Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])

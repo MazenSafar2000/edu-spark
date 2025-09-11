@@ -1,6 +1,5 @@
 @extends('layouts.main.manager_dashboard')
 @section('manager_content')
-
     <!-- المحتوى الرئيسي -->
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <!-- التبويبات -->
@@ -28,12 +27,12 @@
                         <a href="#" data-bs-toggle="modal" data-bs-target="#addStageModal">
                             {{ trans('main_trans.add_grade') }}
                         </a>
-                        <input type="search" class="form-control search-input"
+                        <input type="search" id="stageSearch" class="form-control search-input"
                             placeholder="{{ trans('main_trans.search') }}">
                     </div>
                     <div class="table-responsive">
-                        <table class="table text-center custom-user-table">
-                            <thead class="thead-user">
+                        <table class=" text-center manager-grade-table" id="stagesTable">
+                            <thead class="thead-manager">
                                 <tr>
                                     <th>#</th>
                                     <th>{{ trans('Grades_trans.Name') }}</th>
@@ -41,41 +40,40 @@
                                     <th>{{ trans('Grades_trans.Processes') }}</th>
                                 </tr>
                             </thead>
-                            @foreach ($Grades as $Grade)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $Grade->Name }}</td>
-                                    <td>{{ $Grade->Notes }}</td>
-                                    <td class="position-relative">
-                                        <div class="dropdown">
-                                            <button class="btn operations-btn dropdown-toggle" type="button"
-                                                id="operationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                {{ trans('main_trans.operations') }}
-                                            </button>
-                                            <ul class="dropdown-menu operations-dropdown text-end"
-                                                aria-labelledby="operationsDropdown">
+                            <tbody>
+                                @foreach ($Grades as $Grade)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $Grade->Name }}</td>
+                                        <td>{{ $Grade->Notes }}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="dropdown-toggle operations-btn" data-bs-toggle="dropdown">
+                                                    {{ trans('main_trans.operations') }}
+                                                </button>
+                                                <ul class="dropdown-menu operations-btn-item">
+                                                    <li>
+                                                        <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
+                                                            href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#editStageModal{{ $Grade->id }}">
+                                                            <i class="fas fa-edit action-icon edit-icon-action"></i>
+                                                            {{ trans('main_trans.edit') }}
+                                                        </a>
+                                                    </li>
 
-                                                <li>
-                                                    <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
-                                                        href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#editStageModal{{ $Grade->id }}">
-                                                        <i class="fas fa-edit text-primary"></i>
-                                                        {{ trans('main_trans.edit') }}
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item d-flex align-items-center gap-2" href="#"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#deleteGradeModal{{ $Grade->id }}">
-                                                        <i class="fas fa-trash-alt text-danger"></i>
-                                                        {{ trans('main_trans.delete') }}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                                    <li>
+                                                        <a class="dropdown-item d-flex align-items-center gap-2"
+                                                            href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#deleteGradeModal{{ $Grade->id }}">
+                                                            <i class="fas fa-trash-alt action-icon delete-icon-action"></i>
+                                                            {{ trans('main_trans.delete') }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -128,26 +126,28 @@
             <div class="modal fade" id="deleteGradeModal{{ $Grade->id }}" tabindex="-1"
                 aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <form action="{{ route('Grades.destroy', $Grade->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                        </div>
+                        <form id="deleteStageForm{{ $Grade->id }}" action="{{ route('Grades.destroy', $Grade->id) }}"
+                            method="POST">
+                            @csrf
+                            @method('DELETE')
 
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="{{ trans('Grades_trans.Close') }}"></button>
-                            </div>
                             <div class="modal-body text-center">
                                 <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
                                 <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
                             </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
-                                <button type="button" class="btn btn-cancel"
-                                    data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
-                            </div>
+                        </form>
+                        <div class="modal-footer justify-content-center">
+                            <button type="submit" form="deleteStageForm{{ $Grade->id }}"
+                                class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                            <button type="button" class="btn btn-cancel"
+                                data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         @endforeach
@@ -182,10 +182,59 @@
                         <button type="button" class="btn btn-secondary custom-cancel-btn"
                             data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
+
+    {{-- search input code --}}
+    <script>
+        document.getElementById('stageSearch').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const table = document.getElementById('stagesTable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const cells = Array.from(row.cells).map(td => td.textContent.toLowerCase());
+                const match = cells.some(cell => cell.includes(searchValue));
+                row.style.display = match ? '' : 'none';
+            });
+        });
+
+        document.getElementById('classSearch').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const table = document.getElementById('classroomsTable');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const cells = Array.from(row.cells).map(td => td.textContent.toLowerCase());
+                const match = cells.some(cell => cell.includes(searchValue));
+                row.style.display = match ? '' : 'none';
+            });
+        });
+    </script>
+@endsection
+@section('js')
+    <script>
+        $(function() {
+            // ===== Old Academic Stage =====
+            $('select[name="Grade_id"]').on('change', function() {
+                let gradeId = $(this).val();
+                let $classroom = $('select[name="Class_id"]');
+
+                $classroom.empty().append(
+                    '<option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>');
+
+                if (gradeId) {
+                    $.get("{{ url('/ajax/classrooms') }}/" + gradeId, function(data) {
+                        $.each(data, function(id, name) {
+                            $classroom.append(`<option value="${id}">${name}</option>`);
+                        });
+                    }).fail(function(xhr) {
+                        console.error('Error loading classrooms', xhr.responseText);
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

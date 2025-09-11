@@ -3,103 +3,116 @@
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <h3 class="manager-header">Students table "{{ $section->My_classs->Grades->Name }} -
             {{ $section->My_classs->Name_Class }} - {{ $section->Name_Section }} "</h3>
+        <div class="title-underline-manager"></div>
+
         <div class="table-users mt-5">
             <!-- المحتوى -->
             <div class="table-content tab-content" id="myTabContent">
                 <!-- الطلاب -->
-                <div class="tab-pane fade show active" id="students" role="tabpanel">
+                <div class="tab-pane fade show active" role="tabpanel">
                     <div class="header-table">
-                        <a class="btn" data-bs-toggle="modal"
-                            data-bs-target="#addteacherModal">{{ trans('main_trans.add_teacher') }}</a>
+                        <a href="#" data-bs-toggle="modal"
+                            data-bs-target="#addTeacherSectionModal">{{ trans('main_trans.add_teacher') }}</a>
                         <input type="search" id="studentSearch" class="form-control search-input"
                             placeholder="{{ trans('main_trans.search') }}">
                     </div>
-                    <div class="table-responsive">
-                        <table class="table text-center custom-user-table" id="datatable">
-                            <thead class="thead-user">
+                    <div class="table-responsive manager-table-wrapper">
+                        @include('components.error-field')
+                        <table class="text-center manager-grade-table" id="datatable">
+                            <thead class="thead-manager">
                                 <tr>
                                     <th>#</th>
                                     <th>{{ trans('Teacher_trans.Name_Teacher') }}</th>
                                     <th>{{ trans('Students_trans.subject') }}</th>
-                                    <th>{{ trans('Students_trans.Processes') }}</th>
+                                    <th>{{ trans('main_trans.operations') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($sectionTeachers as $teacher)
                                     <tr>
-                                        <td>{{ $loop->iteration  }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $teacher->teacher->user->name }}</td>
-                                        <td>{{ $teacher->subject->name  }}</td>
-                                        <td class="position-relative">
-                                            <div class="dropdown">
-                                                <button class="btn operations-btn dropdown-toggle" type="button"
-                                                    id="operationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    {{ trans('main_trans.operations') }}
-                                                </button>
-                                                <ul class="dropdown-menu operations-dropdown text-end"
-                                                    aria-labelledby="operationsDropdown">
-                                                    <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2"
-                                                            href="{{ route('Students.edit', $teacher->id) }}">
-                                                            <i class="fas fa-edit text-primary"></i>
-                                                            {{ trans('main_trans.edit') }}
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2"
-                                                            href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#deleteModal{{ $teacher->id }}">
-                                                            <i class="fas fa-trash-alt text-danger"></i>
-                                                            {{ trans('main_trans.delete') }}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                        <td>{{ $teacher->subject->name }}</td>
+                                        <td>
+                                            <a class="d-flex align-items-center gap-2" href="#"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $teacher->id }}"><i
+                                                    class="fas fa-trash-alt action-icon delete-icon-action"></i></a>
                                         </td>
+                                    </tr>
+
+                                    <!-- Modal حذف المعلم -->
+                                    <div class="modal fade" id="deleteModal{{ $teacher->id }}" tabindex="-1"
+                                        aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered"> <!-- يجعل المودال بالنص -->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                                </div>
+                                                <form id="{{ $teacher->id }}"
+                                                    action="{{ route('TeacherSections.destroy', $teacher->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-body text-center">
+                                                        <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                                                        <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                                    </div>
+                                                </form>
+                                                <div class="modal-footer justify-content-center">
+                                                    <button type="submit" form="{{ $teacher->id }}"
+                                                        class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                    <button type="button" class="btn btn-cancel"
+                                                        data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
                             </tbody>
                         </table>
 
-                    </div>
-                </div>
+                        <!-- مودال اضافة معلم للشعبة -->
+                        <div class="modal fade custom-modal" id="addTeacherSectionModal" tabindex="-1"
+                            aria-labelledby="addTeacherSectionModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
+                                <div class="modal-content custom-modal-content">
 
-            </div>
-        </div>
+                                    <!-- رأس المودال -->
+                                    <div class="modal-header custom-modal-header">
+                                        <h5 class="modal-title custom-modal-title" id="addTeacherSectionModalLabel">
+                                            {{ trans('main_trans.add_teacher') }}</h5>
+                                    </div>
 
-        <!-- add teacherSection modal -->
-        <div class="modal fade custom-modal" id="addteacherModal" tabindex="-1" aria-labelledby="addStageModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
-                <div class="modal-content custom-modal-content">
+                                    <!-- جسم المودال -->
+                                    <div class="modal-body custom-modal-body">
+                                        <form id="sectionTeachersModal" action="{{ route('TeacherSections.store') }}"
+                                            method="POST" class="custom-form">
+                                            @csrf
 
-                    <!-- رأس المودال -->
-                    <div class="modal-header custom-modal-header">
-                        <h5 class="modal-title custom-modal-title" id="addStageModalLabel">
-                            {{ trans('main_trans.add_teacher') }}
-                        </h5>
-                    </div>
+                                            @include('forms._form-teacherSection')
 
-                    <!-- جسم المودال -->
-                    <div class="modal-body custom-modal-body">
-                        <form action="{{ route('TeacherSections.store') }}" method="POST">
-                            @csrf
-
-                            @include('forms._form-teacherSection')
-
-                            <div class="modal-footer custom-modal-footer">
-                                <button type="submit"
-                                    class="btn btn-primary custom-save-btn">{{ trans('Grades_trans.submit') }}</button>
-                                <button type="button" class="btn btn-secondary custom-cancel-btn"
-                                    data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                        </form>
+                                        <!-- تذييل المودال -->
+                                        <div class="modal-footer custom-modal-footer-manager">
+                                            <button type="submit" form="sectionTeachersModal"
+                                                class="btn btn-primary custom-save-btn"
+                                                form="stageForm">{{ trans('main_trans.submit') }}</button>
+                                            <button type="button" class="btn btn-secondary custom-cancel-btn"
+                                                data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </form>
+                        </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
 
     </div>
-
 
     {{-- search input code --}}
     <script>

@@ -14,6 +14,7 @@ class Teacher extends Model
     use Notifiable;
 
     protected $fillable = [
+        'Name',
         'Gender_id',
         'Specialization_id',
         'Joining_Date',

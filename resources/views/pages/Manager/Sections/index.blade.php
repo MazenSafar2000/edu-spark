@@ -3,7 +3,6 @@
         <a href="#" data-bs-toggle="modal" data-bs-target="#addSectionModal">
             {{ trans('main_trans.add_section') }}
         </a>
-        <input type="search" class="form-control search-input" placeholder="{{ trans('main_trans.search') }}">
     </div>
 
     <div class="container my-4">
@@ -26,8 +25,8 @@
                         aria-labelledby="headingPrimary{{ $Grade->id }}" data-bs-parent="#stageAccordion">
                         <div class="accordion-body p-0">
                             <div class="table-responsive">
-                                <table class="table text-center custom-user-table mb-0">
-                                    <thead class="thead-user">
+                                <table class=" text-center manager-grade-table">
+                                    <thead class="thead-manager">
                                         <tr>
                                             <th>#</th>
                                             <th>{{ trans('Sections_trans.Name_Section') }}</th>
@@ -40,56 +39,60 @@
                                         @foreach ($Grade->Classrooms as $Classroom)
                                             @foreach ($Classroom->sections as $Section)
                                                 <tr>
-                                                    <td>{{ $loop->iteration  }}</td>
+                                                    <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $Section->Name_Section }}</td>
                                                     <td>{{ $Section->My_classs->Name_Class }}</td>
                                                     <td>
                                                         @if ($Section->Status === 1)
                                                             <label
-                                                                class="badge badge-success text-success">{{ trans('Sections_trans.Status_Section_AC') }}</label>
+                                                                class="badge bg-success">{{ trans('Sections_trans.Status_Section_AC') }}</label>
                                                         @else
                                                             <label
-                                                                class="badge badge-danger text-danger">{{ trans('Sections_trans.Status_Section_No') }}</label>
+                                                                class="badge bg-danger">{{ trans('Sections_trans.Status_Section_No') }}</label>
                                                         @endif
 
                                                     </td>
-                                                    </td>
-                                                    <td class="position-relative">
+                                                    <td>
                                                         <div class="dropdown">
-                                                            <button class="btn operations-btn dropdown-toggle"
-                                                                type="button" id="operationsDropdown1"
-                                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <button class="dropdown-toggle operations-btn"
+                                                                data-bs-toggle="dropdown">
                                                                 {{ trans('main_trans.operations') }}
                                                             </button>
-                                                            <ul class="dropdown-menu operations-dropdown text-end"
-                                                                aria-labelledby="operationsDropdown1">
+                                                            <ul class="dropdown-menu operations-btn-item">
+                                                                <li>
+                                                                    <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
+                                                                        href="{{ route('teachersSection', $Section->id) }}">
+                                                                        <i
+                                                                            class="fas fa-eye action-icon edit-icon-action"></i>
+                                                                        {{ trans('main_trans.view_teachers') }}
+                                                                    </a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
+                                                                        href="{{ route('studentsSection', $Section->id) }}">
+                                                                        <i
+                                                                            class="fas fa-users students-icon action-icon std-icon-action"></i>
+                                                                        {{ trans('main_trans.view_students') }}
+                                                                    </a>
+                                                                </li>
+
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
                                                                         href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#editSectionModal{{ $Section->id }}">
-                                                                        <i class="fas fa-edit text-primary"></i>
+                                                                        <i
+                                                                            class="fas fa-edit action-icon edit-icon-action"></i>
                                                                         {{ trans('main_trans.edit') }}
                                                                     </a>
                                                                 </li>
-                                                                <li>
-                                                                    <a href="{{ route('teachersSection', $Section->id) }}"
-                                                                        class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn">
-                                                                        <i class="fa-solid fa-eye text-success"></i>
-                                                                        {{ trans('main_trans.view_teachers') }}
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="{{ route('studentsSection', $Section->id) }}"
-                                                                        class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn">
-                                                                        <i class="fa-solid fa-eye text-success"></i>
-                                                                        {{ trans('main_trans.view_students') }}
-                                                                    </a>
-                                                                </li>
+
                                                                 <li>
                                                                     <a class="dropdown-item d-flex align-items-center gap-2"
                                                                         href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#deleteModalSection{{ $Section->id }}">
-                                                                        <i class="fas fa-trash-alt text-danger"></i>
+                                                                        <i
+                                                                            class="fas fa-trash-alt action-icon delete-icon-action"></i>
                                                                         {{ trans('main_trans.delete') }}
                                                                     </a>
                                                                 </li>
@@ -157,7 +160,8 @@
                                     aria-label="{{ trans('main_trans.close') }}"></button>
                             </div>
 
-                            <form action="{{ route('Sections.destroy', $Section->id) }}" method="POST">
+                            <form id="deleteSectionForm{{ $Section->id }}"
+                                action="{{ route('Sections.destroy', $Section->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
 
@@ -165,14 +169,13 @@
                                     <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
                                     <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
                                 </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="submit"
-                                        class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
-                                    <button type="button" class="btn btn-cancel"
-                                        data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
-                                </div>
                             </form>
-
+                            <div class="modal-footer justify-content-center">
+                                <button type="submit" form="deleteSectionForm{{ $Section->id }}"
+                                    class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                <button type="button" class="btn btn-cancel"
+                                    data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -214,33 +217,3 @@
         </div>
     </div>
 </div>
-
-
-<script>
-    $(document).ready(function() {
-        $('select[name="Grade_id"]').on('change', function() {
-            var Grade_id = $(this).val();
-            if (Grade_id) {
-                $.ajax({
-                    url: "{{ URL::to('Get_classrooms') }}/" + Grade_id,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        $('select[name="Class_id"]').empty();
-                        $('select[name="Class_id"]').append(
-                            "<option selected disabled >{{ trans('Parent_trans.Choose') }}...</option>"
-                        );
-                        $.each(data, function(key, value) {
-                            $('select[name="Class_id"]').append(
-                                '<option value="' + key + '">' + value +
-                                '</option>');
-                        });
-
-                    },
-                });
-            } else {
-                console.log('AJAX load did not work');
-            }
-        });
-    });
-</script>

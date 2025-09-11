@@ -163,6 +163,8 @@ return [
     'Old_school_stage' => 'Old school stage',
     'New_academic_stage' => 'New academic stage',
     'rollback_all' => 'Rollback All',
+    'rollback_selected' => 'Rollback Selected',
+    'rollback' => 'Rollback',
     'academic_year' => 'Academic Year',
     'old_academic_year' => 'Old Academic Year',
     'old_classroom' => 'Old Clssroom',
@@ -245,8 +247,23 @@ return [
     'join_now' => 'Join Now',
     'mark_all_read' => 'mark all as read',
 
-    'no_students' => 'There are no students in this class.'
-
+    'no_students' => 'There are no students in this class.',
+    'graduate_year' => 'Graduate Year',
+    'sure_delete_this_graduate' => 'Are You Sure Of Deleting This Graduated Student ?',
+    'reason' => 'Reason',
+    'add_specialization' => 'Add New Specialization',
+    'edit_specialization' => 'Edit Specialization',
+    'Specialization_name_ar' => 'Specialization Name ar',
+    'Specialization_name_en' => 'Specialization Name en',
+    'edit_teacher' => 'Edit Teacher',
+    'Address' => 'Address',
+    'teacher_information' => 'Teacher Information',
+    'his_sections' => 'His Classes',
+    'edit_parent' => 'Edit Parent',
+    'Subjects_name_ar' => 'Subjects name ar',
+    'Subjects_name_en' => 'Subjects name en',
+    'view_teachers' => 'view teachers',
+    'view_students' => 'view students',
 
 
 

@@ -4,9 +4,16 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gender;
+use App\Models\Homework;
+use App\Models\Library;
+use App\Models\Online_class;
 use App\Models\QuestionsBank;
+use App\Models\Recorded_class;
+use App\Models\SectionExam;
 use App\Models\Specialization;
+use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\Teacher_section;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -24,8 +31,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $Teachers = Teacher::paginate(10);
-        $Specializations = Specialization::paginate(10);
+        $Teachers = Teacher::paginate(20);
+        $Specializations = Specialization::paginate(20);
         return view('pages.Manager.Teachers.index', compact('Teachers', 'Specializations'));
     }
 
@@ -108,7 +115,17 @@ class TeacherController extends Controller
      */
     public function show($id)
     {
-        //
+        $teacher = Teacher::findOrFail($id);
+
+        $sectionCount = $teacher->sections()->count();
+        $studentCount = Student::whereIn('section_id', $teacher->sections->pluck('id'))->count();
+
+        // استدعاء Teacher_section مع العلاقات المطلوبة
+        $sections = $teacher->teacherSections()
+            ->with(['section.students', 'section.My_classs.Grades', 'subject'])
+            ->get();
+
+        return view('pages.Manager.Teachers.view', compact('teacher', 'sectionCount', 'studentCount', 'sections'));
     }
 
     /**
@@ -190,11 +207,64 @@ class TeacherController extends Controller
         return redirect()->route('Teachers.index');
     }
 
-    public function TeacherClasses($id)
+    public function showSectionMaterials($teacherId, $teacherSectionId)
     {
-        $teacher = Teacher::findOrFail($id);
-        $classes = $teacher->Sections;
+        $teacherSection = Teacher_section::with(['section.students', 'subject'])
+            ->where('teacher_id', $teacherId)
+            ->findOrFail($teacherSectionId);
 
-        return view('pages.Manager.Teachers.teacherClasses', compact('teacher', 'classes'));
+        $section_id = $teacherSection->section_id;
+        $subject_id = $teacherSection->subject_id;
+        $teacher_id = $teacherSection->teacher_id;
+
+        // استدعاء كل المواد
+        $books = Library::where(compact('teacher_id', 'section_id', 'subject_id'))->get();
+        $homeworks = Homework::where(compact('teacher_id', 'section_id', 'subject_id'))->get();
+        $exams = SectionExam::where('section_id', $section_id)->get();
+        $recorded = Recorded_class::where(compact('teacher_id', 'section_id', 'subject_id'))->get();
+        $online = Online_class::where(compact('teacher_id', 'section_id', 'subject_id'))->get();
+
+        // دمج كل المواد في Collection واحد
+        $materials = collect()
+            ->merge($books->map(fn($item) => [
+                'type' => 'book',
+                'title' => $item->title,
+                'created_at' => $item->created_at,
+                'data' => $item,
+            ]))
+            ->merge($homeworks->map(fn($item) => [
+                'type' => 'homework',
+                'title' => $item->title,
+                'created_at' => $item->created_at,
+                'data' => $item,
+            ]))
+            ->merge($exams->map(fn($item) => [
+                'type' => 'exam',
+                'title' => $item->exams->name,
+                'created_at' => $item->created_at,
+                'data' => $item,
+                'exam_id' => $item->exam_id,
+                'section_exam_id' => $item->id,
+            ]))
+
+            ->merge($recorded->map(fn($item) => [
+                'type' => 'recorded',
+                'title' => $item->title,
+                'created_at' => $item->created_at,
+                'data' => $item,
+            ]))
+            ->merge($online->map(fn($item) => [
+                'type' => 'online',
+                'title' => $item->topic,
+                'created_at' => $item->created_at,
+                'data' => $item,
+            ]))
+            ->sortByDesc('created_at')
+            ->values();
+
+        return view('pages.Manager.Teachers.TeacherSection.section-materials', [
+            'teacher_section' => $teacherSection,
+            'materials' => $materials
+        ]);
     }
 }

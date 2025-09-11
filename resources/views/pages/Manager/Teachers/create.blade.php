@@ -2,6 +2,7 @@
 @section('manager_content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <h3 class="manager-header-form">{{ trans('main_trans.add_teacher') }}</h3>
+        <div class="title-underline"></div>
 
         <div class="container mt-4">
             <div class="card custom-form-card">

@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Sections;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Grade;
-use App\Models\Teacher;
+use App\Models\Graduate;
 use Illuminate\Http\Request;
 
-class SectionController extends Controller
+class GraduateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +14,7 @@ class SectionController extends Controller
      */
     public function index()
     {
-        $Grades = Grade::with(['Sections'])->get();
-        $list_Grades = Grade::all();
-        $teachers = Teacher::all();
-        return view('pages.Manager.Sections.index', compact('Grades', 'list_Grades', 'teachers'));
+        //
     }
 
     /**
@@ -46,10 +41,10 @@ class SectionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Graduate  $graduate
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Graduate $graduate)
     {
         //
     }
@@ -57,10 +52,10 @@ class SectionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Graduate  $graduate
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Graduate $graduate)
     {
         //
     }
@@ -69,10 +64,10 @@ class SectionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Graduate  $graduate
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Graduate $graduate)
     {
         //
     }
@@ -80,10 +75,10 @@ class SectionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Graduate  $graduate
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Graduate $graduate)
     {
         //
     }

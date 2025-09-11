@@ -63,7 +63,7 @@ class PromotionController extends Controller
 
             if ($students->count() < 1) {
                 Flasher::addError(trans('main_trans.no_students'));
-                return redirect()->back()->withErrors(trans('main_trans.no_students'));
+                return redirect()->back()->with('error_promotions', trans('main_trans.no_students'));
             }
 
             // update in table student
@@ -93,7 +93,7 @@ class PromotionController extends Controller
             }
             DB::commit();
             Flasher::addSuccess(trans('messages.success'));
-            return redirect()->back();
+            return redirect()->route('Promotion.index');
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -141,8 +141,57 @@ class PromotionController extends Controller
      * @param  \App\Models\Promotion  $promotion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Promotion $promotion)
+    public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            $Promotion = Promotion::findorfail($id);
+            student::where('id', $Promotion->student_id)
+                ->update([
+                    'Grade_id' => $Promotion->from_grade,
+                    'Classroom_id' => $Promotion->from_classroom,
+                    'section_id' => $Promotion->from_section,
+                    'academic_year' => $Promotion->academic_year,
+                ]);
+
+            Promotion::destroy($id);
+            DB::commit();
+
+            Flasher::addSuccess(trans('messages.Delete'));
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function rollbackSelected(Request $request)
+    {
+        $ids = explode(',', $request->promotion_ids);
+
+        DB::beginTransaction();
+        try {
+            foreach ($ids as $id) {
+                $promotion = Promotion::findOrFail($id);
+
+                Student::where('id', $promotion->student_id)
+                    ->update([
+                        'Grade_id'      => $promotion->from_grade,
+                        'Classroom_id'  => $promotion->from_classroom,
+                        'section_id'    => $promotion->from_section,
+                        'academic_year' => $promotion->academic_year,
+                    ]);
+
+                $promotion->delete();
+            }
+
+            DB::commit();
+            Flasher::addSuccess(trans('messages.success'));
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

@@ -1,105 +1,5 @@
 @extends('layouts.main.manager_dashboard')
 @section('manager_content')
-    {{-- <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
-        <h3 class="manager-header">جدول المعلمين</h3>
-
-        <ul class="nav nav-tabs mb-3 nav-std" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="students-tab" data-bs-toggle="tab" data-bs-target="#teachers"
-                    type="button" role="tab">المعلمين</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="teachers-tab" data-bs-toggle="tab" data-bs-target="#specialization"
-                    type="button" role="tab">التخصصات</button>
-            </li>
-
-        </ul>
-
-
-        <div class="table-users mt-5">
-            <!-- المحتوى -->
-            <div class="table-content tab-content" id="myTabContent">
-                <!-- الطلاب -->
-                <div class="tab-pane fade show active" role="tabpanel">
-                    <div class="header-table">
-                        <a href="{{ route('Teachers.create') }}" class="btn">{{ trans('main_trans.add_teacher') }}</a>
-                        <input type="search" class="form-control" placeholder="{{ trans('main_trans.search') }}">
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table text-center custom-user-table">
-                            <thead class="thead-user">
-                                <tr>
-                                    <th>#</th>
-                                    <th>{{ trans('Teacher_trans.Name_Teacher') }}</th>
-                                    <th>{{ trans('Teacher_trans.Gender') }}</th>
-                                    <th>{{ trans('Teacher_trans.Joining_Date') }}</th>
-                                    <th>{{ trans('Teacher_trans.specialization') }}</th>
-                                    <th>{{ trans('Teacher_trans.operations') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($Teachers as $Teacher)
-                                    <tr>
-                                        <td>{{ $loop->iteration  }}</td>
-                                        <td>{{ $Teacher->user->name }}</td>
-                                        <td>{{ $Teacher->genders->Name }}</td>
-                                        <td>{{ $Teacher->Joining_Date }}</td>
-                                        <td>{{ $Teacher->specializations->Name }}</td>
-                                        <td>
-                                            <a href="{{ route('Teachers.show', $Teacher->id) }}"><i
-                                                    class="fa-solid fa-eye action-icon eye-icon-action"
-                                                    title="{{ trans('main_trans.show_details') }}"></i></a>
-                                            <a href="{{ route('Teachers.edit', $Teacher->id) }}"><i
-                                                    class="fas fa-edit action-icon edit-icon-action"
-                                                    title="{{ trans('main_trans.edit') }}"></i></a>
-                                            <a data-bs-toggle="modal" data-bs-target="#deleteTeacher{{ $Teacher->id }}"><i
-                                                    class="fas fa-trash-alt action-icon delete-icon-action"
-                                                    title="{{ trans('main_trans.delete') }}"></i></a>
-
-                                            <!-- Delete Confirmation Modal -->
-                                            <div class="modal fade" id="deleteTeacher{{ $Teacher->id }}" tabindex="-1"
-                                                aria-labelledby="deleteTeacherLabel{{ $Teacher->id }}" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <form action="{{ route('Teachers.destroy', $Teacher->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <div class="modal-header bg-danger text-white">
-                                                                <h5 class="modal-title"
-                                                                    id="deleteTeacherLabel{{ $Teacher->id }}">
-                                                                    {{ trans('main_trans.Delete_teacher_data') }}
-                                                                </h5>
-                                                                <button type="button" class="btn-close btn-close-white"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p>{{ trans('main_trans.Warning_Delete') }}</p>
-                                                                <strong>{{ $Teacher->user->name }}</strong>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-danger">{{ trans('main_trans.delete') }}</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div> --}}
-
     <!-- المحتوى الرئيسي -->
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <!-- التبويبات -->
@@ -118,18 +18,16 @@
         <div class="table-users mt-5">
             @include('components.error-field')
             <div class="table-content tab-content" id="myTabContent">
-                <!-- teachers -->
                 <div class="tab-pane fade show active" id="teachers" role="tabpanel">
                     <div class="header-table">
-                        <a href="{{ route('Teachers.create') }}">
-                            {{ trans('main_trans.add_teacher') }}
-                        </a>
-                        <input type="text" id="TeacherSearch" class="form-control search-input"
+                        <a href="{{ route('Teachers.create') }}">{{ trans('main_trans.add_teacher') }}</a>
+                        <input type="search" id="TeacherSearch" class="form-control search-input"
                             placeholder="{{ trans('main_trans.search') }}">
+
                     </div>
-                    <div class="table-responsive">
-                        <table class="table text-center custom-user-table" id="datatable">
-                            <thead class="thead-user">
+                    <div class="table-responsive manager-table-wrapper">
+                        <table class="text-center manager-grade-table" id="datatable">
+                            <thead class="thead-manager">
                                 <tr>
                                     <th>#</th>
                                     <th>{{ trans('Teacher_trans.Name_Teacher') }}</th>
@@ -149,83 +47,32 @@
                                         <td>{{ $Teacher->genders->Name }}</td>
                                         <td>{{ $Teacher->Joining_Date }}</td>
                                         <td>{{ $Teacher->specializations->Name }}</td>
-                                        {{-- <td>
-                                            <a href="{{ route('Teachers.show', $Teacher->id) }}"><i
-                                                    class="fa-solid fa-eye action-icon eye-icon-action"
-                                                    title="{{ trans('main_trans.show_details') }}"></i></a>
-                                            <a href="{{ route('Teachers.edit', $Teacher->id) }}"><i
-                                                    class="fas fa-edit action-icon edit-icon-action"
-                                                    title="{{ trans('main_trans.edit') }}"></i></a>
-                                            <a data-bs-toggle="modal" data-bs-target="#deleteTeacher{{ $Teacher->id }}"><i
-                                                    class="fas fa-trash-alt action-icon delete-icon-action"
-                                                    title="{{ trans('main_trans.delete') }}"></i></a>
-
-                                            <!-- Delete Confirmation Modal -->
-                                            <div class="modal fade" id="deleteTeacher{{ $Teacher->id }}" tabindex="-1"
-                                                aria-labelledby="deleteTeacherLabel{{ $Teacher->id }}" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <form action="{{ route('Teachers.destroy', $Teacher->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <div class="modal-header bg-danger text-white">
-                                                                <h5 class="modal-title"
-                                                                    id="deleteTeacherLabel{{ $Teacher->id }}">
-                                                                    {{ trans('main_trans.Delete_teacher_data') }}
-                                                                </h5>
-                                                                <button type="button" class="btn-close btn-close-white"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p>{{ trans('main_trans.Warning_Delete') }}</p>
-                                                                <strong>{{ $Teacher->user->name }}</strong>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-danger">{{ trans('main_trans.delete') }}</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td> --}}
-                                        <td class="position-relative">
+                                        <td>
                                             <div class="dropdown">
-                                                <button class="btn operations-btn dropdown-toggle" type="button"
-                                                    id="operationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <button class="dropdown-toggle operations-btn" data-bs-toggle="dropdown">
                                                     {{ trans('main_trans.operations') }}
                                                 </button>
-                                                <ul class="dropdown-menu operations-dropdown text-end"
-                                                    aria-labelledby="operationsDropdown">
+                                                <ul class="dropdown-menu operations-btn-item">
                                                     <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2"
+                                                        <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
                                                             href="{{ route('Teachers.show', $Teacher->id) }}">
-                                                            <i class="fa-solid fa-eye text-success"></i>
-                                                            {{ trans('main_trans.View_data') }}
+                                                            <i
+                                                                class="fas fa-eye action-icon edit-icon-action"></i>{{ trans('main_trans.View_data') }}
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2"
+                                                        <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
                                                             href="{{ route('Teachers.edit', $Teacher->id) }}">
-                                                            <i class="fas fa-edit text-primary"></i>
+                                                            <i class="fas fa-edit action-icon edit-icon-action"></i>
                                                             {{ trans('main_trans.edit') }}
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a class="dropdown-item d-flex align-items-center gap-2"
-                                                            href="{{ route('TeachersClasses', $Teacher->id) }}">
-                                                            <i class="fa-solid fa-eye text-success"></i>
-                                                            {{ trans('main_trans.classes_teach') }}
-                                                        </a>
-                                                    </li>
+
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center gap-2"
                                                             href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#deleteTeacher{{ $Teacher->id }}">
-                                                            <i class="fas fa-trash-alt text-danger"></i>
+                                                            data-bs-target="#deleteModal-teacher{{ $Teacher->id }}">
+                                                            <i class="fas fa-trash-alt action-icon delete-icon-action"></i>
                                                             {{ trans('main_trans.delete') }}
                                                         </a>
                                                     </li>
@@ -233,31 +80,33 @@
                                             </div>
                                         </td>
                                     </tr>
+
                                     <!-- Delete Confirmation Modal -->
-                                    <div class="modal fade" id="deleteTeacher{{ $Teacher->id }}" tabindex="-1"
-                                        aria-labelledby="deleteTeacherLabel{{ $Teacher->id }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal fade" id="deleteModal-teacher{{ $Teacher->id }}" tabindex="-1"
+                                        aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered"> <!-- يجعل المودال بالنص -->
                                             <div class="modal-content">
-                                                <form action="{{ route('Teachers.destroy', $Teacher->id) }}"
-                                                    method="post">
+                                                <div class="modal-header">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="{{ trans('main_trans.close') }}"></button>
+                                                </div>
+
+                                                <form action="{{ route('Teachers.destroy', $Teacher->id) }}" method="post"
+                                                    id="deleteTeacher{{ $Teacher->id }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <div class="modal-header bg-danger text-white">
-                                                        <h5 class="modal-title" id="deleteTeacherLabel{{ $Teacher->id }}">
-                                                            {{ trans('main_trans.Delete_teacher_data') }}
-                                                        </h5>
-                                                        <button type="button" class="btn-close btn-close-white"
-                                                            data-bs-dismiss="modal" aria-label="Close"></button>
+
+                                                    <div class="modal-body text-center">
+                                                        <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                                                        <p>{{ trans('main_trans.Delete_Student_Warning') }}</p>
+                                                        <p>{{ $Teacher->user->name }}</p>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <p>{{ trans('main_trans.Warning_Delete') }}</p>
-                                                        <strong>{{ $Teacher->user->name }}</strong>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
-                                                        <button type="submit"
-                                                            class="btn btn-danger">{{ trans('main_trans.delete') }}</button>
+                                                    <div class="modal-footer custom-modal-footer-manager">
+                                                        <button type="submit" form="deleteTeacher{{ $Teacher->id }}"
+                                                            class="btn btn-primary custom-save-btn"
+                                                            form="stageForm">{{ trans('main_trans.submit') }}</button>
+                                                        <button type="button" class="btn btn-secondary custom-cancel-btn"
+                                                            data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -266,22 +115,24 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $Teachers->links() }}
+                        {{ $Teachers->links('vendor.pagination.custom') }}
                     </div>
                 </div>
 
                 <!-- specializations -->
                 <div class="tab-pane fade" id="specialization" role="tabpanel">
                     <div class="header-table">
-                        <a data-bs-toggle="modal" data-bs-target="#addSpecializationModal">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#addModal-specialization">
                             {{ trans('main_trans.add_grade') }}
                         </a>
+
                         <input type="text" id="SpecializationsSearch" class="form-control search-input"
                             placeholder="{{ trans('main_trans.search') }}">
+
                     </div>
-                    <div class="table-responsive">
-                        <table class="table text-center custom-user-table" id="datatable_specialize">
-                            <thead class="thead-user">
+                    <div class="table-responsive manager-table-wrapper">
+                        <table class="text-center manager-grade-table" id="datatable_specialize">
+                            <thead class="thead-manager">
                                 <tr>
                                     <th>#</th>
                                     <th>{{ trans('main_trans.specialization') }}</th>
@@ -293,29 +144,26 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $Specialization->Name }}</td>
-                                        <td class="position-relative">
+                                        <td>
                                             <div class="dropdown">
-                                                <button class="btn operations-btn dropdown-toggle" type="button"
-                                                    id="operationsDropdown" data-bs-toggle="dropdown"
-                                                    aria-expanded="false">
+                                                <button class="dropdown-toggle operations-btn" data-bs-toggle="dropdown">
                                                     {{ trans('main_trans.operations') }}
                                                 </button>
-                                                <ul class="dropdown-menu operations-dropdown text-end"
-                                                    aria-labelledby="operationsDropdown">
-
+                                                <ul class="dropdown-menu operations-btn-item">
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center gap-2 custom-edit-btn"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#editSpecializationModal{{ $Specialization->id }}">
-                                                            <i class="fas fa-edit text-primary"></i>
+                                                            href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal-specialization{{ $Specialization->id }}">
+                                                            <i class="fas fa-edit action-icon edit-icon-action"></i>
                                                             {{ trans('main_trans.edit') }}
                                                         </a>
                                                     </li>
+
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center gap-2"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#deleteSpecializationModal{{ $Specialization->id }}">
-                                                            <i class="fas fa-trash-alt text-danger"></i>
+                                                            href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#deleteModal-specialization{{ $Specialization->id }}">
+                                                            <i class="fas fa-trash-alt action-icon delete-icon-action"></i>
                                                             {{ trans('main_trans.delete') }}
                                                         </a>
                                                     </li>
@@ -326,24 +174,22 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $Specializations->links()}}
+                        {{ $Specializations->links('vendor.pagination.custom') }}
                     </div>
                 </div>
             </div>
         </div>
 
-
         <!-- add new Specialization modal -->
-        <div class="modal fade custom-modal" id="addSpecializationModal" tabindex="-1"
-            aria-labelledby="addStageModalLabel" aria-hidden="true">
+        <div class="modal fade custom-modal" id="addModal-specialization" tabindex="-1"
+            aria-labelledby="addModal-specialization" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
                 <div class="modal-content custom-modal-content">
 
                     <!-- رأس المودال -->
                     <div class="modal-header custom-modal-header">
                         <h5 class="modal-title custom-modal-title" id="addStageModalLabel">
-                            {{ trans('Grades_trans.add_Grade') }}
-                        </h5>
+                            {{ trans('main_trans.add_specialization') }}</h5>
                     </div>
 
                     <!-- جسم المودال -->
@@ -358,7 +204,7 @@
                     </div>
 
                     <!-- تذييل المودال -->
-                    <div class="modal-footer custom-modal-footer">
+                    <div class="modal-footer custom-modal-footer-manager">
                         <button type="submit" class="btn btn-primary custom-save-btn"
                             form="SpecializationForm">{{ trans('Grades_trans.submit') }}</button>
                         <button type="button" class="btn btn-secondary custom-cancel-btn"
@@ -369,18 +215,48 @@
             </div>
         </div>
 
-
         @foreach ($Specializations as $Specialization)
+            <!-- delete Specialization modal   -->
+            <div class="modal fade" id="deleteModal-specialization{{ $Specialization->id }}" tabindex="-1"
+                aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"> <!-- يجعل المودال بالنص -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="{{ trans('main_trans.close') }}"></button>
+                        </div>
+
+                        <form id="deleteSpecForm{{ $Specialization->id }}"
+                            action="{{ route('Specializations.destroy', $Specialization->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <div class="modal-body text-center">
+                                <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                                <p>{{ trans('Grades_trans.Delete_Warning') }} - {{ $Specialization->Name }}</p>
+                            </div>
+                        </form>
+
+                        <div class="modal-footer custom-modal-footer-manager">
+                            <button type="submit" class="btn btn-primary custom-save-btn"
+                                form="deleteSpecForm{{ $Specialization->id }}">{{ trans('main_trans.submit') }}</button>
+                            <button type="button" class="btn btn-secondary custom-cancel-btn"
+                                data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!--  edit Specialization modal  -->
-            <div class="modal fade custom-modal" id="editSpecializationModal{{ $Specialization->id }}" tabindex="-1"
-                aria-labelledby="editStageModalLabel" aria-hidden="true">
+            <div class="modal fade custom-modal" id="editModal-specialization{{ $Specialization->id }}" tabindex="-1"
+                aria-labelledby="editModal-specialization" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered custom-modal-dialog">
                     <div class="modal-content custom-modal-content">
 
                         <!-- رأس المودال -->
                         <div class="modal-header custom-modal-header">
-                            <h5 class="modal-title custom-modal-title" id="editStageModalLabel">
-                                {{ trans('Grades_trans.edit_Grade') }}</h5>
+                            <h5 class="modal-title custom-modal-title" id="editModal-specialization">
+                                {{ trans('main_trans.edit_specialization') }}</h5>
                         </div>
 
                         <!-- جسم المودال -->
@@ -395,45 +271,19 @@
                             </form>
                         </div>
 
-                        <!-- التذييل -->
-                        <div class="modal-footer custom-modal-footer">
+                        <!-- تذييل المودال -->
+                        <div class="modal-footer custom-modal-footer-manager">
                             <button type="submit" class="btn btn-primary custom-save-btn"
-                                form="editStageForm{{ $Specialization->id }}">{{ trans('Grades_trans.submit') }}</button>
+                                form="editStageForm{{ $Specialization->id }}">{{ trans('main_trans.submit') }}</button>
                             <button type="button" class="btn btn-secondary custom-cancel-btn"
-                                data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                         </div>
 
                     </div>
                 </div>
             </div>
-
-            <!-- delete Specialization modal   -->
-            <div class="modal fade" id="deleteSpecializationModal{{ $Specialization->id }}" tabindex="-1"
-                aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <form action="{{ route('Specializations.destroy', $Specialization->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="{{ trans('Grades_trans.Close') }}"></button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
-                                <button type="button" class="btn btn-cancel"
-                                    data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
         @endforeach
+
     </div>
 
     {{-- search input code --}}

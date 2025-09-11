@@ -19,7 +19,7 @@ class ParentController extends Controller
      */
     public function index()
     {
-        $parents = ParentProfile::paginate(10);
+        $parents = ParentProfile::paginate(20);
 
         return view('pages.Manager.Parents.index', compact('parents'));
     }
