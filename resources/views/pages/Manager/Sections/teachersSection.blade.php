@@ -34,9 +34,9 @@
                                         <td>{{ $teacher->teacher->user->name }}</td>
                                         <td>{{ $teacher->subject->name }}</td>
                                         <td>
-                                            <a class="d-flex align-items-center gap-2" href="#"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $teacher->id }}"><i
-                                                    class="fas fa-trash-alt action-icon delete-icon-action"></i></a>
+                                            <i class="fas fa-trash-alt action-icon delete-icon-action"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $teacher->id }}">
+                                            </i>
                                         </td>
                                     </tr>
 
@@ -108,10 +108,8 @@
 
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 
     {{-- search input code --}}

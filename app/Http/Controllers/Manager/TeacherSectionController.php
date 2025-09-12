@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Teacher_section;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
 
 class TeacherSectionController extends Controller
@@ -89,8 +90,16 @@ class TeacherSectionController extends Controller
      * @param  \App\Models\Teacher_section  $teacher_section
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Teacher_section $teacher_section)
+    public function destroy($id)
     {
-        //
+        try {
+            $teacher_section = Teacher_section::findOrFail($id);
+            $teacher_section->delete();
+
+            Flasher::addSuccess(trans('messages.delete'));
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

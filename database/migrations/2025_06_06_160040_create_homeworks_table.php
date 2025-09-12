@@ -28,7 +28,7 @@ return new class extends Migration
             $table->dateTime('due_date');
             $table->string('attachment_path')->nullable();
             $table->boolean('show_grade')->default(0);
-            $table->foreignId('created_by_teacher_id')->constrained('teachers');
+            $table->foreignId('created_by_teacher_id')->nullable()->constrained('teachers');
             $table->timestamps();
         });
     }

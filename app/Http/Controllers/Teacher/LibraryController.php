@@ -33,7 +33,7 @@ class LibraryController extends Controller
      */
     public function index()
     {
-        $data = Library::paginate(10);
+        $data = Library::where('teacher_id', Auth::user()->teacher->id)->paginate(10);
 
         return view("pages.Teacher.library.index", compact("data"));
     }
@@ -104,7 +104,7 @@ class LibraryController extends Controller
                 ->whereHas('student', function ($q) use ($library) {
                     $q->where('section_id', $library->section_id);
                 });
-                
+
             $usersQ->chunkById(200, function ($users) use ($library) {
                 Notification::send($users, new NewBookAdded($library));
             });

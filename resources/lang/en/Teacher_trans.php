@@ -196,7 +196,7 @@ return [
     'started' => 'Started',
     'ended' => 'Ended',
     'completed' => 'completed',
-    'show_answers' => 'Show the answers to the student upon completion!',
+    'show_answers' => 'Show student answers',
     'question_per_page' => 'questions per page',
     'maximum_grade' => 'Maximum Grade',
     'new_category' => 'new category',

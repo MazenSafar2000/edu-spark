@@ -220,7 +220,7 @@
                 <!-- عنصر رسالة -->
                 <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
                     style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="../images/pic-2.jpg" alt="user" class="rounded-circle me-3"
+                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
@@ -232,7 +232,7 @@
 
                 <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
                     style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="../images/pic-2.jpg" alt="user" class="rounded-circle me-3"
+                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
@@ -245,7 +245,7 @@
 
                 <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
                     style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="../images/pic-2.jpg" alt="user" class="rounded-circle me-3"
+                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>
@@ -256,7 +256,7 @@
 
                 <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
                     style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="../images/pic-2.jpg" alt="user" class="rounded-circle me-3"
+                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
                         style="width: 45px; height: 45px; object-fit: cover;">
                     <div class="msg-info text-end">
                         <strong class="d-block">المعلم</strong>

@@ -195,7 +195,7 @@ return [
     'completed' => 'مكتمل',
     'question_per_page' => 'الأسئلة في كل صفحة',
     'maximum_grade' => 'الدرجة النهائية',
-    'show_answers' => 'عرض الاجابات للطالب مع الانتهاء !',
+    'show_answers' => 'عرض اجابات الطالب',
     'new_category' => 'اضافة تصنيف جديد',
     'category' => 'التصنيف',
     'createQC' => 'اضافة تصنيف جديد',

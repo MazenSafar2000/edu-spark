@@ -202,8 +202,9 @@
 
                 <ul id="studentsMenu" class="collapse list-unstyled ps-4 mt-2">
                     <li><a href="{{ route('Students.index') }}">{{ trans('main_trans.Students') }}</a></li>
-                    <li><a href="{{route('Promotion.index')}}">{{trans('main_trans.Students_Promotions')}}</a></li>
-                    <li><a href="{{route('Graduate.index')}}">{{trans('main_trans.Grades_list')}}</a></li>
+                    <li><a href="{{ route('Promotion.index') }}">{{ trans('main_trans.Students_Promotions') }}</a>
+                    </li>
+                    <li><a href="{{ route('Graduate.index') }}">{{ trans('main_trans.Grades_list') }}</a></li>
                     {{-- <li><a href="manager-std-record.html">السجل</a></li> --}}
                 </ul>
             </li>
@@ -233,7 +234,6 @@
                 </a>
             </li>
 
-
             <li>
                 <a href="{{ route('Parents.index') }}">
                     <span>{{ trans('main_trans.Parents') }}</span>
@@ -256,38 +256,33 @@
             </li>
 
             <li>
-                <a href="manager-study-content.html">
-                    <span>المحتوى الدراسي</span>
+                <a href="{{ route('StudyContent.index') }}">
+                    <span>{{ trans('main_trans.Study_content') }}</span>
                     <i class="fas fa-book-reader"></i>
                 </a>
             </li>
 
             <li class="dropdown-sidebar">
                 <a href="#" class="dropdown-toggle-custom d-flex justify-content-between align-items-center"
-                    data-bs-toggle="collapse" data-bs-target="#questionMenu" aria-expanded="false">
+                    data-bs-toggle="collapse" data-bs-target="#questionsMenu" aria-expanded="false">
 
                     <i class="toggle-icon fas fa-plus"></i>
                     <div class="d-flex align-items-center gap-2">
-                        <span>الاسئلة</span>
-                        <i class="fas fa-question-circle"></i>
+                        <span>{{ trans('main_trans.questions') }}</span>
+                        <i class="fas fa-user-graduate"></i>
                     </div>
                 </a>
 
-                <ul id="questionMenu" class="collapse list-unstyled ps-4 mt-2">
-                    <li><a href="manager-question-bank.html">بنك الاسئلة</a></li>
-                    <li><a href="manager-question-category.html">اقسام الاسئلة</a></li>
+                <ul id="questionsMenu" class="collapse list-unstyled ps-4 mt-2">
+                    <li>
+                        <a href="{{ route('QuestionsBank.index') }}">{{ trans('Teacher_trans.questionBank') }}</a>
+                    </li>
+                    <li>
+                        <a
+                            href="{{ route('QuestionsCategotry.index') }}">{{ trans('Teacher_trans.questions_categories') }}</a>
+                    </li>
                 </ul>
             </li>
-
-
-            <li>
-                <a href="manager-meet.html">
-                    <span>اللقاءات المباشرة</span>
-                    <i class="fas fa-video"></i>
-                </a>
-            </li>
-
-
 
             <li>
                 <a href="manager-profile.html">

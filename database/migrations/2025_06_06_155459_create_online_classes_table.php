@@ -34,7 +34,7 @@ return new class extends Migration
             $table->text('start_url');
             $table->text('join_url');
 
-            $table->foreignId('created_by_teacher_id')->constrained('teachers');
+            $table->foreignId('created_by_teacher_id')->nullable()->constrained('teachers');
 
             $table->timestamps();
         });

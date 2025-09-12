@@ -3,8 +3,13 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Manager\ExamAttemptsController;
+use App\Http\Controllers\manager\ExamController;
+use App\Http\Controllers\manager\HomeworkController;
 use App\Http\Controllers\Manager\ManagerController;
+use App\Http\Controllers\manager\OnlineClassController;
 use App\Http\Controllers\manager\PromotionController;
+use App\Http\Controllers\Manager\SectionExamContrller;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +86,52 @@ Route::group(
                 Route::post('/Graduated/one/{studentId}', 'GraduatedController@graduateOne')->name('Graduated.one');
                 Route::post('/promotions/rollback-selected', [PromotionController::class, 'rollbackSelected'])
                     ->name('Promotion.rollbackSelected');
+
+                Route::resource('StudyContent', 'StudyContentController');
+
+                Route::resource('books', 'LibraryController');
+
+                Route::resource('RecordedClasses', 'RecordedClassController');
+
+                Route::resource('Homework', 'HomeworkController');
+                Route::get('submissions/{homework}', 'HomeworkController@showSubmissions')->name('Homework.submissions');
+                Route::patch('toggle-show-grade/{homework}', [HomeworkController::class, 'toggleShowGrade'])
+                    ->name('Homework.toggleShowGrade');
+                Route::get('/homework/{homework}/export', [HomeworkController::class, 'export'])
+                    ->name('manager.homework.export');
+                Route::post('assign-zeros/homework/{homework}', [HomeworkController::class, 'assignZeroForAbsentStudents'])->name('Homework.assignZeros');
+                Route::post('Homework/{homework}/grade/{student}', 'HomeworkController@gradeStudent')->name('Homework.grade');
+
+                Route::resource('zoomCLasses', 'OnlineClassController');
+                Route::get('zoom/create/indirect', [OnlineClassController::class, 'createIndirect'])->name('zoomCLasses.create.indirect');
+                Route::post('zoom/store/indirect', [OnlineClassController::class, 'storeIndirect'])->name('zoomCLasses.store.indirect');
+
+                Route::resource('Exams', 'ExamController');
+                Route::put('/{exam}/questions/settings', 'ExamQuestionsController@updateSettings')
+                    ->name('Exams.questions.updateSettings');
+                Route::delete('/{exam}/question/{question}', 'ExamQuestionsController@removeQuestionFromExam')->name('Exam.remove-question');
+                Route::get('/Exam/questions_by_category/{category_id}', 'ExamQuestionsController@getQuestionsByCategory')->name('Exam.questions.byCategory');
+                Route::post('/add-from-bank/{exam}', 'ExamQuestionsController@storeFromBank')->name('Exam.questions.storeFromBank');
+                Route::post('/add-random/{exam}', 'ExamQuestionsController@storeRandomQuestions')->name('Exam.questions.storeRandom');
+                Route::get('/exam/{exam}/results', [ExamController::class, 'showResults'])
+                    ->name('Exam.results');
+                Route::patch('/exam/{exam}/toggle-show-grade', [SectionExamContrller::class, 'toggleShowGrade'])
+                    ->name('Exam.toggleShowGrade');
+                Route::get('/teacher/exam/{exam}/export', [ExamController::class, 'exportExamResults'])
+                    ->name('manager.exam.export');
+                Route::post('/exam/{exam}/assign-zeros', [ExamController::class, 'assignZeroForAbsentStudents'])->name('Exam.assignZeros');
+                Route::get('/teacher/exam/{exam}/student/{student}/attempts', 'ExamController@studentAttempts')->name('manager.exam.studentAttempts');
+                Route::post('/exam/manual-degree', 'DegreeController@storeManualDegree')->name('manager.manual.degree.store');
+
+                Route::resource('Questions', 'QuestionController');
+                Route::resource('QuestionsBank', 'QuestionsBankController');
+                Route::resource('QuestionsCategotry', 'QuestionsCategotryController');
+
+                Route::resource('ExamAttempt', ExamAttemptsController::class);
+                Route::get(
+                    '/manager/exams/{exam}/student/{student}/attempts/{attempt}/answers',
+                    [ExamAttemptsController::class, 'showAttemptAnswers']
+                )->name('manager.exams.attemptAnswers');
             });
 
             // Route::view('add_parent', 'livewire.add-parent')->name('add_parent');

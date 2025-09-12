@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\QuestionsBank;
+use App\Models\QuestionsCategotry;
 use App\Models\Section;
 use App\Models\Subject;
 use App\Models\Teacher_section;
@@ -13,11 +15,23 @@ use Illuminate\Http\JsonResponse;
 
 class AjaxController extends Controller
 {
+
+    // manager filter functions
     // Get Classrooms for a grade
     public function getClassrooms($gradeId): JsonResponse
     {
-        $classrooms = Classroom::where('Grade_id', $gradeId)
-            ->pluck('Name_Class', 'id'); // -> ["id" => "Name"]
+        $locale = App::getLocale();
+
+        $classrooms = Classroom::where('Grade_id', $gradeId)->get();
+
+        $classrooms = $classrooms->map(function ($classroom) use ($locale) {
+            return [
+                'id' => $classroom->id,
+                'name' => is_array($classroom->Name_Class)
+                    ? ($classroom->Name_Class[$locale] ?? $classroom->Name_Class['en'])
+                    : $classroom->Name_Class,
+            ];
+        });
 
         return response()->json($classrooms);
     }
@@ -25,14 +39,89 @@ class AjaxController extends Controller
     // Get Sections for a classroom
     public function getSections($classroomId): JsonResponse
     {
-        $sections = Section::where('Class_id', $classroomId)
-            ->pluck('Name_Section', 'id');
+        $locale = App::getLocale();
+
+        $sections = Section::where('Class_id', $classroomId)->get();
+
+        $sections = $sections->map(function ($section) use ($locale) {
+            return [
+                'id' => $section->id,
+                'name' => is_array($section->Name_Section)
+                    ? ($section->Name_Section[$locale] ?? $section->Name_Section['en'])
+                    : $section->Name_Section,
+            ];
+        });
 
         return response()->json($sections);
     }
 
+    // Get Subjects for a section
+    public function getSubjects($sectionId): JsonResponse
+    {
+        $locale = App::getLocale();
 
-    // Teacher Filter
+        $subjects = Teacher_section::with('subject')
+            ->where('section_id', $sectionId)
+            ->get()
+            ->pluck('subject')
+            ->unique('id')
+            ->map(function ($subject) use ($locale) {
+                return [
+                    'id' => $subject->id,
+                    'name' => is_array($subject->name)
+                        ? ($subject->name[$locale] ?? $subject->name['en'])
+                        : $subject->name,
+                ];
+            })
+            ->values();
+
+        return response()->json($subjects);
+    }
+
+    // Get Teachers for a subject in a section
+    public function getTeachers($sectionId, $subjectId): JsonResponse
+    {
+        $locale = App::getLocale();
+
+        $teachers = Teacher_section::with('teacher')
+            ->where('section_id', $sectionId)
+            ->where('subject_id', $subjectId)
+            ->get()
+            ->pluck('teacher')
+            ->unique('id')
+            ->map(function ($teacher) use ($locale) {
+                return [
+                    'id' => $teacher->id,
+                    'name' => is_array($teacher->Name)
+                        ? ($teacher->user->name[$locale] ?? $teacher->user->name['en'])
+                        : $teacher->user->name,
+                ];
+            })
+            ->values();
+
+        return response()->json($teachers);
+    }
+
+    public function getCategories($teacherId)
+    {
+        // Find the question bank of this teacher
+        $questionBank = QuestionsBank::where('teacher_id', $teacherId)->first();
+
+        if (!$questionBank) {
+            return response()->json([]);
+        }
+
+        // Get categories belonging to this bank
+        $categories = QuestionsCategotry::where('questions_bank_id', $questionBank->id)
+            ->get(['id', 'title']);
+
+        return response()->json($categories);
+    }
+
+
+
+
+    // Teacher Filter functions
     public function getClassroomsByGrade($grade_id)
     {
         $locale = App::getLocale(); // Detect current app locale (e.g., 'ar' or 'en')

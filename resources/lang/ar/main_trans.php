@@ -135,6 +135,7 @@ return [
     'add_Graduate' => 'اضافة تخرج جديد',
     'list_Graduate' => 'قائمة التخرجات',
     'Teachers' => 'المعلمين',
+    'Teacher' => 'المدرس',
     'List_Teachers' => 'قائمة المعلمين',
     'All_Teachers' => 'جميع المدرسين',
     'Current_Teachers' => 'المدرسين الحاليين',
@@ -266,9 +267,23 @@ return [
     'Subjects_name_en' => 'اسم المادة الدراسية بالانجليزية',
     'view_teachers' => 'عرض المعلمين',
     'view_students' => 'عرض الطلاب',
-
-
-
-
+    'Study_content' => 'المحتوى الدراس',
+    'books' => 'الكتب',
+    'exams' => 'الاختبارت',
+    'homeworks' => 'الواجبات',
+    'recordedCLasses' => 'الحصص المسجلة',
+    'zoomClasses' => 'حصص زووم',
+    'add_question' => 'إضافة سؤال جديد',
+    'question_title' => 'نص السؤال',
+    'question_type' => 'نوع السؤال',
+    'MCQ' => ' اختيار من متعدد',
+    'true_false' => 'صح أو خطأ',
+    'options' => 'الخيارات',
+    'option' => 'الخيار رقم',
+    'new_option' => 'خيار جديد',
+    'true' => 'صح',
+    'false' => 'خطأ',
+    'score' => 'الدرجة',
+    'select_score' => 'اختر الدرجة',
 
 ];
