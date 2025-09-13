@@ -64,7 +64,7 @@
                                 <td>{{ $student->section->Name_Section }}</td>
                                 <td>
                                     @if ($submission && $submission->file_path)
-                                        <a href="{{ asset("storage/attachments/homework_submissions/students/{$student->National_ID}/" . $submission->file_path) }}"
+                                        <a href="{{ asset("storage/attachments/homework_submissions/students/{$student->user->National_ID}/" . $submission->file_path) }}"
                                             target="_blank">
                                             {{ trans('Students_trans.Download_file') }}
                                         </a>

@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="preview-buttons d-flex  gap-3">
-                        <a href="{{ asset('storage/attachments/library/teachers/' . $book->teacher->National_ID . '/' . $book->file_name) }}" class="btn preview-start-btn" target="_blank">
+                        <a href="{{ asset('storage/attachments/library/teachers/' . $book->teacher->user->National_ID . '/' . $book->file_name) }}" class="btn preview-start-btn" target="_blank">
                             <i class="fas fa-download ms-1"></i> {{ trans('Students_trans.Download') }}
                         </a>
                     </div>

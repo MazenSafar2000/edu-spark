@@ -278,7 +278,7 @@
             </li>
 
             <li>
-                <a href="teacher-profile.html">
+                <a href="{{ route('teacher.profile') }}">
                     <span>{{ trans('Teacher_trans.profile') }}</span>
                     <i class="fa-solid fa-user"></i>
 

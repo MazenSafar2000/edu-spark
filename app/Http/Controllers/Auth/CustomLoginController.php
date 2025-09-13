@@ -40,7 +40,7 @@ class CustomLoginController extends Controller
 
     protected function loginWithRole(Request $request, $role, $redirectRoute)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('National_ID', 'password');
         $credentials['role'] = $role;
 
         if (Auth::attempt($credentials)) {
@@ -49,7 +49,7 @@ class CustomLoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Invalid credentials or role mismatch.',
+            'National_ID' => 'Invalid credentials or role mismatch.',
         ]);
     }
 }

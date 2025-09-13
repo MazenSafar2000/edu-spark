@@ -77,12 +77,13 @@ class StudentController extends Controller
                 'name' => ['en' => $request->name_en, 'ar' => $request->name_ar],
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'National_ID' => $request->National_ID,
             ]);
 
             // Create student
             $studnet = Student::create([
                 'user_id' => $user->id,
-                'National_ID' => $request->National_ID,
+                // 'National_ID' => $request->National_ID,
                 'gender_id' => $request->gender_id,
                 'Date_Birth' => $request->Date_Birth,
                 'Grade_id' => $request->Grade_id,
@@ -173,12 +174,13 @@ class StudentController extends Controller
             $user = $student->user;
             $user->name = ['en' => $request->name_en, 'ar' => $request->name_ar];
             $user->email = $request->email;
+            $user->National_ID = $request->National_ID;
             if ($request->filled('password')) {
                 $user->password = Hash::make($request->password);
             }
             $user->save();
 
-            $student->National_ID = $request->National_ID;
+            // $student->National_ID = $request->National_ID;
             $student->gender_id = $request->gender_id;
             $student->Date_Birth = $request->Date_Birth;
             $student->Grade_id = $request->Grade_id;

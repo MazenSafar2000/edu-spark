@@ -33,7 +33,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $parent->user->name }}</td>
-                                        <td>{{ $parent->National_ID }}</td>
+                                        <td>{{ $parent->user->National_ID }}</td>
                                         <td>{{ $parent->user->email }}</td>
                                         <td>{{ $parent->Phone_Father }}</td>
                                         <td>{{ $parent->Job_Father }}</td>

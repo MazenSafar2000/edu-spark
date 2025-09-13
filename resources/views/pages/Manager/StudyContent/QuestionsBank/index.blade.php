@@ -59,7 +59,7 @@
                                         <ul class="dropdown-menu dropdown-menu-operations">
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center gap-2"
-                                                    href="{{ route('questions.edit', $question->id) }}">
+                                                    href="{{ route('Questions.edit', $question->id) }}">
                                                     <i class="fas fa-edit action-icon edit-icon-action"></i>
                                                     {{ trans('main_trans.edit') }}
                                                 </a>

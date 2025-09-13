@@ -5,15 +5,15 @@
             <div
                 class="result-summary-container alert alert-light d-flex justify-content-around align-items-center mb-4 text-center">
                 <div class="result-item correct-answer">
-                    <i class="fa-solid fa-check correct-icon"></i> <strong class="label"> الصحيحة:</strong>
+                    <i class="fa-solid fa-check correct-icon"></i> <strong class="label">{{ trans('main_trans.Correct_answers') }}:</strong>
                     <span class="value">{{ $attempt->answers->where('is_correct', 1)->count() }}</span>
                 </div>
                 <div class="result-item wrong-answer">
-                    <i class="fas fa-times wrong-icon"></i><strong class="label"> الخاطئة:</strong>
+                    <i class="fas fa-times wrong-icon"></i><strong class="label">{{ trans('main_trans.Wrong_answers') }}:</strong>
                     <span class="value">{{ $attempt->answers->where('is_correct', 0)->count() }}</span>
                 </div>
                 <div class="result-item total-score">
-                    <i class="fas fa-chart-bar chart-icon"></i><strong class="label"> العلامة:</strong>
+                    <i class="fas fa-chart-bar chart-icon"></i><strong class="label">{{ trans('main_trans.final_score') }}:</strong>
                     <span class="value">{{ $attempt->grade_obtained }}</span>
                 </div>
             </div>
@@ -56,9 +56,9 @@
                         @endforeach
                         <!-- معلومات إضافية -->
                         <div class="question-footer mt-3 p-2 border-top small text-muted">
-                            <p class="exam-correct-answer">الاجابة الصحيحة : <span>{{ $question->correct_answer }}</span>
+                            <p class="exam-correct-answer">{{ trans('main_trans.The_Correct_answers') }} : <span>{{ $question->correct_answer }}</span>
                             </p>
-                            <p class="exam-grade">الدرجة :
+                            <p class="exam-grade">{{ trans('main_trans.score') }} :
                                 <span>{{ $question->score ?? 1 }}/{{ $isCorrect ? $question->score ?? 1 : 0 }}</span></p>
 
                         </div>

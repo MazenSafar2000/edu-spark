@@ -46,11 +46,11 @@ Route::group(
             return view('dashboard');
         })->middleware(['auth', 'verified'])->name('dashboard');
 
-        Route::middleware('auth')->group(function () {
-            Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        });
+        // Route::middleware('auth')->group(function () {
+        //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        // });
 
         Route::get('/login/student&parent', [CustomLoginController::class, 'showStudentParentLogin'])->name('login.student_parent');
         Route::get('/school', [CustomLoginController::class, 'showTeacherManagerLogin'])->name('login.teacher_manager');
@@ -60,6 +60,9 @@ Route::group(
             Route::get('/manager/dashboard', [ManagerController::class, 'dashboard'])->name('manager.dashboard');
 
             Route::group(['namespace' => 'App\Http\Controllers\Manager'], function () {
+
+                Route::get('manager/profile', [ManagerController::class, 'profile'])->name('manager.profile');
+                Route::resource('Manager', 'ManagerController');
 
                 Route::resource('Students', 'StudentController');
                 Route::get('Download_attachment/{studentsname}/{filename}', 'ImageController@Download_attachment')->name('Download_attachment');
@@ -132,9 +135,10 @@ Route::group(
                     '/manager/exams/{exam}/student/{student}/attempts/{attempt}/answers',
                     [ExamAttemptsController::class, 'showAttemptAnswers']
                 )->name('manager.exams.attemptAnswers');
+
             });
 
-            // Route::view('add_parent', 'livewire.add-parent')->name('add_parent');
+
 
         });
 

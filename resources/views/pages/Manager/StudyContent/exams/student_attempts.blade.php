@@ -9,7 +9,8 @@
 
             <div class="header-attempts-teacher">
                 <h3 class="std-attempts-name">{{ trans('Teacher_trans.student_name') }} :
-                    <span>{{ $student->user->name }}</span></h3>
+                    <span>{{ $student->user->name }}</span>
+                </h3>
                 <h3 class="std-attempts-name mb-3">{{ trans('Teacher_trans.exams') }} : <span>{{ $exam->name }}</span></h3>
 
             </div>
@@ -26,7 +27,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($attempts as $index => $attempt)
+                        @forelse ($attempts as $index => $attempt)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $attempt->started_at ?? $attempt->created_at }}</td>
@@ -65,37 +66,42 @@
                                         </ul>
                                     </div>
                                 </td>
+                            @empty
+                                <td class="alert-danger" colspan="5">{{ trans('main_trans.no_data') }}</td>
                             </tr>
-                        @endforeach
+                        @endforelse
 
                     </tbody>
                 </table>
 
-                <!--  delete student attempt  -->
-                <div class="modal fade" id="deleteModal-lesson{{ $attempt->id }}" tabindex="-1"
-                    aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered"> <!-- يجعل المودال بالنص -->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="{{ trans('main_trans.close') }}"></button>
+                @foreach ($attempts as $index => $attempt)
+                    <!--  delete student attempt  -->
+                    <div class="modal fade" id="deleteModal-lesson{{ $attempt->id }}" tabindex="-1"
+                        aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered"> <!-- يجعل المودال بالنص -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="{{ trans('main_trans.close') }}"></button>
+                                </div>
+                                <form action="{{ route('ExamAttempt.destroy', $attempt->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="modal-body text-center">
+                                        <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                                        <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                    </div>
+                                    <div class="modal-footer justify-content-center">
+                                        <button type="submit"
+                                            class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                        <button type="button" class="btn btn-cancel"
+                                            data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
+                                    </div>
+                                </form>
                             </div>
-                            <form action="{{ route('ExamAttempt.destroy', $attempt->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <div class="modal-body text-center">
-                                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                    <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
-                                </div>
-                                <div class="modal-footer justify-content-center">
-                                    <button type="submit" class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
-                                    <button type="button" class="btn btn-cancel"
-                                        data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
-                </div>
+                @endforeach
 
             </div>
         </div>

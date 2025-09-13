@@ -51,7 +51,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $student->user->name }}</td>
-                                <td>{{ $student->National_ID }}</td>
+                                <td>{{ $student->user->National_ID }}</td>
                                 <td>{{ $student->user->email }}</td>
                                 <td>{{ $student->gender->Name }}</td>
                                 <td>{{ $student->grade->Name }}</td>

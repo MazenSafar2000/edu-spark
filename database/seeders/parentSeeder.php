@@ -61,12 +61,13 @@ class parentSeeder extends Seeder
                 'email' => $parent['email'],
                 'password' => Hash::make('parent1234'),
                 'role' => 'parent',
+                'National_ID' => $parent['National_ID'],
             ]);
 
             // Create parent profile
             ParentProfile::create([
                 'user_id' => $user->id,
-                'National_ID' => $parent['National_ID'],
+                // 'National_ID' => $parent['National_ID'],
                 'Phone_Father' => $parent['phone'],
                 'Job_Father' => (['en' => $parent['job_en'], 'ar' => $parent['job_ar']]),
                 'Address_Father' => $parent['address'],

@@ -85,7 +85,7 @@
                                     @if ($material['type'] == 'book')
                                         <li>
                                             <a target="_blank" class="dropdown-item d-flex align-items-center gap-2"
-                                                href="{{ asset('storage/attachments/library/teachers/' . Auth::user()->teacher->National_ID . '/' . $material['data']->file_name) }}">
+                                                href="{{ asset('storage/attachments/library/teachers/' . Auth::user()->National_ID . '/' . $material['data']->file_name) }}">
                                                 <i class="fa-solid fa-download action-icon download-icon-action"></i>
                                                 {{ trans('Teacher_trans.download') }}
                                             </a>

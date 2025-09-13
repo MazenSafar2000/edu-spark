@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'question',
         'type',
@@ -22,17 +22,6 @@ class Question extends Model
     protected $casts = [
         'options' => 'array',
     ];
-
-
-    // public function quizze()
-    // {
-    //     return $this->belongsTo(Exam::class);
-    // }
-
-    // public function studentAnswers()
-    // {
-    //     return $this->hasMany(StudentAnswer::class);
-    // }
 
     public function QCategory()
     {

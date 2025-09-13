@@ -285,8 +285,8 @@
             </li>
 
             <li>
-                <a href="manager-profile.html">
-                    <span>الملف الشخصي</span>
+                <a href="{{ route('manager.profile') }}">
+                    <span>{{ trans('main_trans.profile') }}</span>
                     <i class="fa-solid fa-user"></i>
                 </a>
             </li>

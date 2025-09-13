@@ -16,7 +16,7 @@ class ParentProfile extends Model
     protected $table = 'parents';
     protected $fillable = [
         'user_id',
-        'National_ID',
+        // 'National_ID',
         'Phone_Father',
         'Job_Father',
         'Address_Father',

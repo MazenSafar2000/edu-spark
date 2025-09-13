@@ -274,6 +274,7 @@ return [
     'recordedCLasses' => 'الحصص المسجلة',
     'zoomClasses' => 'حصص زووم',
     'add_question' => 'إضافة سؤال جديد',
+    'edit_question' => 'تعديل سؤال',
     'question_title' => 'نص السؤال',
     'question_type' => 'نوع السؤال',
     'MCQ' => ' اختيار من متعدد',
@@ -285,5 +286,15 @@ return [
     'false' => 'خطأ',
     'score' => 'الدرجة',
     'select_score' => 'اختر الدرجة',
+    'Correct_answers' => 'اجابات صحيحة',
+    'Wrong_answers' => 'اجابات خاطئة',
+    'The_Correct_answers' => 'الاجابة الصحيحة',
+    'change_settings' => 'تغيير إعدادات الحساب',
+    'current_password' => 'كلمة المرور الحالية',
+    'new_password' => 'كلمة المرور الجديدة',
+    'confirm_password' => 'تأكيد كلمة المرور',
+
+
+
 
 ];

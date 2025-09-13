@@ -52,7 +52,7 @@ class HomeworkSubmissionController extends Controller
         ]);
 
         $student = Auth::user()->student;
-        $folderName = $student->National_ID;
+        $folderName = $student->user->National_ID;
         $fileName = time() . '_' . $request->file('submission_file')->getClientOriginalName();
 
         $existingSubmission = Homework_submission::where('student_id', $student->id)

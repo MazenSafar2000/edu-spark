@@ -78,6 +78,7 @@ class TeacherController extends Controller
                     'en' => $request->Name_en
                 ],
                 'email' => $request->email,
+                'National_ID' => $request->National_ID,
                 'password' => Hash::make($request->password),
                 'role' => 'teacher', // if you're using role column
             ]);
@@ -85,7 +86,7 @@ class TeacherController extends Controller
             // 2. Create teacher profile
             $teacher = Teacher::create([
                 'user_id' => $user->id,
-                'National_ID' => $request->National_ID,
+                // 'National_ID' => $request->National_ID,
                 'Gender_id' => $request->Gender_id,
                 'Specialization_id' => $request->Specialization_id,
                 'Joining_Date' => $request->Joining_Date,
@@ -153,9 +154,6 @@ class TeacherController extends Controller
     public function update(Request $request, $id)
     {
         try {
-
-            // dd($request->all());
-
             DB::beginTransaction();
 
             $teacher = Teacher::findOrFail($id);
@@ -164,13 +162,14 @@ class TeacherController extends Controller
             $user = $teacher->user;
             $user->name = ['en' => $request->Name_en, 'ar' => $request->Name_ar];
             $user->email = $request->email;
+            $user->National_ID = $request->National_ID;
             if ($request->filled('password')) {
                 $user->password = Hash::make($request->password);
             }
             $user->save();
 
             // Update teacher data
-            $teacher->National_ID = $request->National_ID;
+            // $teacher->user->National_ID = $request->National_ID;
             $teacher->Gender_id = $request->Gender_id;
             $teacher->Specialization_id = $request->Specialization_id;
             $teacher->Joining_Date = $request->Joining_Date;

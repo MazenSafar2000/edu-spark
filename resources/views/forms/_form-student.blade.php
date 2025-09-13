@@ -38,7 +38,7 @@
             <input type="number" name="National_ID"
                 class="form-control custom-input float-input @error('National_ID') custom-input-error @enderror"
                 id="studentID" autocomplete="off" placeholder=" "
-                value="{{ old('National_ID', $Student->National_ID ?? '') }}" />
+                value="{{ old('National_ID', $Student->user->National_ID ?? '') }}" />
             <label for="studentID" class="float-label">{{ trans('main_trans.National_ID') }}</label>
         </div>
         @error('National_ID')

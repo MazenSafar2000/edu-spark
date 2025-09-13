@@ -34,7 +34,7 @@
                                         </tr>
                                         <tr>
                                             <td>{{ trans('main_trans.National_ID') }}</td>
-                                            <td>{{ $teacher->National_ID }}</td>
+                                            <td>{{ $teacher->user->National_ID }}</td>
                                         </tr>
                                         <tr>
                                             <td>{{ trans('main_trans.specialization') }}</td>

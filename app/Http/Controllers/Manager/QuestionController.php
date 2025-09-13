@@ -86,13 +86,6 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     $exam_id = $id;
-    //     // $data['grades'] = Grade::all();
-
-    //     return view('pages.Teacher.exams.questions.create', compact('exam_id'));
-    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -103,12 +96,13 @@ class QuestionController extends Controller
     public function edit($id)
     {
         $question = Question::findorFail($id);
-        $teacherId = Auth::user()->teacher->id;
+        $teacherId = $question->teacher_id;
         $data['Qcategories'] = QuestionsCategotry::with('questionsBank')
             ->whereHas('questionsBank', function ($q) use ($teacherId) {
                 $q->where('teacher_id', $teacherId);
             })->get();
-        return view('pages.Teacher.QuestionsBank.QuestionCategory.questions.edit', compact('question'), $data);
+        $teachers = Teacher::all();
+        return view('pages.Manager.StudyContent.QuestionsBank.QuestionCategory.questions.edit', compact('question', 'teachers'), $data);
     }
 
     /**
@@ -123,6 +117,7 @@ class QuestionController extends Controller
         $question = Question::findOrFail($id);
 
         $request->validate([
+            'teacher_id'     => 'required|exists:teachers,id',
             'QCategory_id'   => 'required|exists:questions_categories,id',
             'question'       => 'required|string|max:500',
             'type'           => 'required|in:TrueFalse,MCQ',
@@ -135,6 +130,7 @@ class QuestionController extends Controller
 
         try {
 
+            $question->teacher_id = $request->teacher_id;
             $question->QCategory_id = $request->QCategory_id;
             $question->question     = $request->question;
             $question->type         = $request->type;
@@ -151,7 +147,7 @@ class QuestionController extends Controller
             $question->save();
 
             Flasher::addSuccess(trans('messages.Update'));
-            return redirect()->route('questionsBank.index');
+            return redirect()->route('QuestionsBank.index');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

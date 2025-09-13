@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('National_ID')->unique();
             $table->bigInteger('Specialization_id')->unsigned();
             $table->foreign('Specialization_id')->references('id')->on('specializations')->onDelete('cascade');
             $table->foreignId('Gender_id')->references('id')->on('genders')->onDelete('cascade');

@@ -20,7 +20,7 @@ class Teacher extends Model
         'Joining_Date',
         'Address',
         'user_id',
-        'National_ID',
+        // 'National_ID',
     ];
 
 

@@ -43,7 +43,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $Teacher->user->name }}</td>
-                                        <td>{{ $Teacher->National_ID }}</td>
+                                        <td>{{ $teacher->user->National_ID }}</td>
                                         <td>{{ $Teacher->genders->Name }}</td>
                                         <td>{{ $Teacher->Joining_Date }}</td>
                                         <td>{{ $Teacher->specializations->Name }}</td>

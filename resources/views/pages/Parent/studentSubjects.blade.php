@@ -17,7 +17,7 @@
                             <div class="row border-bottom p-3">
                                 <div class="col-6 custom-label">{{ trans('main_trans.National_ID') }}</div>
                                 <div class="col-6">
-                                    <div class="custom-field">{{ $student->National_ID }}</div>
+                                    <div class="custom-field">{{ $student->user->National_ID }}</div>
                                 </div>
                             </div>
                             <div class="row border-bottom p-3">

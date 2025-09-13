@@ -271,6 +271,7 @@ return [
     'recordedCLasses' => 'Recorded Classes',
     'zoomClasses' => 'Zoom Classes',
     'add_question' => 'Add New Question',
+    'edit_question' => 'Edit Question',
     'question_title' => 'Question Title',
     'question_type' => 'Question Type',
     'MCQ' => 'MCQ',
@@ -282,7 +283,13 @@ return [
     'false' => 'false',
     'score' => 'Score',
     'select_score' => 'Select Score',
-
+    'Correct_answers' => 'Correct answers',
+    'Wrong_answers' => 'Wrong answers',
+    'The_Correct_answers' => 'The Correct answers',
+    'change_settings' => 'Change account settings',
+    'current_password' => 'current password',
+    'new_password' => 'new password',
+    'confirm_password' => 'confirm password',
 
 
 

@@ -15,10 +15,13 @@ use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\Teacher_section;
+use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class TeacherController extends Controller
 {
@@ -37,6 +40,66 @@ class TeacherController extends Controller
             ->get();
 
         return view('pages.Teacher.dashboard', compact('sectionCount', 'studentCount', 'sections'));
+    }
+
+    public function profile()
+    {
+        $teacher = Auth::user()->teacher;
+        return view('pages.Teacher.profile', compact('teacher'));
+    }
+
+    public function update(Request $request, Teacher $teacher)
+    {
+        $teacher = Auth::user()->teacher;
+        $user = $teacher->user;
+
+        $validated = $request->validate([
+            'Name_ar'     => ['required', 'string', 'max:255'],
+            'Name_en'     => ['required', 'string', 'max:255'],
+            'National_ID' => [
+                'required',
+                'string',
+                'regex:/^\d{9}$/',
+                Rule::unique('managers', 'National_ID')->ignore($teacher->id),
+            ],
+            'email'       => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
+            'password'    => ['nullable', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        DB::transaction(function () use ($validated, $user, $teacher) {
+            // Update user
+            $emailChanged = $validated['email'] !== $user->email;
+
+            $user->name  = ['en' => $validated['Name_en'], 'ar' => $validated['Name_ar']];
+            $user->email = $validated['email'];
+            $user->National_ID = $validated['National_ID'];
+
+            if ($emailChanged) {
+                // Optional but recommended if you use email verification
+                $user->email_verified_at = null;
+            }
+
+            if (!empty($validated['password'])) {
+                $user->password = Hash::make($validated['password']);
+            }
+
+            // keep role as manager (defensive)
+            if ($user->role !== 'teacher') {
+                $user->role = 'teacher';
+            }
+
+            $user->save();
+            $teacher->save();
+        });
+
+        // Use whatever flash system you prefer
+        Flasher::addSuccess(trans('messages.success'));
+        return redirect()->route('teacher.profile')->with('status', trans('messages.success'));
     }
 
     public function sections()

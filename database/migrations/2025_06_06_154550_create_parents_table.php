@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('National_ID')->unique();
             $table->string('Phone_Father');
             $table->string('Job_Father');
             $table->string('Address_Father');

@@ -52,12 +52,13 @@ class teacherSeeder extends Seeder
                 'email' => $teacher['email'],
                 'password' => Hash::make('teacher1234'),
                 'role' => 'teacher',
+                'National_ID' => $teacher['National_ID'],
             ]);
 
             // Create teacher profile
             $teacher = Teacher::create([
                 'user_id' => $user->id,
-                'National_ID' => $teacher['National_ID'],
+                // 'National_ID' => $teacher['National_ID'],
                 'Specialization_id' => $teacher['Specialization_id'],
                 'Gender_id' => $teacher['Gender_id'],
                 'Joining_Date' => $teacher['Joining_Date'],

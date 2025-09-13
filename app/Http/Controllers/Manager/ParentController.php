@@ -61,6 +61,7 @@ class ParentController extends Controller
             $user = User::create([
                 'name'     => ['ar' => $request->name_ar, 'en' => $request->name_en],
                 'email'    => $request->email,
+                'National_ID'    => $request->National_ID,
                 'password' => Hash::make($request->password),
                 'role'     => 'parent',
             ]);
@@ -68,7 +69,7 @@ class ParentController extends Controller
             // 2. Create the parent profile
             ParentProfile::create([
                 'user_id'        => $user->id,
-                'National_ID'    => $request->National_ID,
+                // 'National_ID'    => $request->National_ID,
                 'Job_Father'     => $request->input('Job_Father'),
                 'Phone_Father'   => $request->Phone_Father,
                 'Address_Father' => $request->Address_Father,
@@ -143,6 +144,7 @@ class ParentController extends Controller
                 'en' => $request->name_en
             ];
             $user->email = $request->email;
+            $user->National_ID = $request->National_ID;
 
             // Update password only if provided
             if ($request->filled('password')) {
@@ -153,7 +155,7 @@ class ParentController extends Controller
 
             // 2. Create the parent profile
             $parent->update([
-                'National_ID'    => $request->National_ID,
+                // 'National_ID'    => $request->National_ID,
                 'Phone_Father'   => $request->Phone_Father,
                 'Job_Father'     => $request->input('Job_Father'),
                 'Address_Father' => $request->Address_Father,

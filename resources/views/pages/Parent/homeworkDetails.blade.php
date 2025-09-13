@@ -30,7 +30,7 @@
                                 {{ $homework->description }}
                                 @if ($homework->attachment_path)
                                     <a class=""
-                                        href="{{ asset('storage/attachments/homeworks/teachers/' . $homework->teacher->National_ID . '/' . $homework->attachment_path) }}"
+                                        href="{{ asset('storage/attachments/homeworks/teachers/' . $homework->teacher->user->National_ID . '/' . $homework->attachment_path) }}"
                                         target="_blank">
                                         {{ trans('Teacher_trans.attachment_path') }}
                                     </a>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- البطاقة -->
                 <div class="card">
                     <div class="card-body">
@@ -148,7 +148,7 @@
                                                     class="muted">{{ $submission->submitted_at->translatedFormat('h:i A، d F Y') }}</span>
 
                                                 <a class="file-pill"
-                                                    href="{{ asset('storage/attachments/homework_submissions/students/' . $submission->student->National_ID . '/' . $submission->file_path) }}"
+                                                    href="{{ asset('storage/attachments/homework_submissions/students/' . $submission->student->user->National_ID . '/' . $submission->file_path) }}"
                                                     target="_blank">
                                                     {{ trans('Teacher_trans.download') }}
                                                 </a>

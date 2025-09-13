@@ -21,10 +21,11 @@ class managerSeeder extends Seeder
             'email' => 'mazenadmin@gmail.com',
             'password' => Hash::make('mazen1234'),
             'role' => 'manager',
-        ]);
-
-        $user->manager()->create([
             'National_ID' => '408557494',
         ]);
+
+        // $user->manager()->create([
+        //     'National_ID' => '408557494',
+        // ]);
     }
 }

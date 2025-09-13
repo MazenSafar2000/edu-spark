@@ -248,7 +248,7 @@
                                     accept=".pdf,.doc,.docx,.jpg,.png,.rar,.zip">
                                 @if (isset($homework) && $homework->attachment_path)
                                     <div class="mt-2 h5">
-                                        <a href="{{ Storage::url('attachments/homeworks/teachers/' . Auth::user()->teacher->National_ID . '/' . $homework->attachment_path) }}"
+                                        <a href="{{ Storage::url('attachments/homeworks/teachers/' . Auth::user()->National_ID . '/' . $homework->attachment_path) }}"
                                             target="_blank">
                                             {{ trans('Teacher_trans.view_current_attachment') }}
                                         </a><br>

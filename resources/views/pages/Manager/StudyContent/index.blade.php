@@ -70,7 +70,7 @@
                                                     <li>
                                                         <a class="dropdown-item d-flex align-items-center gap-2"
                                                             target="_blank"
-                                                            href="{{ asset('storage/attachments/library/teachers/' . $book->teacher->National_ID . '/' . $book->file_name) }}">
+                                                            href="{{ asset('storage/attachments/library/teachers/' . $book->teacher->user->National_ID . '/' . $book->file_name) }}">
                                                             <i
                                                                 class="fa-solid fa-download action-icon download-icon-action"></i>
                                                             {{ trans('Teacher_trans.download') }}

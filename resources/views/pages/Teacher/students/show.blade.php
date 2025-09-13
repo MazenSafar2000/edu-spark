@@ -16,7 +16,7 @@
                             <p class="student-info ">
                                 <strong>{{ trans('Students_trans.name') }}:</strong>{{ $Student->user->name }} </p>
                             <p class="student-info "><strong>{{ trans('main_trans.National_ID') }}:</strong>
-                                {{ $Student->National_ID }}</p>
+                                {{ $Student->user->National_ID }}</p>
                             <p class="student-info">
                                 <strong>{{ trans('Teacher_trans.Gender') }}:</strong>{{ $Student->gender->Name }}</p>
                             <p class="student-info "><strong>{{ trans('main_trans.Grade') }} :</strong> {{ $Student->grade->Name }}</p>

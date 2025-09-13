@@ -81,7 +81,7 @@ class LibraryController extends Controller
             $file = $request->file('file_name');
 
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $folderName = $Teacher->teacher->National_ID;
+            $folderName = $Teacher->teacher->user->National_ID;
 
             $library = Library::create([
                 'title' => $request->title,
@@ -168,7 +168,7 @@ class LibraryController extends Controller
                 return redirect()->back()->with('error', 'Teacher not found.');
             }
 
-            $folderName = $teacher->National_ID;
+            $folderName = $teacher->user->National_ID;
 
             $data = $request->only([
                 'title',
@@ -216,7 +216,7 @@ class LibraryController extends Controller
             $library = Library::findOrFail($id);
             $library->delete();
 
-            Storage::disk('public')->delete("attachments/library/teachers/{$library->teacher->National_ID}/{$library->file_name}");
+            Storage::disk('public')->delete("attachments/library/teachers/{$library->teacher->user->National_ID}/{$library->file_name}");
 
             Flasher::addSuccess(trans('messages.delete'));
             return redirect()->back();

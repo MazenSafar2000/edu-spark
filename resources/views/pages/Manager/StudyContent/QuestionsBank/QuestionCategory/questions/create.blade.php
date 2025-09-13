@@ -58,8 +58,8 @@
                             @enderror
                         </div>
 
+                        {{-- Question Type --}}
                         <div class="border p-3">
-                            {{-- Question Type --}}
                             <div class="mb-3">
                                 <label class="text-danger">{{ trans('main_trans.question_type') }}*</label><br>
                                 <label><input type="radio" name="type" value="MCQ"
@@ -131,7 +131,7 @@
                         </div>
 
                         <div class="text-end">
-                            <button type="submit" class="btn btn-success">حفظ</button>
+                            <button type="submit" class="btn btn-success">{{ trans('main_trans.submit') }}</button>
                         </div>
                     </form>
                 </div>

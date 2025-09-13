@@ -27,8 +27,6 @@
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet" />
 
-
-
     <!-- custom css file link -->
     @if (App::getLocale() == 'en')
         <link href="{{ URL::asset('assets/css/ltr.css') }}" rel="stylesheet">
@@ -45,7 +43,8 @@
             <div class="top-header">
                 <div class="container d-flex flex-wrap justify-content-between align-items-center ">
                     <div class="d-flex gap-3 flex-wrap">
-                        <span class="info-item-location">{{ trans('main_trans.palestine_gaza') }}<i class="fas fa-map-marker-alt"></i></span>
+                        <span class="info-item-location">{{ trans('main_trans.palestine_gaza') }}<i
+                                class="fas fa-map-marker-alt"></i></span>
 
                         <span class="info-item-hour"> من 8:00 ص - 3:00 م <i class="fas fa-clock"></i> </span>
                     </div>
@@ -66,7 +65,8 @@
 
                     <div class="navbar-collapse-item" id="mainNavbar">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item"><a class="nav-link" href="index.html">{{ trans('main_trans.home') }}</a></li>
+                            <li class="nav-item"><a class="nav-link"
+                                    href="index.html">{{ trans('main_trans.home') }}</a></li>
                             <li class="nav-item-lang dropdown lang-switcher">
                                 <a class="nav-link lang-dropdown d-flex align-items-center gap-1" href="#"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -114,7 +114,7 @@
     <!--- footer start-->
     <footer class="footer">
 
-{!! trans('main_trans.footer_rights', ['brand' => '<span>Spark Education</span>']) !!}
+        {!! trans('main_trans.footer_rights', ['brand' => '<span>Spark Education</span>']) !!}
 
     </footer>
     <!--- footer ends-->

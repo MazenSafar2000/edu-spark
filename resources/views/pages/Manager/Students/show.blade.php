@@ -32,7 +32,7 @@
                                          </tr>
                                          <tr>
                                              <td>{{ trans('main_trans.National_ID') }}</td>
-                                             <td>{{ $Student->National_ID }}</td>
+                                             <td>{{ $Student->user->National_ID }}</td>
                                          </tr>
                                          <tr>
                                              <td>{{ trans('Students_trans.email') }}</td>
@@ -103,7 +103,7 @@
                                      @endif
 
                                      <input type="hidden" name="student_national_id"
-                                         value="{{ $Student->National_ID }}">
+                                         value="{{ $Student->user->National_ID }}">
                                      <input type="hidden" name="student_id" value="{{ $Student->id }}">
                                  </div>
 

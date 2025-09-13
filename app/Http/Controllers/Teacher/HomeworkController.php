@@ -94,7 +94,7 @@ class HomeworkController extends Controller
 
 
             if ($request->hasFile('attachment')) {
-                $folderName = Auth::user()->teacher->National_ID;
+                $folderName = Auth::user()->National_ID;
                 $fileName = time() . '_' . $request->file('attachment')->getClientOriginalName();
 
                 $path = $request->file('attachment')->storeAs(
@@ -205,17 +205,17 @@ class HomeworkController extends Controller
             ]);
 
             if ($request->has('remove_attachment') && $homework->attachment_path) {
-                Storage::disk('public')->delete('attachments/homeworks/teachers/' . Auth::user()->teacher->National_ID . '/' . $homework->attachment_path);
+                Storage::disk('public')->delete('attachments/homeworks/teachers/' . Auth::user()->National_ID . '/' . $homework->attachment_path);
                 $homework->update(['attachment_path' => null]);
             }
 
             if ($request->hasFile('attachment')) {
                 // Delete old file first
                 if ($homework->attachment_path) {
-                    Storage::disk('public')->delete('attachments/homeworks/teachers/' . Auth::user()->teacher->National_ID . '/' . $homework->attachment_path);
+                    Storage::disk('public')->delete('attachments/homeworks/teachers/' . Auth::user()->National_ID . '/' . $homework->attachment_path);
                 }
 
-                $folderName = Auth::user()->teacher->National_ID;
+                $folderName = Auth::user()->National_ID;
                 $fileName = time() . '_' . $request->file('attachment')->getClientOriginalName();
 
                 $path = $request->file('attachment')->storeAs(
@@ -246,7 +246,7 @@ class HomeworkController extends Controller
         $homework = Homework::findOrFail($id);
 
         if ($homework->attachment_path) {
-            Storage::disk('public')->delete('attachments/homeworks/teachers/' . Auth::user()->teacher->National_ID . '/' . $homework->attachment_path);
+            Storage::disk('public')->delete('attachments/homeworks/teachers/' . Auth::user()->National_ID . '/' . $homework->attachment_path);
         }
 
         $homework->delete();
