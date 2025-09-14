@@ -17,15 +17,16 @@ class managerSeeder extends Seeder
     public function run()
     {
         $user = User::create([
-            'name' => 'mazen',
+            'name' => ['en' => 'mazen abu safar', 'ar' => 'مازن ابو صفر'],
             'email' => 'mazenadmin@gmail.com',
             'password' => Hash::make('mazen1234'),
             'role' => 'manager',
             'National_ID' => '408557494',
         ]);
 
-        // $user->manager()->create([
-        //     'National_ID' => '408557494',
-        // ]);
+        $user->manager()->create([
+            // 'National_ID' => '408557494',
+            'user_id' => $user->id,
+        ]);
     }
 }

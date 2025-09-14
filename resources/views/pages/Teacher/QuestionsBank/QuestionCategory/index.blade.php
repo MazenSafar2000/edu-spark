@@ -62,6 +62,7 @@
                 </div>
             </div>
 
+            @include('components.error-field')
             <div class="table-responsive custom-table-wrapper">
                 <table class="text-center custom-grade-table" id="datatable">
                     <thead class="thead-custom">
@@ -124,7 +125,7 @@
 
                                 <!-- جسم المودال -->
                                 <div class="modal-body custom-modal-body">
-                                    <form id="editQCForm" class="custom-form"
+                                    <form id="editQCForm{{ $Category->id }}" class="custom-form"
                                         action="{{ route('questionsCategotry.update', $Category->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
@@ -150,7 +151,7 @@
                                 <!-- تذييل المودال -->
                                 <div class="modal-footer custom-modal-footer">
                                     <button type="submit" class="btn btn-primary custom-save-btn"
-                                        form="editQCForm">{{ trans('Teacher_trans.save') }}</button>
+                                        form="editQCForm{{ $Category->id }}">{{ trans('Teacher_trans.save') }}</button>
                                     <button type="button" class="btn btn-secondary custom-cancel-btn"
                                         data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                                 </div>
@@ -168,7 +169,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="{{ trans('main_trans.close') }}"></button>
                                 </div>
-                                <form id="deleteQCForm" action="{{ route('questionsCategotry.destroy', $Category->id) }}"
+                                <form id="deleteQCForm{{ $Category->id }}" action="{{ route('questionsCategotry.destroy', $Category->id) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -178,7 +179,7 @@
                                     </div>
 
                                     <div class="modal-footer justify-content-center">
-                                        <button type="submit" form="deleteQCForm"
+                                        <button type="submit" form="deleteQCForm{{ $Category->id }}"
                                             class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
                                         <button type="button" class="btn btn-cancel"
                                             data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>

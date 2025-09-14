@@ -290,6 +290,7 @@ return [
     'current_password' => 'current password',
     'new_password' => 'new password',
     'confirm_password' => 'confirm password',
+    'cannot_delete_class' => 'The row cannot be deleted because it contains related sections.',
 
 
 

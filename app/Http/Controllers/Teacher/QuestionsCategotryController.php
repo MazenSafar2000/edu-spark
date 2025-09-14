@@ -18,7 +18,11 @@ class QuestionsCategotryController extends Controller
      */
     public function index()
     {
-        $data['questionCategories'] = QuestionsCategotry::paginate(20);
+        $teacher = Auth::user()->teacher;
+
+        $questionBank = $teacher->questionBanks;
+
+        $data['questionCategories'] = QuestionsCategotry::where('questions_bank_id', $questionBank->id)->paginate(20);
 
         return view('pages.Teacher.QuestionsBank.QuestionCategory.index', $data);
     }
@@ -30,7 +34,7 @@ class QuestionsCategotryController extends Controller
      */
     public function create()
     {
-        return view('pages.Teacher.QuestionsBank.QuestionCategory.create');
+        // 
     }
 
     /**
@@ -48,10 +52,13 @@ class QuestionsCategotryController extends Controller
 
         try {
 
+            $teacher = Auth::user()->teacher;
+            $questionBank = $teacher->questionBanks;
+
             $QCategory = new QuestionsCategotry();
 
             $QCategory->title = $request->post('title');
-            $QCategory->questions_bank_id = Auth::user()->teacher->id;
+            $QCategory->questions_bank_id = $questionBank->id;
 
             $QCategory->save();
 
@@ -83,9 +90,7 @@ class QuestionsCategotryController extends Controller
      */
     public function edit(QuestionsCategotry $questionsCategotry)
     {
-        $category = $questionsCategotry;
-
-        return view('pages.Teacher.QuestionsBank.QuestionCategory.edit', compact('category'));
+        //
     }
 
     /**
@@ -103,11 +108,13 @@ class QuestionsCategotryController extends Controller
         ]);
 
         try {
+            $teacher = Auth::user()->teacher;
+            $questionBank = $teacher->questionBanks;
 
             $QCategory = $questionsCategotry;
 
             $QCategory->title = $request->post('title');
-            $QCategory->questions_bank_id = Auth::user()->teacher->id;
+            $QCategory->questions_bank_id = $questionBank->id;
 
             $QCategory->save();
 

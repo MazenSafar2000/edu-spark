@@ -117,9 +117,10 @@
                     type: "GET",
                     dataType: "json"
                 }).done(function(data) {
-                    $.each(data, function(id, name) {
-                        $class.append(`<option value="${id}">${name}</option>`);
+                    $.each(data, function(index, item) {
+                        $class.append(`<option value="${item.id}">${item.name}</option>`);
                     });
+
                     if (preselectId) $class.val(String(preselectId));
                 }).fail(function(xhr) {
                     console.error('Failed to load classrooms', xhr.status, xhr.responseText);
@@ -136,8 +137,8 @@
                     type: "GET",
                     dataType: "json"
                 }).done(function(data) {
-                    $.each(data, function(id, name) {
-                        $section.append(`<option value="${id}">${name}</option>`);
+                    $.each(data, function(index, item) {
+                        $section.append(`<option value="${item.id}">${item.name}</option>`);
                     });
                     if (preselectId) $section.val(String(preselectId));
                 }).fail(function(xhr) {

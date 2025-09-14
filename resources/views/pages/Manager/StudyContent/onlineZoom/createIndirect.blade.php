@@ -18,7 +18,7 @@
                                 <div class="form-group-float position-relative ">
                                     <input type="text" name="topic"
                                         class="form-control custom-input float-input @error('topic') custom-input-error @enderror"
-                                        placeholder=" " />
+                                        placeholder=" " value="{{ old('topic')}}"/>
                                     <label for=""
                                         class="float-label">{{ trans('Teacher_trans.Class_title') }}</label>
                                 </div>

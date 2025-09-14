@@ -49,13 +49,6 @@
 
                     <div class="header-table">
                         <div class="select-std d-flex gap-2 flex-wrap">
-                            {{-- <select class="form-select std-select" id="stage">
-                                <option selected disabled>الصف السابق ...</option>
-                            </select>
-                            <select class="form-select std-select" id="class">
-                                <option selected disabled> الصف الحالي ...</option>
-                            </select> --}}
-
                         </div>
 
                         <input type="search" id="promotionsSearch" class="form-control search-input"

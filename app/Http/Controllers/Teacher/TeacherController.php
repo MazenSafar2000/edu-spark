@@ -34,7 +34,6 @@ class TeacherController extends Controller
         $sectionCount = $teacher->sections()->count();
         $studentCount = Student::whereIn('section_id', $teacher->sections->pluck('id'))->count();
 
-        // استدعاء Teacher_section مع العلاقات المطلوبة
         $sections = $teacher->teacherSections()
             ->with(['section.students', 'section.My_classs.Grades', 'subject'])
             ->get();
@@ -60,7 +59,7 @@ class TeacherController extends Controller
                 'required',
                 'string',
                 'regex:/^\d{9}$/',
-                Rule::unique('managers', 'National_ID')->ignore($teacher->id),
+                Rule::unique('users', 'National_ID')->ignore($user->id),
             ],
             'email'       => [
                 'required',
@@ -72,7 +71,6 @@ class TeacherController extends Controller
         ]);
 
         DB::transaction(function () use ($validated, $user, $teacher) {
-            // Update user
             $emailChanged = $validated['email'] !== $user->email;
 
             $user->name  = ['en' => $validated['Name_en'], 'ar' => $validated['Name_ar']];
@@ -80,7 +78,6 @@ class TeacherController extends Controller
             $user->National_ID = $validated['National_ID'];
 
             if ($emailChanged) {
-                // Optional but recommended if you use email verification
                 $user->email_verified_at = null;
             }
 
@@ -88,7 +85,6 @@ class TeacherController extends Controller
                 $user->password = Hash::make($validated['password']);
             }
 
-            // keep role as manager (defensive)
             if ($user->role !== 'teacher') {
                 $user->role = 'teacher';
             }
@@ -97,7 +93,6 @@ class TeacherController extends Controller
             $teacher->save();
         });
 
-        // Use whatever flash system you prefer
         Flasher::addSuccess(trans('messages.success'));
         return redirect()->route('teacher.profile')->with('status', trans('messages.success'));
     }

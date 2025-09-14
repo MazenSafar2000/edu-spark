@@ -76,7 +76,7 @@ class LibraryController extends Controller
             $file = $request->file('file_name');
 
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $folderName = $teacher->user->National_ID;
+            $folderName = $Teacher->user->National_ID;
 
             $library = Library::create([
                 'title' => $request->title,

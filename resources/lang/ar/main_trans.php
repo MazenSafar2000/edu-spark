@@ -293,6 +293,8 @@ return [
     'current_password' => 'كلمة المرور الحالية',
     'new_password' => 'كلمة المرور الجديدة',
     'confirm_password' => 'تأكيد كلمة المرور',
+    'cannot_delete_class' => 'لا يمكن حذف الصف لأنه يحتوي على أقسام مرتبطة.',
+
 
 
 

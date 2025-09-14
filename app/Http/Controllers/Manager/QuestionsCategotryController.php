@@ -5,6 +5,7 @@ namespace App\Http\Controllers\manager;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionsBank;
 use App\Models\QuestionsCategotry;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Flasher\Laravel\Facade\Flasher;
@@ -19,8 +20,9 @@ class QuestionsCategotryController extends Controller
     public function index()
     {
         $data['questionCategories'] = QuestionsCategotry::paginate(20);
+        $data['teachers'] = Teacher::all();
 
-        return view('pages.Teacher.QuestionsBank.QuestionCategory.index', $data);
+        return view('pages.Manager.StudyContent.QuestionsBank.QuestionCategory.index', $data);
     }
 
     /**
@@ -30,7 +32,7 @@ class QuestionsCategotryController extends Controller
      */
     public function create()
     {
-        return view('pages.Teacher.QuestionsBank.QuestionCategory.create');
+        //
     }
 
     /**
@@ -42,6 +44,7 @@ class QuestionsCategotryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'questions_bank_id' => 'required|exists:questions_banks,id',
             'title' => 'required|string',
             'QBank' => 'exists:questions_banks,id'
         ]);
@@ -51,7 +54,7 @@ class QuestionsCategotryController extends Controller
             $QCategory = new QuestionsCategotry();
 
             $QCategory->title = $request->post('title');
-            $QCategory->questions_bank_id = Auth::user()->teacher->id;
+            $QCategory->questions_bank_id = $request->post('questions_bank_id');
 
             $QCategory->save();
 
@@ -83,9 +86,7 @@ class QuestionsCategotryController extends Controller
      */
     public function edit(QuestionsCategotry $questionsCategotry)
     {
-        $category = $questionsCategotry;
-
-        return view('pages.Teacher.QuestionsBank.QuestionCategory.edit', compact('category'));
+        //
     }
 
     /**
@@ -95,26 +96,27 @@ class QuestionsCategotryController extends Controller
      * @param  \App\Models\QuestionsCategotry  $questionsCategotry
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, QuestionsCategotry $questionsCategotry)
+    public function update(Request $request, $id)
     {
         $request->validate([
+            'questions_bank_id' => 'required|exists:questions_banks,id',
             'title' => 'required|string',
             'QBank' => 'exists:questions_banks,id'
         ]);
 
         try {
 
-            $QCategory = $questionsCategotry;
+            $QCategory = QuestionsCategotry::findOrFail($id);
 
             $QCategory->title = $request->post('title');
-            $QCategory->questions_bank_id = Auth::user()->teacher->id;
+            $QCategory->questions_bank_id = $request->post('questions_bank_id');
 
             $QCategory->save();
 
 
 
             Flasher::addSuccess(trans('messages.success'));
-            return redirect()->route('questionsCategotry.index');
+            return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
@@ -126,13 +128,14 @@ class QuestionsCategotryController extends Controller
      * @param  \App\Models\QuestionsCategotry  $questionsCategotry
      * @return \Illuminate\Http\Response
      */
-    public function destroy(QuestionsCategotry $questionsCategotry)
+    public function destroy($id)
     {
         try {
-            $questionsCategotry->delete();
+            $QCategory = QuestionsCategotry::findOrFail($id);
+            $QCategory->delete();
 
             Flasher::addError(trans('messages.Delete'));
-            return redirect()->route('questionsCategotry.index');
+            return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }

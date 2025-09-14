@@ -116,18 +116,40 @@ class GraduatedController extends Controller
             $student = Student::findOrFail($studentId);
 
             // Insert into graduates
-            $gradeuate = Graduate::create([
+            $graduate = Graduate::create([
                 'student_id'    => $student->id,
                 'user_id'       => $student->user_id,
-                'grade_id'      => $student->Grade_id,
-                'classroom_id'  => $student->Classroom_id,
-                'section_id'    => $student->section_id,
+                'name'          => [
+                    'en' => $student->user->getTranslation('name', 'en'),
+                    'ar' => $student->user->getTranslation('name', 'ar')
+                ],
+                'email'         => $student->user->email,
+                'National_ID'   => $student->user->National_ID,
+                'parent_name'   => [
+                    'en' => $student->myparent->user->getTranslation('name', 'en'),
+                    'ar' => $student->myparent->user->getTranslation('name', 'ar')
+                ],
+                'grade'         => [
+                    'en' => $student->grade->getTranslation('Name', 'en'),
+                    'ar' => $student->grade->getTranslation('Name', 'ar')
+                ],
+                'classroom'     => [
+                    'en' => $student->classroom->getTranslation('Name_Class', 'en'),
+                    'ar' => $student->classroom->getTranslation('Name_Class', 'ar')
+                ],
+                'section'       => [
+                    'en' => $student->section->getTranslation('Name_Section', 'en'),
+                    'ar' => $student->section->getTranslation('Name_Section', 'ar')
+                ],
                 'academic_year' => $student->academic_year,
+                'Date_Birth'    => $student->Date_Birth,
                 'graduated_at'  => now()->toDateString(),
                 'reason'        => 'Completed School',
             ]);
 
             // Soft delete student
+            $student->delete();
+
             DB::commit();
             Flasher::addSuccess(trans('messages.success'));
             return redirect()->back();

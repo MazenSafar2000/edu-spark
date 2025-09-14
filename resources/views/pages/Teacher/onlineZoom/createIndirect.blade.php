@@ -151,7 +151,7 @@
                                         class="form-control custom-input float-input @error('start_url') custom-input-error @enderror"
                                         placeholder=" " value="{{ old('start_url') }}"/>
                                     <label for=""
-                                        class="float-label">{{ trans('Teacher_trans.start_at') }}</label>
+                                        class="float-label">{{ trans('Teacher_trans.start_url_host') }}</label>
                                 </div>
                                 @error('start_url')
                                     <div class="error-message">
@@ -166,7 +166,7 @@
                                         class="form-control custom-input float-input @error('join_url') custom-input-error @enderror"
                                         placeholder=" " value="{{ old('join_url') }}"/>
                                     <label for=""
-                                        class="float-label">{{ trans('Teacher_trans.Login_link_for_students') }}</label>
+                                        class="float-label">{{ trans('Teacher_trans.start_url_std') }}</label>
                                 </div>
                                 @error('join_url')
                                     <div class="error-message">

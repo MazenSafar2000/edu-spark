@@ -229,7 +229,7 @@
 
             <li>
                 <a href="{{ route('Teachers.index') }}">
-                    <span>{{ trans('main_trans.Current_Teachers') }}</span>
+                    <span>{{ trans('main_trans.Teachers') }}</span>
                     <i class="fas fa-user-shield"></i>
                 </a>
             </li>
@@ -294,6 +294,7 @@
     </div>
 
     @yield('manager_content')
+    <br><br>
 
     <!--- footer start-->
     <footer class="footer bg-white shadow fixed-bottom">

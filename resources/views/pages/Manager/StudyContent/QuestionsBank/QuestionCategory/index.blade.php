@@ -1,5 +1,5 @@
-@extends('layouts.main.teacher_dashboard')
-@section('teacher_content')
+@extends('layouts.main.manager_dashboard')
+@section('manager_content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <h3 class="teacher-title2">{{ trans('Teacher_trans.questions_categories') }}</h3>
         <div class="title-underline"></div>
@@ -15,6 +15,7 @@
                         placeholder="{{ trans('main_trans.search') }}">
                 </div>
 
+                @include('components.error-field')
                 <!-- add QC modal -->
                 <div class="modal fade custom-modal" id="addQuestionCategoryModal" tabindex="-1"
                     aria-labelledby="addQuestionCategoryModal" aria-hidden="true">
@@ -30,9 +31,27 @@
 
                             <!-- جسم المودال -->
                             <div class="modal-body custom-modal-body">
-                                <form id="addQCForm" class="custom-form" action="{{ route('questionsCategotry.store') }}"
+                                <form id="addQCForm" class="custom-form" action="{{ route('QuestionsCategotry.store') }}"
                                     method="POST" class="custom-form">
                                     @csrf
+                                    <div class="mb-3 custom-form-group">
+                                        <label for=""
+                                            class="text-danger">{{ trans('main_trans.Teachers') }}*</label>
+                                        <select
+                                            class="form-select custom-select @error('questions_bank_id') custom-select-error @enderror"
+                                            name="questions_bank_id" id="questions_bank_id">
+                                            <option selected disabled>{{ trans('main_trans.select_teacher_name') }}</option>
+                                            @foreach ($teachers as $teacher)
+                                                <option value="{{ $teacher->questionBanks->id }}">{{ $teacher->user->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('questions_bank_id')
+                                            <div class="error-message" id="error-bookNameArabic">
+                                                <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                     <div class="mb-3 custom-form-group">
                                         <div class="form-group-float position-relative ">
                                             <input type="text" name="title"
@@ -68,6 +87,7 @@
                         <tr>
                             <th>#</th>
                             <th>{{ trans('Teacher_trans.category') }} </th>
+                            <th>{{ trans('Teacher_trans.teacher_name') }}</th>
                             <th>{{ trans('Teacher_trans.operations') }}</th>
                         </tr>
                     </thead>
@@ -76,6 +96,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $Category->title }}</td>
+                                <td>{{ $Category->questionsBank->teacher->user->name }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="dropdown-toggle dropdown-toggle-operations"
@@ -124,10 +145,31 @@
 
                                 <!-- جسم المودال -->
                                 <div class="modal-body custom-modal-body">
-                                    <form id="editQCForm" class="custom-form"
-                                        action="{{ route('questionsCategotry.update', $Category->id) }}" method="POST">
+                                    <form id="editQCForm{{ $Category->id }}" class="custom-form"
+                                        action="{{ route('QuestionsCategotry.update', $Category->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
+
+                                        <div class="mb-3 custom-form-group">
+                                            <label for=""
+                                                class="text-danger">{{ trans('main_trans.Teachers') }}*</label>
+                                            <select
+                                                class="form-select custom-select @error('questions_bank_id') custom-select-error @enderror"
+                                                name="questions_bank_id" id="questions_bank_id">
+                                                <option selected value="{{ $Category->questions_bank_id }}">
+                                                    {{ $Category->questionsBank->teacher->user->name }}
+                                                </option>
+                                                @foreach ($teachers as $teacher)
+                                                    <option value="{{ $teacher->questionBanks->id }}">
+                                                        {{ $teacher->user->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('questions_bank_id')
+                                                <div class="error-message" id="error-bookNameArabic">
+                                                    <i class="fas fa-exclamation-triangle"></i>{{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
 
                                         <div class="mb-3 custom-form-group">
                                             <div class="form-group-float position-relative ">
@@ -150,7 +192,7 @@
                                 <!-- تذييل المودال -->
                                 <div class="modal-footer custom-modal-footer">
                                     <button type="submit" class="btn btn-primary custom-save-btn"
-                                        form="editQCForm">{{ trans('Teacher_trans.save') }}</button>
+                                        form="editQCForm{{ $Category->id }}">{{ trans('Teacher_trans.save') }}</button>
                                     <button type="button" class="btn btn-secondary custom-cancel-btn"
                                         data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                                 </div>
@@ -168,8 +210,8 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="{{ trans('main_trans.close') }}"></button>
                                 </div>
-                                <form id="deleteQCForm" action="{{ route('questionsCategotry.destroy', $Category->id) }}"
-                                    method="POST">
+                                <form id="deleteQCForm{{ $Category->id }}"
+                                    action="{{ route('QuestionsCategotry.destroy', $Category->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <div class="modal-body text-center">
@@ -178,7 +220,7 @@
                                     </div>
 
                                     <div class="modal-footer justify-content-center">
-                                        <button type="submit" form="deleteQCForm"
+                                        <button type="submit" form="deleteQCForm{{ $Category->id }}"
                                             class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
                                         <button type="button" class="btn btn-cancel"
                                             data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>

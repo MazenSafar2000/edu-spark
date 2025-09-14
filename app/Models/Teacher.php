@@ -66,7 +66,7 @@ class Teacher extends Model
 
     public function questionBanks()
     {
-        return $this->hasMany(QuestionsBank::class);
+        return $this->hasOne(QuestionsBank::class);
     }
 
     public function questions()

@@ -1,5 +1,5 @@
-@extends('layouts.main.teacher_dashboard')
-@section('teacher_content')
+@extends('layouts.main.manager_dashboard')
+@section('manager_content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
 
         <h3 class="teacher-header-form">{{ trans('Teacher_trans.Edit_homework') }}</h3>

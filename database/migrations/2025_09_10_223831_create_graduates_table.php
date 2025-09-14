@@ -15,18 +15,25 @@ return new class extends Migration
     {
         Schema::create('graduates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // still link to user
+
+            $table->foreignId('student_id')->nullable()->constrained('students')->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // still link to user
 
             // Store old school info (at the moment of graduation)
-            $table->bigInteger('grade_id')->unsigned();
-            $table->bigInteger('classroom_id')->unsigned();
-            $table->bigInteger('section_id')->unsigned();
+            $table->string('name');
+            $table->string('email');
+            $table->string('National_ID');
+            $table->string('parent_name');
+            $table->string('grade');
+            $table->string('classroom');
+            $table->string('section');
             $table->string('academic_year');
+            $table->date('Date_Birth');
 
             // Graduation details
             $table->date('graduated_at')->nullable();
             $table->string('reason')->nullable(); // e.g., "finished school", "transferred", etc.
+
 
             $table->timestamps();
         });

@@ -45,7 +45,7 @@
 
                                                 <li><a class="dropdown-item d-flex align-items-center gap-2" href="#"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#deleteModal{{ $Subject->id }}">
+                                                        data-bs-target="#deleteSubjectModal{{ $Subject->id }}">
                                                         <i class="fas fa-trash-alt action-icon delete-icon-action"></i>
                                                         {{ trans('main_trans.delete') }}
                                                     </a>
@@ -140,27 +140,28 @@
                         <div class="modal fade" id="deleteSubjectModal{{ $Subject->id }}" tabindex="-1"
                             aria-labelledby="deleteModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
-                                <form action="{{ route('Subjects.destroy', $Subject->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                    </div>
+                                    <form id="deleteSubjForm{{ $Subject->id }}"
+                                        action="{{ route('Subjects.destroy', $Subject->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
 
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="{{ trans('Grades_trans.Close') }}"></button>
-                                        </div>
                                         <div class="modal-body text-center">
                                             <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
                                             <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
                                         </div>
                                         <div class="modal-footer justify-content-center">
-                                            <button type="submit"
+                                            <button type="submit" form="deleteSubjForm{{ $Subject->id }}"
                                                 class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
                                             <button type="button" class="btn btn-cancel"
                                                 data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     @endforeach

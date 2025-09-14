@@ -7,9 +7,9 @@
                     <div class="profile-card-manager text-center">
                         <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="مدير" class="profile-avatar mb-3">
                         <div class="profile-info-manager">
-                            <h3>{{ $manager->user->name }}</h3>
-                            <p>{{ $manager->user->email }}</p>
-                            <p>{{ $manager->user->National_ID }}</p>
+                            <h3>{{ $manager->name }}</h3>
+                            <p>{{ $manager->email }}</p>
+                            <p>{{ $manager->National_ID }}</p>
                         </div>
 
                         @include('components.error-field')
@@ -43,7 +43,7 @@
                                                     <div class="form-group-float position-relative">
                                                         <input type="text" class="form-control custom-input float-input"
                                                             name="Name_ar" placeholder=" "
-                                                            value="{{ old('Name_ar', $manager->user->getTranslation('name', 'ar')) }}" />
+                                                            value="{{ old('Name_ar', $manager->getTranslation('name', 'ar')) }}" />
                                                         <label class="float-label">{{ trans('main_trans.name_ar') }}</label>
                                                         @error('Name_ar')
                                                             <div class="error-message">{{ $message }}</div>
@@ -55,7 +55,7 @@
                                                     <div class="form-group-float position-relative">
                                                         <input type="text" class="form-control custom-input float-input"
                                                             name="Name_en" placeholder=" "
-                                                            value="{{ old('Name_en', $manager->user->getTranslation('name', 'en')) }}" />
+                                                            value="{{ old('Name_en', $manager->getTranslation('name', 'en')) }}" />
                                                         <label
                                                             class="float-label">{{ trans('main_trans.name_en') }}</label>
                                                         @error('Name_en')
@@ -68,7 +68,7 @@
                                                     <div class="form-group-float position-relative">
                                                         <input type="email" class="form-control custom-input float-input"
                                                             name="email" placeholder=" "
-                                                            value="{{ old('email', $manager->user->email) }}" />
+                                                            value="{{ old('email', $manager->email) }}" />
                                                         <label class="float-label">{{ trans('main_trans.email') }}</label>
                                                         @error('email')
                                                             <div class="error-message">{{ $message }}</div>
@@ -101,7 +101,7 @@
                                                     <div class="form-group-float position-relative">
                                                         <input type="text" class="form-control custom-input float-input"
                                                             name="National_ID" placeholder=" "
-                                                            value="{{ old('National_ID', $manager->user->National_ID) }}" />
+                                                            value="{{ old('National_ID', $manager->National_ID) }}" />
                                                         <label
                                                             class="float-label">{{ trans('main_trans.National_ID') }}</label>
                                                         @error('National_ID')

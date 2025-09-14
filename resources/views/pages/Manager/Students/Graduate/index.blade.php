@@ -34,9 +34,9 @@
                                 @foreach ($graduates as $graduate)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $graduate->student->user->name }}</td>
-                                        <td>{{ $graduate->student->user->National_ID }}</td>
-                                        <td>{{ $graduate->student->Date_Birth }}</td>
+                                        <td>{{ $graduate->name }}</td>
+                                        <td>{{ $graduate->National_ID }}</td>
+                                        <td>{{ $graduate->Date_Birth }}</td>
                                         <td>{{ $graduate->academic_year }}</td>
                                         <td style="max-width: 50px; max-width: 70px;">{{ $graduate->reason }}</td>
                                         <td>

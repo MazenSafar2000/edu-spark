@@ -117,7 +117,7 @@ class ClassroomController extends Controller
             $classroom = Classroom::findOrFail($id);
 
             if ($classroom->sections()->count() > 0) {
-                return redirect()->back()->withErrors(['error' => 'لا يمكن حذف الصف لأنه يحتوي على أقسام مرتبطة.']);
+                return redirect()->back()->withErrors(['error' => trans('main_trans.cannot_delete_class')]);
             }
 
             $classroom->delete();

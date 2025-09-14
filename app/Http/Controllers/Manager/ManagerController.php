@@ -20,7 +20,7 @@ class ManagerController extends Controller
 
     public function profile()
     {
-        $manager = Auth::user()->manager;
+        $manager = Auth::user();
         return view('pages.Manager.profile', compact('manager'));
     }
 
@@ -28,7 +28,6 @@ class ManagerController extends Controller
     {
         $manager = Auth::user()->manager;
         $user = $manager->user;
-        // dd($user->id);
 
         $validated = $request->validate([
             'Name_ar'     => ['required', 'string', 'max:255'],
@@ -37,7 +36,7 @@ class ManagerController extends Controller
                 'required',
                 'string',
                 'regex:/^\d{9}$/',
-                Rule::unique('managers', 'National_ID')->ignore($manager->id),
+                Rule::unique('users', 'National_ID')->ignore($user->id),
             ],
             'email'       => [
                 'required',
@@ -49,7 +48,6 @@ class ManagerController extends Controller
         ]);
 
         DB::transaction(function () use ($validated, $user, $manager) {
-            // Update user
             $emailChanged = $validated['email'] !== $user->email;
 
             $user->name  = ['en' => $validated['Name_en'], 'ar' => $validated['Name_ar']];
@@ -57,7 +55,6 @@ class ManagerController extends Controller
             $user->National_ID = $validated['National_ID'];
 
             if ($emailChanged) {
-                // Optional but recommended if you use email verification
                 $user->email_verified_at = null;
             }
 
@@ -65,18 +62,15 @@ class ManagerController extends Controller
                 $user->password = Hash::make($validated['password']);
             }
 
-            // keep role as manager (defensive)
             if ($user->role !== 'manager') {
                 $user->role = 'manager';
             }
 
             $user->save();
 
-            // Update manager
             $manager->save();
         });
 
-        // Use whatever flash system you prefer
         Flasher::addSuccess(trans('messages.success'));
         return redirect()->route('manager.profile')->with('status', trans('messages.success'));
     }

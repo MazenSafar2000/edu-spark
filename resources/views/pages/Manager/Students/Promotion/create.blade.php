@@ -174,81 +174,69 @@
             // ===== Old Academic Stage =====
             $('select[name="Grade_id"]').on('change', function() {
                 let gradeId = $(this).val();
-                let $classroom = $('select[name="Classroom_id"]');
-                let $section = $('select[name="section_id"]');
+                $('#Classroom_id').empty().append('<option selected disabled>Loading...</option>');
+                $('#section_id').empty().append(
+                    '<option selected disabled>{{ trans('main_trans.select_section') }}</option>');
 
-                $classroom.empty().append(
-                    '<option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>');
-                $section.empty().append(
-                    '<option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>');
-
-                if (gradeId) {
-                    $.get("{{ url('/ajax/classrooms') }}/" + gradeId, function(data) {
-                        $.each(data, function(id, name) {
-                            $classroom.append(`<option value="${id}">${name}</option>`);
-                        });
-                    }).fail(function(xhr) {
-                        console.error('Error loading classrooms', xhr.responseText);
+                $.get('/ajax/classrooms/' + gradeId, function(data) {
+                    $('#Classroom_id').empty().append(
+                        '<option selected disabled>{{ trans('main_trans.select_class') }}</option>'
+                    );
+                    data.forEach(function(classroom) {
+                        $('#Classroom_id').append(
+                            `<option value="${classroom.id}">${classroom.name}</option>`
+                        );
                     });
-                }
+                });
             });
 
             $('select[name="Classroom_id"]').on('change', function() {
-                let classId = $(this).val();
-                let $section = $('select[name="section_id"]');
+                let classroomId = $(this).val();
+                $('#section_id').empty().append('<option selected disabled>Loading...</option>');
 
-                $section.empty().append(
-                    '<option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>');
-
-                if (classId) {
-                    $.get("{{ url('/ajax/sections') }}/" + classId, function(data) {
-                        $.each(data, function(id, name) {
-                            $section.append(`<option value="${id}">${name}</option>`);
-                        });
-                    }).fail(function(xhr) {
-                        console.error('Error loading sections', xhr.responseText);
+                $.get('/ajax/sections/' + classroomId, function(data) {
+                    $('#section_id').empty().append(
+                        '<option selected disabled>{{ trans('main_trans.select_section') }}</option>'
+                    );
+                    data.forEach(function(section) {
+                        $('#section_id').append(
+                            `<option value="${section.id}">${section.name}</option>`);
                     });
-                }
+                });
             });
 
             // ===== New Academic Stage =====
             $('select[name="Grade_id_new"]').on('change', function() {
                 let gradeId = $(this).val();
-                let $classroom = $('select[name="Classroom_id_new"]');
-                let $section = $('select[name="section_id_new"]');
+                $('#Classroom_id_new').empty().append('<option selected disabled>Loading...</option>');
+                $('#section_id_new').empty().append(
+                    '<option selected disabled>{{ trans('main_trans.select_section') }}</option>');
 
-                $classroom.empty().append(
-                    '<option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>');
-                $section.empty().append(
-                    '<option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>');
-
-                if (gradeId) {
-                    $.get("{{ url('/ajax/classrooms') }}/" + gradeId, function(data) {
-                        $.each(data, function(id, name) {
-                            $classroom.append(`<option value="${id}">${name}</option>`);
-                        });
-                    }).fail(function(xhr) {
-                        console.error('Error loading classrooms', xhr.responseText);
+                $.get('/ajax/classrooms/' + gradeId, function(data) {
+                    $('#Classroom_id_new').empty().append(
+                        '<option selected disabled>{{ trans('main_trans.select_class') }}</option>'
+                    );
+                    data.forEach(function(classroom) {
+                        $('#Classroom_id_new').append(
+                            `<option value="${classroom.id}">${classroom.name}</option>`
+                        );
                     });
-                }
+                });
             });
 
             $('select[name="Classroom_id_new"]').on('change', function() {
-                let classId = $(this).val();
-                let $section = $('select[name="section_id_new"]');
+                let classroomId = $(this).val();
+                $('#section_id_new').empty().append('<option selected disabled>Loading...</option>');
 
-                $section.empty().append(
-                    '<option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>');
-
-                if (classId) {
-                    $.get("{{ url('/ajax/sections') }}/" + classId, function(data) {
-                        $.each(data, function(id, name) {
-                            $section.append(`<option value="${id}">${name}</option>`);
-                        });
-                    }).fail(function(xhr) {
-                        console.error('Error loading sections', xhr.responseText);
+                $.get('/ajax/sections/' + classroomId, function(data) {
+                    $('#section_id_new').empty().append(
+                        '<option selected disabled>{{ trans('main_trans.select_section') }}</option>'
+                    );
+                    data.forEach(function(section) {
+                        $('#section_id_new').append(
+                            `<option value="${section.id}">${section.name}</option>`);
                     });
-                }
+                });
             });
         });
     </script>

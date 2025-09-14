@@ -34,7 +34,7 @@
         <div class="form-group-float position-relative">
             <input type="text" name="National_ID"
                 class="form-control custom-input float-input @error('National_ID') custom-input-error @enderror"
-                id="" placeholder=" " value="{{ old('National_ID', $teacher->user->National_ID ?? '') }}" />
+                id="" placeholder=" " value="{{ old('National_ID', $Parent->user->National_ID ?? '') }}" />
             <label for="National_ID" class="float-label">{{ trans('main_trans.National_ID') }}</label>
         </div>
         @error('National_ID')
