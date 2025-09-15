@@ -6,7 +6,7 @@
         <div class="container mt-5 subject-data">
             <div class="page-title-parent">
                 <h2>{{ $teacher_section->subject->name }} - <span>{{ $teacher_section->teacher->user->name }}</span></h2>
-                <a href="student-mark.html">العلامات</a>
+                {{-- <a href="student-mark.html">العلامات</a> --}}
             </div>
             <div class="accordion" id="contentAccordion">
                 @foreach ($materials as $material)

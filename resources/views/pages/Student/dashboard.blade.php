@@ -21,7 +21,7 @@
                                     </div>
                                 </div>
                                 <div class="thumb">
-                                    <img src="{{ $item->subject->image ? asset('storage/' . $item->subject->image) : asset('assets/images/avatar.png') }}"
+                                    <img src="{{ $item->subject->image ? asset('storage/' . $item->subject->image) : asset('assets/images/no_name.gif') }}"
                                         alt="">
                                 </div>
                                 <h3 class="title">{{ $item->subject->name }}</h3>

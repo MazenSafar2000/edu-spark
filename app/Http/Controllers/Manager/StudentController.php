@@ -213,7 +213,7 @@ class StudentController extends Controller
         $student->delete();
 
         if ($user) {
-            $user->delete(); // Deletes the associated user record
+            $user->delete();
         }
         Flasher::addError(trans('messages.Delete'));
         return redirect()->route('Students.index');

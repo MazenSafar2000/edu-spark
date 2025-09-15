@@ -150,6 +150,10 @@ class GraduatedController extends Controller
             // Soft delete student
             $student->delete();
 
+            if ($student->user) {
+                $student->user->delete(); 
+            }
+
             DB::commit();
             Flasher::addSuccess(trans('messages.success'));
             return redirect()->back();

@@ -13,11 +13,9 @@ class StudentController extends Controller
     {
         $student = Auth::user()->student;
 
-        // الحصول على كل teacher_sections المرتبطة بقسم الطالب
         $subjects = Teacher_section::with(['teacher.user', 'subject'])
             ->where('section_id', $student->section_id)
             ->get();
-            // dd($subjects);
 
         return view('pages.Student.dashboard', compact('subjects'));
     }
