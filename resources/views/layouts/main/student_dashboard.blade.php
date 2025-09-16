@@ -35,8 +35,6 @@
         window.authUserId = {{ Auth::id() }};
     </script>
 
-
-
     <!-- Custom CSS -->
     @if (App::getLocale() == 'en')
         <link href="{{ URL::asset('assets/css/ltr.css') }}" rel="stylesheet">
@@ -222,8 +220,9 @@
 
         <div class="offcanvas-body d-flex flex-column p-0">
             <div>
-                <input type="text" class="form-control search-msg"
-                    placeholder="{{ trans('main_trans.search') }}">
+                <input type="text" class="form-control search-msg" placeholder="ابحث ..."
+                    onkeyup="filterUsers(this)">
+
             </div>
             <div class="messages-body overflow-auto flex-grow-1 p-3">
 

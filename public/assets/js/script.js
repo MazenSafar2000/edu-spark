@@ -281,14 +281,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+// ✅ 1) استمع للرسائل الجديدة من Pusher (Laravel Echo)
+// لازم تسمع للقناة الصحيحة تبع Chatify
+window.Echo.private(`chatify.${window.authUserId}`)
+    .listen('.messaging', (e) => {
+        console.log("📩 Chatify Event Received:", e);
 
+        const chatUserName = document.getElementById('chatUserName');
+        const chatBody = document.getElementById('chatBody');
+
+        if (chatUserName && chatUserName.dataset.userid == e.from_id) {
+            let div = document.createElement('div');
+            div.classList.add('chat-msg-other');
+            div.innerHTML = `
+                <div class="bubble">
+                    <p>${e.message}</p>
+                    <span class="time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                </div>`;
+            chatBody.appendChild(div);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        } else {
+            // 👇 هنا تقدر تضيف نقطة حمراء فوق أيقونة الرسائل
+            document.getElementById("msgNotifDot").style.display = "block";
+        }
+    });
+
+
+
+// ✅ 2) فتح المحادثة
 function openChatPopup(userId, userName) {
     const chatUserName = document.getElementById("chatUserName");
     const popup = document.getElementById("chatPopup");
     const offcanvasEl = document.getElementById('messagesOffcanvas');
     const chatBody = document.getElementById("chatBody");
 
-    // عرّف الاسم و الـ ID في العنصر
+    // تعريف الاسم والـ ID
     chatUserName.innerText = userName;
     chatUserName.dataset.userid = userId;
 
@@ -296,21 +323,20 @@ function openChatPopup(userId, userName) {
     popup.style.display = "block";
     requestAnimationFrame(() => popup.classList.add("is-open"));
 
-    // إغلاق offcanvas إذا مفتوح
+    // إغلاق الـ offcanvas لو مفتوح
     if (window.bootstrap && offcanvasEl) {
         let inst = bootstrap.Offcanvas.getInstance(offcanvasEl);
         if (!inst) inst = new bootstrap.Offcanvas(offcanvasEl);
         inst.hide();
     }
 
-    // فوكس على الانبوت
+    // فوكس على الإنبت
     setTimeout(() => {
         const input = document.querySelector(".chat-input");
         input && input.focus();
     }, 80);
 
-    // 🔥 جلب الرسائل القديمة (Chatify بيرجع HTML جاهز)
-    // 🔥 نستخدم الـ route الجديد بدل fetchMessages تبع Chatify
+    // 🔥 جلب الرسائل القديمة
     fetch('/custom/messages', {
         method: 'POST',
         headers: {
@@ -323,34 +349,31 @@ function openChatPopup(userId, userName) {
     })
         .then(res => res.json())
         .then(messages => {
-            const chatBody = document.getElementById("chatBody");
             chatBody.innerHTML = '';
 
             messages.forEach(msg => {
                 let div = document.createElement("div");
                 div.classList.add(
                     msg.from_id === window.authUserId
-                        ? "chat-msg-me"
-                        : "chat-msg-other"
+                        ? "chat-msg-user"
+                        : "chat-msg-reply"
                 );
 
-                // نص الرسالة + وقتها
                 div.innerHTML = `
-                <div class="bubble">
-                    <p>${msg.body}</p>
-                    <span class="time">${new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                </div>
-            `;
+                    <div class="bubble">
+                        <p>${msg.body}</p>
+                        <span class="time">${new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                `;
                 chatBody.appendChild(div);
             });
 
             chatBody.scrollTop = chatBody.scrollHeight;
         });
-
 }
 
 
-
+// ✅ 3) إرسال رسالة
 function sendMessage(event) {
     if (event.key === 'Enter') {
         let input = event.target;
@@ -374,13 +397,16 @@ function sendMessage(event) {
                 .then(data => {
                     let chatBody = document.getElementById('chatBody');
                     let div = document.createElement('div');
-                    div.classList.add('chat-msg-me');
-                    div.innerText = message;
+                    div.classList.add('chat-msg-user');
+                    div.innerHTML = `
+                        <div class="bubble">
+                            <p>${message}</p>
+                            <span class="time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                    `;
                     chatBody.appendChild(div);
 
-                    // سكرول لآخر رسالة
                     chatBody.scrollTop = chatBody.scrollHeight;
-
                     input.value = '';
                 });
         }
@@ -388,6 +414,7 @@ function sendMessage(event) {
 }
 
 
+// ✅ 4) إغلاق البوب أب
 function closeChatPopup() {
     const popup = document.getElementById("chatPopup");
     popup.classList.remove("is-open");
@@ -399,6 +426,16 @@ function closeChatPopup() {
     popup.addEventListener("transitionend", done, { once: true });
     setTimeout(done, 300); // fallback
 }
+
+
+function filterUsers(input) {
+    const query = input.value.toLowerCase();
+    document.querySelectorAll('.message-item').forEach(item => {
+        const name = item.querySelector('.msg-info strong').innerText.toLowerCase();
+        item.style.display = name.includes(query) ? "flex" : "none";
+    });
+}
+
 
 document.querySelectorAll('.unit-header').forEach(header => {
     header.addEventListener('click', () => {
