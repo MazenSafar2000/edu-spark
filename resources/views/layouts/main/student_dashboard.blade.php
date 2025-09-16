@@ -30,6 +30,12 @@
     </script>
     @vite(['resources/js/app.js'])
 
+    {{-- pass user id to use in messaging process --}}
+    <script>
+        window.authUserId = {{ Auth::id() }};
+    </script>
+
+
 
     <!-- Custom CSS -->
     @if (App::getLocale() == 'en')
@@ -216,71 +222,42 @@
 
         <div class="offcanvas-body d-flex flex-column p-0">
             <div>
-                <input type="text" class="form-control search-msg" placeholder="ابحث ...">
+                <input type="text" class="form-control search-msg"
+                    placeholder="{{ trans('main_trans.search') }}">
             </div>
-
             <div class="messages-body overflow-auto flex-grow-1 p-3">
-                <!-- عنصر رسالة -->
-                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
-                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
-                        style="width: 45px; height: 45px; object-fit: cover;">
-                    <div class="msg-info text-end">
-                        <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">لديك مهام جديدة</p>
-                    </div>
-                    <span>٣٠٠ س</span>
+
+                <div class="messages-body overflow-auto flex-grow-1 p-3">
+                    @foreach ($allowedUsers as $user)
+                        <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
+                            style="cursor: pointer;"
+                            onclick="openChatPopup({{ $user->id }}, '{{ $user->getTranslation('name', app()->getLocale()) }}')">
+
+                            <img src="{{ asset('assets/images/avatar.png') }}"
+                                onerror="this.src='{{ asset('assets/images/avatar.png') }}'" alt="user"
+                                class="rounded-circle me-3" style="width: 45px; height: 45px; object-fit: cover;">
+
+                            <div class="msg-info text-end">
+                                <strong class="d-block">{{ $user->name }}</strong>
+                                <p class="mb-0">{{ $user->role }}</p>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
 
-
-                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
-                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
-                        style="width: 45px; height: 45px; object-fit: cover;">
-                    <div class="msg-info text-end">
-                        <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">لديك مهام جديدة</p>
-                    </div>
-                    <span>٣٠٠ س</span>
-                </div>
-
-
-
-                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
-                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
-                        style="width: 45px; height: 45px; object-fit: cover;">
-                    <div class="msg-info text-end">
-                        <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">لديك مهام جديدة</p>
-                    </div>
-                    <span>٣٠٠ س</span>
-                </div>
-
-                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
-                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
-                        style="width: 45px; height: 45px; object-fit: cover;">
-                    <div class="msg-info text-end">
-                        <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">لديك مهام جديدة</p>
-                    </div>
-                    <span>٣٠٠ س</span>
-                </div>
-
-                <!-- يمكنك إضافة المزيد من الرسائل هنا -->
             </div>
-
         </div>
     </div>
 
     <!-- نافذة المحادثة المنبثقة -->
+
+
     <div class="card-message chat-popup-wrapper position-fixed bottom-0 shadow" id="chatPopup"
         style="display: none;">
 
         <div class="chat-popup-header d-flex justify-content-between align-items-center">
             <button class="chat-close-button btn btn-sm btn-close" onclick="closeChatPopup()"></button>
-            <span id="chatUserName" class="chat-username">المعلم</span>
+            <span id="chatUserName" class="chat-username"></span>
         </div>
 
         <div class="chat-popup-body overflow-auto" id="chatBody">

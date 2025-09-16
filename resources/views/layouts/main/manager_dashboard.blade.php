@@ -30,6 +30,11 @@
     </script>
     @vite(['resources/js/app.js'])
 
+    {{-- pass user id to use in messaging process --}}
+    <script>
+        window.authUserId = {{ Auth::id() }};
+    </script>
+
 
     <!-- Custom CSS -->
     @if (App::getLocale() == 'en')
@@ -295,6 +300,72 @@
 
     @yield('manager_content')
     <br><br>
+
+    <!-- زر فتح الرسائل باستخدام Bootstrap -->
+    <button class="position-fixed  m-4 d-flex align-items-center gap-2 shadow open-msg-btn" type="button"
+        data-bs-toggle="offcanvas" data-bs-target="#messagesOffcanvas" aria-controls="messagesOffcanvas">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Offcanvas الرسائل -->
+    <div class="offcanvas offcanvas-bottom messages-panel" tabindex="-1" id="messagesOffcanvas"
+        aria-labelledby="messagesOffcanvasLabel">
+        <div class="offcanvas-header message-title text-white d-flex  justify-content-between align-items-center">
+            <h5 class="offcanvas-title ms-auto">الرسائل</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                aria-label="إغلاق"></button>
+        </div>
+
+
+        <div class="offcanvas-body d-flex flex-column p-0">
+            <div>
+                <input type="text" class="form-control search-msg"
+                    placeholder="{{ trans('main_trans.search') }}">
+            </div>
+            <div class="messages-body overflow-auto flex-grow-1 p-3">
+
+                <div class="messages-body overflow-auto flex-grow-1 p-3">
+                    @foreach ($allowedUsers as $user)
+                        <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
+                            style="cursor: pointer;"
+                            onclick="openChatPopup({{ $user->id }}, '{{ $user->getTranslation('name', app()->getLocale()) }}')">
+
+                            <img src="{{ asset('assets/images/avatar.png') }}"
+                                onerror="this.src='{{ asset('assets/images/avatar.png') }}'" alt="user"
+                                class="rounded-circle me-3" style="width: 45px; height: 45px; object-fit: cover;">
+
+                            <div class="msg-info text-end">
+                                <strong class="d-block">{{ $user->name }}</strong>
+                                <p class="mb-0">{{ $user->role }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة المحادثة المنبثقة -->
+    <div class="card-message chat-popup-wrapper position-fixed bottom-0 shadow" id="chatPopup"
+        style="display: none;">
+
+        <div class="chat-popup-header d-flex justify-content-between align-items-center">
+            <button class="chat-close-button btn btn-sm btn-close" onclick="closeChatPopup()"></button>
+            <span id="chatUserName" class="chat-username" data-userid=""></span>
+
+        </div>
+
+        <div class="chat-popup-body overflow-auto" id="chatBody">
+            <div class="chat-msg-bot text-muted small">مرحباً! كيف يمكنني مساعدتك؟</div>
+        </div>
+
+        <div class="chat-popup-footer">
+            <input type="text" class="chat-input form-control" placeholder="اكتب رسالة..."
+                onkeydown="sendMessage(event)">
+        </div>
+
+    </div>
 
     <!--- footer start-->
     <footer class="footer bg-white shadow fixed-bottom">

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\CustomLoginController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Manager\ExamAttemptsController;
 use App\Http\Controllers\manager\ExamController;
@@ -135,16 +136,17 @@ Route::group(
                     '/manager/exams/{exam}/student/{student}/attempts/{attempt}/answers',
                     [ExamAttemptsController::class, 'showAttemptAnswers']
                 )->name('manager.exams.attemptAnswers');
-
             });
-
-
-
         });
 
         Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])
             ->middleware('auth')
             ->name('notifications.readAll');
+
+        Route::middleware(['auth'])->group(function () {
+            Route::post('/custom/messages', [ChatController::class, 'fetchMessages'])
+                ->name('custom.fetchMessages');
+        });
     }
 );
 

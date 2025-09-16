@@ -65,4 +65,50 @@ class User extends Authenticatable
     {
         return $this->hasOne(Manager::class);
     }
+
+    public function allowedChatUsers()
+    {
+        switch ($this->role) {
+            case 'teacher':
+                // الطلاب في الأقسام اللي بيدرسها المعلم
+                $studentUsers = User::whereHas('student', function ($q) {
+                    $q->whereIn('section_id', $this->teacher->sections->pluck('sections.id'));
+                });
+
+                // أولياء أمور هؤلاء الطلاب
+                $parentUsers = User::whereHas('parents.students', function ($q) {
+                    $q->whereIn('section_id', $this->teacher->sections->pluck('sections.id'));
+                });
+
+                // المديرين
+                $managerUsers = User::where('role', 'manager');
+
+                return $studentUsers->union($parentUsers)->union($managerUsers)->get();
+
+            case 'student':
+                // المعلمين اللي بيدرسوا هذا الطالب
+                $teacherUsers = User::whereHas('teacher.sections', function ($q) {
+                    $q->where('sections.id', $this->student->section_id);
+                });
+
+                // المديرين
+                $managerUsers = User::where('role', 'manager');
+
+                return $teacherUsers->union($managerUsers)->get();
+
+            case 'parent':
+                // المعلمين اللي بيدرسوا أولاد هذا الأب/الأم
+                $teacherUsers = User::whereHas('teacher.sections', function ($q) {
+                    $q->whereIn('sections.id', $this->parents->students->pluck('section_id'));
+                });
+
+                // المديرين
+                $managerUsers = User::where('role', 'manager');
+
+                return $teacherUsers->union($managerUsers)->get();
+
+            case 'manager':
+                return User::all();
+        }
+    }
 }

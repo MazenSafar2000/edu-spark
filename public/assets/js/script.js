@@ -279,97 +279,125 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// المحادثات عند ولي الأمر
-function openChatPopup(name) {
-    document.getElementById("chatUserName").innerText = name;
-    document.getElementById("chatPopup").style.display = "block";
+const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    // إغلاق نافذة الرسائل
-    const offcanvasEl = document.getElementById('messagesOffcanvas');
-    const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl);
-    if (bsOffcanvas) {
-        bsOffcanvas.hide();
-    }
-}
 
-function closeChatPopup() {
-    document.getElementById("chatPopup").style.display = "none";
-}
-
-function sendMessage(event) {
-    if (event.key === "Enter") {
-        const input = event.target;
-        const message = input.value.trim();
-        if (message) {
-            const chatBody = document.getElementById("chatBody");
-
-            // رسالة المستخدم
-            const userMsg = document.createElement("div");
-            userMsg.className = "chat-msg-user";
-            userMsg.textContent = message;
-            chatBody.appendChild(userMsg);
-
-            input.value = "";
-
-            // رد تلقائي بعد ثانية
-            setTimeout(() => {
-                const botReply = document.createElement("div");
-                botReply.className = "chat-msg-reply";
-                botReply.textContent = "شكراً لرسالتك!";
-                chatBody.appendChild(botReply);
-
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }, 1000);
-
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-    }
-}
-
-function openChatPopup(name) {
-    // اسم المستخدم
-    document.getElementById("chatUserName").innerText = name;
-
+function openChatPopup(userId, userName) {
+    const chatUserName = document.getElementById("chatUserName");
     const popup = document.getElementById("chatPopup");
     const offcanvasEl = document.getElementById('messagesOffcanvas');
+    const chatBody = document.getElementById("chatBody");
 
-    // خلي العنصر يظهر أولاً
+    // عرّف الاسم و الـ ID في العنصر
+    chatUserName.innerText = userName;
+    chatUserName.dataset.userid = userId;
+
+    // إظهار البوب أب
     popup.style.display = "block";
+    requestAnimationFrame(() => popup.classList.add("is-open"));
 
-    // شغّل الانيميشن بإطار رسم (تضمن تشغيل الترانزيشن كل مرة)
-    requestAnimationFrame(() => {
-        popup.classList.add("is-open");
-    });
-
-    // إغلاق الـOffcanvas إن وجد
+    // إغلاق offcanvas إذا مفتوح
     if (window.bootstrap && offcanvasEl) {
         let inst = bootstrap.Offcanvas.getInstance(offcanvasEl);
         if (!inst) inst = new bootstrap.Offcanvas(offcanvasEl);
         inst.hide();
     }
 
-    // فوكس على حقل الكتابة
+    // فوكس على الانبوت
     setTimeout(() => {
         const input = document.querySelector(".chat-input");
         input && input.focus();
     }, 80);
+
+    // 🔥 جلب الرسائل القديمة (Chatify بيرجع HTML جاهز)
+    // 🔥 نستخدم الـ route الجديد بدل fetchMessages تبع Chatify
+    fetch('/custom/messages', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token
+        },
+        body: JSON.stringify({
+            id: userId
+        })
+    })
+        .then(res => res.json())
+        .then(messages => {
+            const chatBody = document.getElementById("chatBody");
+            chatBody.innerHTML = '';
+
+            messages.forEach(msg => {
+                let div = document.createElement("div");
+                div.classList.add(
+                    msg.from_id === window.authUserId
+                        ? "chat-msg-me"
+                        : "chat-msg-other"
+                );
+
+                // نص الرسالة + وقتها
+                div.innerHTML = `
+                <div class="bubble">
+                    <p>${msg.body}</p>
+                    <span class="time">${new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                </div>
+            `;
+                chatBody.appendChild(div);
+            });
+
+            chatBody.scrollTop = chatBody.scrollHeight;
+        });
+
 }
+
+
+
+function sendMessage(event) {
+    if (event.key === 'Enter') {
+        let input = event.target;
+        let message = input.value;
+        let userId = document.getElementById('chatUserName').dataset.userid;
+
+        if (message.trim() !== '') {
+            fetch('/chatify/sendMessage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify({
+                    id: userId,
+                    type: 'user',
+                    message: message
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    let chatBody = document.getElementById('chatBody');
+                    let div = document.createElement('div');
+                    div.classList.add('chat-msg-me');
+                    div.innerText = message;
+                    chatBody.appendChild(div);
+
+                    // سكرول لآخر رسالة
+                    chatBody.scrollTop = chatBody.scrollHeight;
+
+                    input.value = '';
+                });
+        }
+    }
+}
+
 
 function closeChatPopup() {
     const popup = document.getElementById("chatPopup");
-
-    // شغّل الانيميشن العكسي
     popup.classList.remove("is-open");
 
-    // بعد انتهاء الترانزيشن، خبّي العنصر
     const done = () => {
         popup.style.display = "none";
         popup.removeEventListener("transitionend", done);
     };
     popup.addEventListener("transitionend", done, { once: true });
-
-    // احتياط لو المتصفح ما أطلق transitionend
-    setTimeout(done, 300);
+    setTimeout(done, 300); // fallback
 }
 
 document.querySelectorAll('.unit-header').forEach(header => {

@@ -15,7 +15,9 @@ class ManagerController extends Controller
 {
     public function dashboard()
     {
-        return view('pages.Manager.dashboard');
+        $allowedUsers = Auth::user()->allowedChatUsers();
+
+        return view('pages.Manager.dashboard', compact('allowedUsers'));
     }
 
     public function profile()

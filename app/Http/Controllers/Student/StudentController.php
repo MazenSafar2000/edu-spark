@@ -17,6 +17,9 @@ class StudentController extends Controller
             ->where('section_id', $student->section_id)
             ->get();
 
-        return view('pages.Student.dashboard', compact('subjects'));
+
+        $allowedUsers = Auth::user()->allowedChatUsers();
+
+        return view('pages.Student.dashboard', compact('subjects', 'allowedUsers'));
     }
 }

@@ -33,6 +33,11 @@
     </script>
     @vite(['resources/js/app.js'])
 
+    {{-- pass user id to use in messaging process --}}
+    <script>
+        window.authUserId = {{ Auth::id() }};
+    </script>
+
     <!-- custom css file link -->
     @if (App::getLocale() == 'en')
         <link href="{{ URL::asset('assets/css/ltr.css') }}" rel="stylesheet">
