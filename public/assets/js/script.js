@@ -281,31 +281,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-// get messages using pusher 
+// get messages using pusher
 if (window.authUserId) {
     window.Echo.private(`chatify.${window.authUserId}`)
         .listen('.messaging', (e) => {
-            console.log("📩 Chatify Event Received:", e);
-
             const chatUserName = document.getElementById('chatUserName');
             const chatBody = document.getElementById('chatBody');
 
             if (chatUserName && chatUserName.dataset.userid == e.from_id) {
-                // if the user we chat with, is opening our chat , make the message a real time message
-                let div = document.createElement('div');
-                div.classList.add('chat-msg-reply');
-                div.innerHTML = `
-                    <div class="bubble">
-                        <p>${e.message}</p>
-                        <span class="time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                    </div>`;
-                chatBody.appendChild(div);
-                chatBody.scrollTop = chatBody.scrollHeight;
+                // مستخدم فاتح المحادثة
+                appendMessage(e, false);
             } else {
-                // red dot apove the caht icon
-                document.getElementById("msgNotifDot").style.display = "block";
+                // 👇 أظهر نقطة حمراء
+                document.getElementById("msgNotifDot").classList.remove("d-none");
+
+                // 👇 (اختياري) Toast Notification
+                const toast = document.createElement("div");
+                toast.className = "toast align-items-center text-bg-primary border-0 show";
+                toast.innerHTML = `
+              <div class="d-flex">
+                <div class="toast-body">
+                  رسالة جديدة من ${e.sender_name}: ${e.message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+              </div>`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 5000);
             }
         });
+
 }
 
 // open a chat
@@ -339,25 +343,45 @@ function openChatPopup(userId, userName) {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': token
         },
-        body: JSON.stringify({ id: userId })
+        body: JSON.stringify({
+            id: userId   // هذا الـ id لازم يكون الـ users.id تبع الشخص اللي معاه المحادثة
+        })
     })
         .then(res => res.json())
         .then(messages => {
             chatBody.innerHTML = '';
+
             messages.forEach(msg => {
                 let div = document.createElement("div");
                 div.classList.add(
-                    msg.from_id === window.authUserId ? "chat-msg-user" : "chat-msg-reply"
+                    msg.from_id === window.authUserId
+                        ? "chat-msg-user"
+                        : "chat-msg-reply"
                 );
                 div.innerHTML = `
-                    <div class="bubble">
-                        <p>${msg.body}</p>
-                        <span class="time">${new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                    </div>`;
+            <div class="bubble">
+                <p>${msg.body}</p>
+                <span class="time">${new Date(msg.created_at)
+                        .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+            </div>
+        `;
                 chatBody.appendChild(div);
             });
+
             chatBody.scrollTop = chatBody.scrollHeight;
         });
+
+    fetch('/custom/markAsRead', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token
+        },
+        body: JSON.stringify({
+            from_id: userId
+        })
+    });
+
 }
 
 // send message

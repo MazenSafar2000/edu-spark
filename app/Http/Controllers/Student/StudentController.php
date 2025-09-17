@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChMessage;
 use App\Models\Teacher_section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +18,6 @@ class StudentController extends Controller
             ->where('section_id', $student->section_id)
             ->get();
 
-
-        $allowedUsers = Auth::user()->allowedChatUsers();
-
-        return view('pages.Student.dashboard', compact('subjects', 'allowedUsers'));
+        return view('pages.Student.dashboard', compact('subjects'));
     }
 }

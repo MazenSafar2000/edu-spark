@@ -72,12 +72,12 @@ class User extends Authenticatable
             case 'teacher':
                 // الطلاب في الأقسام اللي بيدرسها المعلم
                 $studentUsers = User::whereHas('student', function ($q) {
-                    $q->whereIn('section_id', $this->teacher->sections->pluck('sections.id'));
+                    $q->whereIn('section_id', $this->teacher->sections()->pluck('sections.id'));
                 });
 
                 // أولياء أمور هؤلاء الطلاب
                 $parentUsers = User::whereHas('parents.students', function ($q) {
-                    $q->whereIn('section_id', $this->teacher->sections->pluck('sections.id'));
+                    $q->whereIn('section_id', $this->teacher->sections()->pluck('sections.id'));
                 });
 
                 // المديرين

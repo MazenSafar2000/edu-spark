@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChMessage;
 use App\Models\Manager;
 use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Validation\Rule;
@@ -15,9 +16,7 @@ class ManagerController extends Controller
 {
     public function dashboard()
     {
-        $allowedUsers = Auth::user()->allowedChatUsers();
-
-        return view('pages.Manager.dashboard', compact('allowedUsers'));
+        return view('pages.Manager.dashboard');
     }
 
     public function profile()

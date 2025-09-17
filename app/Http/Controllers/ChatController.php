@@ -10,18 +10,29 @@ class ChatController extends Controller
 {
     public function fetchMessages(Request $request)
     {
-        $userId = $request->id;
-        $authId = Auth::id();
+        $userId  = Auth::id();      // المستخدم الحالي (teacher, student, parent, manager)
+        $otherId = $request->id;    // المستخدم الآخر
 
-        $messages = ChMessage::where(function ($q) use ($authId, $userId) {
-            $q->where('from_id', $authId)->where('to_id', $userId);
+        // هات كل الرسائل بين الاثنين
+        $messages = ChMessage::where(function ($q) use ($userId, $otherId) {
+            $q->where('from_id', $userId)->where('to_id', $otherId);
         })
-            ->orWhere(function ($q) use ($authId, $userId) {
-                $q->where('from_id', $userId)->where('to_id', $authId);
+            ->orWhere(function ($q) use ($userId, $otherId) {
+                $q->where('from_id', $otherId)->where('to_id', $userId);
             })
-            ->orderBy('created_at')
-            ->get(['id', 'from_id', 'to_id', 'body', 'created_at']);
+            ->orderBy('created_at', 'asc')
+            ->get();
 
         return response()->json($messages);
+    }
+
+    public function markAsRead(Request $request)
+    {
+        ChMessage::where('from_id', $request->from_id)
+            ->where('to_id', Auth::id())
+            ->where('seen', 0)
+            ->update(['seen' => 1]);
+
+        return response()->json(['status' => 'ok']);
     }
 }

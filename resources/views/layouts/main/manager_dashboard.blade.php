@@ -305,10 +305,9 @@
     <button class="position-fixed m-4 d-flex align-items-center gap-2 shadow open-msg-btn" type="button"
         data-bs-toggle="offcanvas" data-bs-target="#messagesOffcanvas" aria-controls="messagesOffcanvas">
         <i class="fas fa-comments position-relative">
-            <!-- 👇 نقطة الإشعار -->
             <span id="msgNotifDot"
-                style="display:none; position:absolute; top:-5px; right:-5px;
-                     width:10px; height:10px; background:red; border-radius:50%;">
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger {{ $unreadCount ? '' : 'd-none' }}">
+                {{ $unreadCount }}
             </span>
         </i>
     </button>
@@ -338,7 +337,11 @@
                         <div class="msg-info text-end">
                             <strong class="d-block">{{ $user->name }}</strong>
                             <p class="mb-0">{{ $user->role }}</p>
+                            @if ($user->unread_count > 0)
+                                <span class="badge bg-danger">{{ $user->unread_count }}</span>
+                            @endif
                         </div>
+
                     </div>
                 @endforeach
             </div>

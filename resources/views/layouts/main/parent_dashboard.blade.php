@@ -89,7 +89,8 @@
                             class="position-relative">
                             <i class="fas fa-bell icon-header"></i>
                             <!-- النقطة الحمراء على الأيقونة -->
-                            <span id="notif-dot" class="notification-dot @if (auth()->user()->unreadNotifications()->count() == 0) d-none @endif"></span>
+                            <span id="notif-dot"
+                                class="notification-dot @if (auth()->user()->unreadNotifications()->count() == 0) d-none @endif"></span>
                         </a>
                         <div class="dropdown-menu notification-dropdown text-end"
                             aria-labelledby="notificationsDropdown">
@@ -153,8 +154,8 @@
 
                     <!-- مبدّل اللغة -->
                     <li class="nav-item-lang-dashboard dropdown lang-switcher">
-                        <a class="nav-link lang-dropdown d-flex align-items-center gap-1" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link lang-dropdown d-flex align-items-center gap-1" href="#"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @if (App::getLocale() == 'ar')
                                 <img src="{{ asset('assets/images/ar.png') }}" alt="arabic" width="20"
                                     class="lang-flag">
@@ -194,110 +195,68 @@
 
 
 
-    <!-- زر فتح الرسائل باستخدام Bootstrap -->
-    <button class="position-fixed  m-4 d-flex align-items-center gap-2 shadow open-msg-btn" type="button"
+    <!-- زر فتح الرسائل -->
+    <button class="position-fixed m-4 d-flex align-items-center gap-2 shadow open-msg-btn" type="button"
         data-bs-toggle="offcanvas" data-bs-target="#messagesOffcanvas" aria-controls="messagesOffcanvas">
-        <i class="fas fa-comments"></i>
+        <i class="fas fa-comments position-relative">
+            <span id="msgNotifDot"
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger {{ $unreadCount ? '' : 'd-none' }}">
+                {{ $unreadCount }}
+            </span>
+        </i>
     </button>
 
     <!-- Offcanvas الرسائل -->
     <div class="offcanvas offcanvas-bottom messages-panel" tabindex="-1" id="messagesOffcanvas"
         aria-labelledby="messagesOffcanvasLabel">
-
-        <div class="chat-popup-header d-flex justify-content-between align-items-center">
-
-            <span id="chatUserName" class="chat-username">الرسائل</span>
+        <div class="offcanvas-header message-title text-white d-flex justify-content-between align-items-center">
+            <h5 class="offcanvas-title ms-auto">الرسائل</h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                 aria-label="إغلاق"></button>
-
         </div>
-
-
-
 
         <div class="offcanvas-body d-flex flex-column p-0">
             <div>
-                <input type="text" class="form-control search-msg" placeholder="ابحث ...">
+                <input type="text" class="form-control search-msg" placeholder="ابحث ..."
+                    onkeyup="filterUsers(this)">
             </div>
-
             <div class="messages-body overflow-auto flex-grow-1 p-3">
-                <!-- عنصر رسالة -->
-                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
-                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
-                        style="width: 45px; height: 45px; object-fit: cover;">
-                    <div class="msg-info text-end">
-                        <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">لديك مهام جديدة</p>
+                @foreach ($allowedUsers as $user)
+                    <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
+                        style="cursor: pointer;"
+                        onclick="openChatPopup({{ $user->id }}, '{{ $user->getTranslation('name', app()->getLocale()) }}')">
+                        <img src="{{ asset('assets/images/avatar.png') }}"
+                            onerror="this.src='{{ asset('assets/images/avatar.png') }}'" alt="user"
+                            class="rounded-circle me-3" style="width: 45px; height: 45px; object-fit: cover;">
+                        <div class="msg-info text-end">
+                            <strong class="d-block">{{ $user->name }}</strong>
+                            <p class="mb-0">{{ $user->role }}</p>
+                            @if ($user->unread_count > 0)
+                                <span class="badge bg-danger">{{ $user->unread_count }}</span>
+                            @endif
+                        </div>
+
                     </div>
-                    <span>٣٠٠ س</span>
-                </div>
-
-
-                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
-                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
-                        style="width: 45px; height: 45px; object-fit: cover;">
-                    <div class="msg-info text-end">
-                        <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">لديك مهام جديدة</p>
-                    </div>
-                    <span>٣٠٠ س</span>
-                </div>
-
-
-
-                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
-                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
-                        style="width: 45px; height: 45px; object-fit: cover;">
-                    <div class="msg-info text-end">
-                        <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">لديك مهام جديدة</p>
-                    </div>
-                    <span>٣٠٠ س</span>
-                </div>
-
-                <div class="d-flex align-items-center border-bottom py-2 text-dark message-item"
-                    style="cursor: pointer;" onclick="openChatPopup('المعلم')">
-                    <img src="{{ asset('assets/images/pic-2.jpg') }}" alt="user" class="rounded-circle me-3"
-                        style="width: 45px; height: 45px; object-fit: cover;">
-                    <div class="msg-info text-end">
-                        <strong class="d-block">المعلم</strong>
-                        <p class="mb-0">لديك مهام جديدة</p>
-                    </div>
-                    <span>٣٠٠ س</span>
-                </div>
-
-                <!-- يمكنك إضافة المزيد من الرسائل هنا -->
+                @endforeach
             </div>
         </div>
     </div>
 
-
-
-    <!-- نافذة المحادثة المنبثقة -->
+    <!-- نافذة المحادثة -->
     <div class="card-message chat-popup-wrapper position-fixed bottom-0 shadow" id="chatPopup"
         style="display: none;">
-
         <div class="chat-popup-header d-flex justify-content-between align-items-center">
-
-            <span id="chatUserName" class="chat-username">المعلم</span>
             <button class="chat-close-button btn btn-sm btn-close" onclick="closeChatPopup()"></button>
+            <span id="chatUserName" class="chat-username" data-userid=""></span>
         </div>
-
         <div class="chat-popup-body overflow-auto" id="chatBody">
             <div class="chat-msg-bot text-muted small">مرحباً! كيف يمكنني مساعدتك؟</div>
         </div>
-
         <div class="chat-popup-footer">
             <input type="text" class="chat-input form-control" placeholder="اكتب رسالة..."
                 onkeydown="sendMessage(event)">
         </div>
-
     </div>
-
-
 
     <!--- footer start-->
     <footer class="footer bg-white shadow fixed-bottom">

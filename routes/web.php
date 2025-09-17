@@ -146,6 +146,7 @@ Route::group(
         Route::middleware(['auth'])->group(function () {
             Route::post('/custom/messages', [ChatController::class, 'fetchMessages'])
                 ->name('custom.fetchMessages');
+            Route::post('/custom/markAsRead', [ChatController::class, 'markAsRead'])->name('custom.markAsRead');
         });
     }
 );
