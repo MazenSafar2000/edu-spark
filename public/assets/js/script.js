@@ -436,14 +436,29 @@ function closeChatPopup() {
     setTimeout(done, 300);
 }
 
-// ✅ البحث عن المستخدمين
+// search for a user
 function filterUsers(input) {
-    const filter = input.value.toLowerCase();
+    const filter = input.value.toLowerCase().trim();
+
     document.querySelectorAll('.message-item').forEach(item => {
-        const name = item.innerText.toLowerCase();
-        item.style.display = name.includes(filter) ? '' : 'none';
+        const nameEl = item.querySelector('.msg-info strong');
+        const roleEl = item.querySelector('.msg-info p');
+
+        const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+        const role = roleEl ? roleEl.textContent.toLowerCase() : '';
+
+        // 👇 الشرط المبسط
+        if (filter === "" || name.includes(filter) || role.includes(filter)) {
+            item.style.display = "flex"; // مهم: خليها flex عشان ما يخرب التصميم
+        } else {
+            item.style.display = "none";
+        }
     });
 }
+
+
+
+
 
 
 

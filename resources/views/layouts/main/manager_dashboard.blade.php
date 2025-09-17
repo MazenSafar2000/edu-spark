@@ -323,8 +323,9 @@
 
         <div class="offcanvas-body d-flex flex-column p-0">
             <div>
-                <input type="text" class="form-control search-msg" placeholder="ابحث ..."
-                    onkeyup="filterUsers(this)">
+                <input type="search" id="userSearch" class="form-control search-msg"
+       placeholder="ابحث ..." oninput="filterUsers(this)">
+
             </div>
             <div class="messages-body overflow-auto flex-grow-1 p-3">
                 @foreach ($allowedUsers as $user)

@@ -40,8 +40,23 @@ class AppServiceProvider extends ServiceProvider
                             ->where('to_id', $user->id)
                             ->where('seen', 0)
                             ->count();
+
+                        // وقت آخر رسالة بيني وبين المستخدم
+                        $lastMsg = ChMessage::where(function ($q) use ($u, $user) {
+                            $q->where('from_id', $u->id)->where('to_id', $user->id);
+                        })
+                            ->orWhere(function ($q) use ($u, $user) {
+                                $q->where('from_id', $user->id)->where('to_id', $u->id);
+                            })
+                            ->latest('created_at')
+                            ->first();
+
+                        $u->last_message_time = $lastMsg ? $lastMsg->created_at : null;
+
                         return $u;
-                    });
+                    })
+                    ->sortByDesc('last_message_time'); // ← الترتيب حسب آخر رسالة
+
 
                 // كل الرسائل الغير مقروءة
                 $unreadCount = ChMessage::where('to_id', $user->id)

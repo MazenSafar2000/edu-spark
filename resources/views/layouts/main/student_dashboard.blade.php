@@ -224,7 +224,7 @@
 
         <div class="offcanvas-body d-flex flex-column p-0">
             <div>
-                <input type="text" class="form-control search-msg" placeholder="ابحث ..."
+                <input type="search" id="userSearch" name="user-search" class="form-control search-msg" placeholder="ابحث ..."
                     onkeyup="filterUsers(this)">
             </div>
             <div class="messages-body overflow-auto flex-grow-1 p-3">
@@ -242,7 +242,6 @@
                                 <span class="badge bg-danger">{{ $user->unread_count }}</span>
                             @endif
                         </div>
-
                     </div>
                 @endforeach
             </div>
