@@ -291,6 +291,16 @@ return [
     'new_password' => 'new password',
     'confirm_password' => 'confirm password',
     'cannot_delete_class' => 'The row cannot be deleted because it contains related sections.',
+    'scores' => 'Scores',
+    'try_test_now' => 'Try to take the test now',
+    'no_questions_yest' => 'This exam contains no questions yet.',
+    'no_more_attempts' => 'You have exhausted all your attempts.',
+    'duration_not_specified' => 'The duration of the exam is not specified.',
+    'no_student_information' => 'No student information found.',
+    'exam_not_started' => 'The exam has not started yet.',
+    'exam_time_over' => 'Exam time is over.',
+    'Not_observed' => 'Not observed',
+    'List_graduates' => 'List of graduates'
 
 
 

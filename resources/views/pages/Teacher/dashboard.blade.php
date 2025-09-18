@@ -4,8 +4,6 @@
         <section class="dashboard-teacher">
             <div class="container">
                 <div class="row gy-4">
-
-
                     <div class="col-lg-6 col-md-12">
                         <div class="card stats-card border-0 rounded-3 p-3">
                             <div class="card-welcome-content d-flex justify-content-between align-items-center">
@@ -47,9 +45,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
         </section>
@@ -79,7 +74,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $section->section->My_classs->Grades->Name }}</td>
                                 <td>{{ $section->section->My_classs->Name_Class }}</td>
-                                <td>{{ $section->section->My_classs->Name_Class }}</td>
+                                <td>{{ $section->section->Name_Section }}</td>
                                 <td>{{ $section->subject->name }}</td>
                                 <td>{{ $section->section->students->count() }}</td>
                             </tr>

@@ -91,7 +91,7 @@
                                                 </form>
                                                 <div class="modal-footer justify-content-center">
                                                     <button type="submit" form="deleteParentForm{{ $parent->id }}"
-                                                        class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                        class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                                     <button type="button" class="btn btn-cancel"
                                                         data-bs-dismiss="modal">{{ trans('My_Classes_trans.Close') }}</button>
                                                 </div>

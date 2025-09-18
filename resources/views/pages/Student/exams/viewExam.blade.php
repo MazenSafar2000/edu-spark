@@ -107,12 +107,9 @@
 
                     <div class="text-center my-3">
                         @if ($examAttempts->count() < $exam->attempts)
-                            {{-- <a href="{{ route('student.exam.start', $exam->id) }}" class="btn action-btn-attempt">
-                                {{ trans('main_trans.taking_test_now') }}
-                            </a> --}}
                             <form action="{{ route('student.exam.start', $exam->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-primary">ابدأ الامتحان</button>
+                                <button type="submit" class="action-btn-attempt">{{ trans('main_trans.try_test_now') }}</button>
                             </form>
                         @endif
                     </div>

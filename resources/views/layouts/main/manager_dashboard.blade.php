@@ -209,7 +209,7 @@
                     <li><a href="{{ route('Students.index') }}">{{ trans('main_trans.Students') }}</a></li>
                     <li><a href="{{ route('Promotion.index') }}">{{ trans('main_trans.Students_Promotions') }}</a>
                     </li>
-                    <li><a href="{{ route('Graduate.index') }}">{{ trans('main_trans.Grades_list') }}</a></li>
+                    <li><a href="{{ route('Graduate.index') }}">{{ trans('main_trans.List_graduates') }}</a></li>
                     {{-- <li><a href="manager-std-record.html">السجل</a></li> --}}
                 </ul>
             </li>
@@ -262,7 +262,7 @@
 
             <li>
                 <a href="{{ route('StudyContent.index') }}">
-                    <span>{{ trans('main_trans.Study_content') }}</span>
+                    <span>{{ trans('main_trans.Academic_content') }}</span>
                     <i class="fas fa-book-reader"></i>
                 </a>
             </li>

@@ -166,7 +166,7 @@ return [
     'not_taken' => 'لم يتم الاختبار',
     'assign_score' => 'تعيين درجة',
 
-    'Feedback' => 'التعليقات',
+    'Feedback' => 'الملاحظات',
     'Close' => 'إغلاق',
     'Save_changes' => 'حفظ التغييرات',
     'grade_exam' => 'تقييم الاختبار',

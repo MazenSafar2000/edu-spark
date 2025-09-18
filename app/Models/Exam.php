@@ -61,13 +61,10 @@ class Exam extends Model
         return $this->hasMany(SectionExam::class);
     }
 
-
-
-
-    // public function degree()
-    // {
-    //     return $this->hasMany(Degree::class);
-    // }
+    public function degrees()
+    {
+        return $this->hasMany(Degree::class);
+    }
 
     // public function questions()
     // {

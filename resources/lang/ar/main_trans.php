@@ -294,6 +294,18 @@ return [
     'new_password' => 'كلمة المرور الجديدة',
     'confirm_password' => 'تأكيد كلمة المرور',
     'cannot_delete_class' => 'لا يمكن حذف الصف لأنه يحتوي على أقسام مرتبطة.',
+    'scores' => 'العلامات',
+    'try_test_now' => 'محاولة اداء الاختبار الان',
+    'no_questions_yest' => 'هذا الامتحان لا يحتوي على أسئلة.',
+    'no_more_attempts' => 'لقد استنفدت جميع محاولاتك.',
+    'duration_not_specified' => 'مدة الامتحان غير محددة.',
+    'no_student_information' => 'لم يتم العثور على معلومات الطالب.',
+    'exam_not_started' => 'الامتحان لم يبدأ بعد.',
+    'exam_time_over' => 'انتهى وقت الامتحان.',
+    'Not_observed' => 'غير مرصودة',
+    'List_graduates' => 'قائمة المتخرجين',
+
+
 
 
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Student\ExamAttemptsController;
 use App\Http\Controllers\Student\ExamController;
 use App\Http\Controllers\Student\NotificationController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Student\SubjectController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -23,9 +24,13 @@ Route::group(
                 Route::get('{id}/view/recoreded/class', 'SubjectController@viewRecoreded')->name('subject.viewRecoreded');
                 Route::get('{id}/view/zoom/class', 'SubjectController@viewZoomClass')->name('subject.viewZoomClass');
                 Route::get('{id}/viewExam', 'SubjectController@viewExam')->name('subject.viewExam');
+                Route::get(
+                    '/subjects/{teacherSection}/scores',
+                    [SubjectController::class, 'viewScores']
+                )->name('student.subject.scores');
+
 
                 Route::prefix('student/exams')->name('student.exam.')->group(function () {
-
                     Route::post('/exam/{exam_id}', [ExamController::class, 'startExam'])->name('start');
                 });
 

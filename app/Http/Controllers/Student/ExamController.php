@@ -25,17 +25,17 @@ class ExamController extends Controller
             $user    = Auth::user();
             $student = $user->student;
             if (!$student) {
-                return back()->withErrors('لم يتم العثور على معلومات الطالب.');
+                return back()->withErrors(trans('main_trans.no_student_information'));
             }
 
             $exam = Exam::findOrFail($exam_id);
 
             // Time window
             if (now()->lt($exam->start_at)) {
-                return back()->withErrors('الامتحان لم يبدأ بعد.');
+                return back()->withErrors(trans('main_trans.exam_not_started'));
             }
             if (now()->gt($exam->end_at)) {
-                return back()->withErrors('انتهى وقت الامتحان.');
+                return back()->withErrors(trans('main_trans.exam_time_over'));
             }
 
             // Optional section access
@@ -70,15 +70,15 @@ class ExamController extends Controller
                     ->count();
 
                 if ($completedAttempts >= (int)$exam->attempts) {
-                    return back()->withErrors('لقد استنفدت جميع محاولاتك.');
+                    return back()->withErrors(trans('main_trans.no_more_attempts'));
                 }
 
                 // Validate exam has questions & duration
                 if ($exam->questions()->count() == 0) {
-                    return back()->withErrors('هذا الامتحان لا يحتوي على أسئلة.');
+                    return back()->withErrors(trans('main_trans.no_questions_yest'));
                 }
                 if (!is_numeric($exam->duration) || $exam->duration <= 0) {
-                    return back()->withErrors('مدة الامتحان غير محددة.');
+                    return back()->withErrors(trans('main_trans.duration_not_specified'));
                 }
 
                 // Prepare ordered question IDs (sanitized)

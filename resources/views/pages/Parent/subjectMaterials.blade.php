@@ -4,7 +4,9 @@
         <div class="container mt-5">
             <div class="page-title-parent">
                 <h2>{{ $teacher_section->subject->name }} - <span>{{ $teacher_section->teacher->user->name }}</span></h2>
-                {{-- <a href="parent-mark-children.html">العلامات</a> --}}
+                <a href="{{ route('parent.subject.scores', ['teacherSection' => $teacher_section, 'studentId' => $student->id]) }}">
+                    {{ trans('main_trans.scores') }}
+                </a>
             </div>
             <div class="accordion" id="contentAccordion">
                 @foreach ($materials as $material)
@@ -13,14 +15,16 @@
                         <div class="accordion-item">
                             <div class="unit-content d-flex justify-content-between">
                                 <div class="unit-content-subject">
-                                    <a href="{{ route('book.details', [ 'bookId' => $material['data']->id , 'studentId' => $student->id]) }}" class="unit-link">
+                                    <a href="{{ route('book.details', ['bookId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="unit-link">
                                         <i class="fas fa-book"></i>
                                         {{ $material['title'] }} </a>
                                     <p class="add-date"><span>{{ $material['created_at'] }}</span></p>
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="{{ route('book.details', [ 'bookId' => $material['data']->id , 'studentId' => $student->id]) }}" class="btn action-eye-btn">
+                                    <a href="{{ route('book.details', ['bookId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 
@@ -32,7 +36,8 @@
                         <div class="accordion-item">
                             <div class="unit-content d-flex justify-content-between">
                                 <div class="unit-content-subject">
-                                    <a href="{{ route('homework.details', [ 'homeworkId' => $material['data']->id, 'studentId' => $student->id]) }}" class="unit-link">
+                                    <a href="{{ route('homework.details', ['homeworkId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="unit-link">
                                         <i class="fas fa-tasks"></i>
                                         {{ $material['title'] }}
                                     </a>
@@ -40,7 +45,8 @@
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="{{ route('homework.details', [ 'homeworkId' => $material['data']->id, 'studentId' => $student->id]) }}" class="btn action-eye-btn">
+                                    <a href="{{ route('homework.details', ['homeworkId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 
@@ -52,14 +58,16 @@
                         <div class="accordion-item">
                             <div class="unit-content d-flex justify-content-between">
                                 <div class="unit-content-subject">
-                                    <a href="{{ route('exam.details', [ 'examId' => $material['data']->id , 'studentId' => $student->id]) }}" class="unit-link">
+                                    <a href="{{ route('exam.details', ['examId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="unit-link">
                                         <i class="fas fa-pen-to-square"></i>
                                         {{ $material['title'] }} </a>
                                     <p class="add-date"><span>{{ $material['created_at'] }}</span></p>
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="{{ route('exam.details', [ 'examId' => $material['data']->id , 'studentId' => $student->id]) }}" class="btn action-eye-btn">
+                                    <a href="{{ route('exam.details', ['examId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 
@@ -71,14 +79,16 @@
                         <div class="accordion-item">
                             <div class="unit-content d-flex justify-content-between">
                                 <div class="unit-content-subject">
-                                    <a href="{{ route('recordedClass.details', [ 'classId' => $material['data']->id , 'studentId' => $student->id]) }}" class="unit-link">
+                                    <a href="{{ route('recordedClass.details', ['classId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="unit-link">
                                         <i class="fas fa-play-circle"></i>
                                         {{ $material['title'] }} </a>
                                     <p class="add-date"><span>{{ $material['created_at'] }}</span></p>
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="{{ route('recordedClass.details', [ 'classId' => $material['data']->id , 'studentId' => $student->id]) }}" class="btn action-eye-btn">
+                                    <a href="{{ route('recordedClass.details', ['classId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 
@@ -90,7 +100,8 @@
                         <div class="accordion-item">
                             <div class="unit-content d-flex justify-content-between">
                                 <div class="unit-content-subject">
-                                    <a href="{{ route('zoomClass.details', [ 'classId' => $material['data']->id , 'studentId' => $student->id]) }}" class="unit-link">
+                                    <a href="{{ route('zoomClass.details', ['classId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="unit-link">
                                         <i class="fas fa-video"></i>
                                         {{ $material['title'] }}
                                     </a>
@@ -98,7 +109,8 @@
                                 </div>
 
                                 <div class="unit-action">
-                                    <a href="{{ route('zoomClass.details', [ 'classId' => $material['data']->id , 'studentId' => $student->id]) }}" class="btn action-eye-btn">
+                                    <a href="{{ route('zoomClass.details', ['classId' => $material['data']->id, 'studentId' => $student->id]) }}"
+                                        class="btn action-eye-btn">
                                         <i class="fas fa-eye ms-1"></i> {{ trans('Students_trans.view') }}
                                     </a>
 

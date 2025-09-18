@@ -18,93 +18,6 @@ use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
 {
-
-    // public function showSubjectContent($subject_id)
-    // {
-    //     $teacher_section = Teacher_section::findOrFail($subject_id);
-
-    //     // Extract filter info from subject
-    //     $grade_id = $teacher_section->section->My_classs->Grades->id;
-    //     $classroom_id = $teacher_section->section->My_classs->id;
-    //     $section_id = $teacher_section->section->id;
-    //     $teacher_id = $teacher_section->teacher_id;
-
-    //     // dd($grade_id, $classroom_id, $teacher_id);
-
-    //     // Fetch all related materials
-    //     $books = Library::where([
-    //         ['Grade_id', $grade_id],
-    //         ['Classroom_id', $classroom_id],
-    //         ['teacher_id', $teacher_id],
-    //         ['subject_id', $subject_id],
-    //     ])->orderBy('created_at', 'asc')->get();
-
-    //     $homeworks = Homework::where([
-    //         ['grade_id', $grade_id],
-    //         ['classroom_id', $classroom_id],
-    //         ['teacher_id', $teacher_id],
-    //         ['subject_id', $subject_id],
-    //     ])->orderBy('created_at', 'asc')->get();
-
-    //     $quizzes = Exam::sections()->where([
-    //         ['section_id', $section_id],
-    //         ['subject_id', $subject_id],
-    //     ])->orderBy('created_at', 'asc')->get();
-
-    //     $recorded = Recorded_class::where([
-    //         ['grade_id', $grade_id],
-    //         ['classroom_id', $classroom_id],
-    //         ['teacher_id', $teacher_id],
-    //         ['subject_id', $subject_id],
-    //     ])->orderBy('created_at', 'asc')->get();
-
-    //     $online = Online_class::where([
-    //         ['grade_id', $grade_id],
-    //         ['classroom_id', $classroom_id],
-    //         ['teacher_id', $teacher_id],
-    //         ['subject_id', $subject_id],
-    //     ])->orderBy('created_at', 'asc')->get();
-
-
-
-    //     // Merge all in a single collection
-    //     $materials = collect()
-    //         ->merge($books->map(fn($item) => [
-    //             'type' => 'book',
-    //             'title' => $item->title,
-    //             'created_at' => $item->created_at,
-    //             'data' => $item,
-    //         ]))
-    //         ->merge($homeworks->map(fn($item) => [
-    //             'type' => 'homework',
-    //             'title' => $item->title,
-    //             'created_at' => $item->created_at,
-    //             'data' => $item,
-    //         ]))
-    //         ->merge($quizzes->map(fn($item) => [
-    //             'type' => 'exam',
-    //             'title' => $item->name,
-    //             'created_at' => $item->created_at,
-    //             'data' => $item,
-    //         ]))
-    //         ->merge($recorded->map(fn($item) => [
-    //             'type' => 'recorded',
-    //             'title' => $item->title,
-    //             'created_at' => $item->created_at,
-    //             'data' => $item,
-    //         ]))
-    //         ->merge($online->map(fn($item) => [
-    //             'type' => 'online',
-    //             'title' => $item->topic,
-    //             'created_at' => $item->created_at,
-    //             'data' => $item,
-    //         ]))
-    //         ->sortBy('created_at')
-    //         ->values();
-
-    //     return view('pages.Student.courses.index', compact('teacher_section', 'materials'));
-    // }
-
     public function showSubjectContent($teacherSectionId)
     {
         // Get Teacher_section with relationships
@@ -225,5 +138,70 @@ class SubjectController extends Controller
         $class = Online_class::findOrFail($id);
 
         return view('pages.Student.courses.viewZoomClass', compact('class'));
+    }
+
+    public function viewScores($teacherSectionId)
+    {
+        $student   = Auth::user()->student;
+        $section   = Teacher_section::with('subject', 'section')
+            ->findOrFail($teacherSectionId);
+        $subjectId = $section->subject_id;
+        $sectionId = $section->section_id;
+
+        // --- Exams
+        $exams = Exam::where('subject_id', $subjectId)
+            ->whereHas('sections', fn($q) => $q->where('section_id', $sectionId))
+            ->with([
+                'degrees' => fn($q) => $q->where('student_id', $student->id),
+                'sections' => fn($q) => $q->where('section_id', $sectionId),
+            ])
+            ->get();
+
+        $examRows = $exams->map(function ($exam) {
+            $degree = $exam->degrees->first();
+            $sectionExam = $exam->sectionExams->first();
+            $canShow = $sectionExam?->show_answers;
+
+            return [
+                'type'     => 'exam',
+                'title'    => $exam->name,
+                'score'    => ($degree && $canShow)
+                    ? $degree->score . '/' . $exam->maximum_grade
+                    : null,
+                'feedback' => ($degree && $canShow)
+                    ? $degree->feedback
+                    : null,
+            ];
+        });
+
+        // --- Homeworks
+        $homeworks = Homework::where('subject_id', $subjectId)
+            ->where('section_id', $sectionId)
+            ->with(['submissions' => fn($q) => $q->where('student_id', $student->id)])
+            ->get();
+
+        $homeworkRows = $homeworks->map(function ($hw) {
+            $submission = $hw->submissions->first();
+
+            $canShow = $hw->show_grade;
+
+            return [
+                'type'     => 'homework',
+                'title'    => $hw->title,
+                'score'    => ($submission && $submission->degree !== null && $canShow)
+                    ? $submission->degree . '/' . $hw->total_degree
+                    : null,
+                'feedback' => ($submission && $canShow)
+                    ? $submission->feedback
+                    : null,
+            ];
+        });
+
+        $rows = collect()->merge($examRows)->merge($homeworkRows)->values();
+
+        return view('pages.Student.courses.scores', [
+            'teacher_section' => $section,
+            'rows'            => $rows,
+        ]);
     }
 }

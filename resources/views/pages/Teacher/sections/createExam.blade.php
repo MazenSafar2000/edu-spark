@@ -20,7 +20,8 @@
                     <form id="addSectionExamForm" method="POST" action="{{ route('sectionsExams.store') }}">
                         @csrf
 
-                        <input type="hidden" value="{{ $teacher_section->id }}" name="section_id">
+                        <input type="hidden" value="{{ $teacher_section->section_id }}" name="section_id">
+                        <input type="hidden" value="{{ $teacher_section->id }}" name="teacher_section_id">
                         <input type="hidden" name="subject_id" value="{{ $teacher_section->subject_id }}">
 
 

@@ -23,6 +23,10 @@ Route::group(
                 Route::get('/materials/homework/{homeworkId}/{studentId}', [ParentController::class, 'homeworkDetails'])->name('homework.details');
                 Route::get('/materials/recordedClass/{classId}//{studentId}', [ParentController::class, 'recordedClassDetails'])->name('recordedClass.details');
                 Route::get('/materials/zoom/{classId}//{studentId}', [ParentController::class, 'zoomClassDetails'])->name('zoomClass.details');
+                Route::get(
+                    'parent/subjects/{teacherSection}/{studentId}/scores',
+                    [ParentController::class, 'viewScores']
+                )->name('parent.subject.scores');
             });
         });
     }

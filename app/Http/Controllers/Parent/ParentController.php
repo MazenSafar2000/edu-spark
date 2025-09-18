@@ -168,4 +168,69 @@ class ParentController extends Controller
 
         return view('pages.Parent.ZoomClassDetails', compact('class'));
     }
+
+    public function viewScores($teacherSectionId, $studentId)
+    {
+        $student   = Student::findOrFail($studentId);
+        $section   = Teacher_section::with('subject', 'section')
+            ->findOrFail($teacherSectionId);
+        $subjectId = $section->subject_id;
+        $sectionId = $section->section_id;
+
+        // --- Exams
+        $exams = Exam::where('subject_id', $subjectId)
+            ->whereHas('sections', fn($q) => $q->where('section_id', $sectionId))
+            ->with([
+                'degrees' => fn($q) => $q->where('student_id', $student->id),
+                'sections' => fn($q) => $q->where('section_id', $sectionId),
+            ])
+            ->get();
+
+        $examRows = $exams->map(function ($exam) {
+            $degree = $exam->degrees->first();
+            $sectionExam = $exam->sectionExams->first();
+            $canShow = $sectionExam?->show_answers;
+
+            return [
+                'type'     => 'exam',
+                'title'    => $exam->name,
+                'score'    => ($degree && $canShow)
+                    ? $degree->score . '/' . $exam->maximum_grade
+                    : null,
+                'feedback' => ($degree && $canShow)
+                    ? $degree->feedback
+                    : null,
+            ];
+        });
+
+        // --- Homeworks
+        $homeworks = Homework::where('subject_id', $subjectId)
+            ->where('section_id', $sectionId)
+            ->with(['submissions' => fn($q) => $q->where('student_id', $student->id)])
+            ->get();
+
+        $homeworkRows = $homeworks->map(function ($hw) {
+            $submission = $hw->submissions->first();
+
+            $canShow = $hw->show_grade;
+
+            return [
+                'type'     => 'homework',
+                'title'    => $hw->title,
+                'score'    => ($submission && $submission->degree !== null && $canShow)
+                    ? $submission->degree . '/' . $hw->total_degree
+                    : null,
+                'feedback' => ($submission && $canShow)
+                    ? $submission->feedback
+                    : null,
+            ];
+        });
+
+        $rows = collect()->merge($examRows)->merge($homeworkRows)->values();
+
+        return view('pages.Parent.scores', [
+            'teacher_section' => $section,
+            'rows'            => $rows,
+        ]);
+    }
 }

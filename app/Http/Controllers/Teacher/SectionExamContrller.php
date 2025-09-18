@@ -112,7 +112,7 @@ class SectionExamContrller extends Controller
             }
 
             Flasher::addSuccess(trans('messages.success'));
-            return redirect()->route('teacher.section.materials', $request->section_id);
+            return redirect()->route('teacher.section.materials', $request->teacher_section_id);
         } catch (\Throwable $e) {
             DB::rollBack();
             return back()->withErrors(['error' => $e->getMessage()]);

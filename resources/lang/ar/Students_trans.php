@@ -127,7 +127,7 @@ return [
     'Download_file' => 'تنزيل الملف',
     'answered' => 'مُجاب',
     'not_answered' => 'غير مُجاب',
-    'Feedback' => 'التعليقات',
+    'Feedback' => 'الملاحظات',
     'Not_supported' => 'نوع الفيديو غير مدعوم',
     'submit_homework' => 'تسليم الواجب المدرسي',
     'Closes' => 'يغلق',
