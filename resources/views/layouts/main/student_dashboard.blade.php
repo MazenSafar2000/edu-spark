@@ -206,11 +206,10 @@
     <button class="position-fixed m-4 d-flex align-items-center gap-2 shadow open-msg-btn" type="button"
         data-bs-toggle="offcanvas" data-bs-target="#messagesOffcanvas" aria-controls="messagesOffcanvas">
         <i class="fas fa-comments position-relative">
-            <span id="msgNotifDot"
-                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger {{ $unreadCount ? '' : 'd-none' }}">
-                {{ $unreadCount }}
-            </span>
         </i>
+        <span id="msgNotifDot" class="msg-badge {{ $unreadCount ? '' : 'd-none' }}">
+            {{ $unreadCount }}
+        </span>
     </button>
 
     <!-- Offcanvas الرسائل -->
@@ -224,8 +223,8 @@
 
         <div class="offcanvas-body d-flex flex-column p-0">
             <div>
-                <input type="search" id="userSearch" name="user-search" class="form-control search-msg" placeholder="ابحث ..."
-                    onkeyup="filterUsers(this)">
+                <input type="search" id="userSearch" class="form-control search-msg" placeholder="ابحث ..."
+                    oninput="filterUsers(this)">
             </div>
             <div class="messages-body overflow-auto flex-grow-1 p-3">
                 @foreach ($allowedUsers as $user)
@@ -236,11 +235,13 @@
                             onerror="this.src='{{ asset('assets/images/avatar.png') }}'" alt="user"
                             class="rounded-circle me-3" style="width: 45px; height: 45px; object-fit: cover;">
                         <div class="msg-info text-end">
-                            <strong class="d-block">{{ $user->name }}</strong>
+                            <strong class="d-block">
+                                {{ $user->name }}
+                                @if ($user->unread_count > 0)
+                                    <span class="msg-count-badge">{{ $user->unread_count }}</span>
+                                @endif
+                            </strong>
                             <p class="mb-0">{{ $user->role }}</p>
-                            @if ($user->unread_count > 0)
-                                <span class="badge bg-danger">{{ $user->unread_count }}</span>
-                            @endif
                         </div>
                     </div>
                 @endforeach
