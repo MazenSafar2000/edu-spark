@@ -227,12 +227,13 @@
 
                 if (gradeId) {
                     $.get("{{ url('/ajax/classrooms') }}/" + gradeId, function(data) {
-                        $.each(data, function(id, name) {
-                            $classroom.append(`<option value="${id}">${name}</option>`);
+                        $.each(data, function(index, classroom) {
+                            $classroom.append(
+                                `<option value="${classroom.id}">${classroom.name}</option>`
+                            );
                         });
-                    }).fail(function(xhr) {
-                        console.error('Error loading classrooms', xhr.responseText);
                     });
+
                 }
             });
         });

@@ -28,7 +28,7 @@ class SubjectController extends Controller
         $gradeId      = $teacherSection->section->My_classs->Grades->id;
         $classroomId  = $teacherSection->section->My_classs->id;
         $sectionId    = $teacherSection->section->id;
-        $subjectId    = $teacherSection->subject_id; // <-- Correct subject_id
+        $subjectId    = $teacherSection->subject_id; 
         $teacherId    = $teacherSection->teacher_id;
 
         // Define a helper query builder function

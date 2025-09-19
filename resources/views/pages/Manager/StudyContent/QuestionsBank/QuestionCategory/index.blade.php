@@ -25,7 +25,7 @@
                             <!-- رأس المودال -->
                             <div class="modal-header custom-modal-header">
                                 <h5 class="modal-title custom-modal-title" id="addQuestionCategoryModal">
-                                    {{ trans('Sections_trans.createQC') }}
+                                    {{ trans('Teacher_trans.createQC') }}
                                 </h5>
                             </div>
 
