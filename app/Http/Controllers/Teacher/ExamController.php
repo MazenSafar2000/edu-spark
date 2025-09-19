@@ -78,6 +78,7 @@ class ExamController extends Controller
 
 
         try {
+
             $exam = new Exam();
             $exam->name = ['en' => $request->Name_en, 'ar' => $request->Name_ar];
             $exam->description = $request->description;

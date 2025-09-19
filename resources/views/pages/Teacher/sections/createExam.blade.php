@@ -22,7 +22,7 @@
 
                         <input type="hidden" value="{{ $teacher_section->section_id }}" name="section_id">
                         <input type="hidden" value="{{ $teacher_section->id }}" name="teacher_section_id">
-                        <input type="hidden" name="subject_id" value="{{ $teacher_section->subject_id }}">
+                        <input type="hidden" value="{{ $teacher_section->subject_id }}" name="subject_id">
 
 
                         <table class="text-center custom-grade-table" id="datatable">

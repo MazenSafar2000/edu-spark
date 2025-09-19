@@ -153,7 +153,7 @@
                                         class="form-select custom-select @error('subject_id') custom-select-error @enderror">
                                         <option selected disabled>{{ trans('Teacher_trans.select_subject') }}</option>
                                         @foreach ($subjects as $subject)
-                                            <option value="{{ $subject->id }}"
+                                            <option value="{{ $subject->subject_id }}"
                                                 {{ old('subject_id') == $subject->id ? 'selected' : '' }}>
                                                 {{ $subject->subject->name }}
                                             </option>

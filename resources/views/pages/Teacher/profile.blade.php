@@ -1,5 +1,5 @@
-@extends('layouts.main.manager_dashboard')
-@section('manager_content')
+@extends('layouts.main.teacher_dashboard')
+@section('teacher_content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
         <div class="container py-5">
             <div class="row justify-content-center">

@@ -18,9 +18,10 @@ class QuestionsBankController extends Controller
      */
     public function index()
     {
-        $questions = Question::paginate(10);
-
         $teacherId = Auth::user()->teacher->id;
+
+        $questions = Question::where('teacher_id', $teacherId)->paginate(20);
+
         $categories = QuestionsCategotry::with('questionsBank')
             ->whereHas('questionsBank', function ($q) use ($teacherId) {
                 $q->where('teacher_id', $teacherId);
