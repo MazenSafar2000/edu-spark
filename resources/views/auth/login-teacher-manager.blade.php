@@ -25,7 +25,7 @@
                 @csrf
                 <input type="hidden" value="admin" name="type">
 
-                <h3><span>{{ trans('main_trans.Manager') }} </span>{{ trans('main_trans.Login') }}</h3>
+                <h3><span>{{ trans('main_trans.manager') }} </span>{{ trans('main_trans.Login') }}</h3>
                 @include('components.error-field')
                 <input  type="number" name="National_ID" placeholder="{{ trans('main_trans.Enter_ID') }}"
                     class="input-box-teacher " value="{{ old('National_ID') }}" required autocomplete="National_ID">

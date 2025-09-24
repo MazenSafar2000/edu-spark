@@ -1,7 +1,7 @@
 @extends('layouts.main.manager_dashboard')
 @section('manager_content')
     <div id="mainContent" class="transition-all with-sidebar" style="transition: margin-inline-end 0.3s ease-in-out;">
-        <h3 class="manager-header">Students table "{{ $section->My_classs->Grades->Name }} -
+        <h3 class="manager-header">{{ $section->My_classs->Grades->Name }} -
             {{ $section->My_classs->Name_Class }} - {{ $section->Name_Section }} "</h3>
         <div class="title-underline-manager"></div>
 

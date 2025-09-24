@@ -300,9 +300,7 @@ return [
     'exam_not_started' => 'The exam has not started yet.',
     'exam_time_over' => 'Exam time is over.',
     'Not_observed' => 'Not observed',
-    'List_graduates' => 'List of graduates'
-
-
+    'List_graduates' => 'List of graduates',
 
 
 

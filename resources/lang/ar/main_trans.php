@@ -125,6 +125,7 @@ return [
     'List_sections' => 'قائمة الاقسام الدراسية',
     'Number_sections' => 'عدد الاقسام',
     'Students' => 'الطلاب',
+    'Student' => 'الطالب',
     'Student_information' => 'معلومات الطلاب',
     'add_student' => 'اضافة طالب جديد',
     'list_students' => 'قائمة الطلاب',
@@ -141,6 +142,7 @@ return [
     'Current_Teachers' => 'المدرسين الحاليين',
     'Academic_stages' => 'المراحل الدراسية',
     'Parents' => 'اولياء الامور',
+    'Parent' => 'ولي الأمر',
     'School_Principals' => 'مدراء المدارس',
     'List_Parents' => 'قائمة اولياء الامور',
     'Add_Parent' => 'اضافة ولي امر',
@@ -304,10 +306,6 @@ return [
     'exam_time_over' => 'انتهى وقت الامتحان.',
     'Not_observed' => 'غير مرصودة',
     'List_graduates' => 'قائمة المتخرجين',
-
-
-
-
 
 
 
