@@ -27,6 +27,8 @@ Route::group(
                     'parent/subjects/{teacherSection}/{studentId}/scores',
                     [ParentController::class, 'viewScores']
                 )->name('parent.subject.scores');
+                Route::get('/parent/student/exam/attempt/{attempt}/review', [ParentController::class, 'review'])
+                    ->name('parent.exam.review');
             });
         });
     }

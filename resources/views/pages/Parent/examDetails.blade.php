@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="attempt-footer p-2">
                                         @if ($exam->sectionExams->first()->show_answers)
-                                            <a href="{{ route('student.exam.review', $attempt->id) }}"
+                                            <a href="{{ route('parent.exam.review', $attempt->id) }}"
                                                 class="btn-attempt">{{ trans('Students_trans.questions_review') }}</a>
                                         @endif
                                     </div>

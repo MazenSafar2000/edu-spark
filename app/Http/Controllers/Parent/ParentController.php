@@ -151,15 +151,15 @@ class ParentController extends Controller
     {
         $exam = Exam::findOrFail($examId);
 
-        $student_id = Student::findOrFail($studentId);
+        $student = Student::findOrFail($studentId);
 
         // Get all attempts of this student for this exam
         $examAttempts = ExamAttempts::where('exam_id', $exam->id)
-            ->where('student_id', $student_id)
+            ->where('student_id', $student->id)
             ->orderBy('attempt_number')
             ->get();
 
-        return view('pages.Parent.examDetails', compact('exam', 'examAttempts', 'student_id'));
+        return view('pages.Parent.examDetails', compact('exam', 'examAttempts'));
     }
 
     public function zoomClassDetails($classId)
@@ -232,5 +232,28 @@ class ParentController extends Controller
             'teacher_section' => $section,
             'rows'            => $rows,
         ]);
+    }
+
+    public function review($attemptId)
+    {
+        $attempt = ExamAttempts::with([
+            'exam.questions' => function ($q) {
+                $q->withPivot('score'); // from exam_questions
+            },
+            'answers'
+        ])->findOrFail($attemptId);
+
+        // decode the saved question order
+        $orderedQuestionIds = is_array($attempt->question_order)
+            ? $attempt->question_order
+            : (is_string($attempt->question_order) ? json_decode($attempt->question_order, true) : []);
+
+
+        // reorder the questions to match student view
+        $questions = $attempt->exam->questions
+            ->sortBy(fn($q) => array_search($q->id, $orderedQuestionIds))
+            ->values();
+
+        return view('pages.Parent.viewAttempt', compact('attempt', 'questions'));
     }
 }

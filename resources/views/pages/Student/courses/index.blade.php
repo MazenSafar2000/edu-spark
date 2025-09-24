@@ -12,6 +12,7 @@
 
 
             </div>
+
             <div class="accordion" id="contentAccordion">
                 @foreach ($materials as $material)
                     @if ($material['type'] == 'book')
@@ -124,6 +125,13 @@
                     @endif
                 @endforeach
             </div>
+
+             @if ($materials->isEmpty())
+                <div class="card-content-subject-empty">
+                    <h6 class="empty-page">{{ trans('main_trans.no_materials') }}</h6>
+                </div>
+            @endif
+
         </div>
     </div>
     <br><br><br><br>

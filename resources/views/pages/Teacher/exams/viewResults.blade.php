@@ -54,7 +54,7 @@
                     <div class="tab-pane fade show active" id="details" role="tabpanel">
                         <div class="container">
                             <div class="exam-table table-responsive">
-                                <table class="table-bordered mb-0">
+                                <table class="table table-bordered mb-0">
                                     <tbody>
                                         <tr>
                                             <td>{{ trans('main_trans.exam_name') }}</td>

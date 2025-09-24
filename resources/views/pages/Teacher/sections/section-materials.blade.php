@@ -51,6 +51,12 @@
                 </div>
             </div>
 
+            @if ($materials->isEmpty())
+                <div class="card-content-subject-empty">
+                    <h6 class="empty-page">{{ trans('main_trans.no_materials') }}</h6>
+                </div>
+            @endif
+
             <div class="card-content-subject">
                 @foreach ($materials as $material)
                     <div class="card shadow-sm mb-3 content">
@@ -177,7 +183,8 @@
                                         </li>
                                         <li>
                                             <a class="dropdown-item d-flex align-items-center gap-2" href="#"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal-meet{{ $material['data']->id }}">
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal-meet{{ $material['data']->id }}">
                                                 <i class="fas fa-trash-alt action-icon delete-icon-action"></i>
                                                 {{ trans('main_trans.delete') }}
                                             </a>
@@ -189,13 +196,12 @@
                     </div>
                 @endforeach
 
-                @if ($materials->isEmpty())
-                    <div class="alert alert-info text-center mt-4">
-                        {{ trans('main_trans.no_materials') }}
-                    </div>
-                @endif
             </div>
+
+
+
         </div>
+
         @foreach ($materials as $material)
             @if ($material['type'] == 'book')
                 <!-- delete book modal -->
@@ -323,8 +329,8 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="{{ trans('Grades_trans.Close') }}"></button>
                             </div>
-                            <form id="deleteZoomForm{{ $material['data']->id }}" action="{{ route('ZoomClasses.destroy', $material['data']->id) }}"
-                                method="POST">
+                            <form id="deleteZoomForm{{ $material['data']->id }}"
+                                action="{{ route('ZoomClasses.destroy', $material['data']->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <div class="modal-body text-center">
