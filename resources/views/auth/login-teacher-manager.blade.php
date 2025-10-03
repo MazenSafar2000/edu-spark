@@ -23,7 +23,7 @@
             <form id="adminForm" class="custom-form" style="display: none;"method="POST"
                 action="{{ route('login.manager') }}">
                 @csrf
-                <input type="hidden" value="admin" name="type">
+                <input type="hidden" value="manager" name="type">
 
                 <h3><span>{{ trans('main_trans.manager') }} </span>{{ trans('main_trans.Login') }}</h3>
                 @include('components.error-field')

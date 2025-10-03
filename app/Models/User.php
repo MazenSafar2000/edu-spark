@@ -13,7 +13,6 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     use HasTranslations;
 
-    public $translatable = ['name'];
 
 
     protected $fillable = [
@@ -24,6 +23,8 @@ class User extends Authenticatable
         'National_ID',
     ];
 
+    public $translatable = ['name'];
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -33,6 +34,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'name' => 'array',
     ];
+
+    public function username()
+    {
+        return 'National_ID';
+    }
 
     public function getNameAttribute($value)
     {

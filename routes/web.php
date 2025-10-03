@@ -16,6 +16,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,11 +37,23 @@ Route::group(
     ],
     function () {
 
-        // Post routes for handling login submission
-        Route::post('/login-student', [CustomLoginController::class, 'loginStudent'])->name('login.student');
-        Route::post('/login-parent', [CustomLoginController::class, 'loginParent'])->name('login.parent');
-        Route::post('/login-teacher', [CustomLoginController::class, 'loginTeacher'])->name('login.teacher');
-        Route::post('/login-manager', [CustomLoginController::class, 'loginManager'])->name('login.manager');
+        // custom login controller routes
+        // Route::post('/login-student', [CustomLoginController::class, 'loginStudent'])->name('login.student');
+        // Route::post('/login-parent', [CustomLoginController::class, 'loginParent'])->name('login.parent');
+        // Route::post('/login-teacher', [CustomLoginController::class, 'loginTeacher'])->name('login.teacher');
+        // Route::post('/login-manager', [CustomLoginController::class, 'loginManager'])->name('login.manager');
+
+        // laravel breeze login controller routes
+        Route::post('/login/student', [AuthenticatedSessionController::class, 'store'])
+            ->name('login.student');
+        Route::post('/login/parent', [AuthenticatedSessionController::class, 'store'])
+            ->name('login.parent');
+        Route::post('/login/teacher', [AuthenticatedSessionController::class, 'store'])
+            ->name('login.teacher');
+        Route::post('/login/manager', [AuthenticatedSessionController::class, 'store'])
+            ->name('login.manager');
+
+
 
         Route::get('/', [HomeController::class, 'landingPage'])->name('landingPage');
 
