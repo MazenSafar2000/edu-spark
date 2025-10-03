@@ -29,8 +29,8 @@
                                     <thead class="thead-manager">
                                         <tr>
                                             <th>#</th>
+                                            <th>{{ trans('main_trans.Name_class') }}</th>
                                             <th>{{ trans('main_trans.Name_Section') }}</th>
-                                            <th>{{ trans('main_trans.Name_Class') }}</th>
                                             <th>{{ trans('main_trans.status') }}</th>
                                             <th>{{ trans('main_trans.operations') }}</th>
                                         </tr>
@@ -40,8 +40,8 @@
                                             @foreach ($Classroom->sections as $Section)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $Section->Name_Section }}</td>
                                                     <td>{{ $Section->My_classs->Name_Class }}</td>
+                                                    <td>{{ $Section->Name_Section }}</td>
                                                     <td>
                                                         @if ($Section->Status === 1)
                                                             <label
@@ -124,7 +124,7 @@
 
                             <div class="modal-header custom-modal-header">
                                 <h5 class="modal-title custom-modal-title" id="editSectionModalLabel">
-                                    {{ trans('Sections_trans.edit_Section') }}</h5>
+                                    {{ trans('main_trans.edit_Section') }}</h5>
                             </div>
 
                             <div class="modal-body custom-modal-body">

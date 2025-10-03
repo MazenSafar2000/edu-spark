@@ -38,7 +38,7 @@
                         <li>
                             <a class="dropdown-item d-flex align-items-center gap-2"
                                 href="{{ route('createNewRecordedClass', $teacher_section->id) }}">
-                                <i class="fa fa-play-circle"></i> {{ trans('Teacher_trans.recorded_classe') }}
+                                <i class="fa fa-play-circle"></i> {{ trans('Teacher_trans.recorded_classes') }}
                             </a>
                         </li>
                         <li>

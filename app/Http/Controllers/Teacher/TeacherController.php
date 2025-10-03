@@ -93,8 +93,8 @@ class TeacherController extends Controller
             $teacher->save();
         });
 
-        Flasher::addSuccess(trans('messages.success'));
-        return redirect()->route('teacher.profile')->with('status', trans('messages.success'));
+        Flasher::addSuccess(trans('main_trans.success'));
+        return redirect()->route('teacher.profile')->with('status', trans('main_trans.success'));
     }
 
     public function sections()

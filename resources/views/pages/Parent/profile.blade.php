@@ -7,7 +7,7 @@
                 <div class="col-md-4 text-center mt-4 mt-md-0 parent-profile-section">
                     <img src="{{ asset('assets/images/pic-8.jpg')}}" alt="parent Image" class="img-fluid rounded-circle mb-3 parent-profile-img"
                         width="150">
-                    <p class="fw-bold  mb-0 parent-id">{{ Auth::user()->parents->National_ID }}</p>
+                    <p class="fw-bold  mb-0 parent-id">{{ Auth::user()->National_ID }}</p>
                     <p class="text-muted parent-role">{{ trans('main_trans.Parent') }}</p>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -29,7 +29,7 @@
 
                         <div class="col-md-6 parent-info-field">
                             <label class="form-label  parent-label">{{ trans('main_trans.National_ID') }}</label>
-                            <input type="text" class="form-control  parent-input" value="{{ Auth::user()->parents->National_ID}}" readonly>
+                            <input type="text" class="form-control  parent-input" value="{{ Auth::user()->National_ID }}" readonly>
                         </div>
 
                         <div class="col-md-6 parent-info-field">

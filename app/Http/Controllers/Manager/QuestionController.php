@@ -72,7 +72,7 @@ class QuestionController extends Controller
 
             $question->save();
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -146,7 +146,7 @@ class QuestionController extends Controller
 
             $question->save();
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->route('QuestionsBank.index');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -166,7 +166,7 @@ class QuestionController extends Controller
             $question = Question::findOrFail($id);
             $question->delete();
 
-            Flasher::addError(trans('messages.Delete'));
+            Flasher::addError(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

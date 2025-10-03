@@ -72,7 +72,7 @@ class ManagerController extends Controller
             $manager->save();
         });
 
-        Flasher::addSuccess(trans('messages.success'));
-        return redirect()->route('manager.profile')->with('status', trans('messages.success'));
+        Flasher::addSuccess(trans('main_trans.success'));
+        return redirect()->route('manager.profile')->with('status', trans('main_trans.success'));
     }
 }

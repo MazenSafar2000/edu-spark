@@ -43,9 +43,9 @@
 
                     <div class="d-flex justify-content-between mt-4">
                         <button class="btn prevBtn" wire:click="goToPage({{ max($pageIndex - 1, 0) }})"
-                            @if ($pageIndex <= 0) disabled @endif>السابق</button>
+                            @if ($pageIndex <= 0) disabled @endif>{{ trans('main_trans.previous') }}</button>
                         <button class="btn nextBtn" wire:click="goToPage({{ min($pageIndex + 1, $totalPages - 1) }})"
-                            @if ($pageIndex >= $totalPages - 1) disabled @endif>التالي</button>
+                            @if ($pageIndex >= $totalPages - 1) disabled @endif>{{ trans('main_trans.next') }}</button>
                     </div>
                 </div>
 
@@ -70,7 +70,7 @@
                         @endforeach
                     </div>
 
-                    <button class="btn btn-exam-finish w-100" @click="$wire.submitExam()">إنهاء الاختبار</button>
+                    <button class="btn btn-exam-finish w-100" @click="$wire.submitExam()">{{ trans('main_trans.finish_attempt') }}</button>
 
                     <div class="text-danger fw-bold mt-3" x-text="formatted"></div>
 

@@ -48,7 +48,7 @@ class ClassroomController extends Controller
 
             Classroom::create($request->all());
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -98,7 +98,7 @@ class ClassroomController extends Controller
             $classroom->Grade_id = $request->input('Grade_id');
             $classroom->save();
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -121,7 +121,7 @@ class ClassroomController extends Controller
             }
 
             $classroom->delete();
-            Flasher::addError(trans('messages.Delete'));
+            Flasher::addError(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -135,7 +135,7 @@ class ClassroomController extends Controller
     //     $delete_all_id = explode(",", $request->delete_all_id);
 
     //     Classroom::whereIn('id', $delete_all_id)->Delete();
-    //     Flasher::addError(trans('messages.Delete'));
+    //     Flasher::addError(trans('main_trans.Delete'));
     //     return redirect()->route('Classrooms.index');
     // }
 

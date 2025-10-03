@@ -85,7 +85,7 @@ class GraduatedController extends Controller
             'reason' => $request->reason,
         ]);
 
-        Flasher::addSuccess(trans('messages.update'));
+        Flasher::addSuccess(trans('main_trans.Update'));
         return redirect()->back();
     }
 
@@ -101,7 +101,7 @@ class GraduatedController extends Controller
             $graduate = Graduate::findOrFail($id);
             $graduate->delete();
 
-            Flasher::addSuccess(trans('messages.Delete'));
+            Flasher::addSuccess(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -151,11 +151,11 @@ class GraduatedController extends Controller
             $student->delete();
 
             if ($student->user) {
-                $student->user->delete(); 
+                $student->user->delete();
             }
 
             DB::commit();
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             DB::rollBack();

@@ -58,7 +58,7 @@ class ImageController extends Controller
                 ]);
             }
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return back();
         } catch (\Exception $e) {
             Flasher::addError($e->getMessage());
@@ -120,7 +120,7 @@ class ImageController extends Controller
 
         $image->delete();
 
-        Flasher::addError(trans('messages.Delete'));
+        Flasher::addError(trans('main_trans.Delete'));
         return redirect()->back();
     }
 
@@ -134,7 +134,7 @@ class ImageController extends Controller
             $absolutePath = Storage::disk('public')->path($filePath);
             return Response::download($absolutePath);
         }
-        
+
         return response()->download(public_path('attachments/students/' . $studentNationalId . '/' . $filename));
     }
 }

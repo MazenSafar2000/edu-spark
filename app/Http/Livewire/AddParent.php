@@ -67,7 +67,7 @@ class AddParent extends Component
             $My_Parent->Address_Father = $this->Address_Father;
             $My_Parent->save();
 
-            $this->successMessage = trans('messages.success');
+            $this->successMessage = trans('main_trans.success');
             $this->clearForm();
         } catch (\Exception $e) {
             $this->catchError = $e->getMessage();
@@ -115,7 +115,7 @@ class AddParent extends Component
             $parent->Address_Father = $this->Address_Father;
             $parent->save();
 
-            $this->successMessage = trans('messages.success');
+            $this->successMessage = trans('main_trans.success');
             return redirect()->to('/add_parent');
         } catch (\Exception $e) {
             $this->catchError = $e->getMessage();

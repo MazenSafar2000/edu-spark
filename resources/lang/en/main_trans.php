@@ -208,7 +208,7 @@ return [
     'instructions' => 'Instructions',
     'Save_modifications' => 'Save modifications',
 
-    'notifications' => 'Notifications',
+    'Notifications' => 'Notifications',
     'no_notifications' => 'No Notifications',
     'remove' => 'remove',
 
@@ -306,6 +306,17 @@ return [
     'Name_Teacher' => 'Name Teacher',
 
     'Choose' => 'Choose',
+    'status_Section_No' => 'not active',
+    'status_Section_AC' => 'active',
+
+    'success'=>'Data has been saved successfully',
+    'Update'=>'Data has been Updated successfully',
+    'Delete'=>'Data has been Deleted successfully',
+    'previous' => 'previous',
+    'next' => 'next',
+    'finish_attempt' => 'finish attempt',
+
+    'edit_Section' => 'Edit Section',
 
 
 

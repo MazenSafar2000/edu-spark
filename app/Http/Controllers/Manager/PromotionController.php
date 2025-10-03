@@ -92,7 +92,7 @@ class PromotionController extends Controller
                 ]);
             }
             DB::commit();
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('Promotion.index');
         } catch (\Exception $e) {
             DB::rollback();
@@ -158,7 +158,7 @@ class PromotionController extends Controller
             Promotion::destroy($id);
             DB::commit();
 
-            Flasher::addSuccess(trans('messages.Delete'));
+            Flasher::addSuccess(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             DB::rollback();
@@ -187,7 +187,7 @@ class PromotionController extends Controller
             }
 
             DB::commit();
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             DB::rollBack();

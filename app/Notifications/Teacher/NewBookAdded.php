@@ -28,7 +28,7 @@ class NewBookAdded extends Notification
             'section_id'  => $this->library->section_id,
             'subject_id'  => $this->library->subject_id,
             'teacher_id'  => $this->library->teacher_id,
-            'message'     => 'The manager added a new book instead of you.',
+            'message'     => 'اضاف المدير محتوى دراسي جديد لشُعبتك',
             'url'         => route('library.index'),
         ];
     }

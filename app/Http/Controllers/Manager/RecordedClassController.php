@@ -96,7 +96,7 @@ class RecordedClassController extends Controller
 
             Notification::send($teacherUser, new TeacherNewRecordedClassAdded($recordedClass));
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
 
             return redirect()->route('StudyContent.index');
         } catch (\Exception $e) {
@@ -161,7 +161,7 @@ class RecordedClassController extends Controller
                 'teacher_id' => $request->teacher_id,
             ]);
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->route('StudyContent.index');
         } catch (\Exception $e) {
             Flasher::addError($e->getMessage());
@@ -180,7 +180,7 @@ class RecordedClassController extends Controller
         $recordedClass = Recorded_class::findOrFail($id);
         $recordedClass->delete();
 
-        Flasher::addError(trans('messages.Delete'));
+        Flasher::addError(trans('main_trans.Delete'));
         return redirect()->back();
     }
 }

@@ -31,7 +31,7 @@
 
                         <li>
                             <a class="dropdown-item d-flex align-items-center gap-2"
-                                href="{{ route('exams.edit', $exam->id) }}">
+                                href="{{ route('Exams.edit', $sectionExam->id) }}">
                                 <i class="fas fa-edit action-icon edit-icon-action"></i> {{ trans('main_trans.edit') }}
                             </a>
                         </li>

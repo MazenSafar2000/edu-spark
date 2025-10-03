@@ -62,7 +62,7 @@ class GradeController extends Controller
 
             Grade::create($request->only('Name', 'Notes'));
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('Grades.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -114,7 +114,7 @@ class GradeController extends Controller
             'Notes' => $request->input('Notes'),
         ]);
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->route('Grades.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -138,7 +138,7 @@ class GradeController extends Controller
 
         Grade::findOrFail($id)->delete();
 
-        Flasher::addError(trans('messages.Delete'));
+        Flasher::addError(trans('main_trans.Delete'));
         return redirect()->route('Grades.index');
     }
 }

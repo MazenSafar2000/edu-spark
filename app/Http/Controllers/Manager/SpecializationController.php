@@ -46,7 +46,7 @@ class SpecializationController extends Controller
 
             Specialization::create($request->only('Name'));
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -96,7 +96,7 @@ class SpecializationController extends Controller
                 'Name'  => $request->input('Name'),
             ]);
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -114,7 +114,7 @@ class SpecializationController extends Controller
         try {
             Specialization::findOrFail($id)->delete();
 
-            Flasher::addError(trans('messages.Delete'));
+            Flasher::addError(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

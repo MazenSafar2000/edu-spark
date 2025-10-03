@@ -111,7 +111,7 @@ class LibraryController extends Controller
 
             Notification::send($teacherUser, new TeacherNewBookAdded($library));
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('StudyContent.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -198,7 +198,7 @@ class LibraryController extends Controller
 
             $library->update($data);
 
-            Flasher::addSuccess(trans('messages.update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->route('StudyContent.index');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -221,7 +221,7 @@ class LibraryController extends Controller
 
             Storage::disk('public')->delete("attachments/library/teachers/{$library->teacher->user->National_ID}/{$library->file_name}");
 
-            Flasher::addSuccess(trans('messages.delete'));
+            Flasher::addSuccess(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

@@ -61,7 +61,7 @@ class SubjectController extends Controller
             // dd($data);
             Subject::create($data);
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -125,7 +125,7 @@ class SubjectController extends Controller
 
             $subject->update($data);
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -144,7 +144,7 @@ class SubjectController extends Controller
 
             Subject::findOrFail($id)->delete();
 
-            Flasher::addError(trans('messages.Delete'));
+            Flasher::addError(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

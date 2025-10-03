@@ -43,14 +43,6 @@ class ExamController extends Controller
         return view("pages.Manager.StudyContent.exams.create", $data);
     }
 
-    // this functoin for section study content page
-    public function createNew($id)
-    {
-        $teacher_section = Teacher_section::findOrFail($id);
-        $exams = Exam::where("teacher_id", Auth::user()->teacher->id)->get();
-
-        return view("pages.Teacher.sections.createExam", compact('teacher_section', 'exams'));
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -60,8 +52,6 @@ class ExamController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->boolean('show_answers'));
-
         $request->validate([
             'Name_ar' => 'required|string|max:255',
             'Name_en' => 'required|string|max:255',
@@ -104,7 +94,7 @@ class ExamController extends Controller
             $sectionExam->subject_id = $exam->subject_id;
             $sectionExam->save();
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('StudyContent.index');
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
@@ -119,7 +109,7 @@ class ExamController extends Controller
      */
     public function show($id)
     {
-        // 
+        //
     }
 
     public function showResults($exam_id)
@@ -216,13 +206,16 @@ class ExamController extends Controller
      * @param  \App\Models\Exam  $exam
      * @return \Illuminate\Http\Response
      */
-    public function edit(Exam $exam)
+    public function edit($sectionExam)
     {
+        $sectionExam = SectionExam::findOrFail($sectionExam);
+        $exam = $sectionExam->exams;
+
         $data['exam'] = $exam;
         $data['grades'] = Grade::all();
-        $data['subjects'] = Teacher_section::where('teacher_id', Auth::user()->teacher->id)->get();
+        $data['subjects'] = Teacher_section::where('teacher_id', $exam->teacher_id)->get();
 
-        return view("pages.Manager.StudyContent.exams.edit", $data);
+        return view("pages.Manager.StudyContent.exams.edit", $data, compact('sectionExam'));
     }
 
     /**
@@ -232,39 +225,70 @@ class ExamController extends Controller
      * @param  \App\Models\Exam  $exam
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Exam $exam)
+    public function update(Request $request, $exam_id)
     {
-
         $request->validate([
-            'Name_en' => 'required|string|max:255',
             'Name_ar' => 'required|string|max:255',
+            'Name_en' => 'required|string|max:255',
             'description' => 'required|string',
             'start_at' => 'required|date',
             'end_at' => 'required|date|after:start_at',
             'duration' => 'required|integer|min:1',
             'attempts' => 'required',
             'question_per_page' => 'required',
+            'maximum_grade' => 'required',
             'subject_id' => 'required|exists:subjects,id',
+
+            'grade_id' => 'required|exists:grades,id',
+            'classroom_id' => 'required|exists:classrooms,id',
+            'section_id' => 'required|exists:sections,id',
+            'teacher_id' => 'required|exists:teachers,id',
+
         ]);
 
         try {
-            $quizz = $exam::findOrFail($exam->id);
-            $quizz->name = ['en' => $request->Name_en, 'ar' => $request->Name_ar];
-            $quizz->description = $request->post('description');
-            $quizz->start_at = $request->post('start_at');
-            $quizz->end_at = $request->post('end_at');
-            $quizz->duration = $request->post('duration');
-            $quizz->attempts = $request->post('attempts');
-            $quizz->question_per_page = $request->post('question_per_page');
-            if ($request->maximum_grade) {
-                $quizz->maximum_grade = $request->post('maximum_grade');
-            }
-            $quizz->subject_id = $request->post('subject_id');
-            $quizz->teacher_id = Auth::user()->teacher->id;
-            $quizz->save();
 
-            Flasher::addSuccess(trans('messages.Update'));
-            return redirect()->route('exams.index');
+            $sectionExam = SectionExam::findOrFail($exam_id);
+
+            // $quizz = $exam::findOrFail($exam->id);
+            // $quizz->name = ['en' => $request->Name_en, 'ar' => $request->Name_ar];
+            // $quizz->description = $request->post('description');
+            // $quizz->start_at = $request->post('start_at');
+            // $quizz->end_at = $request->post('end_at');
+            // $quizz->duration = $request->post('duration');
+            // $quizz->attempts = $request->post('attempts');
+            // $quizz->question_per_page = $request->post('question_per_page');
+            // if ($request->maximum_grade) {
+            //     $quizz->maximum_grade = $request->post('maximum_grade');
+            // }
+            // $quizz->subject_id = $request->post('subject_id');
+            // $quizz->teacher_id = Auth::user()->teacher->id;
+            // $quizz->save();
+
+            // exam update
+            $exam = $sectionExam->exams;
+            $exam->name = ['en' => $request->Name_en, 'ar' => $request->Name_ar];
+            $exam->description = $request->description;
+            $exam->start_at = $request->start_at;
+            $exam->end_at = $request->end_at;
+            $exam->duration = $request->duration;
+            $exam->attempts = $request->attempts;
+            $exam->question_per_page = $request->question_per_page;
+            if ($request->maximum_grade) {
+                $exam->maximum_grade = $request->maximum_grade;
+            }
+            $exam->subject_id = $request->subject_id;
+            $exam->teacher_id = $request->teacher_id;
+            $exam->save();
+
+            // sectioin exam update
+            $sectionExam->section_id = $request->section_id;
+            $sectionExam->exam_id = $exam->id;
+            $sectionExam->subject_id = $exam->subject_id;
+            $sectionExam->save();
+
+            Flasher::addSuccess(trans('main_trans.Update'));
+            return redirect()->route('StudyContent.index');
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
@@ -282,7 +306,7 @@ class ExamController extends Controller
             $exam = Exam::findOrFail($id);
             $exam->delete();
 
-            Flasher::addError(trans('messages.Delete'));
+            Flasher::addError(trans('main_trans.Delete'));
             return redirect()->route('StudyContent.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

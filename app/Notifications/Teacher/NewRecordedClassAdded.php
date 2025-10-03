@@ -29,7 +29,7 @@ class NewRecordedClassAdded extends Notification
             'section_id'   => $this->recording->section_id,
             'subject_id'   => $this->recording->subject_id,
             'teacher_id'   => $this->recording->teacher_id,
-            'message'      => 'The manager added a new recorded class instead of you.',
+            'message'      => 'اضاف المدير محتوى دراسي جديد لشُعبتك',
             'url'          => route('recordedClasses.index'),
         ];
     }

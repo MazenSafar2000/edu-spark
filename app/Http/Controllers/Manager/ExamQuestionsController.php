@@ -184,7 +184,7 @@ class ExamQuestionsController extends Controller
 
                 Exam::where('id', $examId)->update(['total_marks' => $totalMarks]);
 
-                Flasher::addError(trans('messages.Delete'));
+                Flasher::addError(trans('main_trans.Delete'));
                 return redirect()->back();
             }
         } catch (\Exception $e) {

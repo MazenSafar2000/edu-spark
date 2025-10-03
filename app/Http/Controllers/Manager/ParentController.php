@@ -77,7 +77,7 @@ class ParentController extends Controller
 
             DB::commit();
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('Parents.index');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -163,7 +163,7 @@ class ParentController extends Controller
 
             DB::commit();
 
-            Flasher::addInfo(trans('messages.update'));
+            Flasher::addInfo(trans('main_trans.Update'));
             return redirect()->route('Parents.index');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -186,7 +186,7 @@ class ParentController extends Controller
         if ($user) {
             $user->delete(); // Deletes the associated user record
         }
-        Flasher::addError(trans('messages.Delete'));
+        Flasher::addError(trans('main_trans.Delete'));
         return redirect()->route('Parents.index');
     }
 }

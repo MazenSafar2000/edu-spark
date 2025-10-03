@@ -111,7 +111,7 @@ class SectionExamContrller extends Controller
                     });
             }
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('teacher.section.materials', $request->section_id);
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -165,7 +165,7 @@ class SectionExamContrller extends Controller
             $exam = SectionExam::findOrFail($id);
             $exam->delete();
 
-            Flasher::addError(trans('messages.Delete'));
+            Flasher::addError(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -179,7 +179,7 @@ class SectionExamContrller extends Controller
             'show_answers' => $request->has('show_answers') ? 1 : 0,
         ]);
 
-        Flasher::addSuccess(__('messages.Update'));
+        Flasher::addSuccess(__('main_trans.Update'));
         return back();
     }
 }

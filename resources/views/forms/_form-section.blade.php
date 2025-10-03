@@ -55,9 +55,11 @@
 {{-- classroom --}}
 <div class="mb-3 custom-form-group">
     <select class="form-select custom-select" name="Class_id" id="class_id">
-        <option value="" selected disabled>
-            {{ trans('main_trans.Choose') }}
-        </option>
+        @if ($isEdit)
+            <option value="{{ $section->My_classs->id }}">
+                {{ $section->My_classs->Name_Class }}
+            </option>
+        @endif
     </select>
     @error('class_id')
         <div class="error-message" id="error-bookNameArabic">

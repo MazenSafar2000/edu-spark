@@ -98,7 +98,8 @@ class HomeworkController extends Controller
 
 
             if ($request->hasFile('attachment')) {
-                $folderName = Auth::user()->National_ID;
+                $folderName = $teacher->user->National_ID;
+                dd($folderName);
                 $fileName = time() . '_' . $request->file('attachment')->getClientOriginalName();
 
                 $path = $request->file('attachment')->storeAs(
@@ -142,7 +143,7 @@ class HomeworkController extends Controller
             Notification::send($teacherUser, new TeacherNewHomeworkAdded($homework));
 
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('StudyContent.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -203,6 +204,7 @@ class HomeworkController extends Controller
         try {
 
             $homework = Homework::findOrFail($id);
+            $teacher = Teacher::findOrFail($homework->teacher_id);
 
             $homework->update([
                 'title' => $request->title,
@@ -219,17 +221,17 @@ class HomeworkController extends Controller
             ]);
 
             if ($request->has('remove_attachment') && $homework->attachment_path) {
-                Storage::disk('public')->delete('attachments/homeworks/teachers/' . Auth::user()->National_ID . '/' . $homework->attachment_path);
+                Storage::disk('public')->delete('attachments/homeworks/teachers/' . $teacher->user->National_ID . '/' . $homework->attachment_path);
                 $homework->update(['attachment_path' => null]);
             }
 
             if ($request->hasFile('attachment')) {
                 // Delete old file first
                 if ($homework->attachment_path) {
-                    Storage::disk('public')->delete('attachments/homeworks/teachers/' . Auth::user()->National_ID . '/' . $homework->attachment_path);
+                    Storage::disk('public')->delete('attachments/homeworks/teachers/' . $teacher->user->National_ID . '/' . $homework->attachment_path);
                 }
 
-                $folderName = Auth::user()->National_ID;
+                $folderName = $teacher->user->National_ID;
                 $fileName = time() . '_' . $request->file('attachment')->getClientOriginalName();
 
                 $path = $request->file('attachment')->storeAs(
@@ -241,7 +243,7 @@ class HomeworkController extends Controller
                 $homework->update(['attachment_path' => $fileName]);
             }
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->route('StudyContent.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -266,7 +268,7 @@ class HomeworkController extends Controller
 
         $homework->delete();
 
-        Flasher::addError(trans('messages.Delete'));
+        Flasher::addError(trans('main_trans.Delete'));
         return redirect()->back();
     }
 
@@ -313,7 +315,7 @@ class HomeworkController extends Controller
                 'evaluation_status' => 'evaluated',
             ]);
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -350,7 +352,7 @@ class HomeworkController extends Controller
             ]);
         }
 
-        Flasher::addSuccess(trans('messages.Update'));
+        Flasher::addSuccess(trans('main_trans.Update'));
         return back();
     }
 
@@ -361,7 +363,7 @@ class HomeworkController extends Controller
             'show_grade' => $request->has('show_grade') ? 1 : 0,
         ]);
 
-        Flasher::addSuccess(__('messages.Update'));
+        Flasher::addSuccess(__('main_trans.Update'));
         return back();
     }
 }

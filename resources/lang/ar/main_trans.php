@@ -142,7 +142,7 @@ return [
     'List_Parents' => 'قائمة اولياء الامور',
     'Add_Parent' => 'اضافة ولي امر',
     'Exams' => 'الامتحانات',
-    'library' => 'المكتبة',
+    'library' => 'الملفات الدراسية',
     'Onlineclasses' => 'حصص اونلاين',
     'Settings' => 'الاعدادات',
     'Users' => 'المستخدمين',
@@ -310,6 +310,20 @@ return [
     'Name_Teacher' => 'اسم المعلم',
 
     'Choose' => 'اختيار من القائمة',
+
+    'status_Section_AC' => 'فعال',
+    'status_Section_No' => 'غير فعال',
+
+    'success' => 'تم حفظ البيانات بنجاح',
+    'Update' => 'تم تحديث البيانات بنجاح',
+    'Delete' => 'تم حذف البيانات بنجاح',
+    'previous' => 'السابق',
+    'next' => 'التالي',
+    'finish_attempt' => 'إنهاء الاختبار',
+
+    'edit_Section' => 'تعديل شعبة',
+
+
 
 
 ];

@@ -100,7 +100,7 @@ class TeacherController extends Controller
 
             DB::commit();
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('Teachers.index');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -178,7 +178,7 @@ class TeacherController extends Controller
 
             DB::commit();
 
-            Flasher::addSuccess(__('messages.Update'));
+            Flasher::addSuccess(__('main_trans.Update'));
             return redirect()->route('Teachers.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -202,7 +202,7 @@ class TeacherController extends Controller
             $user->delete(); // Deletes the associated user record
         }
 
-        Flasher::addError(trans('messages.Delete'));
+        Flasher::addError(trans('main_trans.Delete'));
         return redirect()->route('Teachers.index');
     }
 

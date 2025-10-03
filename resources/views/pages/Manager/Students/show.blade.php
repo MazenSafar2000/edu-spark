@@ -132,7 +132,7 @@
                                                  <td>{{ $attachment->filename }}</td>
                                                  <td>{{ $attachment->created_at->diffForHumans() }}</td>
                                                  <td>
-                                                     <a href="{{ url('Download_attachment') }}/{{ $attachment->imageable->National_ID }}/{{ $attachment->filename }}"
+                                                     <a href="{{ url('Download_attachment') }}/{{ $attachment->imageable->user->National_ID }}/{{ $attachment->filename }}"
                                                          class="btn btn-sm btn-download"><i
                                                              class="fa-solid fa-download"></i>{{ trans('Students_trans.Download') }}</a>
                                                      <a class="btn btn-sm btn-delete" data-bs-toggle="modal"

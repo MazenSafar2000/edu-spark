@@ -96,7 +96,7 @@ class TeacherSectionController extends Controller
             $teacher_section = Teacher_section::findOrFail($id);
             $teacher_section->delete();
 
-            Flasher::addSuccess(trans('messages.delete'));
+            Flasher::addSuccess(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

@@ -94,7 +94,7 @@ class ExamController extends Controller
             $exam->teacher_id = Auth::user()->teacher->id;
             $exam->save();
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('exams.index');
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
@@ -266,7 +266,7 @@ class ExamController extends Controller
             $quizz->teacher_id = Auth::user()->teacher->id;
             $quizz->save();
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->route('exams.index');
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);
@@ -284,7 +284,7 @@ class ExamController extends Controller
         try {
             $exam->delete();
 
-            Flasher::addError(trans('messages.Delete'));
+            Flasher::addError(trans('main_trans.Delete'));
             return redirect()->route('exams.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);

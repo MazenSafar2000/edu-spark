@@ -288,7 +288,7 @@
                         <div class="info-box-text">
                             <h5 class="mb-4">{{ trans('main_trans.system_information') }}</h5>
                             <p><i class="fas fa-envelope"></i> sparkEducation@edu</p>
-                            <p><i class="fas fa-phone"></i> +24 56 89 146</p>
+                            <p><i class="fas fa-phone"></i> 0595838611 </p>
                             <p><i class="fas fa-map-marker-alt"></i>{{ trans('main_trans.palestine_gaza') }}</p>
                             <p><i class="fas fa-clock"></i>{{ trans('main_trans.working_hours') }}</p>
                         </div>

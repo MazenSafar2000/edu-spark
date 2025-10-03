@@ -108,7 +108,7 @@ class StudentController extends Controller
                 }
             }
             DB::commit(); // insert data
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('Students.index');
         } catch (\Exception $e) {
             DB::rollback();
@@ -192,7 +192,7 @@ class StudentController extends Controller
 
             DB::commit();
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->route('Students.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -215,7 +215,7 @@ class StudentController extends Controller
         if ($user) {
             $user->delete();
         }
-        Flasher::addError(trans('messages.Delete'));
+        Flasher::addError(trans('main_trans.Delete'));
         return redirect()->route('Students.index');
     }
 
@@ -248,7 +248,7 @@ class StudentController extends Controller
             $images->imageable_type = 'App\Models\Student';
             $images->save();
         }
-        Flasher::addSuccess(trans('messages.success'));
+        Flasher::addSuccess(trans('main_trans.success'));
         return redirect()->route('Students.show', $request->student_id);
     }
 
@@ -261,7 +261,7 @@ class StudentController extends Controller
 
         // Delete in data
         image::where('id', $request->id)->where('filename', $request->filename)->delete();
-        Flasher::addError(trans('messages.Delete'));
+        Flasher::addError(trans('main_trans.Delete'));
         return redirect()->route('Students.show', $request->student_id);
     }
 }

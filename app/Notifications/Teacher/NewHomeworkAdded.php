@@ -29,7 +29,7 @@ class NewHomeworkAdded extends Notification
             'section_id'  => $this->homework->section_id,
             'subject_id'  => $this->homework->subject_id,
             'teacher_id'  => $this->homework->teacher_id,
-            'message'     => 'The manager added a new homework instead of you.',
+            'message'     => 'اضاف المدير محتوى دراسي جديد لشُعبتك',
             'url'         => route('homeworks.index'),
         ];
     }

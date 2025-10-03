@@ -116,7 +116,7 @@ class OnlineClassController extends Controller
                 Notification::send($users, new NewLiveClassAdded($onlineClass));
             });
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('ZoomClasses.index');
         } catch (\Exception $e) {
             try {
@@ -176,7 +176,7 @@ class OnlineClassController extends Controller
                 Notification::send($users, new NewLiveClassAdded($onlineClass));
             });
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('ZoomClasses.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -238,7 +238,7 @@ class OnlineClassController extends Controller
 
             $info->delete();
 
-            Flasher::addError(trans('messages.Delete'));
+            Flasher::addError(trans('main_trans.Delete'));
             return redirect()->route('ZoomClasses.index');
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => $e->getMessage()]);

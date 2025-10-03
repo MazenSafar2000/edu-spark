@@ -19,7 +19,7 @@ class QuestionsBankController extends Controller
      */
     public function index()
     {
-        $questions = Question::paginate(10);
+        $questions = Question::paginate(100);
 
         // $teacherId = Auth::user()->teacher->id;
         $categories = QuestionsCategotry::with('questionsBank')->get();

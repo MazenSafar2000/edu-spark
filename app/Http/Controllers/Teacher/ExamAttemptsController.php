@@ -111,7 +111,7 @@ class ExamAttemptsController extends Controller
                 ]
             );
 
-            Flasher::addSuccess(trans('messages.delete'));
+            Flasher::addSuccess(trans('main_trans.Delete'));
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

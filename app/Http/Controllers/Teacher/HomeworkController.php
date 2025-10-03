@@ -130,7 +130,7 @@ class HomeworkController extends Controller
                     }
                 });
 
-            Flasher::addSuccess(trans('messages.success'));
+            Flasher::addSuccess(trans('main_trans.success'));
             return redirect()->route('homeworks.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -227,7 +227,7 @@ class HomeworkController extends Controller
                 $homework->update(['attachment_path' => $fileName]);
             }
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return redirect()->route('homeworks.index');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -251,7 +251,7 @@ class HomeworkController extends Controller
 
         $homework->delete();
 
-        Flasher::addError(trans('messages.Delete'));
+        Flasher::addError(trans('main_trans.Delete'));
         return redirect()->back();
     }
 
@@ -298,7 +298,7 @@ class HomeworkController extends Controller
                 'evaluation_status' => 'evaluated',
             ]);
 
-            Flasher::addSuccess(trans('messages.Update'));
+            Flasher::addSuccess(trans('main_trans.Update'));
             return back();
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
@@ -335,7 +335,7 @@ class HomeworkController extends Controller
             ]);
         }
 
-        Flasher::addSuccess(trans('messages.Update'));
+        Flasher::addSuccess(trans('main_trans.Update'));
         return back();
     }
 
@@ -346,7 +346,7 @@ class HomeworkController extends Controller
             'show_grade' => $request->has('show_grade') ? 1 : 0,
         ]);
 
-        Flasher::addSuccess(__('messages.Update'));
+        Flasher::addSuccess(__('main_trans.Update'));
         return back();
     }
 }

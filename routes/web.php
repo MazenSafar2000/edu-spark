@@ -134,7 +134,7 @@ Route::group(
                     ->name('manager.exam.export');
                 Route::post('/exam/{exam}/assign-zeros', [ExamController::class, 'assignZeroForAbsentStudents'])->name('Exam.assignZeros');
                 Route::get('/teacher/exam/{exam}/student/{student}/attempts', 'ExamController@studentAttempts')->name('manager.exam.studentAttempts');
-                Route::post('/exam/manual-degree', 'DegreeController@storeManualDegree')->name('manager.manual.degree.store');
+                Route::post('/manager/exam/manual-degree', 'DegreeController@storeManualDegree')->name('manager.manual.degree.store');
 
                 Route::resource('Questions', 'QuestionController');
                 Route::resource('QuestionsBank', 'QuestionsBankController');
