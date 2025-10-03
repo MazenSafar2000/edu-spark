@@ -132,7 +132,7 @@ class GradeController extends Controller
         $hasClassrooms = Classroom::where('Grade_id', $id)->exists();
 
         if ($hasClassrooms) {
-            Flasher::addWarning(trans('Grades_trans.delete_Grade_Error'));
+            Flasher::addWarning(trans('main_trans.delete_Grade_Error'));
             return redirect()->route('Grades.index');
         }
 

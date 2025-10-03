@@ -176,6 +176,11 @@ body {
     border-bottom: 1px solid var(--secondary-color);
 }
 
+.main-navbar .navbar-collapse-item .navbar-nav .nav-item .nav-link.btn-management {
+    border-bottom: 1px solid var(--secondary-color);
+    font-weight: bold;
+    color: var(--black);
+}
 
 .hero-section {
     background: linear-gradient(60deg, rgba(7, 35, 64, 0), rgba(88, 159, 67, 0.5));

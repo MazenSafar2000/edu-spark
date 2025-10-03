@@ -179,7 +179,11 @@ body {
     border-bottom: 1px solid var(--secondary-color);
 }
 
-
+.main-navbar .navbar-collapse-item .navbar-nav .nav-item .nav-link.btn-management {
+    border-bottom: 1px solid var(--secondary-color);
+    font-weight: bold;
+    color: var(--black);
+}
 
 /* ------------ */
 
@@ -2600,8 +2604,8 @@ h6.section-heading {
     cursor: pointer;
     display: flex;
     color: var(--white);
-width: 60px;
-  height: 60px;
+    width: 60px;
+    height: 60px;
 
 }
 

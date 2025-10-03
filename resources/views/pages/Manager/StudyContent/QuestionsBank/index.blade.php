@@ -93,7 +93,7 @@
                                             </div>
                                             <div class="modal-body text-center">
                                                 <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                                <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                                <p>{{ trans('main_trans.Delete_Warning') }}</p>
                                             </div>
                                             <div class="modal-footer custom-modal-footer">
                                                 <button type="submit" class="btn btn-primary custom-save-btn">

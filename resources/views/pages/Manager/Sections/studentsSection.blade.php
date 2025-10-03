@@ -26,7 +26,7 @@
                                     <th>{{ trans('Students_trans.name') }}</th>
                                     <th>{{ trans('Students_trans.email') }}</th>
                                     <th>{{ trans('Students_trans.gender') }}</th>
-                                    <th>{{ trans('Students_trans.Processes') }}</th>
+                                    <th>{{ trans('main_trans.operations') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,7 +78,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                                            aria-label="{{ trans('main_trans.close') }}"></button>
                                                     </div>
 
                                                     <form id="deleteStudentForm{{ $student->id }}" action="{{ route('Students.destroy', $student->id) }}"
@@ -88,13 +88,13 @@
 
                                                         <div class="modal-body text-center">
                                                             <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                                            <p>{{ trans('Grades_trans.Delete_Warning') }} - {{ $student->user->name }}</p>
+                                                            <p>{{ trans('main_trans.Delete_Warning') }} - {{ $student->user->name }}</p>
                                                         </div>
 
                                                     </form>
                                                     <div class="modal-footer justify-content-center">
                                                         <button type="submit" form="deleteStudentForm{{ $student->id }}"
-                                                            class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                            class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                                         <button type="button" class="btn btn-cancel"
                                                             data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                                                     </div>

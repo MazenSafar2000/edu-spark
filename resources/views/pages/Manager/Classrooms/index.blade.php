@@ -12,9 +12,9 @@
             <thead class="thead-manager">
                 <tr>
                     <th>#</th>
-                    <th>{{ trans('My_Classes_trans.Name_class') }}</th>
-                    <th>{{ trans('My_Classes_trans.Name_Grade') }}</th>
-                    <th>{{ trans('My_Classes_trans.Processes') }}</th>
+                    <th>{{ trans('main_trans.Name_class') }}</th>
+                    <th>{{ trans('main_trans.Name_Grade') }}</th>
+                    <th>{{ trans('main_trans.operations') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,7 +65,7 @@
                     <!-- رأس المودال -->
                     <div class="modal-header custom-modal-header">
                         <h5 class="modal-title custom-modal-title" id="editClassModalLabel">
-                            {{ trans('My_Classes_trans.edit_class') }}</h5>
+                            {{ trans('main_trans.edit_class') }}</h5>
                     </div>
 
                     <!-- جسم المودال -->
@@ -84,7 +84,7 @@
                                 <button type="submit"
                                     class="btn btn-primary custom-save-btn">{{ trans('main_trans.edit') }}</button>
                                 <button type="button" class="btn btn-secondary custom-cancel-btn"
-                                    data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                    data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                             </div>
                         </form>
                     </div>
@@ -102,7 +102,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                            aria-label="{{ trans('main_trans.close') }}"></button>
                     </div>
                     <form id="deleteClassForm{{ $Classroom->id }}"
                         action="{{ route('Classrooms.destroy', $Classroom->id) }}" method="POST">
@@ -111,14 +111,14 @@
 
                         <div class="modal-body text-center">
                             <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                            <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                            <p>{{ trans('main_trans.Delete_Warning') }}</p>
                         </div>
                     </form>
                     <div class="modal-footer justify-content-center">
                         <button type="submit" form="deleteClassForm{{ $Classroom->id }}"
-                            class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                            class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                         <button type="button" class="btn btn-cancel"
-                            data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                            data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@
                 <!-- رأس المودال -->
                 <div class="modal-header custom-modal-header">
                     <h5 class="modal-title custom-modal-title" id="addClassModalLabel">
-                        {{ trans('My_Classes_trans.add_class') }}
+                        {{ trans('main_trans.add_class') }}
                     </h5>
                 </div>
 
@@ -148,9 +148,9 @@
                         <!-- تذييل المودال -->
                         <div class="modal-footer custom-modal-footer">
                             <button type="submit"
-                                class="btn btn-primary custom-save-btn">{{ trans('Grades_trans.submit') }}</button>
+                                class="btn btn-primary custom-save-btn">{{ trans('main_trans.submit') }}</button>
                             <button type="button" class="btn btn-secondary custom-cancel-btn"
-                                data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                         </div>
 
                     </form>

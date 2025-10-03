@@ -108,7 +108,7 @@
                                  </div>
 
                                  <button type="submit"
-                                     class="btn btn-upload mb-4 btn-outline-success">{{ trans('Grades_trans.submit') }}</button>
+                                     class="btn btn-upload mb-4 btn-outline-success">{{ trans('main_trans.submit') }}</button>
                              </form>
 
 
@@ -122,7 +122,7 @@
                                              <th>#</th>
                                              <th scope="col">{{ trans('Students_trans.filename') }}</th>
                                              <th scope="col">{{ trans('Students_trans.created_at') }}</th>
-                                             <th scope="col">{{ trans('Students_trans.Processes') }}</th>
+                                             <th scope="col">{{ trans('main_trans.operations') }}</th>
                                          </tr>
                                      </thead>
                                      <tbody>
@@ -154,17 +154,17 @@
                                                              <div class="modal-header">
                                                                  <button type="button" class="btn-close"
                                                                      data-bs-dismiss="modal"
-                                                                     aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                                                     aria-label="{{ trans('main_trans.close') }}"></button>
                                                              </div>
                                                              <div class="modal-body text-center">
                                                                  <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                                                 <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                                                 <p>{{ trans('main_trans.Delete_Warning') }}</p>
                                                              </div>
                                                              <div class="modal-footer justify-content-center">
                                                                  <button type="submin"
-                                                                     class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                                     class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                                                  <button type="button" class="btn btn-cancel"
-                                                                     data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                                                     data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                                                              </div>
                                                          </div>
                                                      </form>

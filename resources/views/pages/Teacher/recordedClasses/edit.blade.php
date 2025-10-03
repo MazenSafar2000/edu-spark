@@ -131,7 +131,7 @@
 
 
                         <div class="text-end">
-                            <button type="submit" class="btn save-btn">{{ trans('Grades_trans.submit') }}</button>
+                            <button type="submit" class="btn save-btn">{{ trans('main_trans.submit') }}</button>
                         </div>
                     </form>
                 </div>

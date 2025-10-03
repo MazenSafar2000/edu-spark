@@ -9,7 +9,7 @@
             class="form-control custom-input float-input @error('Name_Section_Ar') custom-input-error @enderror"
             value="{{ old('Name_Section_Ar', $isEdit ? $section->getTranslation('Name_Section', 'ar') : '') }}"
             placeholder=" " />
-        <label class="float-label">{{ trans('Sections_trans.Section_name_ar') }}</label>
+        <label class="float-label">{{ trans('main_trans.Section_name_ar') }}</label>
     </div>
     @error('Name_Section_Ar')
         <div class="error-message" id="error-bookNameArabic">
@@ -25,7 +25,7 @@
             class="form-control custom-input float-input @error('Name_Section_En') custom-input-error @enderror"
             value="{{ old('Name_Section_En', $isEdit ? $section->getTranslation('Name_Section', 'en') : '') }}"
             placeholder=" " />
-        <label class="float-label">{{ trans('Sections_trans.Section_name_en') }}</label>
+        <label class="float-label">{{ trans('main_trans.Section_name_en') }}</label>
     </div>
     @error('Name_Section_En')
         <div class="error-message" id="error-bookNameArabic">
@@ -56,7 +56,7 @@
 <div class="mb-3 custom-form-group">
     <select class="form-select custom-select" name="Class_id" id="class_id">
         <option value="" selected disabled>
-            {{ trans('Parent_trans.Choose') }}
+            {{ trans('main_trans.Choose') }}
         </option>
     </select>
     @error('class_id')
@@ -76,7 +76,7 @@
             @else
                 <input type="checkbox" class="form-check-input" name="Status" id="StatusCheck">
             @endif
-            <label class="form-check-label" for="StatusCheck">{{ trans('Sections_trans.Status') }}</label><br>
+            <label class="form-check-label" for="StatusCheck">{{ trans('main_trans.status') }}</label><br>
 
         </div>
         @error('Status')

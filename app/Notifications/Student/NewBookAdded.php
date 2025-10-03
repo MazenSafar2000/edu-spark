@@ -28,7 +28,7 @@ class NewBookAdded extends Notification
             'section_id'  => $this->library->section_id,
             'subject_id'  => $this->library->subject_id,
             'teacher_id'  => $this->library->teacher_id,
-            'message'     => 'A new book was added to your section.',
+            'message'     => 'لديك ملف دراسي جديد',
             'url'         => route('subject.viewBook', $this->library),
         ];
     }

@@ -22,7 +22,7 @@
                     <div class="card children-card  text-center h-100">
                         <h5 class="fw-bold children-title">{{ trans('Parent_trans.children_list') }}</h5>
                         <i class="fas fa-child children-icon"></i>
-                        <p class="text-muted mb-1 children-count">{{ trans('Parent_trans.numner_children') }} <strong>{{$sonsCount}}</strong></p>
+                        <p class="text-muted mb-1 children-count">{{ trans('Parent_trans.number_children') }} <strong>{{$sonsCount}}</strong></p>
 
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                 <!-- بطاقة الملف الشخصي -->
                 <div class="col-lg-3 col-md-6 col-12">
                     <div class="card profile-card text-center h-100">
-                        <h5 class="fw-bold profile-title">{{ trans('Parent_trans.profile') }}</h5>
+                        <h5 class="fw-bold profile-title">{{ trans('main_trans.profile') }}</h5>
                         <i class="fas fa-user profile-icon"></i>
                         <p class="text-muted mb-1 profile-info">{{ trans('Parent_trans.personal_information') }}</p>
                         <a href="{{ route('parent.profile')}}" class="btn profile-btn">{{ trans('Parent_trans.view_profile') }}</a>

@@ -43,7 +43,7 @@
                             <th>{{ trans('Students_trans.Grade') }}</th>
                             <th>{{ trans('Students_trans.classrooms') }}</th>
                             <th>{{ trans('Students_trans.section') }}</th>
-                            <th>{{ trans('Students_trans.Processes') }}</th>
+                            <th>{{ trans('main_trans.operations') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -166,9 +166,9 @@
         function updateClassrooms() {
             const selectedGrade = gradeSelect.options[gradeSelect.selectedIndex].text;
             if (!gradeSelect.value) {
-                classroomSelect.innerHTML = '<option value="">-- Select Classroom --</option>';
+                classroomSelect.innerHTML = `<option value="">{{ trans('main_trans.select_class') }}</option>`;
                 classroomSelect.disabled = true;
-                sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+                sectionSelect.innerHTML = `<option value="">{{ trans('main_trans.select_section') }}</option>`;
                 sectionSelect.disabled = true;
                 return;
             }
@@ -176,10 +176,10 @@
             const classrooms = getUniqueValues(students, 'classroom', {
                 grade: selectedGrade
             });
-            classroomSelect.innerHTML = '<option value="">-- Select Classroom --</option>' +
+            classroomSelect.innerHTML = `<option value="">{{ trans('main_trans.select_class') }}</option>` +
                 classrooms.map(c => `<option value="${c}">${c}</option>`).join('');
             classroomSelect.disabled = false;
-            sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+            sectionSelect.innerHTML = `<option value="">{{ trans('main_trans.select_section') }}</option>`;
             sectionSelect.disabled = true;
         }
 
@@ -188,7 +188,7 @@
             const selectedGrade = gradeSelect.options[gradeSelect.selectedIndex].text;
             const selectedClassroom = classroomSelect.value;
             if (!selectedClassroom) {
-                sectionSelect.innerHTML = '<option value="">-- Select Section --</option>';
+                sectionSelect.innerHTML = `<option value="">{{ trans('main_trans.select_section') }}</option>`;
                 sectionSelect.disabled = true;
                 return;
             }
@@ -196,7 +196,7 @@
                 grade: selectedGrade,
                 classroom: selectedClassroom
             });
-            sectionSelect.innerHTML = '<option value="">-- Select Section --</option>' +
+            sectionSelect.innerHTML = `<option value="">{{ trans('main_trans.select_section') }}</option>` +
                 sections.map(s => `<option value="${s}">${s}</option>`).join('');
             sectionSelect.disabled = false;
         }

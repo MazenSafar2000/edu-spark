@@ -48,7 +48,7 @@
             <input type="password" name="password"
                 class="form-control custom-input float-input @error('password') custom-input-error @enderror"
                 id="" placeholder=" " />
-            <label for="password" class="float-label">{{ trans('Parent_trans.Password') }}</label>
+            <label for="password" class="float-label">{{ trans('main_trans.Password') }}</label>
         </div>
         @error('password')
             <div class="error-message" id="error-bookNameArabic">
@@ -108,7 +108,7 @@
             <input type="email" name="email"
                 class="form-control custom-input float-input @error('email') custom-input-error @enderror"
                 id="" placeholder=" " value="{{ old('email', $Parent->user?->email) }}" />
-            <label for="email" class="float-label">{{ trans('Parent_trans.Email') }}</label>
+            <label for="email" class="float-label">{{ trans('main_trans.email') }}</label>
         </div>
         @error('email')
             <div class="error-message" id="error-bookNameArabic">
@@ -128,5 +128,5 @@
 </div>
 
 <div class="text-end">
-    <button type="submit" class="btn save-btn">{{ trans('Grades_trans.submit') }}</button>
+    <button type="submit" class="btn save-btn">{{ trans('main_trans.submit') }}</button>
 </div>

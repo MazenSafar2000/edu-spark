@@ -87,6 +87,10 @@ Route::group(
                 Route::get('/exams/{exam}/results', [ExamController::class, 'showResults'])
                     ->name('exam.results');
 
+                Route::post('/exam/{exam}/question/{question}/update-score', 'ExamQuestionsController@updateQuestionScore')
+                    ->name('exam.update-question-score');
+
+
                 Route::resource('examAttempts', ExamAttemptsController::class);
                 Route::get(
                     '/teacher/exams/{exam}/student/{student}/attempts/{attempt}/answers',

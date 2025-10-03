@@ -24,7 +24,7 @@
                                     <label for="Grade_id" class="text-danger">{{ trans('Students_trans.Grade') }}*</label>
                                     <select class="form-select custom-select @error('Grade_id') is-invalid @enderror"
                                         name="Grade_id" id="Grade_id" required>
-                                        <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
+                                        <option selected disabled>{{ trans('main_trans.Choose') }}...</option>
                                         @foreach ($Grades as $Grade)
                                             <option value="{{ $Grade->id }}">{{ $Grade->Name }}</option>
                                         @endforeach
@@ -40,7 +40,7 @@
                                         class="text-danger">{{ trans('Students_trans.classrooms') }}*</label>
                                     <select class="form-select custom-select @error('Classroom_id') is-invalid @enderror"
                                         name="Classroom_id" id="Classroom_id" required>
-                                        <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
+                                        <option selected disabled>{{ trans('main_trans.Choose') }}...</option>
                                     </select>
                                     @error('Classroom_id')
                                         <div class="error-message" id="error-bookNameArabic">
@@ -53,7 +53,7 @@
                                         class="text-danger">{{ trans('Students_trans.section') }}*</label>
                                     <select class="form-select custom-select  @error('section_id') is-invalid @enderror"
                                         name="section_id" id="section_id" required>
-                                        <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
+                                        <option selected disabled>{{ trans('main_trans.Choose') }}...</option>
                                     </select>
                                     @error('section_id')
                                         <div class="error-message" id="error-bookNameArabic">
@@ -66,7 +66,7 @@
                                         class="text-danger">{{ trans('Students_trans.academic_year') }}*</label>
                                     <select class="form-select custom-select @error('academic_year') is-invalid @enderror"
                                         name="academic_year" id="academic_year" required>
-                                        <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
+                                        <option selected disabled>{{ trans('main_trans.Choose') }}...</option>
                                         @php $current_year = date('Y'); @endphp
                                         @for ($year = $current_year; $year <= $current_year + 1; $year++)
                                             @php $academicYear = $year . '/' . ($year + 1); @endphp
@@ -94,7 +94,7 @@
                                         class="text-danger">{{ trans('Students_trans.Grade') }}*</label>
                                     <select class="form-select custom-select @error('Grade_id_new') is-invalid @enderror"
                                         name="Grade_id_new" id="Grade_id_new" required>
-                                        <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
+                                        <option selected disabled>{{ trans('main_trans.Choose') }}...</option>
                                         @foreach ($Grades as $Grade)
                                             <option value="{{ $Grade->id }}">{{ $Grade->Name }}</option>
                                         @endforeach
@@ -111,7 +111,7 @@
                                     <select
                                         class="form-select custom-select @error('Classroom_id_new') is-invalid @enderror"
                                         name="Classroom_id_new" id="Classroom_id_new" required>
-                                        <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
+                                        <option selected disabled>{{ trans('main_trans.Choose') }}...</option>
                                     </select>
                                     @error('Classroom_id_new')
                                         <div class="error-message" id="error-bookNameArabic">
@@ -124,7 +124,7 @@
                                         class="text-danger">{{ trans('Students_trans.section') }}*</label>
                                     <select class="form-select custom-select @error('section_id_new') is-invalid @enderror"
                                         name="section_id_new" id="section_id_new" required>
-                                        <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
+                                        <option selected disabled>{{ trans('main_trans.Choose') }}...</option>
                                     </select>
                                     @error('section_id_new')
                                         <div class="error-message" id="error-bookNameArabic">
@@ -138,7 +138,7 @@
                                     <select
                                         class="form-select custom-select @error('academic_year_new') is-invalid @enderror"
                                         name="academic_year_new" id="academic_year_new" required>
-                                        <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
+                                        <option selected disabled>{{ trans('main_trans.Choose') }}...</option>
                                         @php $current_year = date('Y'); @endphp
                                         @for ($year = $current_year; $year <= $current_year + 1; $year++)
                                             @php $academicYear = $year . '/' . ($year + 1); @endphp

@@ -77,7 +77,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="{{ trans('My_Classes_trans.Close') }}"></button>
+                                                        aria-label="{{ trans('main_trans.close') }}"></button>
                                                 </div>
                                                 <form action="{{ route('Parents.destroy', $parent->id) }}" method="POST">
                                                     @csrf
@@ -89,9 +89,9 @@
                                                     </div>
                                                     <div class="modal-footer justify-content-center">
                                                         <button type="submit"
-                                                            class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                            class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                                         <button type="button" class="btn btn-cancel"
-                                                            data-bs-dismiss="modal">{{ trans('My_Classes_trans.Close') }}</button>
+                                                            data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                                                     </div>
                                                 </form>
                                             </div>

@@ -29,10 +29,10 @@
                                     <thead class="thead-manager">
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ trans('Sections_trans.Name_Section') }}</th>
-                                            <th>{{ trans('Sections_trans.Name_Class') }}</th>
-                                            <th>{{ trans('Sections_trans.Status') }}</th>
-                                            <th>{{ trans('Sections_trans.Processes') }}</th>
+                                            <th>{{ trans('main_trans.Name_Section') }}</th>
+                                            <th>{{ trans('main_trans.Name_Class') }}</th>
+                                            <th>{{ trans('main_trans.status') }}</th>
+                                            <th>{{ trans('main_trans.operations') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,10 +45,10 @@
                                                     <td>
                                                         @if ($Section->Status === 1)
                                                             <label
-                                                                class="badge bg-success">{{ trans('Sections_trans.Status_Section_AC') }}</label>
+                                                                class="badge bg-success">{{ trans('main_trans.status_Section_AC') }}</label>
                                                         @else
                                                             <label
-                                                                class="badge bg-danger">{{ trans('Sections_trans.Status_Section_No') }}</label>
+                                                                class="badge bg-danger">{{ trans('main_trans.status_Section_No') }}</label>
                                                         @endif
 
                                                     </td>
@@ -140,7 +140,7 @@
 
                                     <div class="modal-footer custom-modal-footer">
                                         <button type="submit"
-                                            class="btn btn-primary custom-save-btn">{{ trans('Grades_trans.submit') }}</button>
+                                            class="btn btn-primary custom-save-btn">{{ trans('main_trans.submit') }}</button>
                                         <button type="button" class="btn btn-secondary custom-cancel-btn"
                                             data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                                     </div>
@@ -167,12 +167,12 @@
 
                                 <div class="modal-body text-center">
                                     <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                    <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                    <p>{{ trans('main_trans.Delete_Warning') }}</p>
                                 </div>
                             </form>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" form="deleteSectionForm{{ $Section->id }}"
-                                    class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                    class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                 <button type="button" class="btn btn-cancel"
                                     data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                             </div>

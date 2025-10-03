@@ -153,8 +153,13 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $question->question }}</td>
                                                 <td>{{ $question->QCategory->title }}</td>
-                                                <td>{{ $question->pivot->score }}</td>
                                                 <td>{{ $question->type }}</td>
+                                                <td>
+                                                    <span class="editable-score" data-exam="{{ $exam->id }}"
+                                                        data-question="{{ $question->id }}">
+                                                        {{ $question->pivot->score }}
+                                                    </span>
+                                                </td>
                                                 <td>
                                                     <form method="POST"
                                                         action="{{ route('Exam.remove-question', [$exam->id, $question->id]) }}">
@@ -505,7 +510,7 @@
                             </div>
                             <div class="modal-body text-center">
                                 <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                <p>{{ trans('main_trans.Delete_Warning') }}</p>
                             </div>
                             <div class="modal-footer custom-modal-footer">
                                 <button type="submit" class="btn btn-primary custom-save-btn">
@@ -628,6 +633,61 @@
                 const match = cells.some(cell => cell.includes(searchValue));
                 row.style.display = match ? '' : 'none';
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("click", function(e) {
+            if (e.target.classList.contains("editable-score")) {
+                let span = e.target;
+                let currentScore = span.textContent.trim();
+                let examId = span.dataset.exam;
+                let questionId = span.dataset.question;
+
+                // إنشاء input
+                let input = document.createElement("input");
+                input.type = "number";
+                input.value = currentScore;
+                input.classList.add("form-control", "form-control-sm");
+                input.style.width = "80px";
+
+                span.replaceWith(input);
+                input.focus();
+
+                input.addEventListener("blur", function() {
+                    let newScore = this.value;
+
+                    fetch(`/manager/exam/${examId}/question/${questionId}/update-score`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                score: newScore
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                let newSpan = document.createElement("span");
+                                newSpan.textContent = data.score;
+                                newSpan.classList.add("editable-score");
+                                newSpan.dataset.exam = examId;
+                                newSpan.dataset.question = questionId;
+
+                                this.replaceWith(newSpan);
+                            }
+                        });
+                });
+
+                // كمان تخلي Enter يعمل حفظ
+                input.addEventListener("keydown", function(e) {
+                    if (e.key === "Enter") {
+                        this.blur(); // نفس تأثير الخروج
+                    }
+                });
+            }
         });
     </script>
 @endsection

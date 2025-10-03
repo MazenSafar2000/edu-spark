@@ -36,16 +36,16 @@
 
                     <div class="navbar-collapse-item" id="mainNavbar">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item"><a class="nav-link active"
-                                    href="#">{{ trans('main_trans.home') }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">{{ trans('main_trans.home') }}</a></li>
                             <li class="nav-item"><a class="nav-link" href="#offer">{{ trans('main_trans.offers') }}</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="#about">{{ trans('main_trans.About_us') }}</a>
                             </li>
                             <li class="nav-item"><a class="nav-link"
                                     href="#contact">{{ trans('main_trans.Contact_us') }}</a></li>
-
-
+                            <li class="nav-item"><a class="nav-link btn-management"
+                                    href="{{ route('login.teacher_manager') }}">{{ trans('main_trans.School_administration') }}</a>
+                            </li>
                             <li class="nav-item-lang dropdown lang-switcher">
                                 <a class="nav-link lang-dropdown d-flex align-items-center gap-1" href="#"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -89,7 +89,7 @@
                 <div class="row hero-row">
                     <!-- الصورة -->
                     <div class="col-lg-6 text-center hero-image-box">
-                        <img src="{{ asset('assets/images/child-index.webp') }}" alt="طالبة تحمل جهاز لوحي">
+                        <img src="{{ asset('assets/images/child-index.webp') }}" alt="">
                     </div>
 
                     <!-- النص -->
@@ -269,19 +269,24 @@
                     <div class="col-md-7 pe-md-5">
                         <h2 class="fw-bold contact-title">{{ trans('main_trans.Contact_us') }}</h2>
                         <p class="contact-description">{{ trans('main_trans.Do_not_hesitate') }}</p>
-                        <form>
-                            <input type="text" class="form-control contact-input"
-                                placeholder="{{ trans('main_trans.name') }}">
-                            <input type="email" class="form-control contact-input"
-                                placeholder="{{ trans('main_trans.email') }}">
-                            <textarea class="form-control contact-textarea" placeholder="{{ trans('main_trans.Write_your_message') }}"
-                                rows="3"></textarea>
-                            <button class="send-btn">{{ trans('main_trans.send') }}</button>
+                        <form method="POST" action="{{ route('contact.send') }}">
+                            @csrf
+                            <input type="text" name="name" class="form-control contact-input"
+                                placeholder="{{ trans('main_trans.name') }}" required>
+
+                            <input type="email" name="email" class="form-control contact-input"
+                                placeholder="{{ trans('main_trans.email') }}" required>
+
+                            <textarea name="message" class="form-control contact-textarea"
+                                placeholder="{{ trans('main_trans.Write_your_message') }}" rows="3" required></textarea>
+
+                            <button type="submit" class="send-btn">{{ trans('main_trans.send') }}</button>
                         </form>
+
                     </div>
                     <div class="col-md-5 position-relative info-box d-flex justify-content-between ">
                         <div class="info-box-text">
-                            <h5 class="mb-4">معلومات عن النظام</h5>
+                            <h5 class="mb-4">{{ trans('main_trans.system_information') }}</h5>
                             <p><i class="fas fa-envelope"></i> sparkEducation@edu</p>
                             <p><i class="fas fa-phone"></i> +24 56 89 146</p>
                             <p><i class="fas fa-map-marker-alt"></i>{{ trans('main_trans.palestine_gaza') }}</p>

@@ -39,8 +39,8 @@
             if (gradeSel) {
                 gradeSel.addEventListener('change', function() {
                     const gradeId = this.value;
-                    resetSelect(classSel, "{{ trans('Parent_trans.Choose') }}...");
-                    resetSelect(sectionSel, "{{ trans('Parent_trans.Choose') }}...");
+                    resetSelect(classSel, "{{ trans('main_trans.Choose') }}...");
+                    resetSelect(sectionSel, "{{ trans('main_trans.Choose') }}...");
 
                     if (!gradeId) return;
 
@@ -66,7 +66,7 @@
             if (classSel) {
                 classSel.addEventListener('change', function() {
                     const classId = this.value;
-                    resetSelect(sectionSel, "{{ trans('Parent_trans.Choose') }}...");
+                    resetSelect(sectionSel, "{{ trans('main_trans.Choose') }}...");
 
                     if (!classId) return;
 
@@ -107,8 +107,8 @@
             }
 
             function loadClassrooms(gradeId, preselectId) {
-                resetSelect($class, "{{ trans('Parent_trans.Choose') }}...");
-                resetSelect($section, "{{ trans('Parent_trans.Choose') }}...");
+                resetSelect($class, "{{ trans('main_trans.Choose') }}...");
+                resetSelect($section, "{{ trans('main_trans.Choose') }}...");
 
                 if (!gradeId) return $.Deferred().resolve().promise();
 
@@ -128,7 +128,7 @@
             }
 
             function loadSections(classId, preselectId) {
-                resetSelect($section, "{{ trans('Parent_trans.Choose') }}...");
+                resetSelect($section, "{{ trans('main_trans.Choose') }}...");
 
                 if (!classId) return $.Deferred().resolve().promise();
 

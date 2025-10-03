@@ -8,6 +8,7 @@
                         <img src="{{ asset('assets/images/pic-1.jpg') }}" alt="مدير" class="profile-avatar mb-3">
                         <div class="profile-info-manager">
                             <h3>{{ $teacher->user->name }}</h3>
+                            <p><strong>{{ $teacher->specializations->Name }}</strong></p>
                             <p>{{ $teacher->user->email }}</p>
                             <p>{{ $teacher->user->National_ID }}</p>
                         </div>

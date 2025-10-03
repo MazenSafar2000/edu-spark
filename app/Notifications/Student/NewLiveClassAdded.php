@@ -29,7 +29,7 @@ class NewLiveClassAdded extends Notification
             'section_id'  => $this->zoom->section_id,
             'subject_id'  => $this->zoom->subject_id,
             'teacher_id'  => $this->zoom->teacher_id,
-            'message'     => 'A new zoom class has been posted for your section.',
+            'message'     => 'لديك حصة زووم جديدة',
             'url'         => route('subject.viewZoomClass', $this->zoom),
         ];
     }

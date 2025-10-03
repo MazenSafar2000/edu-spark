@@ -111,7 +111,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                                aria-label="{{ trans('main_trans.close') }}"></button>
                                         </div>
                                         <form id="deleteBookForm" action="{{ route('books.destroy', $book->id) }}"
                                             method="POST">
@@ -119,12 +119,12 @@
                                             @method('DELETE')
                                             <div class="modal-body text-center">
                                                 <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                                <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                                <p>{{ trans('main_trans.Delete_Warning') }}</p>
                                             </div>
                                         </form>
                                         <div class="modal-footer justify-content-center">
                                             <button type="submit" form="deleteBookForm"
-                                                class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                             <button type="button" class="btn btn-cancel"
                                                 data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                                         </div>
@@ -224,7 +224,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                                        aria-label="{{ trans('main_trans.close') }}"></button>
                                                 </div>
                                                 <form id="deleteHomework"
                                                     action="{{ route('Homework.destroy', $homework->id) }}"
@@ -234,12 +234,12 @@
 
                                                     <div class="modal-body text-center">
                                                         <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                                        <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                                        <p>{{ trans('main_trans.Delete_Warning') }}</p>
                                                     </div>
                                                 </form>
                                                 <div class="modal-footer justify-content-center">
                                                     <button type="submit" form="deleteHomework"
-                                                        class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                        class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                                     <button type="button" class="btn btn-cancel"
                                                         data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                                                 </div>
@@ -392,7 +392,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                                        aria-label="{{ trans('main_trans.close') }}"></button>
                                                 </div>
                                                 <form id="deleteClassForm"
                                                     action="{{ route('RecordedClasses.destroy', $class->id) }}"
@@ -401,11 +401,11 @@
                                                     @method('DELETE')
                                                     <div class="modal-body text-center">
                                                         <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                                        <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                                        <p>{{ trans('main_trans.Delete_Warning') }}</p>
                                                     </div>
                                                     <div class="modal-footer justify-content-center">
                                                         <button type="submit" form="deleteClassForm"
-                                                            class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                            class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                                         <button type="button" class="btn btn-cancel"
                                                             data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                                                     </div>
@@ -502,7 +502,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                                aria-label="{{ trans('main_trans.close') }}"></button>
                                         </div>
                                         <form id="deleteZoomForm"
                                             action="{{ route('zoomCLasses.destroy', $zoomClass->id) }}" method="POST">
@@ -510,12 +510,12 @@
                                             @method('DELETE')
                                             <div class="modal-body text-center">
                                                 <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                                <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                                <p>{{ trans('main_trans.Delete_Warning') }}</p>
                                             </div>
                                         </form>
                                         <div class="modal-footer justify-content-center">
                                             <button type="submit" form="deleteZoomForm"
-                                                class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                             <button type="button" class="btn btn-cancel"
                                                 data-bs-dismiss="modal">{{ trans('main_trans.cancel') }}</button>
                                         </div>

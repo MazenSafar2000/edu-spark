@@ -66,7 +66,7 @@
                     <div class="navbar-collapse-item" id="mainNavbar">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item"><a class="nav-link"
-                                    href="index.html">{{ trans('main_trans.home') }}</a></li>
+                                    href="{{ route('landingPage')}}">{{ trans('main_trans.home') }}</a></li>
                             <li class="nav-item-lang dropdown lang-switcher">
                                 <a class="nav-link lang-dropdown d-flex align-items-center gap-1" href="#"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">

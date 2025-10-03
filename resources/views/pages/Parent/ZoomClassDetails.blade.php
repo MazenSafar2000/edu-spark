@@ -16,9 +16,9 @@
 
                     <ul class="list-unstyled exam-description">
                         <li><strong>{{ trans('Students_trans.subject') }} :</strong> {{ $class->subject->name }}</li>
-                        <li><strong>{{ trans('Sections_trans.Name_Teacher') }} :</strong>{{ $class->teacher->user->name }}
+                        <li><strong>{{ trans('main_trans.Name_Teacher') }} :</strong>{{ $class->teacher->user->name }}
                         </li>
-                        <li><strong>{{ trans('Students_trans.start_at') }} :</strong> {{ $class->start_at }}
+                        <li><strong>{{ trans('main_trans.start_at') }} :</strong> {{ $class->start_at }}
                         </li>
                         <li><strong>{{ trans('Students_trans.duration') }} :</strong> {{ $class->duration }}
                         </li>

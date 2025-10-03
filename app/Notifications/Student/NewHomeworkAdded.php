@@ -29,7 +29,7 @@ class NewHomeworkAdded extends Notification
             'section_id'  => $this->homework->section_id,
             'subject_id'  => $this->homework->subject_id,
             'teacher_id'  => $this->homework->teacher_id,
-            'message'     => 'A new homework has been posted for your section.',
+            'message'     => 'لديك واجب دراسي جديد',
             'url'         => route('subject.viewHomework', $this->homework),
         ];
     }

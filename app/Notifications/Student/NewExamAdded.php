@@ -36,7 +36,7 @@ class NewExamAdded extends Notification
             'start_at'    => optional($this->exam->start_at)->toDateTimeString(),
             'end_at'      => optional($this->exam->end_at)->toDateTimeString(),
             'duration'    => $this->exam->duration,
-            'message'     => 'A new exam has been assigned to your section.',
+            'message'     => 'لديك اختبار جديد',
             'url'         => route('subject.viewExam', $this->exam),
         ];
     }

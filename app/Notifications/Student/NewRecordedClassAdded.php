@@ -29,7 +29,7 @@ class NewRecordedClassAdded extends Notification
             'section_id'  => $this->recording->section_id,
             'subject_id'  => $this->recording->subject_id,
             'teacher_id'  => $this->recording->teacher_id,
-            'message'     => 'A new recorded class has been posted for your section.',
+            'message'     => 'لديك درس مسجل جديد',
             'url'         => route('subject.viewRecoreded', $this->recording),
         ];
     }

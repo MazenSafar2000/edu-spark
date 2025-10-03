@@ -85,7 +85,7 @@
                     <!-- الإشعارات -->
                     <li class="dropdown">
                         <a href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false" title="{{ trans('Sidebar_trans.Notifications') }}"
+                            aria-expanded="false" title="{{ trans('main_trans.Notifications') }}"
                             class="position-relative">
                             <i class="fas fa-bell icon-header"></i>
                             <!-- النقطة الحمراء على الأيقونة -->
@@ -96,7 +96,7 @@
                             aria-labelledby="notificationsDropdown">
                             <h6 class="notification-title d-flex justify-content-between align-items-center px-3 py-2">
                                 <div class="d-flex align-items-center gap-2">
-                                    {{ trans('Sidebar_trans.Notifications') }}
+                                    {{ trans('main_trans.Notifications') }}
                                     <span id="notif-badge" class="badge badge-number text-white"
                                         id="notifCount">{{ auth()->user()->unreadNotifications()->count() }}</span>
                                 </div>

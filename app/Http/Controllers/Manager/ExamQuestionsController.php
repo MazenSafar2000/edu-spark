@@ -19,19 +19,10 @@ class ExamQuestionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function index($exam_id)
-    // {
-    //     $exam = Exam::findOrFail($exam_id);
-    //     $totalMarks = $exam->questions->sum(fn($q) => $q->pivot->score);
-
-    //     $teacherId = Auth::user()->teacher->id;
-    //     $categories = QuestionsCategotry::with('questionsBank')
-    //         ->whereHas('questionsBank', function ($q) use ($teacherId) {
-    //             $q->where('teacher_id', $teacherId);
-    //         })->get();
-
-    //     return view("pages.Teacher.exams.questions.index", compact('exam', 'totalMarks', 'categories'));
-    // }
+    public function index($exam_id)
+    {
+        //
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -214,5 +205,19 @@ class ExamQuestionsController extends Controller
         ]);
 
         return back()->with('success', 'تم تحديث إعدادات الامتحان بنجاح');
+    }
+
+    public function updateQuestionScore(Request $request, $examId, $questionId)
+    {
+        $request->validate([
+            'score' => 'required|numeric|min:0'
+        ]);
+
+        DB::table('exam_questions')
+            ->where('exam_id', $examId)
+            ->where('question_id', $questionId)
+            ->update(['score' => $request->score]);
+
+        return response()->json(['success' => true, 'score' => $request->score]);
     }
 }

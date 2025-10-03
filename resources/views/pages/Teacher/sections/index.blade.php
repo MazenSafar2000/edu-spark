@@ -33,7 +33,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $section->section->My_classs->Grades->Name }}</td>
                                 <td>{{ $section->section->My_classs->Name_Class }}</td>
-                                <td>{{ $section->section->My_classs->Name_Class }}</td>
+                                <td>{{ $section->section->Name_Section }}</td>
                                 <td>{{ $section->subject->name }}</td>
                                 <td>{{ $section->section->students->count() }}</td>
                             </tr>

@@ -35,9 +35,9 @@
                             <thead class="thead-manager">
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ trans('Grades_trans.Name') }}</th>
-                                    <th>{{ trans('Grades_trans.Notes') }}</th>
-                                    <th>{{ trans('Grades_trans.Processes') }}</th>
+                                    <th>{{ trans('main_trans.Name') }}</th>
+                                    <th>{{ trans('main_trans.Notes') }}</th>
+                                    <th>{{ trans('main_trans.operations') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -95,7 +95,7 @@
                         <!-- رأس المودال -->
                         <div class="modal-header custom-modal-header">
                             <h5 class="modal-title custom-modal-title" id="editStageModalLabel">
-                                {{ trans('Grades_trans.edit_Grade') }}</h5>
+                                {{ trans('main_trans.edit_Grade') }}</h5>
                         </div>
 
                         <!-- جسم المودال -->
@@ -113,9 +113,9 @@
                         <!-- التذييل -->
                         <div class="modal-footer custom-modal-footer">
                             <button type="submit" class="btn btn-primary custom-save-btn"
-                                form="editStageForm{{ $Grade->id }}">{{ trans('Grades_trans.submit') }}</button>
+                                form="editStageForm{{ $Grade->id }}">{{ trans('main_trans.submit') }}</button>
                             <button type="button" class="btn btn-secondary custom-cancel-btn"
-                                data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                         </div>
 
                     </div>
@@ -129,7 +129,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                aria-label="{{ trans('main_trans.close') }}"></button>
                         </div>
                         <form id="deleteStageForm{{ $Grade->id }}" action="{{ route('Grades.destroy', $Grade->id) }}"
                             method="POST">
@@ -138,14 +138,14 @@
 
                             <div class="modal-body text-center">
                                 <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                <p>{{ trans('main_trans.Delete_Warning') }}</p>
                             </div>
                         </form>
                         <div class="modal-footer justify-content-center">
                             <button type="submit" form="deleteStageForm{{ $Grade->id }}"
-                                class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                             <button type="button" class="btn btn-cancel"
-                                data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                         </div>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                     <!-- رأس المودال -->
                     <div class="modal-header custom-modal-header">
                         <h5 class="modal-title custom-modal-title" id="addStageModalLabel">
-                            {{ trans('Grades_trans.add_Grade') }}
+                            {{ trans('main_trans.add_grade') }}
                         </h5>
                     </div>
 
@@ -178,9 +178,9 @@
                     <!-- تذييل المودال -->
                     <div class="modal-footer custom-modal-footer">
                         <button type="submit" class="btn btn-primary custom-save-btn"
-                            form="stageForm">{{ trans('Grades_trans.submit') }}</button>
+                            form="stageForm">{{ trans('main_trans.submit') }}</button>
                         <button type="button" class="btn btn-secondary custom-cancel-btn"
-                            data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                            data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                     </div>
                 </div>
             </div>
@@ -223,7 +223,7 @@
                 let $classroom = $('select[name="Class_id"]');
 
                 $classroom.empty().append(
-                    '<option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>');
+                    '<option selected disabled>{{ trans('main_trans.Choose') }}...</option>');
 
                 if (gradeId) {
                     $.get("{{ url('/ajax/classrooms') }}/" + gradeId, function(data) {

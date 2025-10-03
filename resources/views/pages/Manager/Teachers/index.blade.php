@@ -206,9 +206,9 @@
                     <!-- تذييل المودال -->
                     <div class="modal-footer custom-modal-footer-manager">
                         <button type="submit" class="btn btn-primary custom-save-btn"
-                            form="SpecializationForm">{{ trans('Grades_trans.submit') }}</button>
+                            form="SpecializationForm">{{ trans('main_trans.submit') }}</button>
                         <button type="button" class="btn btn-secondary custom-cancel-btn"
-                            data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                            data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                     </div>
 
                 </div>
@@ -233,7 +233,7 @@
 
                             <div class="modal-body text-center">
                                 <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                <p>{{ trans('Grades_trans.Delete_Warning') }} - {{ $Specialization->Name }}</p>
+                                <p>{{ trans('main_trans.Delete_Warning') }} - {{ $Specialization->Name }}</p>
                             </div>
                         </form>
 

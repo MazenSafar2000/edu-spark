@@ -41,7 +41,7 @@
                                     <th>{{ trans('Students_trans.Grade') }}</th>
                                     <th>{{ trans('Students_trans.classrooms') }}</th>
                                     <th>{{ trans('Students_trans.section') }}</th>
-                                    <th>{{ trans('Students_trans.Processes') }}</th>
+                                    <th>{{ trans('main_trans.operations') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -158,7 +158,7 @@
                             <th>{{ trans('Students_trans.Grade') }}</th>
                             <th>{{ trans('Students_trans.classrooms') }}</th>
                             <th>{{ trans('Students_trans.section') }}</th>
-                            <th>{{ trans('Students_trans.Processes') }}</th>
+                            <th>{{ trans('main_trans.operations') }}</th>
                         </tr>
                     </thead>
                     <tbody>

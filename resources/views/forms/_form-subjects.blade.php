@@ -15,7 +15,7 @@
     <div class="form-group-float position-relative ">
         <input type="text" name="name[en]" class="form-control custom-input float-input"
             value="{{ old('name.en', $Subject?->getTranslation('name', 'en') ?? '') }}" placeholder=" " />
-        <label class="float-label">{{ trans('main_trans.Subjects_name_ar') }}</label>
+        <label class="float-label">{{ trans('main_trans.Subjects_name_en') }}</label>
     </div>
     @error('name.en')
         <div class="error-message" id="error-bookNameArabic">

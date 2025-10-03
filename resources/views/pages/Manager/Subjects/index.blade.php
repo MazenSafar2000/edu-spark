@@ -89,9 +89,9 @@
                                 <!-- تذييل المودال -->
                                 <div class="modal-footer custom-modal-footer">
                                     <button type="submit" class="btn btn-primary custom-save-btn"
-                                        form="AddSubjectsForm">{{ trans('Grades_trans.submit') }}</button>
+                                        form="AddSubjectsForm">{{ trans('main_trans.submit') }}</button>
                                     <button type="button" class="btn btn-secondary custom-cancel-btn"
-                                        data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                        data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                                 </div>
 
                             </div>
@@ -108,7 +108,7 @@
                                     <!-- رأس المودال -->
                                     <div class="modal-header custom-modal-header">
                                         <h5 class="modal-title custom-modal-title" id="editStageModalLabel">
-                                            {{ trans('Grades_trans.edit_Grade') }}</h5>
+                                            {{ trans('main_trans.edit_Grade') }}</h5>
                                     </div>
 
                                     <!-- جسم المودال -->
@@ -127,9 +127,9 @@
                                     <!-- التذييل -->
                                     <div class="modal-footer custom-modal-footer">
                                         <button type="submit" class="btn btn-primary custom-save-btn"
-                                            form="editSubjectForm{{ $Subject->id }}">{{ trans('Grades_trans.submit') }}</button>
+                                            form="editSubjectForm{{ $Subject->id }}">{{ trans('main_trans.submit') }}</button>
                                         <button type="button" class="btn btn-secondary custom-cancel-btn"
-                                            data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                            data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                                     </div>
 
                                 </div>
@@ -143,7 +143,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="{{ trans('Grades_trans.Close') }}"></button>
+                                            aria-label="{{ trans('main_trans.close') }}"></button>
                                     </div>
                                     <form id="deleteSubjForm{{ $Subject->id }}"
                                         action="{{ route('Subjects.destroy', $Subject->id) }}" method="POST">
@@ -152,13 +152,13 @@
 
                                         <div class="modal-body text-center">
                                             <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
-                                            <p>{{ trans('Grades_trans.Delete_Warning') }}</p>
+                                            <p>{{ trans('main_trans.Delete_Warning') }}</p>
                                         </div>
                                         <div class="modal-footer justify-content-center">
                                             <button type="submit" form="deleteSubjForm{{ $Subject->id }}"
-                                                class="btn btn-del">{{ trans('Grades_trans.submit') }}</button>
+                                                class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                             <button type="button" class="btn btn-cancel"
-                                                data-bs-dismiss="modal">{{ trans('Grades_trans.Close') }}</button>
+                                                data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                                         </div>
                                     </form>
                                 </div>

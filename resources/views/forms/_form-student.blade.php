@@ -94,7 +94,7 @@
     <div class="col-md-6">
         <label for="" class="text-danger">{{ trans('Teacher_trans.Gender') }}</label>
         <select class="form-select custom-select @error('gender_id') custom-select-error @enderror" name="gender_id">
-            <option selected disabled>{{ trans('Parent_trans.Choose') }}</option>
+            <option selected disabled>{{ trans('main_trans.Choose') }}</option>
             @foreach ($Genders as $Gender)
                 <option value="{{ $Gender->id }}"
                     {{ old('gender_id', $Student->gender_id ?? '') == $Gender->id ? 'selected' : '' }}>
@@ -114,7 +114,7 @@
     <div class="col-md-6">
         <label for="" class="text-danger">{{ trans('Students_trans.parent') }}</label>
         <select class="form-select custom-select @error('parent_id') custom-select-error @enderror" name="parent_id">
-            <option selected disabled>{{ trans('Parent_trans.Choose') }}</option>
+            <option selected disabled>{{ trans('main_trans.Choose') }}</option>
             @foreach ($parents as $parent)
                 <option value="{{ $parent->id }}"
                     {{ old('parent_id', $Student->parent_id) == $parent->id ? 'selected' : '' }}>

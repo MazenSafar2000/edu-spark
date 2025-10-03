@@ -73,7 +73,7 @@
                                     <th class="alert-success"> {{ trans('main_trans.current_classroom') }}</th>
                                     <th class="alert-success">{{ trans('main_trans.current_section') }}</th>
                                     <th class="alert-success">{{ trans('main_trans.current_academic_year') }}</th>
-                                    <th>{{ trans('Students_trans.Processes') }}</th>
+                                    <th>{{ trans('main_trans.operations') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

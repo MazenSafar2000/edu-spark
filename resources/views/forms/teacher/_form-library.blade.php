@@ -15,7 +15,7 @@
     <div class="col-md-4">
         <label for="" class="text-danger">{{ trans('main_trans.Grade') }}*</label>
         <select class="form-select custom-select" name="grade_id" id="grade-select">
-            <option selected disabled>{{ trans('Sections_trans.Select_Grade') }}</option>
+            <option selected disabled>{{ trans('main_trans.select_grade') }}</option>
             @foreach ($Grades as $grade)
                 <option value="{{ $grade->id }}"
                     {{ old('grade_id', $isEdit ? $book->Grade_id : '') == $grade->id ? 'selected' : '' }}>

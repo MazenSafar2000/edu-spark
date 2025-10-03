@@ -20,12 +20,12 @@
                             <thead class="thead-manager">
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ trans('Parent_trans.name') }}</th>
+                                    <th>{{ trans('main_trans.name') }}</th>
                                     <th>{{ trans('main_trans.National_ID') }}</th>
-                                    <th>{{ trans('Parent_trans.Email') }}</th>
+                                    <th>{{ trans('main_trans.email') }}</th>
                                     <th>{{ trans('Parent_trans.Phone_Father') }}</th>
                                     <th>{{ trans('Parent_trans.Job_Father') }}</th>
-                                    <th>{{ trans('Parent_trans.Processes') }}</th>
+                                    <th>{{ trans('main_trans.operations') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,7 +78,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="{{ trans('My_Classes_trans.Close') }}"></button>
+                                                        aria-label="{{ trans('main_trans.close') }}"></button>
                                                 </div>
                                                 <form id="deleteParentForm{{ $parent->id }}"
                                                     action="{{ route('Parents.destroy', $parent->id) }}" method="POST">
@@ -93,7 +93,7 @@
                                                     <button type="submit" form="deleteParentForm{{ $parent->id }}"
                                                         class="btn btn-del">{{ trans('main_trans.submit') }}</button>
                                                     <button type="button" class="btn btn-cancel"
-                                                        data-bs-dismiss="modal">{{ trans('My_Classes_trans.Close') }}</button>
+                                                        data-bs-dismiss="modal">{{ trans('main_trans.close') }}</button>
                                                 </div>
                                             </div>
                                         </div>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Manager\ExamAttemptsController;
 use App\Http\Controllers\manager\ExamController;
@@ -39,23 +40,17 @@ Route::group(
         Route::post('/login-parent', [CustomLoginController::class, 'loginParent'])->name('login.parent');
         Route::post('/login-teacher', [CustomLoginController::class, 'loginTeacher'])->name('login.teacher');
         Route::post('/login-manager', [CustomLoginController::class, 'loginManager'])->name('login.manager');
-        // Route::get('/', [HomeController::class, 'index'])->name('loginpage');
+
         Route::get('/', [HomeController::class, 'landingPage'])->name('landingPage');
-        // Route::get('aboutUs', [HomeController::class, 'about'])->name('aboutUs');
 
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->middleware(['auth', 'verified'])->name('dashboard');
 
-        // Route::middleware('auth')->group(function () {
-        //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        // });
-
         Route::get('/login/student&parent', [CustomLoginController::class, 'showStudentParentLogin'])->name('login.student_parent');
         Route::get('/school', [CustomLoginController::class, 'showTeacherManagerLogin'])->name('login.teacher_manager');
 
+        Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
         Route::middleware(['auth', 'role:manager'])->group(function () {
             Route::get('/manager/dashboard', [ManagerController::class, 'dashboard'])->name('manager.dashboard');
@@ -130,6 +125,9 @@ Route::group(
                 Route::resource('Questions', 'QuestionController');
                 Route::resource('QuestionsBank', 'QuestionsBankController');
                 Route::resource('QuestionsCategotry', 'QuestionsCategotryController');
+
+                Route::post('/manager/exam/{exam}/question/{question}/update-score', 'ExamQuestionsController@updateQuestionScore')
+                    ->name('exam.update-question-score');
 
                 Route::resource('ExamAttempt', ExamAttemptsController::class);
                 Route::get(
